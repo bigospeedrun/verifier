@@ -132,8 +132,16 @@ class PRTests(unittest.TestCase):
                 with self.assertRaises(ValueError):p.validate_run(dict(run,**{key:value}),self.request(),self.pr)
             with self.assertRaises(ValueError):p.validate_run(run,dict(self.request(),test_only=True),self.pr)
 
-    def publish_fixture(self, mutate_pr=None, unsafe=False, conclusion='success', omit_receipt=False, publisher_attempt='2', change_before_close=False, run_event='schedule', artifact_size=None):
+    def publish_fixture(self, mutate_pr=None, unsafe=False, conclusion='success', omit_receipt=False, publisher_attempt='2', change_before_close=False, run_event='schedule', artifact_size=None, stage='final', rejection=False):
         request=self.request();receipt=self.receipt();buf=io.BytesIO()
+        suffix='-lean' if stage=='lean' else ''
+        if stage=='lean':
+            receipt['verification_stage']='lean'
+            receipt['kernels']['nanoda']={'status':'pending','reason':'advisory_queued'}
+            receipt['theorems']['Race.bound']['nanoda_kernel']='pending'
+        if rejection:
+            receipt['kernels']['nanoda']={'status':'rejected','reason':'nanoda_type_equality_rejection'}
+            receipt['theorems']['Race.bound']['nanoda_kernel']='rejected'
         with zipfile.ZipFile(buf,'w') as z:
             z.writestr('pr-request.json',json.dumps(request))
             if not omit_receipt:z.writestr('receipt.json',json.dumps(receipt))
@@ -149,7 +157,7 @@ class PRTests(unittest.TestCase):
                 calls.append((path,data,method))
                 return {'merged':True,'sha':'d'*40} if path.endswith('/merge') else {}
             if path=='actions/runs/123':return run
-            if path=='actions/runs/123/artifacts?per_page=100':return {'artifacts':[{'id':99,'name':'pr-verification-123-1-7','size_in_bytes':len(buf.getvalue()) if artifact_size is None else artifact_size,'expired':False,'digest':'sha256:'+p.digest(buf.getvalue())}]}
+            if path=='actions/runs/123/artifacts?per_page=100':return {'artifacts':[{'id':99,'name':'pr-verification-123-1-7'+suffix,'size_in_bytes':len(buf.getvalue()) if artifact_size is None else artifact_size,'expired':False,'digest':'sha256:'+p.digest(buf.getvalue())}]}
             if path=='actions/artifacts/99/zip':return buf.getvalue()
             if path=='pulls/7':
                 pr_reads+=1
@@ -163,8 +171,9 @@ class PRTests(unittest.TestCase):
             try:
                 event=Path('event.json');event.write_text(json.dumps({'workflow_run':{'id':123,'run_attempt':1}}))
                 with patch.dict(os.environ,GITHUB_EVENT_PATH=str(event),GITHUB_SHA='b'*40,GITHUB_RUN_ID='456',GITHUB_RUN_ATTEMPT=publisher_attempt),patch.object(p,'api',side_effect=api),patch.object(p,'inspect_pr',return_value=dict(request,head_sha=pr['head']['sha'])),patch.object(p,'validate_controller',side_effect=p.LayoutError('protected workflow changed') if unsafe else None):
-                    p.publish_pr()
-                result=json.loads(Path('published/pr-submission-7.json').read_text())
+                    artifact=api('actions/runs/123/artifacts?per_page=100')['artifacts'][0]
+                    p.publish_pr(artifact,stage=stage)
+                result=json.loads(Path('published/pr-submission-7'+suffix+'.json').read_text())
                 return result,calls
             finally:os.chdir(old)
 
@@ -213,6 +222,21 @@ class PRTests(unittest.TestCase):
         self.assertEqual(result['disposition'],'close')
         self.assertFalse(any(c[0].endswith('/merge') for c in calls))
         self.assertTrue(any(c[2]=='PATCH' and c[1]=={'state':'closed'} for c in calls))
+
+    def test_lean_checkpoint_merges_before_nanoda(self):
+        result,calls=self.publish_fixture(stage='lean')
+        self.assertEqual(result['disposition'],'merge')
+        self.assertEqual(result['verification_stage'],'lean')
+        self.assertEqual(result['receipt']['kernels']['nanoda']['status'],'pending')
+        self.assertTrue(any(c[0].endswith('/merge') for c in calls))
+
+    def test_nanoda_rejection_blocks_already_merged_proof(self):
+        result,calls=self.publish_fixture(rejection=True,mutate_pr=lambda pr:pr.update(state='closed',merged=True,merge_commit_sha='d'*40))
+        self.assertEqual(result['disposition'],'blocked')
+        self.assertFalse(result['importable'])
+        self.assertEqual(result['merge_commit'],'d'*40)
+        self.assertTrue(any('@nmamano' in c[1].get('body','') for c in calls))
+        self.assertFalse(any(c[0].endswith('/merge') for c in calls))
 
     def test_close_rechecks_head_after_rejection(self):
         result,calls=self.publish_fixture(unsafe=True,change_before_close=True)

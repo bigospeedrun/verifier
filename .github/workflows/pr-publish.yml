@@ -2,7 +2,7 @@ name: Publish submission PR result
 on:
   workflow_run:
     workflows: [Verify direct submissions]
-    types: [completed]
+    types: [in_progress, completed]
 permissions:
   contents: write
   pull-requests: write
@@ -11,7 +11,7 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 350
     steps:
       - name: Check out only the trusted default branch
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -21,7 +21,7 @@ jobs:
       - name: Validate artifact, run identity, complete diff, and immutable head
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python3 scripts/pr_submissions.py publish_batch
+        run: python3 scripts/live_publish.py
       - if: always() && hashFiles('published/*.json') != ''
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:

@@ -9,19 +9,21 @@ from pathlib import Path
 import submissions as s
 
 REF = 'heads/automation/submission-queue'
+SMOKE_REF = 'heads/automation/smoke-queue'
 
 
 class Lease:
-    def __init__(self, sha, state, tree):
+    def __init__(self, sha, state, tree, ref=REF):
         self.sha, self.state, self.tree = sha, state, tree
+        self.ref = ref
 
     def save(self):
         commit = s.api('git/commits', {'message': s.canonical(self.state), 'tree': self.tree,
                                       'parents': [self.sha] if self.sha else []})['sha']
         if self.sha:
-            s.api('git/refs/' + REF, {'sha': commit, 'force': False}, method='PATCH')
+            s.api('git/refs/' + self.ref, {'sha': commit, 'force': False}, method='PATCH')
         else:
-            s.api('git/refs', {'ref': 'refs/' + REF, 'sha': commit})
+            s.api('git/refs', {'ref': 'refs/' + self.ref, 'sha': commit})
         self.sha = commit
 
     def admitted(self, key):
@@ -67,10 +69,10 @@ def admission_path(key):
     return f'admitted/{key[:2]}/{key}.json'
 
 
-def acquire():
+def acquire(ref=REF):
     run_id, attempt = os.environ['GITHUB_RUN_ID'], os.environ['GITHUB_RUN_ATTEMPT']
     try:
-        sha = s.api('git/ref/' + REF)['object']['sha']
+        sha = s.api('git/ref/' + ref)['object']['sha']
     except urllib.error.HTTPError as exc:
         if exc.code != 404:
             raise
@@ -90,7 +92,7 @@ def acquire():
         state = {'schema_version': 1, 'page': 1, 'offset': 0}
         tree = s.api('git/trees', {'tree': [{'path': 'queue.json', 'mode': '100644', 'type': 'blob', 'content': '{}\n'}]})['sha']
     state.update(run_id=run_id, run_attempt=attempt)
-    lease = Lease(sha, state, tree)
+    lease = Lease(sha, state, tree, ref)
     try:
         # Concurrent contenders create sibling commits. Only one can fast-forward.
         lease.save()
@@ -101,8 +103,8 @@ def acquire():
     return lease
 
 
-def assert_owner():
-    sha = s.api('git/ref/' + REF)['object']['sha']
+def assert_owner(ref=REF):
+    sha = s.api('git/ref/' + ref)['object']['sha']
     state = json.loads(s.api('git/commits/' + sha)['message'])
     if (state['run_id'], state['run_attempt']) != (os.environ['GITHUB_RUN_ID'], os.environ['GITHUB_RUN_ATTEMPT']):
         raise ValueError('Batch lease belongs to another run/attempt; rerun the whole workflow')

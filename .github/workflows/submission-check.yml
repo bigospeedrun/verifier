@@ -42,8 +42,24 @@ jobs:
         timeout-minutes: 45
         run: python3 scripts/verifier.py setup
       - if: steps.gate.outputs.proceed == 'true'
-        run: python3 scripts/verifier.py verify
+        run: python3 scripts/verifier.py verify_lean
       - if: always()
+        env:
+          BOS_RECEIPT_STAGE: lean
+        run: python3 scripts/verifier.py finalize
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: verifier-receipt-and-logs-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}-lean
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 90
+      - if: steps.gate.outputs.proceed == 'true'
+        continue-on-error: true
+        run: python3 scripts/verifier.py verify_nanoda
+      - if: always()
+        env:
+          BOS_RECEIPT_STAGE: final
         run: python3 scripts/verifier.py finalize
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -126,8 +142,24 @@ jobs:
         run: python3 scripts/verifier.py setup
       - if: steps.gate.outputs.proceed == 'true'
         continue-on-error: true
-        run: python3 scripts/verifier.py verify
+        run: python3 scripts/verifier.py verify_lean
       - if: always()
+        env:
+          BOS_RECEIPT_STAGE: lean
+        run: python3 scripts/verifier.py finalize
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pr-verification-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}-lean
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 90
+      - if: steps.gate.outputs.proceed == 'true'
+        continue-on-error: true
+        run: python3 scripts/verifier.py verify_nanoda
+      - if: always()
+        env:
+          BOS_RECEIPT_STAGE: final
         run: python3 scripts/verifier.py finalize
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

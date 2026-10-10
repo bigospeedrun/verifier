@@ -281,7 +281,8 @@ def select_bounded():
     import pr_submissions as pr
     selected, authors = [], set()
     selection_outputs(selected)
-    lease = queue_lease.acquire()
+    import smoke
+    lease = queue_lease.acquire(queue_lease.SMOKE_REF) if smoke.requested() else queue_lease.acquire()
     if lease is None:
         return
     import smoke
@@ -290,7 +291,7 @@ def select_bounded():
     Path('requests').mkdir(exist_ok=True)
     deadline = time.monotonic() + 240
     scanned = 0
-    while scanned < 40 and len(selected) < 10 and time.monotonic() < deadline:
+    while scanned < 40 and len(selected) < 9 and time.monotonic() < deadline:
         page, offset = lease.state['page'], lease.state['offset']
         batch = api(f'issues?state=open&sort=created&direction=asc&per_page=50&page={page}')
         if offset >= len(batch):
@@ -298,7 +299,7 @@ def select_bounded():
             lease.save()
             break
         for index in range(offset, len(batch)):
-            if scanned >= 40 or len(selected) >= 10 or time.monotonic() >= deadline:
+            if scanned >= 40 or len(selected) >= 9 or time.monotonic() >= deadline:
                 return
             issue = batch[index]
             # Persist after each bounded candidate, including invalid submissions.
@@ -360,10 +361,11 @@ def materialize():
 
 def preflight():
     import queue_lease
-    queue_lease.assert_owner()
     # Recheck just before setup/compilation in case a runner was queued or the
     # site's current record advanced after batch selection.
     selected = json.loads(Path('request/request.json').read_text())
+    smoke_test = __import__('smoke').active(selected)
+    queue_lease.assert_owner(queue_lease.SMOKE_REF if smoke_test and selected.get('lease_kind') == 'smoke' else queue_lease.REF)
     current = api(f"issues/{selected['issue_number']}")
     try:
         candidate = issue_input(current)
@@ -376,6 +378,8 @@ def preflight():
     record = selected['record_gate'] if smoke_test else current_record(selected['submission']['problem'], selected['issue_url'])
     proceed = proceed and (smoke_test or qualifies_for_run(selected['submission'], record))
     selected['record_gate'] = record
+    Path('artifacts').mkdir(exist_ok=True)
+    Path('artifacts/selected-request.json').write_text(canonical(selected)+'\n')
     Path('request/request.json').write_text(canonical(selected) + '\n')
     with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
         out.write('proceed=' + ('true' if proceed else 'false') + '\n')

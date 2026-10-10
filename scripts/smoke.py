@@ -28,14 +28,19 @@ def issue_submission(sub):
     return s.validate_submission(dict(sub, entrypoint='dft233'))
 
 
-def dispatch(lease):
+def requested():
     if os.environ.get('BOS_SMOKE_DISPATCH') != '1' or os.environ.get('GITHUB_EVENT_NAME') != 'workflow_dispatch':
-        return False
+        return None
     event = json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text())
     inputs = event.get('inputs', {})
-    route = inputs.get('smoke_route', 'none')
-    if route == 'none':
+    return inputs if inputs.get('smoke_route', 'none') != 'none' else None
+
+
+def dispatch(lease):
+    inputs = requested()
+    if inputs is None:
         return False
+    route = inputs['smoke_route']
     number = inputs.get('smoke_number', '')
     if route not in ['issue', 'pull_request'] or not re.fullmatch('[1-9][0-9]*', number):
         raise ValueError('Smoke requires a route and submission number')
@@ -50,7 +55,7 @@ def dispatch(lease):
         selected = p.inspect_pr(pr)
         selected.update(verifier_commit=os.environ['GITHUB_SHA'], gate='ready')
         login = selected['pr_submitter_login']
-    selected.update(test_only=True, live_smoke=TAG,
+    selected.update(test_only=True, live_smoke=TAG, lease_kind="smoke",
                     record_gate={'test_only': True, 'reason': 'authorized fixed-pin smoke; record gate bypassed'})
     if not active(selected):
         raise ValueError('Smoke request is outside the fixed test scope')

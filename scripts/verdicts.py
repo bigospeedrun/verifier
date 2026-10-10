@@ -39,6 +39,8 @@ def admission(receipt, names):
         return 'blocked', 'nanoda_rejected'
     if any(theorems[n].get('nanoda_kernel') != nanoda.get('status') for n in names):
         return 'pending_review', 'nanoda_theorem_mismatch'
+    if receipt.get('verification_stage') == 'lean' and nanoda.get('status') == 'pending' and nanoda.get('reason') == 'advisory_queued':
+        return 'passed', 'lean_and_axiom_passed_nanoda_pending'
     if nanoda.get('status') == 'passed':
         return 'passed', 'lean_and_axiom_passed'
     if nanoda.get('status') == 'incomplete' and nanoda.get('reason') in ['out_of_memory', 'timeout', 'disk_limit', 'total_deadline']:

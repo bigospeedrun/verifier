@@ -28,8 +28,8 @@ for `bound`. For DFT, the bound is the saving s in O(n (log n)^(1-s)); a larger
 saving is better. For 3SUM and APSP, it is the exponent r in O(n^r); smaller
 is better. The ranges are 0 ≤ s ≤ 1, 0 ≤ r ≤ 2 for 3SUM, and 0 ≤ r ≤ 3 for APSP.
 
-The verifier checks up to ten submissions in parallel, with one queued run
-per GitHub account. A run starts only if the bound matches or beats the current record;
+The verifier runs up to nine public submissions and one maintainer test in parallel,
+with one queued public run per GitHub account. A run starts only if the bound matches or beats the current record;
 otherwise, the bot replies that the submission is listed as Claimed.
 The bot posts a receipt on the issue or PR. For PRs, a Lean pass causes an
 automatic merge. A real Lean or axiom failure, or a real nanoda rejection,
@@ -46,8 +46,8 @@ If the head changed, the bot skips the merge and leaves the PR open for the new 
 The proof establishes the submitted bound in our fixed computational model.
 Comparator checks the statement and definitions against our trusted copy,
 checks allowed axioms, and replays the proof with Lean and nanoda. The Lean kernel
-and the axiom audit must pass. Nanoda runs as a second check and its result
-appears on the receipt. A nanoda timeout or resource limit does not prevent
+and the axiom audit must pass. The bot posts this result immediately. Nanoda
+runs afterward as an advisory check and updates the receipt. A nanoda timeout or resource limit does not prevent
 Lean Verified; a real nanoda rejection blocks the row for maintainer review.
 An ambiguous failure stays pending review. Only `propext`, `Quot.sound`, and `Classical.choice`
 are allowed. A normal Lean build alone does not pass this gate.

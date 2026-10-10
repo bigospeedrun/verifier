@@ -41,7 +41,7 @@ A lower-ranked bound or an already verified tie receives a bot reply and remains
 checks the board and unchanged issue body again immediately before compilation.
 If either changed, no Lean run starts and the result remains Claimed.
 
-Issue batches select at most ten requests and one per authenticated login.
+Issue batches select at most nine public requests and one per authenticated login.
 Both routes share a trusted Git-ref lease that admits one batch at a time.
 The manual verifier uses the same lease. Thus at most ten proof/report branches
 run together on standard runners. Additional submissions remain Claimed for a
@@ -90,7 +90,9 @@ the Lean kernel. The axiom audit must pass and report every target, using only
 `propext`, `Classical.choice`, and `Quot.sound`. A claimed audit status alone is
 insufficient. The gate does not require workflow success or nanoda success.
 
-Nanoda always runs as a second check when resources permit. Its receipt outcome
+Nanoda runs after the first Lean-and-axiom receipt is published. An explicit
+`verification_stage: lean` checkpoint with `pending/advisory_queued` qualifies
+while that advisory check is pending. See the PR design for early artifacts. Its receipt outcome
 has an explicit `status` and `reason`. A pass is `passed/comparator_acceptance`.
 A timeout, OOM, disk limit, or total deadline is `incomplete` with the specific
 reason. Resource classification uses the host service manager or controller;

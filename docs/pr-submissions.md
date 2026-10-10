@@ -77,13 +77,15 @@ whose message contains owner run ID/attempt and scan page/offset. A contender
 creates a child of the observed commit and uses a non-force fast-forward ref
 update. Concurrent sibling updates cannot both win. The selector takes over
 only after the prior owner attempt is complete. It admits one batch with at
-most ten distinct logins, covering both routes. The manual verifier uses this
-same lease. Proof preflight rechecks ownership, including the attempt, so an
+most nine distinct logins, covering both routes. The manual verifier uses this
+same lease. Explicit maintainer smoke uses a separate `automation/smoke-queue`
+lease, with one smoke at a time and no public-account slot. Nine plus one preserves
+the total cap of ten proof jobs. Proof preflight rechecks ownership, including the attempt, so an
 old individual-job rerun cannot reuse admission. Rerun the whole workflow to
 acquire a new lease. No trusted workflow uses an Actions concurrency group
 that fork YAML can name or cancel.
 
-The selector stops at ten selected entries, forty scanned entries, four minutes,
+The selector stops at nine selected entries, forty scanned entries, four minutes,
 or four hundred API calls. The cursor advances after each candidate. Request
 files and matrix outputs are written after each admission. A later API error
 therefore preserves earlier selections; subsequent scans resume at the saved
@@ -175,3 +177,30 @@ atomic merge SHA, real failure closure, and incomplete-run labels. Workflow lint
 runs on the exact YAML. No Lean runs on the office box. Hosted scheduler/reusable metadata,
 GitHub token permissions, merge behavior, and API artifact digests still need an
 approved live smoke test. This phase commits locally and performs no public action.
+
+## Early Lean receipt and advisory update (2026-10-11)
+
+The proof runner executes Lean and the axiom audit first. It writes
+`verification_stage: lean`, with nanoda `pending/advisory_queued`, and uploads an
+immutable proof artifact with the normal name plus `-lean`. It then runs nanoda
+on the same read-only runner, preserving the source build. The final immutable
+artifact retains its old name and records `verification_stage: final`.
+
+The trusted publisher also starts on `workflow_run: in_progress`. It polls only
+API metadata and bounded artifacts, on a separate write-capable runner. It exits
+when every selected entry has a Lean checkpoint or the source run finishes.
+The selection artifact limits its expected entries. This watcher posts issue
+results and merges passing PRs immediately after Lean plus the axiom audit. It
+never runs or checks out submitted code. Final completed-run publication reports
+the advisory outcome. A real nanoda rejection of an already merged proof emits
+`disposition: blocked`, `importable: false`, retains the API merge commit, and
+comments/labels for maintainer review. The site must supersede the early passing
+status with this block; it must not fall back to the older passing receipt.
+
+Early result files are `direct-submission-N-lean.json` (v1) and
+`pr-submission-N-lean.json` (v2), in the publisher’s attempt-specific result
+artifact. Both carry publisher run/attempt/revision and `verification_stage`.
+Their source verification run can still be in progress. The importer must bind
+both workflow identities, the `-lean` source artifact, all proof hashes, and the
+explicit pending advisory state. A generic unknown nanoda outcome is not a Lean
+checkpoint. Test flags continue to exclude every smoke receipt and row.

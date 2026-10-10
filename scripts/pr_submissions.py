@@ -277,8 +277,9 @@ def materialize_pr():
 
 def preflight_pr():
     import queue_lease
-    queue_lease.assert_owner()
     selected = json.loads(Path('pr-input/pr-request.json').read_text())
+    smoke_test = __import__('smoke').active(selected)
+    queue_lease.assert_owner(queue_lease.SMOKE_REF if smoke_test and selected.get('lease_kind') == 'smoke' else queue_lease.REF)
     pr = api(f"pulls/{selected['pr_number']}")
     if pr['state'] != 'open' or pr['head']['sha'] != selected['head_sha']:
         selected.update(gate='superseded', reason='PR changed before compilation')
@@ -347,10 +348,10 @@ def read_archive(raw, metadata):
     return result
 
 
-def validate_run_identity(run):
+def validate_run_identity(run, allow_running=False):
     if (run.get('repository', {}).get('full_name') != s.REPOSITORY
             or run.get('path') != WORKFLOW or run.get('event') not in ['schedule', 'issues', 'workflow_dispatch']
-            or run.get('status') != 'completed' or run.get('head_branch') != 'main'
+            or run.get('status') not in (['in_progress', 'completed'] if allow_running else ['completed']) or run.get('head_branch') != 'main'
             or run.get('head_repository', {}).get('full_name') != s.REPOSITORY):
         raise ValueError('Untrusted verification workflow')
     workflow = api('actions/workflows/submissions.yml')
@@ -358,8 +359,8 @@ def validate_run_identity(run):
         raise ValueError('Workflow ID mismatch')
 
 
-def validate_run(run, request, pr):
-    validate_run_identity(run)
+def validate_run(run, request, pr, allow_running=False):
+    validate_run_identity(run, allow_running)
     if (request.get('test_only') is not False and not __import__('smoke').active(request)) or request.get('route') != 'pull_request' or request.get('pr_number') != pr['number']:
         raise ValueError('Fixture or PR identity mismatch')
     if run.get('head_sha') != request['verifier_commit']:
@@ -383,11 +384,11 @@ def publish_batch():
         publish_pr(artifact)
 
 
-def publish_pr(artifact_override=None):
+def publish_pr(artifact_override=None, stage="final"):
     event = json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text())
     run_id = event['workflow_run']['id']
     run = api(f'actions/runs/{run_id}')
-    validate_run_identity(run)
+    validate_run_identity(run, allow_running=stage == "lean")
     attempt = run['run_attempt']
     if event['workflow_run'].get('run_attempt') != attempt:
         raise ValueError('Superseded workflow attempt; no PR mutation')
@@ -407,13 +408,16 @@ def publish_pr(artifact_override=None):
     if type(number) is not int or number <= 0:
         raise ValueError('Invalid PR number')
     pr = api(f'pulls/{number}')
-    validate_run(run, request, pr)
-    if artifact['name'] != f'pr-verification-{run_id}-{attempt}-{number}':
+    validate_run(run, request, pr, allow_running=stage == "lean")
+    suffix = '-lean' if stage == 'lean' else ''
+    if artifact['name'] != f'pr-verification-{run_id}-{attempt}-{number}{suffix}':
         raise ValueError('Artifact PR identity mismatch')
     recovering_merge = pr['state'] == 'closed' and pr.get('merged') is True
     if pr['state'] != 'open' and not recovering_merge:
         return
     receipt = json.loads(files['receipt.json']) if 'receipt.json' in files else None
+    if stage == 'lean' and receipt and receipt.get('verification_stage') != 'lean':
+        raise ValueError('Early artifact is not a Lean checkpoint')
     url = f"https://github.com/{s.REPOSITORY}/actions/runs/{run_id}/artifacts/{artifact['id']}"
     disposition, reason = 'keep_open', 'Result needs review'
     superseded = False
@@ -446,7 +450,9 @@ def publish_pr(artifact_override=None):
         disposition, reason = 'close', str(exc)
     except ValueError as exc:
         disposition, reason = 'keep_open', str(exc)
-    envelope = {'schema_version': 2, 'route': 'pull_request', 'test_only': request.get('test_only', True),
+    if recovering_merge and disposition == 'close':
+        disposition, reason = 'blocked', 'Advisory rejection blocks this previously merged proof'
+    envelope = {'verification_stage': stage, 'schema_version': 2, 'route': 'pull_request', 'test_only': request.get('test_only', True),
         'importable': disposition == 'merge' and request.get('test_only') is False, 'request': request, 'receipt': receipt,
         'run_id': str(run_id), 'run_attempt': str(attempt), 'verifier_commit': request['verifier_commit'],
         'run_url': f'https://github.com/{s.REPOSITORY}/actions/runs/{run_id}',
@@ -463,9 +469,12 @@ def publish_pr(artifact_override=None):
         comment += '\n\n@nmamano Nanoda rejected this proof; maintainer review is required.'
     # No proof output or unchecked issue text is posted.
     if recovering_merge:
-        if disposition != 'merge' or not pr.get('merge_commit_sha'):
+        if disposition not in ['merge', 'blocked', 'keep_open'] or not pr.get('merge_commit_sha'):
             raise ValueError('Merged PR cannot be reconstructed as an accepted result')
         envelope['merge_commit'] = pr['merge_commit_sha']
+        if disposition in ['blocked', 'keep_open']:
+            api(f'issues/{number}/comments', {'body': comment + '\n\n@nmamano The advisory result blocks or suspends this merged proof; the site must replace its earlier passing status.'})
+            label_review(number)
     else:
         api(f'issues/{number}/comments', {'body': comment})
     if disposition == 'merge' and not recovering_merge:
@@ -492,7 +501,7 @@ def publish_pr(artifact_override=None):
     elif disposition == 'keep_open' and not recovering_merge and not superseded:
         label_review(number)
     Path('published').mkdir(exist_ok=True)
-    Path(f'published/pr-submission-{number}.json').write_text(s.canonical(envelope) + '\n')
+    Path(f'published/pr-submission-{number}{suffix}.json').write_text(s.canonical(envelope) + '\n')
 
 
 def label_review(number):

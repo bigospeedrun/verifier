@@ -380,7 +380,7 @@ def prepare_nanoda_swap():
     command(['sudo', 'swapon', swap], 'nanoda-swap-enable')
 
 
-def verify():
+def verify(kernels=None):
     # Probe real namespace separation and read-only mounts before loading submission code.
     probe = '''import os, pathlib, sys
 assert os.readlink('/proc/self/ns/net') != sys.argv[1]
@@ -404,7 +404,7 @@ print('Network/process namespaces, credential visibility, and read-only mounts p
             str(WORK / 'stage/.lake/packages/mathlib/lean-toolchain')], 'sandbox-preflight')
     # No submission elaboration has run before Comparator exports the trusted challenge.
     deadline = receipt()['started_unix'] + 320 * 60
-    for kernel in ['lean', 'audit', 'nanoda']:
+    for kernel in kernels or ['lean', 'audit', 'nanoda']:
         data = receipt()
         if time.time() >= deadline:
             data['status'] = 'timeout'
@@ -469,11 +469,32 @@ print('Network/process namespaces, credential visibility, and read-only mounts p
     save(data)
 
 
+def verify_lean():
+    verify(['lean', 'audit'])
+    data = receipt()
+    data['verification_stage'] = 'lean'
+    data['kernels']['nanoda'] = {'status': 'pending', 'reason': 'advisory_queued'}
+    save(data)
+
+
+def verify_nanoda():
+    verify(['nanoda'])
+    data = receipt()
+    data['verification_stage'] = 'final'
+    save(data)
+
+
 def finalize():
     ART.mkdir(exist_ok=True)
     if not (ART / 'receipt.json').exists():
         save({'schema_version': 1, 'status': 'setup_failed', 'steps': [], 'kernels': {}})
-    data = receipt(); data['finished_unix'] = time.time()
+    data = receipt()
+    stage = os.environ.get('BOS_RECEIPT_STAGE')
+    if stage in ['lean', 'final']:
+        data['verification_stage'] = stage
+        if stage == 'lean' and data.get('kernels', {}).get('nanoda', {}).get('status') in [None, 'not_started']:
+            data.setdefault('kernels', {})['nanoda'] = {'status': 'pending', 'reason': 'advisory_queued'}
+    data['finished_unix'] = time.time()
     data['checked_at'] = datetime.fromtimestamp(data['finished_unix'], timezone.utc).isoformat().replace('+00:00', 'Z')
     if data.get('status') not in ['passed', 'not_verified', 'timeout']:
         data['status'] = 'setup_failed'
@@ -499,7 +520,7 @@ def finalize():
 
 
 def main():
-    parser = argparse.ArgumentParser(); parser.add_argument('phase', choices=['prepare', 'setup', 'verify', 'finalize'])
+    parser = argparse.ArgumentParser(); parser.add_argument('phase', choices=['prepare', 'setup', 'verify', 'verify_lean', 'verify_nanoda', 'finalize'])
     phase = parser.parse_args().phase
     try:
         globals()[phase]()

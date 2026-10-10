@@ -9,6 +9,8 @@ Submission/**/*.lean sources. Keep credit and licenses in source comments.
 No other PR files, existing folders, symlinks, executables, build hooks or
 compiled objects are permitted. PR titles and bodies are never code or config.
 
+The bot publishes Lean plus axiom acceptance before the nanoda advisory follow-up.
+A real later nanoda rejection blocks the earlier evidence and tags the maintainer.
 The bot merges passing PRs and closes genuine proof/axiom failures. Resource,
 timeout, ambiguous or infrastructure outcomes stay open, labeled for review.
 Below-record PRs stay open as Claimed. New commits cause new checks. An unsafe
@@ -26,7 +28,7 @@ For verifier development, run python3 -m unittest discover -s tests -v.
 Run Lean only on GitHub Actions. Never run Lean on the office box.
 Keep proof execution and result publication on separate fresh runners.
 Never execute submission code in a job with write permission or secrets.
-Use the trusted scheduler lease for a shared batch of ten distinct accounts.
+Use the trusted scheduler lease for a shared batch of nine distinct public accounts plus one maintainer smoke.
 Never rely on Actions concurrency groups that fork YAML can name.
 Reserve issue request hashes and PR heads in the trusted CAS state before
 emitting runnable requests. Never deduplicate proof jobs from comment markers.

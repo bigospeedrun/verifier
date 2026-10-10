@@ -168,7 +168,7 @@ class SubmissionTests(unittest.TestCase):
             try:
                 with patch.dict(os.environ,GITHUB_OUTPUT=str(Path(tmp)/'output')),patch.object(queue_lease,'acquire',return_value=Mock(state={'page':1,'offset':0},admitted=Mock(return_value=False))),patch.object(s,'current_record',return_value=record),patch.object(s,'api',side_effect=lambda p,data=None: posts.append(data) if data is not None else issues if p.startswith('issues?') else []):
                     s.select()
-                self.assertEqual(len(list(Path('requests').glob('*.json'))),10)
+                self.assertEqual(len(list(Path('requests').glob('*.json'))),9)
                 self.assertTrue(Path('requests/13.json').exists())
                 self.assertFalse(Path('requests/1.json').exists())
                 self.assertEqual(posts,[])  # The selector stops as soon as ten are selected.
