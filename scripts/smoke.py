@@ -29,7 +29,7 @@ def issue_submission(sub):
 
 
 def dispatch(lease):
-    if os.environ.get('GITHUB_EVENT_NAME') != 'workflow_dispatch':
+    if os.environ.get('BOS_SMOKE_DISPATCH') != '1' or os.environ.get('GITHUB_EVENT_NAME') != 'workflow_dispatch':
         return False
     event = json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text())
     inputs = event.get('inputs', {})

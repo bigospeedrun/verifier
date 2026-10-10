@@ -22,7 +22,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 scripts/pr_submissions.py publish_batch
-      - if: always()
+      - if: always() && hashFiles('published/*.json') != ''
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: pr-submission-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}-publisher-${{ github.run_id }}-${{ github.run_attempt }}
