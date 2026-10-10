@@ -13,3 +13,500 @@ theorem Race.bound : ∃ order solve W, DFTProgram order solve W ∧
   have hexp : decimalExponentY = 1 - (47171 : ℝ) / 62500000 := by
     norm_num [decimalExponentY]
   simpa only [decimalTimeY, hexp] using htime.2.1
+
+-- BEGIN UPSTREAM LICENSE
+--                                  Apache License
+--                            Version 2.0, January 2004
+--                         http://www.apache.org/licenses/
+-- 
+--    TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+-- 
+--    1. Definitions.
+-- 
+--       "License" shall mean the terms and conditions for use, reproduction,
+--       and distribution as defined by Sections 1 through 9 of this document.
+-- 
+--       "Licensor" shall mean the copyright owner or entity authorized by
+--       the copyright owner that is granting the License.
+-- 
+--       "Legal Entity" shall mean the union of the acting entity and all
+--       other entities that control, are controlled by, or are under common
+--       control with that entity. For the purposes of this definition,
+--       "control" means (i) the power, direct or indirect, to cause the
+--       direction or management of such entity, whether by contract or
+--       otherwise, or (ii) ownership of fifty percent (50%) or more of the
+--       outstanding shares, or (iii) beneficial ownership of such entity.
+-- 
+--       "You" (or "Your") shall mean an individual or Legal Entity
+--       exercising permissions granted by this License.
+-- 
+--       "Source" form shall mean the preferred form for making modifications,
+--       including but not limited to software source code, documentation
+--       source, and configuration files.
+-- 
+--       "Object" form shall mean any form resulting from mechanical
+--       transformation or translation of a Source form, including but
+--       not limited to compiled object code, generated documentation,
+--       and conversions to other media types.
+-- 
+--       "Work" shall mean the work of authorship, whether in Source or
+--       Object form, made available under the License, as indicated by a
+--       copyright notice that is included in or attached to the work
+--       (an example is provided in the Appendix below).
+-- 
+--       "Derivative Works" shall mean any work, whether in Source or Object
+--       form, that is based on (or derived from) the Work and for which the
+--       editorial revisions, annotations, elaborations, or other modifications
+--       represent, as a whole, an original work of authorship. For the purposes
+--       of this License, Derivative Works shall not include works that remain
+--       separable from, or merely link (or bind by name) to the interfaces of,
+--       the Work and Derivative Works thereof.
+-- 
+--       "Contribution" shall mean any work of authorship, including
+--       the original version of the Work and any modifications or additions
+--       to that Work or Derivative Works thereof, that is intentionally
+--       submitted to Licensor for inclusion in the Work by the copyright owner
+--       or by an individual or Legal Entity authorized to submit on behalf of
+--       the copyright owner. For the purposes of this definition, "submitted"
+--       means any form of electronic, verbal, or written communication sent
+--       to the Licensor or its representatives, including but not limited to
+--       communication on electronic mailing lists, source code control systems,
+--       and issue tracking systems that are managed by, or on behalf of, the
+--       Licensor for the purpose of discussing and improving the Work, but
+--       excluding communication that is conspicuously marked or otherwise
+--       designated in writing by the copyright owner as "Not a Contribution."
+-- 
+--       "Contributor" shall mean Licensor and any individual or Legal Entity
+--       on behalf of whom a Contribution has been received by Licensor and
+--       subsequently incorporated within the Work.
+-- 
+--    2. Grant of Copyright License. Subject to the terms and conditions of
+--       this License, each Contributor hereby grants to You a perpetual,
+--       worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+--       copyright license to reproduce, prepare Derivative Works of,
+--       publicly display, publicly perform, sublicense, and distribute the
+--       Work and such Derivative Works in Source or Object form.
+-- 
+--    3. Grant of Patent License. Subject to the terms and conditions of
+--       this License, each Contributor hereby grants to You a perpetual,
+--       worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+--       (except as stated in this section) patent license to make, have made,
+--       use, offer to sell, sell, import, and otherwise transfer the Work,
+--       where such license applies only to those patent claims licensable
+--       by such Contributor that are necessarily infringed by their
+--       Contribution(s) alone or by combination of their Contribution(s)
+--       with the Work to which such Contribution(s) was submitted. If You
+--       institute patent litigation against any entity (including a
+--       cross-claim or counterclaim in a lawsuit) alleging that the Work
+--       or a Contribution incorporated within the Work constitutes direct
+--       or contributory patent infringement, then any patent licenses
+--       granted to You under this License for that Work shall terminate
+--       as of the date such litigation is filed.
+-- 
+--    4. Redistribution. You may reproduce and distribute copies of the
+--       Work or Derivative Works thereof in any medium, with or without
+--       modifications, and in Source or Object form, provided that You
+--       meet the following conditions:
+-- 
+--       (a) You must give any other recipients of the Work or
+--           Derivative Works a copy of this License; and
+-- 
+--       (b) You must cause any modified files to carry prominent notices
+--           stating that You changed the files; and
+-- 
+--       (c) You must retain, in the Source form of any Derivative Works
+--           that You distribute, all copyright, patent, trademark, and
+--           attribution notices from the Source form of the Work,
+--           excluding those notices that do not pertain to any part of
+--           the Derivative Works; and
+-- 
+--       (d) If the Work includes a "NOTICE" text file as part of its
+--           distribution, then any Derivative Works that You distribute must
+--           include a readable copy of the attribution notices contained
+--           within such NOTICE file, excluding those notices that do not
+--           pertain to any part of the Derivative Works, in at least one
+--           of the following places: within a NOTICE text file distributed
+--           as part of the Derivative Works; within the Source form or
+--           documentation, if provided along with the Derivative Works; or,
+--           within a display generated by the Derivative Works, if and
+--           wherever such third-party notices normally appear. The contents
+--           of the NOTICE file are for informational purposes only and
+--           do not modify the License. You may add Your own attribution
+--           notices within Derivative Works that You distribute, alongside
+--           or as an addendum to the NOTICE text from the Work, provided
+--           that such additional attribution notices cannot be construed
+--           as modifying the License.
+-- 
+--       You may add Your own copyright statement to Your modifications and
+--       may provide additional or different license terms and conditions
+--       for use, reproduction, or distribution of Your modifications, or
+--       for any such Derivative Works as a whole, provided Your use,
+--       reproduction, and distribution of the Work otherwise complies with
+--       the conditions stated in this License.
+-- 
+--    5. Submission of Contributions. Unless You explicitly state otherwise,
+--       any Contribution intentionally submitted for inclusion in the Work
+--       by You to the Licensor shall be under the terms and conditions of
+--       this License, without any additional terms or conditions.
+--       Notwithstanding the above, nothing herein shall supersede or modify
+--       the terms of any separate license agreement you may have executed
+--       with Licensor regarding such Contributions.
+-- 
+--    6. Trademarks. This License does not grant permission to use the trade
+--       names, trademarks, service marks, or product names of the Licensor,
+--       except as required for reasonable and customary use in describing the
+--       origin of the Work and reproducing the content of the NOTICE file.
+-- 
+--    7. Disclaimer of Warranty. Unless required by applicable law or
+--       agreed to in writing, Licensor provides the Work (and each
+--       Contributor provides its Contributions) on an "AS IS" BASIS,
+--       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+--       implied, including, without limitation, any warranties or conditions
+--       of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+--       PARTICULAR PURPOSE. You are solely responsible for determining the
+--       appropriateness of using or redistributing the Work and assume any
+--       risks associated with Your exercise of permissions under this License.
+-- 
+--    8. Limitation of Liability. In no event and under no legal theory,
+--       whether in tort (including negligence), contract, or otherwise,
+--       unless required by applicable law (such as deliberate and grossly
+--       negligent acts) or agreed to in writing, shall any Contributor be
+--       liable to You for damages, including any direct, indirect, special,
+--       incidental, or consequential damages of any character arising as a
+--       result of this License or out of the use or inability to use the
+--       Work (including but not limited to damages for loss of goodwill,
+--       work stoppage, computer failure or malfunction, or any and all
+--       other commercial damages or losses), even if such Contributor
+--       has been advised of the possibility of such damages.
+-- 
+--    9. Accepting Warranty or Additional Liability. While redistributing
+--       the Work or Derivative Works thereof, You may choose to offer,
+--       and charge a fee for, acceptance of support, warranty, indemnity,
+--       or other liability obligations and/or rights consistent with this
+--       License. However, in accepting such obligations, You may act only
+--       on Your own behalf and on Your sole responsibility, not on behalf
+--       of any other Contributor, and only if You agree to indemnify,
+--       defend, and hold each Contributor harmless for any liability
+--       incurred by, or claims asserted against, such Contributor by reason
+--       of your accepting any such warranty or additional liability.
+-- 
+--    END OF TERMS AND CONDITIONS
+-- 
+--    APPENDIX: How to apply the Apache License to your work.
+-- 
+--       To apply the Apache License to your work, attach the following
+--       boilerplate notice, with the fields enclosed by brackets "[]"
+--       replaced with your own identifying information. (Don't include
+--       the brackets!)  The text should be enclosed in the appropriate
+--       comment syntax for the file format. We also recommend that a
+--       file or class name and description of purpose be included on the
+--       same "printed page" as the copyright notice for easier
+--       identification within third-party archives.
+-- 
+--    Copyright [yyyy] [name of copyright owner]
+-- 
+--    Licensed under the Apache License, Version 2.0 (the "License");
+--    you may not use this file except in compliance with the License.
+--    You may obtain a copy of the License at
+-- 
+--        http://www.apache.org/licenses/LICENSE-2.0
+-- 
+--    Unless required by applicable law or agreed to in writing, software
+--    distributed under the License is distributed on an "AS IS" BASIS,
+--    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+--    See the License for the specific language governing permissions and
+--    limitations under the License.
+-- END UPSTREAM LICENSE
+
+-- BEGIN UPSTREAM NOTICE
+-- Walsh-Hadamard power saving (wht-power-saving-lean)
+-- Copyright 2026 Jacob Sussman
+-- 
+-- Repository: https://github.com/jacobalansussman/wht-power-saving-lean
+-- 
+-- This repository is not a project of OpenAI. OpenAI did not write, review or
+-- endorse it. The package name "OAI" and the namespace "OAI.PowerSaving" are
+-- those of openai/math and are kept only because the new files extend that
+-- development.
+-- 
+-- This repository is not a project of CrocSwap/integer-mult-bounds either. Its
+-- authors did not write, review or endorse it. Section 6 says what is taken
+-- from their repository.
+-- 
+-- This repository contains files from, and files derived from, the repository
+-- "openai/math" (https://github.com/openai/math), family 130, "Exact Fourier
+-- transforms below n log n", at commit fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb.
+-- That repository is published under the Apache License, Version 2.0. A copy of
+-- the licence is in the file LICENSE. The upstream repository has no NOTICE file
+-- and its licence text names no copyright holder; the files are attributed here
+-- to the authors of openai/math (OpenAI).
+-- 
+-- 1. Unmodified upstream files.
+--    The 89 files under OAI/Computability/ are byte-for-byte copies of the files
+--    with the same paths under lean/ in openai/math at the commit above. They
+--    have not been changed. Modified copies of some of them are under
+--    Work/Fourier/ and are listed in section 7.
+--    One more file of openai/math is here unchanged, outside the Lean build:
+--    third-party/openai-math/lean/ComparatorChallenges/UniformFourier.lean is a
+--    byte-for-byte copy of lean/ComparatorChallenges/UniformFourier.lean at the
+--    commit above (the statement of OpenAI's Fourier challenge). It is included
+--    so that the modified copy named in section 2 can be compared with it.
+-- 
+-- 2. Files that contain upstream text.
+--    - Work/CarrierCheck/ChallengeB2Ke16x.lean,
+--      Work/CarrierCheck/ChallengeB2Ke16xR.lean,
+--      Work/GCert/Data/ChallengeB2Gp193x.lean and the text template
+--      tools/gen/templates/ChallengeB2L16x.lean.txt each contain, as their
+--      lines 22-270, lines 9-257 of
+--      lean/ComparatorChallenges/UniformFourier.lean of openai/math (the RAM cost
+--      model), unchanged. Everything else in these files was written for this
+--      repository.
+--    - Work/Fourier/UniformFourierChallenge.lean is a modified copy of
+--      lean/ComparatorChallenges/UniformFourier.lean of openai/math (the
+--      statement of OpenAI's Fourier challenge, 336 lines). Changes: a comment
+--      was added at the top; the exponent 1 - 1/(10^(13:ℕ)) was replaced by
+--      1 - 7474546/(10^(10:ℕ)); seven names received the suffix "Z"
+--      (decimalExponent, decimalTime, TimeBounds, DFTGoal, ConvGoal,
+--      transform_main, convolution_main). Everything else in the file is the
+--      upstream text, unchanged. See section 7.
+--    - Work/Scratch/Engine.lean and Work/Block/Engine.lean contain copies of
+--      proofs of openai/math, changed for this repository: sections 1, 2 and 5
+--      of Work/Scratch/Engine.lean are upstream proofs with the batch layout
+--      renamed, and both files contain a copy of the private upstream theorem
+--      "hills_project" (lean/OAI/Computability/FourierTransform/
+--      TensorProgram.lean) with its envelope generalised. The comments in the
+--      two files mark these places.
+--    - lakefile.lean is adapted from lean/lakefile.lean of openai/math: the same
+--      package name, toolchain, package option and Mathlib pin; every other
+--      dependency was removed and the libraries of this repository were added.
+--      lean-toolchain is a byte-for-byte copy of lean/lean-toolchain.
+--      lake-manifest.json lists Mathlib and its dependencies at the revisions of
+--      lean/lake-manifest.json.
+--    - RELATED-WORK.md reproduces the BibTeX entries of two manuscripts of
+--      openai/math.
+-- 
+-- 3. New files that build on upstream proofs.
+--    The other files under WHTCheck/ and Work/ were written for this
+--    repository. They import the upstream files, and several of them generalise
+--    or adapt proofs of upstream files (for example Work/Block/Recursion.lean,
+--    which says so in its header). They are changes and additions made for this
+--    repository and are not part of openai/math.
+-- 
+-- 4. How the new files were made.
+--    Jacob Sussman made the new files on 2026-10-08 and 2026-10-09 by directing
+--    a team of AI agents (Claude). The agents wrote the new Lean files, the
+--    certificate data and the generator scripts. See README.md, section 4.
+-- 
+-- 5. Ideas taken from other public work.
+--    The network of the first result uses ideas published by others, among them
+--    the helper circuit "NStar3" (Swapnil-jain/integer-mult-kappa, which credits
+--    CrocSwap pull request #36 and Paureel for parts of it), its transfer to
+--    family 130 (shea256/fourier-transform-below-nlogn), and "carrier links" and
+--    "whole-residual batching" (pull requests to CrocSwap/integer-mult-bounds).
+--    No file of Swapnil-jain/integer-mult-kappa or of
+--    shea256/fourier-transform-below-nlogn is included here. One comment in
+--    Work/Scratch/Engine.lean quotes three counts reported in
+--    Swapnil-jain/integer-mult-kappa and names that source. The general frame
+--    lemma that Work/GFrame proves is stated in
+--    notes/general-clifford-frames.tex of CrocSwap/integer-mult-bounds; its Lean
+--    proof was written for this repository. The credits, with links, are in
+--    RELATED-WORK.md.
+-- 
+-- 6. Data derived from CrocSwap/integer-mult-bounds (second result).
+--    The helper circuit of the second result is the paired-cube circuit of the
+--    repository "CrocSwap/integer-mult-bounds"
+--    (https://github.com/CrocSwap/integer-mult-bounds), in the state of its pull
+--    request #193. It is the design of that community: icekylinx (pull requests
+--    #144 and #184), eumemic (#168, and #117 behind its modules), ikeboy /
+--    Avi Eisenberg (#191 and #193), with an664 (#128) credited there for the
+--    workspace-sharing principle. That repository is published under the Apache
+--    License, Version 2.0 (the same licence text as the file LICENSE). Its
+--    NOTICE file begins "A sharper exponent for integer multiplication /
+--    Copyright 2026 Douglas Colkitt" and says that the community release "is
+--    not solely Douglas Colkitt's work". A complete copy of that NOTICE file, as
+--    it is at the head of pull request #193, is in
+--    third-party/CrocSwap-integer-mult-bounds/NOTICE.
+-- 
+--    The data were taken from these files of that repository. They were loaded
+--    as data by programs written for this repository; no program of that
+--    repository was run, and none is included here.
+--    - at the head of pull request #168 (eumemic),
+--      4a3c769e5c5430e7114c4d3e099ff34664677f17:
+--        references/paired-cube/sources/local_L1.json
+--        references/paired-cube/sources/tmod_TE_TD_TB3_1_1_4_full_6.0617964e-4.json
+--        references/paired-cube/sources/pmod_J0_full_6.0666810e-4.json
+--        references/paired-cube/sources/qmod_climb3u_best.json
+--        references/paired-cube/selected-module/matching-arcs.json
+--        references/paired-cube/physical/frames.json
+--    - at the head of pull request #193 (ikeboy),
+--      187e1010ac8b259af8e9b5166f68b64bc27b4b47:
+--        research/source-assisted-v4/data/physical-pairs.json
+-- 
+--    Files of this repository that contain data derived from them:
+--    tools/certificate/gcert1-p11-pr193.json.gz and the Lean data modules
+--    generated from it, Work/GCert/Data/Gen/P193*.lean and the files they import
+--    from Work/GCert/Data/Gen/P193/; its block counts are also in the generated
+--    modules Work/GCert/Data/P193Price.lean, RateB2Gp193.lean, RateB2Gp193x.lean
+--    and InstB2Gp193.lean.
+--    Changes made: the circuit was rebuilt from those data as one explicit,
+--    renumbered list of additions with a table of frames, in the certificate
+--    format "gcert/1" of this repository; its 1,980 in-place steps were written
+--    as pairs of additions with rescaled coefficients; the Lean data modules
+--    were generated from that list. No file of that repository is included
+--    unchanged, except the copy of its NOTICE file named above.
+-- 
+--    Notices of that NOTICE file that pertain to these data, quoted:
+-- 
+--      Paired-cube and shared-core extension, 9 October 2026
+--      Copyright 2026 icekylinx
+-- 
+--      Source-assisted common-frame extension (2026-10-09)
+--      Copyright 2026 icekylinx. Apache-2.0.
+--      Substantial dependency: eumemic PR168,
+--      fd25adb7fbaa12ee761d02c733c54d1d2a7687ee
+-- 
+--    The full text of both notices, and the notices of the work they build on,
+--    are in the copy named above. The credits, with links and with the words of
+--    pull request #193 about its own sources, are in README.md ("Whose circuit
+--    this is") and in RELATED-WORK.md, section 1.
+-- 
+-- 7. Modified copies of upstream files (third result).
+--    The files listed below are copies of files of openai/math at the commit
+--    above, changed for this repository. Each begins with a comment that names
+--    the upstream file it is derived from and states what was changed. The
+--    upstream originals under lean/OAI/Computability/ are in this repository
+--    as well, unchanged (section 1), and the copies import them. The upstream
+--    challenge file lean/ComparatorChallenges/UniformFourier.lean is in this
+--    repository in both forms: unchanged under third-party/openai-math/
+--    (section 1) and modified (section 2).
+-- 
+--    - Work/Fourier/ArbitraryLength.lean: modified copy of
+--      lean/OAI/Computability/FourierTransform/ArbitraryLength.lean (224
+--      lines; 159 of them unchanged in the copy). Changes: identifiers renamed
+--      on 64 lines (18 names: 15 with the suffix Z, 3 with Z inserted); 1
+--      import line replaced by 1; 15 comment lines added; no other change to
+--      the code.
+--    - Work/Fourier/Asymptotics.lean: modified copy of
+--      lean/OAI/Computability/FourierTransform/Asymptotics.lean (187 lines;
+--      112 of them unchanged in the copy). Changes: identifiers renamed on 74
+--      lines (32 names: 26 with the suffix Z, 6 with Z inserted); 1 import
+--      line replaced by 1; 15 comment lines added; no other change to the
+--      code.
+--    - Work/Fourier/Axioms.lean: written for this repository (not a copy of an
+--      upstream file).
+--    - Work/Fourier/ConvolutionProgram.lean: modified copy of
+--      lean/OAI/Computability/FourierTransform/ConvolutionProgram.lean (100
+--      lines; 77 of them unchanged in the copy). Changes: identifiers renamed
+--      on 22 lines (10 names: 9 with the suffix Z, 1 with Z inserted); 1
+--      import line replaced by 1; 15 comment lines added; no other change to
+--      the code.
+--    - Work/Fourier/Goal.lean: written for this repository; contains lines of
+--      upstream files: of its 7 code lines, 6 are lines of
+--      lean/OAI/Computability/FourierTransform/Goal.lean (original lines 35,
+--      75-77, 79, 81): unchanged: its lines 25; with identifiers renamed: its
+--      lines 21, 24, 26, 28, 30.
+--    - Work/Fourier/Main.lean: modified copy of
+--      lean/OAI/Computability/FourierTransform/Main.lean (151 lines; 90 of
+--      them unchanged in the copy). Changes: identifiers renamed on 59 lines
+--      (40 names: 35 with the suffix Z, 5 with Z inserted); 1 import line
+--      replaced by 2; 24 comment lines added; other code lines changed: 1 of
+--      the original, 1 of the copy (copy line 59).
+--    - Work/Fourier/Seam.lean: written for this repository; contains lines of
+--      upstream files: of its 122 code lines, 15 are lines of
+--      lean/OAI/Computability/FourierTransform/TensorProgram.lean (original
+--      lines 36-37, 95-96): unchanged: its lines 93-94, 113-114, 141-142,
+--      163-164, 185-187, 194-196; with identifiers renamed: its lines 184; 3
+--      are lines of lean/OAI/Computability/FourierTransform/TensorSaving.lean
+--      (original lines 83-84, 114): with identifiers renamed: its lines 45-46,
+--      59; 1 is a line of lean/OAI/Computability/FourierTransform/Main.lean
+--      (original line 60): with identifiers renamed: its lines 213.
+--    - Work/Fourier/SectorAlgorithm.lean: modified copy of
+--      lean/OAI/Computability/FourierTransform/SectorAlgorithm.lean (224
+--      lines; 162 of them unchanged in the copy). Changes: identifiers renamed
+--      on 61 lines (17 names: 13 with the suffix Z, 4 with Z inserted); 1
+--      import line replaced by 1; 15 comment lines added; no other change to
+--      the code.
+--    - Work/Fourier/SynchronizedAlgorithm.lean: modified copy of
+--      lean/OAI/Computability/FourierTransform/SynchronizedAlgorithm.lean (126
+--      lines; 94 of them unchanged in the copy). Changes: identifiers renamed
+--      on 31 lines (12 names: 10 with the suffix Z, 1 with Z inserted, 1
+--      other), the other being "canopy" to "Grove.canopy" (5 lines); 1 import
+--      line replaced by 1; 16 comment lines added; no other change to the
+--      code.
+--    - Work/Fourier/TransformProgram.lean: modified copy of
+--      lean/OAI/Computability/FourierTransform/TransformProgram.lean (146
+--      lines; 94 of them unchanged in the copy). Changes: identifiers renamed
+--      on 51 lines (21 names: 19 with the suffix Z, 2 with Z inserted); 1
+--      import line replaced by 1; 15 comment lines added; no other change to
+--      the code.
+--    - Work/Fourier/UniformBounds.lean: modified copy of
+--      lean/OAI/Computability/FourierTransform/UniformBounds.lean (183 lines;
+--      115 of them unchanged in the copy). Changes: identifiers renamed on 67
+--      lines (29 names: 25 with the suffix Z, 4 with Z inserted); 1 import
+--      line replaced by 1; 15 comment lines added; no other change to the
+--      code.
+--    - Work/Fourier/UniformFourierChallenge.lean: modified copy of
+--      lean/ComparatorChallenges/UniformFourier.lean (336 lines; 328 of them
+--      unchanged in the copy). Changes: identifiers renamed on 7 lines (7
+--      names: 7 with the suffix Z); 12 comment lines added; other code lines
+--      changed: 1 of the original, 1 of the copy (copy line 281).
+--    - Work/Fourier/WorkingCompiler.lean: modified copy of
+--      lean/OAI/Computability/FourierTransform/WorkingCompiler.lean (153
+--      lines; 104 of them unchanged in the copy). Changes: identifiers renamed
+--      on 48 lines (14 names: 14 with the suffix Z); 1 import line replaced by
+--      1; 15 comment lines added; no other change to the code.
+--    - Work/Fourier/WorkingPreparation.lean: modified copy of
+--      lean/OAI/Computability/FourierTransform/WorkingPreparation.lean (212
+--      lines; 156 of them unchanged in the copy). Changes: identifiers renamed
+--      on 55 lines (30 names: 28 with the suffix Z, 2 with Z inserted); 1
+--      import line replaced by 1; 15 comment lines added; no other change to
+--      the code.
+--    - Work/Fourier/WorkingTransform.lean: modified copy of
+--      lean/OAI/Computability/FourierTransform/WorkingTransform.lean (119
+--      lines; 91 of them unchanged in the copy). Changes: identifiers renamed
+--      on 27 lines (9 names: 8 with the suffix Z, 1 with Z inserted); 1 import
+--      line replaced by 1; 15 comment lines added; no other change to the
+--      code.
+-- 
+--    Changes made to the eleven copied proof files: every declaration received
+--    the letter "Z" in its name (as a suffix of its own name, or of the name
+--    of the declaration it belongs to), so that it does not collide with the
+--    upstream declaration of the same name; the upstream exponent "alpha"
+--    (1 - 2/10^11) and the bound "hills" defined from it were replaced by
+--    "alphaZ" (1 - 7474547/10^10) and "hillsZ", which are defined in
+--    Work/Fourier/Seam.lean, and the single use of the upstream theorem
+--    "hills_program" by "hillsZ_program"; the five definitions of the upstream
+--    statement that contain its exponent (decimalExponent, decimalTime,
+--    TimeBounds, DFTGoal, ConvGoal) were replaced by the versions of
+--    Work/Fourier/Goal.lean, whose exponent is 1 - 7474546/(10^(10:ℕ));
+--    the import lines point to the copies; a header comment was added.
+--       Two further changes: in the copy of Main.lean the same constant stands
+--    once as the literal 2/10^11 and was replaced there too, and the two
+--    final theorems of that copy received a documentation comment; in the
+--    copy of SynchronizedAlgorithm.lean the name "canopy" was written out as
+--    "Grove.canopy" in 5 places, because the short name is shadowed in the
+--    larger environment of the copy. The script also renamed three names
+--    inside upstream comments; the comments are otherwise the upstream ones
+--    and describe the upstream network.
+--    The proofs are those of openai/math. The copies were made by the script
+--    tools/fourier/mkchain.py of this repository.
+-- 
+--    Work/Fourier/Goal.lean contains copies of those five definitions of
+--    lean/OAI/Computability/FourierTransform/Goal.lean, with the exponent
+--    replaced and the suffix "Z" on the five names.
+-- 
+--    Work/Fourier/Seam.lean was written for this repository. It repeats the
+--    statement of the upstream theorem "hills_program" (TensorProgram.lean) and
+--    the definition of "hills" (TensorSaving.lean) with the two names replaced;
+--    its header says so.
+-- 
+--    The work of others that the third result follows (danadran01, shea256,
+--    eumemic) is credited in README.md ("Whose reduction this is") and in
+--    RELATED-WORK.md, section 1. No file of their repositories is included
+--    here.
+-- 
+-- Not included in this repository and fetched by the build: Mathlib
+-- (https://github.com/leanprover-community/mathlib4, Apache License 2.0) and its
+-- dependencies. The comparator (https://github.com/leanprover/comparator) is a
+-- separate tool and is not included.
+-- END UPSTREAM NOTICE
