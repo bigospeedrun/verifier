@@ -35,7 +35,7 @@ class SolutionDependencyTests(unittest.TestCase):
             root = Path(tmp); event = root / 'event.json'; event.write_text(json.dumps({'inputs': request}))
             with patch.object(v, 'ART', root / 'artifacts'), patch.object(v, 'WORK', root / 'work'), \
                  patch.object(v, 'command') as commands, patch.object(v, 'clone', side_effect=clone), patch.object(v.subprocess, 'check_output', side_effect=tree), \
-                 patch.dict(os.environ, GITHUB_EVENT_PATH=str(event)):
+                 patch.dict(os.environ, GITHUB_EVENT_PATH=str(event), BOS_REQUEST_PATH=str(event)):
                 v.prepare()
                 receipt = v.receipt()
                 self.assertFalse(receipt['test_only'])
