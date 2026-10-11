@@ -12,7 +12,12 @@ theorem Race.bound : ∃ order solve W, DFTProgram order solve W ∧
   refine ⟨order, solve, W, hprogram, ?_⟩
   have hexp : decimalExponentY = 1 - (47171 : ℝ) / 62500000 := by
     norm_num [decimalExponentY]
-  simpa only [decimalTimeY, hexp] using htime.2.1
+  have htime_eq : decimalTimeY =
+      (fun n : ℕ => (n : ℝ) * (Real.log (n : ℝ)) ^ (1 - (47171 : ℝ) / 62500000)) := by
+    funext n
+    simp only [decimalTimeY, hexp]
+  rw [← htime_eq]
+  exact htime.2.1
 
 -- BEGIN UPSTREAM LICENSE
 --                                  Apache License
