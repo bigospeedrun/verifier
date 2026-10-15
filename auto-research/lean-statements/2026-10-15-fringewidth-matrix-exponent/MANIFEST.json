@@ -1,0 +1,16 @@
+{
+  "algorithm": "sha256",
+  "sha256": {
+    "NOTICE.md": "74a31d0e3aa71acc7395043907d52cd79804eb38e46216d981ee1e48a08a5c2b",
+    "README.md": "7dd680ffad6ac985fc37e3ce07979123d9d49baae44816a68d5548fc99377d34",
+    "RESULT.json": "63b0bb462644f5cf7d4df6db8210378f72950ce2229980b8a36658ff1a11d240",
+    "code/Checks.lean": "41db64684768103584efaa82c541b1125314298a72b3dc2c91fa204c87fe0d35",
+    "data/challenge-hashes.json": "74db5dcd1cfb6e6ed495c38aa57a3df4c1e399b4d00c99fdb0ece1e39ac87289",
+    "data/inputs.json": "e1af4889cc9f1ef5f9a36157b4e9b725454c2af0d9724b7cecb4adb1ab714c70",
+    "data/matrix-record.json": "cd6f013bfd80a8185dc2ea412e2ecebb8b4618f5f9807b6610d9ee43944f91d3",
+    "data/tools.json": "8d472f89d0563e7f71194701bc337f08a52eda3ef7e03411ece2014bf5d32280",
+    "evidence/lean-checks.txt": "a839f47c927577a3de4caf8acf06f7154497a24088ca63cfe0b504d0599ab0be",
+    "evidence/validation.json": "fbe892277977f637c7aa1f63b20ef03d4905fffa4cc0b0f66e7eda1202927350",
+    "verify.py": "1bb3f91e125cebcf3eb6534e51a32022827e2245988a0739904e61846f573310"
+  }
+}

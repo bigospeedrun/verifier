@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "problem_id": "matrix-multiplication/arithmetic-circuit-complex",
+  "model": {
+    "id": "arithmetic-circuit-complex",
+    "version": "1",
+    "description": "Multiply two n by n complex matrices exactly with division-free arithmetic circuits. Scalar addition, subtraction and multiplication each cost one; inputs and constants are free. For every epsilon > 0, one positive constant C bounds the cost by C n^(t+epsilon) for every positive size n. Results over every field qualify by specialization to the complex numbers.",
+    "definition_url": "https://github.com/openai/math/blob/fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb/lean/ComparatorChallenges/MatrixMultiplication.lean"
+  },
+  "score": {
+    "id": "arithmetic-exponent",
+    "version": "1",
+    "symbol": "t",
+    "definition": "An exponent t guarantees O(n^(t+epsilon)) scalar operations for every fixed epsilon > 0.",
+    "direction": "lower-is-better",
+    "encoding": "rational-string",
+    "minimum": "2",
+    "maximum": "3"
+  },
+  "checked_at": "2026-10-11",
+  "sources": [
+    {
+      "url": "https://github.com/openai/math/blob/fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb/lean/ComparatorChallenges/MatrixMultiplication.lean",
+      "checked_at": "2026-10-11"
+    },
+    {
+      "url": "https://arxiv.org/abs/2608.16884",
+      "checked_at": "2026-10-11"
+    },
+    {
+      "url": "https://github.com/openai/math/blob/fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb/preprints/Matrix-Multiplication-Nine-Fourths-October-2-2026/paper.pdf",
+      "checked_at": "2026-10-11"
+    },
+    {
+      "url": "https://github.com/selanavot/matrix-multiplication-all-fields/blob/08481ef22bca7dc9ffba091083b7c1e81e537220/README.md",
+      "checked_at": "2026-10-11"
+    }
+  ],
+  "records": [
+    {
+      "id": "classical-baseline",
+      "kind": "baseline",
+      "score": "2371177/1000000",
+      "tier": "claimed",
+      "submitted_at": null,
+      "upstream_status": "not-applicable",
+      "upstream_status_at": "2026-10-10T22:29:27.649745Z",
+      "site_observed_at": "2026-10-10T22:29:27.649745Z",
+      "source": {
+        "kind": "paper",
+        "url": "https://arxiv.org/abs/2608.16884"
+      },
+      "spec_version": "1",
+      "title": "Dupont et al. with AlphaEvolve square matrix multiplication bound",
+      "authors": [
+        {
+          "name": "Dupont et al. with AlphaEvolve",
+          "url": "https://arxiv.org/abs/2608.16884"
+        }
+      ],
+      "predecessors": [],
+      "submission_url": "https://arxiv.org/abs/2608.16884",
+      "artifact": {
+        "path": "sources/matrix-classical-baseline.json",
+        "sha256": "79ac29e2caf57d31b3b2704d7cd324dad9e9a35b256caaf9c6d75ebd953629fd"
+      },
+      "evidence": {
+        "paper_url": "https://arxiv.org/abs/2608.16884",
+        "theorem": null,
+        "certificate_path": null
+      },
+      "dependencies": []
+    },
+    {
+      "id": "openai-matrix-nine-fourths-2026",
+      "kind": "improvement",
+      "score": "9/4",
+      "tier": "verified",
+      "submitted_at": "2026-10-10T22:29:27.649745Z",
+      "upstream_status": "not-applicable",
+      "upstream_status_at": "2026-10-10T22:29:27.649745Z",
+      "site_observed_at": "2026-10-10T22:29:27.649745Z",
+      "source": {
+        "kind": "repo-artifact",
+        "url": "https://github.com/openai/math/blob/fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb/preprints/Matrix-Multiplication-Nine-Fourths-October-2-2026/paper.pdf"
+      },
+      "spec_version": "1",
+      "title": "OpenAI square matrix multiplication bound",
+      "authors": [
+        {
+          "name": "OpenAI",
+          "url": "https://github.com/openai"
+        }
+      ],
+      "predecessors": [],
+      "submission_url": "https://github.com/openai/math/blob/fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb/preprints/Matrix-Multiplication-Nine-Fourths-October-2-2026/paper.pdf",
+      "artifact": {
+        "path": "sources/matrix-openai-matrix-nine-fourths-2026.json",
+        "sha256": "94f80a54d922cf186b81a1298640e31be67cd1d150699529f7b1c2f0a5a1c445"
+      },
+      "evidence": {
+        "paper_url": "https://github.com/openai/math/blob/fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb/preprints/Matrix-Multiplication-Nine-Fourths-October-2-2026/paper.pdf",
+        "theorem": "OAI.MatrixMultiplication.complex_omega_le_nine_quarters",
+        "certificate_path": null
+      },
+      "dependencies": [],
+      "source_commit": "fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb",
+      "rerun_status": {
+        "state": "passed",
+        "checked_at": "2026-10-11T05:45:39.160927Z",
+        "receipt_path": "sources/maintainer-matrix-nine-fourths-38112644463.json"
+      }
+    }
+  ],
+  "record_metadata": {
+    "classical-baseline": {
+      "checked_at": "2026-10-11",
+      "eligible_for_record": false,
+      "proof_status": "Published claim; no qualifying repository review or site Lean rerun.",
+      "site_badge": false,
+      "site_tier": "claimed",
+      "upstream_tier": "claimed",
+      "source_url": "https://arxiv.org/abs/2608.16884",
+      "comparison_key": "matrix-multiplication/arithmetic-circuit-complex/v1",
+      "comparison_status": "Complex numbers; prior preprint bound.",
+      "publication_year": 2026,
+      "publication_date": "2026-08-17",
+      "publication_date_precision": "date",
+      "publication_date_role": "Public release date",
+      "publication_source_url": "https://arxiv.org/abs/2608.16884",
+      "manuscript_date": null,
+      "scope": "Complex numbers; prior preprint bound."
+    },
+    "openai-matrix-nine-fourths-2026": {
+      "checked_at": "2026-10-11",
+      "eligible_for_record": true,
+      "proof_status": "Lean and nanoda passed; permitted-axiom audit passed",
+      "site_badge": false,
+      "site_tier": "verified",
+      "upstream_tier": "claimed",
+      "source_url": "https://github.com/openai/math/blob/fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb/preprints/Matrix-Multiplication-Nine-Fourths-October-2-2026/paper.pdf",
+      "comparison_key": "matrix-multiplication/arithmetic-circuit-complex/v1",
+      "comparison_status": "Complex numbers. Author supplies Lean; no site rerun yet. Manuscript dated 2026-10-02; public collection released 2026-10-06.",
+      "publication_year": 2026,
+      "publication_date": "2026-10-06",
+      "publication_date_precision": "date",
+      "publication_date_role": "Public release date",
+      "publication_source_url": "https://github.com/openai/math/blob/fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb/preprints/Matrix-Multiplication-Nine-Fourths-October-2-2026/paper.pdf",
+      "manuscript_date": "2026-10-02",
+      "scope": "Complex numbers. Author supplies Lean; no site rerun yet.",
+      "submitted_at_role": "Site observation timestamp; publication date is recorded separately at day precision.",
+      "receipt_url": "https://github.com/bigospeedrun/verifier/actions/runs/38112644463",
+      "verification_source_commit": "fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb"
+    }
+  },
+  "updated_at": "2026-10-11T05:49:20Z"
+}
