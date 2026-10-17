@@ -1,4 +1,4 @@
-import Work.SharedSumChecker.Bits
+import Submission.Work.SharedSumChecker.Bits
 
 /-!
 # Shared-sum checker: the phase of a packed label

@@ -1,4 +1,4 @@
-import Work.SharedSumChecker.Check
+import Submission.Work.SharedSumChecker.Check
 
 /-!
 # Shared-sum checker: the certificate of a helper circuit (data and Boolean shape tests)

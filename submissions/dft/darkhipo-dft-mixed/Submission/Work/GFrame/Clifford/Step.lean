@@ -1,5 +1,5 @@
-import Work.GFrame.Clifford.Pair
-import Work.GFrame.Clifford.AltBlock
+import Submission.Work.GFrame.Clifford.Pair
+import Submission.Work.GFrame.Clifford.AltBlock
 
 /-!
 # GFrame / Clifford, part 11: the frame lemma as ENGINE steps (`GStep`)

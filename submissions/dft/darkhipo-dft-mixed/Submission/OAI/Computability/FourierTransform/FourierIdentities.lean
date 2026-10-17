@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.Goal
+import Submission.OAI.Computability.FourierTransform.Goal
 
 namespace OAI
 

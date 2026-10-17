@@ -1,5 +1,5 @@
-import Work.GFrame.Top.Assemble
-import Work.GFrame.Clifford.Step
+import Submission.Work.GFrame.Top.Assemble
+import Submission.Work.GFrame.Clifford.Step
 
 /-!
 # GFrame, top (key: eng-integrate): the menu of legal one-role moves

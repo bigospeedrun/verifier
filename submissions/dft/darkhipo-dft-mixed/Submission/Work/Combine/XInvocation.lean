@@ -1,5 +1,5 @@
-import Work.Combine.XG
-import Work.SharedSumStructured.Invocation
+import Submission.Work.Combine.XG
+import Submission.Work.SharedSumStructured.Invocation
 
 /-!
 # (key: combine) One invocation of the two-stage network, in WHOLE BLOCKS

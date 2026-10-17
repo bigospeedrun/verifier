@@ -1,5 +1,5 @@
-import Work.Block.Address
-import Work.Block.Word
+import Submission.Work.Block.Address
+import Submission.Work.Block.Word
 
 /-!
 # Block moves, part 5: one block move = ONE family of recursive calls of order `rk*f`

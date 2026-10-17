@@ -1,4 +1,4 @@
-import Work.GCert.Labels.Ends
+import Submission.Work.GCert.Labels.Ends
 
 /-!
 # (key: gx-labels) Soundness of the end check: `endK … = true → Ends …`

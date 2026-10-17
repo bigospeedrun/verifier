@@ -1,5 +1,5 @@
-import Work.GFrame.Labels.StageA
-import Work.Carrier.Pack
+import Submission.Work.GFrame.Labels.StageA
+import Submission.Work.Carrier.Pack
 
 /-!
 # GFrame labels, part 11 (key: eng-labels): the carrier invocation theorem, generalised

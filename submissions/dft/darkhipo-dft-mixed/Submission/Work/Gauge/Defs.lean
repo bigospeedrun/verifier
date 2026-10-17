@@ -1,4 +1,4 @@
-import Work.GCert.Chain.InvThm
+import Submission.Work.GCert.Chain.InvThm
 
 /-!
 # (key: gauge-401) L1 definitions: gauged invocations (entrance gauges, Dugongue PR #401)

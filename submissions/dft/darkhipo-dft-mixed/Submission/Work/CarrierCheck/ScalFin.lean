@@ -1,4 +1,4 @@
-import Work.CarrierCheck.ScalId
+import Submission.Work.CarrierCheck.ScalId
 
 /-!
 # (key: carrier-check) An accepted scalar check: the four states

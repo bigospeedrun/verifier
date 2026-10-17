@@ -1,5 +1,5 @@
-import Work.GFrame.Labels.StageB
-import Work.GFrame.Clifford.Climb
+import Submission.Work.GFrame.Labels.StageB
+import Submission.Work.GFrame.Clifford.Climb
 
 /-!
 # GFrame labels, part 12 (key: eng-labels): STAGE B, unconditional

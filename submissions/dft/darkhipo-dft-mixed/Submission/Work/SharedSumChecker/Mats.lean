@@ -1,4 +1,4 @@
-import Work.SharedSumChecker.Proj
+import Submission.Work.SharedSumChecker.Proj
 
 /-!
 # Shared-sum checker: gate matrices of a micro-program, their inverse and transposed inverse

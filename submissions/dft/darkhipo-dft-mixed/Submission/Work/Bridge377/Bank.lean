@@ -1,4 +1,4 @@
-import Work.Combine.XG
+import Submission.Work.Combine.XG
 
 /-!
 # (key: bridge-377) The idle blocks of the data of one port over the 8 replicas (PR #377)

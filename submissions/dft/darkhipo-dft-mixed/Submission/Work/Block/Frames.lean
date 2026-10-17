@@ -1,4 +1,4 @@
-import Work.Block.Bridge
+import Submission.Work.Block.Bridge
 
 /-!
 # Block moves, part 9: changing the frame of one role by a whole block

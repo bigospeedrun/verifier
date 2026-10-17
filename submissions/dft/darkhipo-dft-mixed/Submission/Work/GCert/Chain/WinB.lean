@@ -1,5 +1,5 @@
-import Work.GCert.Chain.Win
-import Work.BridgeGeom.Stage
+import Submission.Work.GCert.Chain.Win
+import Submission.Work.BridgeGeom.Stage
 
 /-!
 # (key: gx-chain) THE WINDOW LIFT (spec statement 3): the windows of the bridged geometry

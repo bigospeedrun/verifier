@@ -1,5 +1,5 @@
-import Work.Bank401.Adapt
-import Work.GFrame.Top.Api
+import Submission.Work.Bank401.Adapt
+import Submission.Work.GFrame.Top.Api
 
 /-!
 # (key: bank-401, L2/L3) The frames of all banks over a schedule of uses

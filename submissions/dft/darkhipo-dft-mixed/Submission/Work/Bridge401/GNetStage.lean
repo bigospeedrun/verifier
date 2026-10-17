@@ -1,4 +1,4 @@
-import Work.Bridge401.GNetDef
+import Submission.Work.Bridge401.GNetDef
 
 /-!
 # (key: bridge-401) The stages, idle climbs and gate layers of one run of the compressed nine-stage word

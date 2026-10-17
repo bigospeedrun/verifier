@@ -1,6 +1,6 @@
-import Work.Bridge377.Bank
-import Work.FoldRate.Group
-import Work.GCert.Data.RateC588x
+import Submission.Work.Bridge377.Bank
+import Submission.Work.FoldRate.Group
+import Submission.Work.GCert.Data.RateC588x
 namespace OAI.PowerSaving.BridgeRate.C588
 open Finset Binary Matrix RAM CB FoldRate
 noncomputable section

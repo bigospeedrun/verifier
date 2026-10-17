@@ -1,5 +1,5 @@
-import Work.GCert.Scalar.Roles
-import Work.GCert.Labels.Main
+import Submission.Work.GCert.Scalar.Roles
+import Submission.Work.GCert.Labels.Main
 
 /-!
 # (key: gx-data) Glue between the scalar half (gx-scalar) and the label half (gx-labels)

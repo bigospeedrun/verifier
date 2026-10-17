@@ -1,4 +1,4 @@
-import Work.GCert.Labels.Route
+import Submission.Work.GCert.Labels.Route
 
 /-!
 # (key: gx-labels) THE ROUTE THEOREM of a legal label replay (spec statements 2 and 4, label part)

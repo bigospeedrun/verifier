@@ -1,5 +1,5 @@
-import Work.GCert.Scalar.Check
-import Work.CarrierCheck.Mat
+import Submission.Work.GCert.Scalar.Check
+import Submission.Work.CarrierCheck.Mat
 
 /-!
 # (key: gx-scalar) The content matrix follows the gate product; what the scatter rows do

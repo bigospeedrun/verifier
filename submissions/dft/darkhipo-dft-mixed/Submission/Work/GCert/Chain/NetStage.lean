@@ -1,4 +1,4 @@
-import Work.GCert.Chain.NetDef
+import Submission.Work.GCert.Chain.NetDef
 
 /-!
 # (key: gx-chain) The bridged word B_2 on the generalised engine: the five stages and the idle climbs

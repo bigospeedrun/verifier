@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.IntegerPrograms
-import OAI.Computability.FourierTransform.TensorFibers
+import Submission.OAI.Computability.FourierTransform.IntegerPrograms
+import Submission.OAI.Computability.FourierTransform.TensorFibers
 
 namespace OAI
 

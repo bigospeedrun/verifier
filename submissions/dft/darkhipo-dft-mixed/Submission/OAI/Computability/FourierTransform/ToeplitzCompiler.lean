@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.ToeplitzLayers
-import OAI.Computability.FourierTransform.MeasuredPrograms
+import Submission.OAI.Computability.FourierTransform.ToeplitzLayers
+import Submission.OAI.Computability.FourierTransform.MeasuredPrograms
 
 namespace OAI
 

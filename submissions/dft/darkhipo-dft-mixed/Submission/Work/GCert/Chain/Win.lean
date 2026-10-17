@@ -1,5 +1,5 @@
-import Work.GCert.Chain.Phased
-import Work.GFrame.Top.Api
+import Submission.Work.GCert.Chain.Phased
+import Submission.Work.GFrame.Top.Api
 
 /-!
 # (key: gx-chain) A window of the generalised engine, and its four free end adapters

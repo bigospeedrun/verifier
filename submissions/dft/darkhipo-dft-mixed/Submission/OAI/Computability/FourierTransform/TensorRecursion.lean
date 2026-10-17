@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.RecursiveContract
+import Submission.OAI.Computability.FourierTransform.RecursiveContract
 
 namespace OAI
 namespace PowerSaving.RAM

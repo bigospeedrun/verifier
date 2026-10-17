@@ -1,4 +1,4 @@
-import Work.Block.Split
+import Submission.Work.Block.Split
 
 /-!
 # Block moves, part 4: the word language with block moves

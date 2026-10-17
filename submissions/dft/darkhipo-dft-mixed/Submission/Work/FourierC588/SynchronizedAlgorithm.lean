@@ -1,4 +1,4 @@
-import Work.FourierC588.SectorAlgorithm
+import Submission.Work.FourierC588.SectorAlgorithm
 
 /-
 Modified copy of lean/OAI/Computability/FourierTransform/SynchronizedAlgorithm.lean of github.com/openai/math

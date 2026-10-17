@@ -1,5 +1,5 @@
-import Work.GCert.Scalar.Seg
-import Work.CarrierCheck.ScalSound
+import Submission.Work.GCert.Scalar.Seg
+import Submission.Work.CarrierCheck.ScalSound
 
 /-!
 # (key: gx-scalar) Tagged packed vectors: mask, repeated addition, exact division, weights

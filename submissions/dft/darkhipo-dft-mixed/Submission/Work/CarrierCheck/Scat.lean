@@ -1,6 +1,6 @@
-import Work.CarrierCheck.Routes
-import Work.CarrierCheck.ScalFin
-import Work.Carrier.Phases
+import Submission.Work.CarrierCheck.Routes
+import Submission.Work.CarrierCheck.ScalFin
+import Submission.Work.Carrier.Phases
 
 /-!
 # (key: carrier-check) The scalar identity of a checked carrier certificate, in the form of

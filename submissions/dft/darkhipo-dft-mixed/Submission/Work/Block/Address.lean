@@ -1,4 +1,4 @@
-import Work.Block.Peel
+import Submission.Work.Block.Peel
 
 /-!
 # Block moves, part 3: RAM address arithmetic for a splitting

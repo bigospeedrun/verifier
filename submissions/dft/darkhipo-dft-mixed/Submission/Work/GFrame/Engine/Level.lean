@@ -1,5 +1,5 @@
-import Work.GFrame.Engine.Sweep
-import WHTCheck.Solution
+import Submission.Work.GFrame.Engine.Sweep
+import Submission.WHTCheck.Solution
 
 /-!
 # GFrame engine, part 4: one level of the recursion for generalised words (agent key: eng-ram)

@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.Layout
-import OAI.Computability.FourierTransform.DirectionalWords
+import Submission.OAI.Computability.FourierTransform.Layout
+import Submission.OAI.Computability.FourierTransform.DirectionalWords
 
 namespace OAI
 namespace PowerSaving.Binary

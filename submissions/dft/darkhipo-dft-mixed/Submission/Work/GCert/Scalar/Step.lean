@@ -1,5 +1,5 @@
-import Work.GCert.Scalar.Bits
-import Work.CarrierCheck.ScalRun
+import Submission.Work.GCert.Scalar.Bits
+import Submission.Work.CarrierCheck.ScalRun
 
 /-!
 # (key: gx-scalar) One add of the kernel check is one add on abstract states

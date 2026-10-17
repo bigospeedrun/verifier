@@ -1,5 +1,5 @@
-import Work.Bridge401.Gates
-import Work.GCert.Chain.Stage
+import Submission.Work.Bridge401.Gates
+import Submission.Work.GCert.Chain.Stage
 
 /-!
 # (key: bridge-401) Routes of one stage of a run (`GRoute`)

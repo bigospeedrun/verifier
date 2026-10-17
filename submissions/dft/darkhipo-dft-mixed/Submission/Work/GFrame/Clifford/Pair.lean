@@ -1,4 +1,4 @@
-import Work.GFrame.Clifford.Cross
+import Submission.Work.GFrame.Clifford.Cross
 
 /-!
 # GFrame / Clifford, part 13 (STAGE B): ANY two subspaces are ONE child

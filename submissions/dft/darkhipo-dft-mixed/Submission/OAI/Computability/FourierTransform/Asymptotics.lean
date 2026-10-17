@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.UniformBounds
+import Submission.OAI.Computability.FourierTransform.UniformBounds
 
 namespace OAI
 

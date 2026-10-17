@@ -1,8 +1,8 @@
-import Work.Bridge401.GNetCert
-import Work.Bridge401.Sched
-import Work.Bridge377.WinC
-import Work.BridgeC.Bank
-import Work.GCert.Chain.Geom
+import Submission.Work.Bridge401.GNetCert
+import Submission.Work.Bridge401.Sched
+import Submission.Work.Bridge377.WinC
+import Submission.Work.BridgeC.Bank
+import Submission.Work.GCert.Chain.Geom
 
 /-!
 # (key: bridge-401) The compressed nine-stage word of PR #377 delivers a `GCert` (geometry on `LC (Fin 8) H l`)

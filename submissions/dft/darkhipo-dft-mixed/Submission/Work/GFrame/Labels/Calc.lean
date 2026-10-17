@@ -1,4 +1,4 @@
-import Work.Combine.XG
+import Submission.Work.Combine.XG
 
 /-!
 # GFrame labels, part 1 (key: eng-labels): the abstract route calculus

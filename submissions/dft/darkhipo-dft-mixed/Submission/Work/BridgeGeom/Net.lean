@@ -1,5 +1,5 @@
-import Work.BridgeGeom.Stage
-import Work.Bridge.Net
+import Submission.Work.BridgeGeom.Stage
+import Submission.Work.Bridge.Net
 
 /-!
 # (key: bridge-geom) The bridged word B_2 on the label space `H ⊕ (Fin 4 × H)`: geometry

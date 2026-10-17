@@ -1,6 +1,6 @@
-import Work.Bridge401.GStage
-import Work.Bridge401.StageE
-import Work.Bridge377.Bank
+import Submission.Work.Bridge401.GStage
+import Submission.Work.Bridge401.StageE
+import Submission.Work.Bridge377.Bank
 
 /-!
 # (key: bridge-401) The nine-stage word with entrance gauges and residual banks (PR #401): data and frames

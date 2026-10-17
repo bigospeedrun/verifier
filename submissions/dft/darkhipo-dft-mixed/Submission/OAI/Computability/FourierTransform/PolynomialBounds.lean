@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.Cost
+import Submission.OAI.Computability.FourierTransform.Cost
 
 namespace OAI
 

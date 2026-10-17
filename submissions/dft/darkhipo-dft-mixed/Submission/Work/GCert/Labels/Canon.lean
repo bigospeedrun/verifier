@@ -1,5 +1,5 @@
-import Work.GFrame.Labels.StageBSem
-import Work.GCert.Labels.Def
+import Submission.Work.GFrame.Labels.StageBSem
+import Submission.Work.GCert.Labels.Def
 
 /-!
 # (key: gx-labels) The canonical representative of a coded subspace (spec statement 1)

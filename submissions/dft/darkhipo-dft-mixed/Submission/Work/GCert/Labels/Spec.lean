@@ -1,4 +1,4 @@
-import Work.GCert.Labels.Elim
+import Submission.Work.GCert.Labels.Elim
 
 /-!
 # (key: gx-labels) The label replay: semantic form, composition of segments

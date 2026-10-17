@@ -1,5 +1,5 @@
-import Work.FourierC588.WorkingTransform
-import OAI.Computability.FourierTransform.LocalCompiler
+import Submission.Work.FourierC588.WorkingTransform
+import Submission.OAI.Computability.FourierTransform.LocalCompiler
 
 /-
 Modified copy of lean/OAI/Computability/FourierTransform/WorkingCompiler.lean of github.com/openai/math

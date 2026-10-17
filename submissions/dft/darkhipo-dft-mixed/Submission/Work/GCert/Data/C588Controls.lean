@@ -1,5 +1,5 @@
-import Work.GCert.Data.Gen.C588Scal0
-import Work.GCert.Data.Gen.C588Sched
+import Submission.Work.GCert.Data.Gen.C588Scal0
+import Submission.Work.GCert.Data.Gen.C588Sched
 set_option maxRecDepth 100000
 namespace GXD.C588Controls
 open GXD

@@ -1,5 +1,5 @@
-import Work.GCert.Chain.Geom
-import Work.GFrame.Engine.Group
+import Submission.Work.GCert.Chain.Geom
+import Submission.Work.GFrame.Engine.Group
 
 /-!
 # (key: gx-chain) THE END THEOREM (spec statement 7): two halves + rate fact => Walsh-Hadamard

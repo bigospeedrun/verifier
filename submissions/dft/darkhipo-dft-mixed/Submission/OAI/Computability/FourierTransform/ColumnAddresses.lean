@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.AddressTables
+import Submission.OAI.Computability.FourierTransform.AddressTables
 
 namespace OAI
 

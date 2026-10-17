@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.ChunkCompiler
-import OAI.Computability.FourierTransform.WordCompilation
+import Submission.OAI.Computability.FourierTransform.ChunkCompiler
+import Submission.OAI.Computability.FourierTransform.WordCompilation
 
 namespace OAI
 

@@ -1,6 +1,6 @@
-import Work.GCert.Data.C588Glue401
-import Work.GCert.Data.InstC588
-import Work.Bridge401.End
+import Submission.Work.GCert.Data.C588Glue401
+import Submission.Work.GCert.Data.InstC588
+import Submission.Work.Bridge401.End
 
 /-!
 # THE SEAM for the Fourier transfer: our kernel program in OpenAI's `hills_program` form

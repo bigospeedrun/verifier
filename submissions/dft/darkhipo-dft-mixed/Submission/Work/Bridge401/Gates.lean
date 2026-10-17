@@ -1,5 +1,5 @@
-import Work.Bridge401.Roles
-import Work.Bridge377.Sweep
+import Submission.Work.Bridge401.Roles
+import Submission.Work.Bridge377.Sweep
 
 /-!
 # (key: bridge-401) The scalar chain of one run of the compressed nine-stage word, and the exchange

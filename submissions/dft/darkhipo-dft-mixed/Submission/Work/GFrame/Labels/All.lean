@@ -1,11 +1,11 @@
-import Work.GFrame.Labels.Maps
-import Work.GFrame.Labels.Conj
-import Work.GFrame.Labels.GCarrier
-import Work.GFrame.Labels.Proj
-import Work.GFrame.Labels.ConjB
-import Work.GFrame.Labels.StageBSem
-import Work.GFrame.Labels.SchedR
-import Work.GFrame.Labels.GeomOld
+import Submission.Work.GFrame.Labels.Maps
+import Submission.Work.GFrame.Labels.Conj
+import Submission.Work.GFrame.Labels.GCarrier
+import Submission.Work.GFrame.Labels.Proj
+import Submission.Work.GFrame.Labels.ConjB
+import Submission.Work.GFrame.Labels.StageBSem
+import Submission.Work.GFrame.Labels.SchedR
+import Submission.Work.GFrame.Labels.GeomOld
 
 /-!
 # GFrame labels (key: eng-labels): everything together

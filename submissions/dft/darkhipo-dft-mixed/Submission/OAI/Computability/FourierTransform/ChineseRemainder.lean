@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.SectorPacking
+import Submission.OAI.Computability.FourierTransform.SectorPacking
 
 namespace OAI
 /-! CRT permutations. Using the same scaled index for input and output,

@@ -1,4 +1,4 @@
-import Work.GFrame.Clifford.Basic
+import Submission.Work.GFrame.Clifford.Basic
 
 /-!
 # GFrame / Clifford, part 1 (STAGE A on the fibre): an alternating form of rank `2p` is ONE

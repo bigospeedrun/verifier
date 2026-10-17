@@ -1,4 +1,4 @@
-import Work.Gauge.Defs
+import Submission.Work.Gauge.Defs
 
 /-!
 # (key: gauge-401) The entrance step of a gauged slot (K2')

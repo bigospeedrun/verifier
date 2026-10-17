@@ -1,5 +1,5 @@
-import Work.GCert.Labels.EndDef
-import Work.GCert.Labels.Sound
+import Submission.Work.GCert.Labels.EndDef
+import Submission.Work.GCert.Labels.Sound
 
 /-!
 # (key: gx-labels) Facts behind the end check: parities, ports, shape of a trie

@@ -1,4 +1,4 @@
-import Work.BridgeC.Stage
+import Submission.Work.BridgeC.Stage
 
 /-!
 # (key: bridge-c) The banks of the compressed nine-stage word (PR #377)

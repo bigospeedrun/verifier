@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.NetworkStages
+import Submission.OAI.Computability.FourierTransform.NetworkStages
 
 namespace OAI
 

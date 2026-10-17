@@ -1,6 +1,6 @@
-import OAI.Computability.FourierTransform.ChunkPrograms
-import OAI.Computability.FourierTransform.ToeplitzPreparation
-import OAI.Computability.FourierTransform.MeasuredFit
+import Submission.OAI.Computability.FourierTransform.ChunkPrograms
+import Submission.OAI.Computability.FourierTransform.ToeplitzPreparation
+import Submission.OAI.Computability.FourierTransform.MeasuredFit
 
 namespace OAI
 

@@ -1,5 +1,5 @@
-import Work.SharedSumChecker.Scalar
-import Work.SharedSumStructured.Certificate
+import Submission.Work.SharedSumChecker.Scalar
+import Submission.Work.SharedSumStructured.Certificate
 
 /-!
 # Shared-sum checker: from a kernel-checked certificate to the two-stage network and the engine

@@ -1,6 +1,6 @@
-import Work.GFrame.Engine.Cert
-import Work.GFrame.Engine.Main
-import Work.FoldRate.Group
+import Submission.Work.GFrame.Engine.Cert
+import Submission.Work.GFrame.Engine.Main
+import Submission.Work.FoldRate.Group
 
 /-!
 # GFrame engine, part 11: the engine fed with a generalised certificate of `G` equal units

@@ -1,5 +1,5 @@
-import Work.Reframe.Erase
-import Work.Reframe.FrameAlg
+import Submission.Work.Reframe.Erase
+import Submission.Work.Reframe.FrameAlg
 
 /-!
 # (key: reframe) An invocation on SHARED (dirty, arbitrarily framed) helper slots

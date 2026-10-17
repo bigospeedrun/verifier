@@ -1,4 +1,4 @@
-import Work.GFrame.Clifford.Old
+import Submission.Work.GFrame.Clifford.Old
 
 /-!
 # GFrame / Clifford, part 10 (STAGE B): every nested pair has a common base; THE FRAME LEMMA

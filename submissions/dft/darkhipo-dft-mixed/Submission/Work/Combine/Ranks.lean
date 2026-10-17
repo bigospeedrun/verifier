@@ -1,4 +1,4 @@
-import Work.SharedSumChecker.PCert
+import Submission.Work.SharedSumChecker.PCert
 
 /-!
 # (key: combine) Block ranks of a helper-circuit certificate (plain data, core Lean only)

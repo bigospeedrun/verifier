@@ -1,4 +1,4 @@
-import Work.BlockAccounting.Moment
+import Submission.Work.BlockAccounting.Moment
 
 /-!
 # (key: fold-rate) Table arithmetic for a certificate made of `G` equal units, `G` opaque

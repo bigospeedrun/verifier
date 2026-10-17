@@ -1,6 +1,6 @@
-import Work.Combine.Chunks
-import Work.Combine.XNetwork
-import Work.SharedSumChecker.Net
+import Submission.Work.Combine.Chunks
+import Submission.Work.Combine.XNetwork
+import Submission.Work.SharedSumChecker.Net
 
 /-!
 # (key: combine) A kernel-checked certificate as a BLOCK circuit, and its two-stage network

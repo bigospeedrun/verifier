@@ -1,4 +1,4 @@
-import Work.Scratch.Engine
+import Submission.Work.Scratch.Engine
 
 /-!
 # (key: shared-sum-structured) Paths on arbitrary frame matrices

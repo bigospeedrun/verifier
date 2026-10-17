@@ -1,4 +1,4 @@
-import Work.GFrame.Labels.Embed
+import Submission.Work.GFrame.Labels.Embed
 
 /-!
 # GFrame labels, part 13 (key: eng-labels): what a certificate checker calls (stage A)

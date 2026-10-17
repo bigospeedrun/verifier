@@ -1,4 +1,4 @@
-import Work.Carrier.Sched
+import Submission.Work.Carrier.Sched
 
 /-!
 # (key: carrier-thm) THE CARRIER INVOCATION THEOREM: a pair of schedules is an invocation package

@@ -1,4 +1,4 @@
-import Work.Block.Batches
+import Submission.Work.Block.Batches
 
 /-!
 # Block moves, part 6: the recursive program for block words

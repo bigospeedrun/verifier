@@ -1,4 +1,4 @@
-import Work.GCert.Chain.Stage
+import Submission.Work.GCert.Chain.Stage
 
 /-!
 # (key: gx-chain) The bridged five-stage word B_2 on the generalised engine: data and frames

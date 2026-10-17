@@ -1,4 +1,4 @@
-import Work.GCert.Scalar.Roles
+import Submission.Work.GCert.Scalar.Roles
 
 /-!
 # (key: gx-scalar) Matrix lemmas for gates INTO x roles and gates READING y roles

@@ -1,5 +1,5 @@
-import Work.GFrame.Engine.Over
-import Work.BlockApply.Copies
+import Submission.Work.GFrame.Engine.Over
+import Submission.Work.BlockApply.Copies
 
 /-!
 # GFrame engine, part 10: generalised scratch certificates, copies and padding (agent key: eng-ram)

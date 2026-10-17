@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.TensorIndexing
+import Submission.OAI.Computability.FourierTransform.TensorIndexing
 
 namespace OAI
 

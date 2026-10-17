@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.WorkingTransform
-import OAI.Computability.FourierTransform.LocalCompiler
+import Submission.OAI.Computability.FourierTransform.WorkingTransform
+import Submission.OAI.Computability.FourierTransform.LocalCompiler
 
 namespace OAI
 

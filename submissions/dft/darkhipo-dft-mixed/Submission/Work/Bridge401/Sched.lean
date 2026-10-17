@@ -1,5 +1,5 @@
-import Work.Bank401.Frames
-import Work.Gauge.Defs
+import Submission.Work.Bank401.Frames
+import Submission.Work.Gauge.Defs
 
 /-!
 # (key: bridge-401) Bank schedules of the #401 word and their bank frames

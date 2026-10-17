@@ -1,6 +1,6 @@
-import Work.GCert.Chain.Phased
-import Work.GCert.Labels.RouteRun
-import Work.GCert.Labels.EndSound
+import Submission.Work.GCert.Chain.Phased
+import Submission.Work.GCert.Labels.RouteRun
+import Submission.Work.GCert.Labels.EndSound
 
 /-!
 # (key: gx-labels) THE LABEL HALF of a checked `gcert/1` certificate (spec statement 4, label part)

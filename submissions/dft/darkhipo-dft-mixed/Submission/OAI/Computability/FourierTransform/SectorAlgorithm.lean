@@ -1,6 +1,6 @@
-import OAI.Computability.FourierTransform.TensorProgram
-import OAI.Computability.FourierTransform.SectorPrograms
-import OAI.Computability.FourierTransform.SectorIdentities
+import Submission.OAI.Computability.FourierTransform.TensorProgram
+import Submission.OAI.Computability.FourierTransform.SectorPrograms
+import Submission.OAI.Computability.FourierTransform.SectorIdentities
 
 namespace OAI
 

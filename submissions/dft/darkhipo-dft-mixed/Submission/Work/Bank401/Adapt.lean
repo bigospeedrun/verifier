@@ -1,6 +1,6 @@
-import Work.GFrame.Clifford.Climb
-import Work.GFrame.Engine.Free
-import Work.GFrame.Labels.BXMap
+import Submission.Work.GFrame.Clifford.Climb
+import Submission.Work.GFrame.Engine.Free
+import Submission.Work.GFrame.Labels.BXMap
 
 /-!
 # (key: bank-401, L2) Pattern banks: bank frames `A * pk U * B` (`A` free), gauged step, bank adapter, pad

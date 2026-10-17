@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.LocalPreparation
-import OAI.Computability.FourierTransform.LengthSelection
+import Submission.OAI.Computability.FourierTransform.LocalPreparation
+import Submission.OAI.Computability.FourierTransform.LengthSelection
 
 namespace OAI
 

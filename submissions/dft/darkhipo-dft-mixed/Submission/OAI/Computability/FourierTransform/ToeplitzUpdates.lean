@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.CirculantUpdates
-import OAI.Computability.FourierTransform.ToeplitzIdentities
+import Submission.OAI.Computability.FourierTransform.CirculantUpdates
+import Submission.OAI.Computability.FourierTransform.ToeplitzIdentities
 
 namespace OAI
 

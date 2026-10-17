@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.SectorPacking
-import OAI.Computability.FourierTransform.BitLayout
+import Submission.OAI.Computability.FourierTransform.SectorPacking
+import Submission.OAI.Computability.FourierTransform.BitLayout
 
 namespace OAI
 /-!

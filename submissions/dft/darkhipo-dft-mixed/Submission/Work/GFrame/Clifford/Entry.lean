@@ -1,4 +1,4 @@
-import Work.GFrame.Clifford.Core
+import Submission.Work.GFrame.Clifford.Core
 
 /-!
 # GFrame / Clifford, part 5 (STAGE B): the entry formula of a representative

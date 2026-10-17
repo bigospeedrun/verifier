@@ -1,5 +1,5 @@
-import Work.GFrame.Labels.BXMap
-import Work.GFrame.Clifford.Step
+import Submission.Work.GFrame.Labels.BXMap
+import Submission.Work.GFrame.Clifford.Step
 
 /-!
 # GFrame labels, part 16 (key: eng-labels): STAGE B moves from INCLUSIONS only

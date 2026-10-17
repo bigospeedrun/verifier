@@ -1,4 +1,4 @@
-import Work.Bridge.Roles
+import Submission.Work.Bridge.Roles
 
 /-!
 # (key: bridge-401) Roles of the compressed nine-stage word (PR #377), replica-outer runs

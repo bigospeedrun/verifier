@@ -1,5 +1,5 @@
-import Work.SharedSumChecker.Impl
-import Work.SharedSumStructured.Invocation
+import Submission.Work.SharedSumChecker.Impl
+import Submission.Work.SharedSumStructured.Invocation
 
 /-!
 # Shared-sum checker: from a checked certificate to the label calculus of

@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.ParameterPrograms
-import OAI.Computability.FourierTransform.ChirpConvolution
+import Submission.OAI.Computability.FourierTransform.ParameterPrograms
+import Submission.OAI.Computability.FourierTransform.ChirpConvolution
 
 namespace OAI
 

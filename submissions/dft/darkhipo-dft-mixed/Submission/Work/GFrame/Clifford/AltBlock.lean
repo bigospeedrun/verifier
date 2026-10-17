@@ -1,5 +1,5 @@
-import Work.GFrame.Clifford.Fibre
-import Work.GFrame.Clifford.FreeLift
+import Submission.Work.GFrame.Clifford.Fibre
+import Submission.Work.GFrame.Clifford.FreeLift
 
 /-!
 # GFrame / Clifford, part 3 (STAGE A): an alternating residual of rank `2p` is ONE block

@@ -1,4 +1,4 @@
-import Work.GCert.Scalar.Ops
+import Submission.Work.GCert.Scalar.Ops
 
 /-!
 # (key: gx-scalar) The kernel check on the scatter rows runs the list of scatter adds

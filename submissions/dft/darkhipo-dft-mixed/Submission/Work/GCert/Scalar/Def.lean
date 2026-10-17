@@ -1,5 +1,5 @@
-import Work.GCert.Data.Raw
-import Work.CarrierCheck.ScalDef
+import Submission.Work.GCert.Data.Raw
+import Submission.Work.CarrierCheck.ScalDef
 
 /-!
 # (key: gx-scalar) The kernel checks of the scalar half of a `gcert/1` certificate (functions)

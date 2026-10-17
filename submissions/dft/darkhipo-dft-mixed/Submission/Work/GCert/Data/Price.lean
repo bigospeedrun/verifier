@@ -1,5 +1,5 @@
-import Work.Combine.Hist
-import Work.GCert.Data.Count
+import Submission.Work.Combine.Hist
+import Submission.Work.GCert.Data.Count
 
 /-!
 # (key: gx-data) The price of an explicit rank list from its kernel counts

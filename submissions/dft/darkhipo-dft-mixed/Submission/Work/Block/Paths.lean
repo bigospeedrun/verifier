@@ -1,4 +1,4 @@
-import Work.Block.Frames
+import Submission.Work.Block.Frames
 
 /-!
 # Block moves, part 10: the path calculus with blocks

@@ -1,5 +1,5 @@
-import Work.Reframe.Geom3
-import Work.Reframe.SCert
+import Submission.Work.Reframe.Geom3
+import Submission.Work.Reframe.SCert
 
 /-!
 # (key: reframe) The shared three-stage word F3 on the label space `H ⊕ (Bool × H)`: geometry

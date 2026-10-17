@@ -1,5 +1,5 @@
-import Work.GCert.Labels.Main
-import Work.Gauge.Defs
+import Submission.Work.GCert.Labels.Main
+import Submission.Work.Gauge.Defs
 
 /-!
 # (key: gauge-401) The label half of a GAUGED certificate: `ValidE.glab : GX.GLab`

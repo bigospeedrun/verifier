@@ -1,7 +1,7 @@
-import Work.GFrame.Labels.Conj
-import Work.GFrame.Labels.Maps
-import Work.Reframe.GeomNet
-import Work.BridgeGeom.Stage
+import Submission.Work.GFrame.Labels.Conj
+import Submission.Work.GFrame.Labels.Maps
+import Submission.Work.Reframe.GeomNet
+import Submission.Work.BridgeGeom.Stage
 
 /-!
 # GFrame labels, part 18 (key: eng-labels): the old block frame maps ARE the generalised ones

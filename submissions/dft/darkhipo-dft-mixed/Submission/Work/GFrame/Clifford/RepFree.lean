@@ -1,4 +1,4 @@
-import Work.GFrame.Clifford.Rep
+import Submission.Work.GFrame.Clifford.Rep
 
 /-!
 # GFrame / Clifford, part 7 (STAGE B): the adapter between two representatives is FREE

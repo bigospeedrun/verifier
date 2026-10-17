@@ -1,4 +1,4 @@
-import Work.GCert.Scalar.Main
+import Submission.Work.GCert.Scalar.Main
 
 /-!
 # (key: gx-scalar) K1, route D2: the `(X,A)` row invariant and the renegotiated `hx`

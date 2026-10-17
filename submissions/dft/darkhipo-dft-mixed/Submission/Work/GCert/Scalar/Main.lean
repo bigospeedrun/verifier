@@ -1,4 +1,4 @@
-import Work.GCert.Scalar.Cols
+import Submission.Work.GCert.Scalar.Cols
 
 /-!
 # (key: gx-scalar) THE SCALAR HALF: the three facts about the total matrix of the main phase

@@ -1,5 +1,5 @@
-import Work.CarrierCheck.Mat
-import Work.GCert.Labels.Sound
+import Submission.Work.CarrierCheck.Mat
+import Submission.Work.GCert.Labels.Sound
 
 /-!
 # (key: gx-labels) Legal label moves are routes of the generalised engine (spec statement 2)

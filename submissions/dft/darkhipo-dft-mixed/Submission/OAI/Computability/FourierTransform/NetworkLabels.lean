@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.ScalarNetwork
+import Submission.OAI.Computability.FourierTransform.ScalarNetwork
 
 namespace OAI
 namespace PowerSaving.Cluster

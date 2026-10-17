@@ -1,4 +1,4 @@
-import Work.Block.WHT
+import Submission.Work.Block.WHT
 
 /-!
 # Block moves, part 13: porting kit (umbrella module: `import Work.Block.Port` gives everything)

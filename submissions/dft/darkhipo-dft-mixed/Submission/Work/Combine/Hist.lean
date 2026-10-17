@@ -1,4 +1,4 @@
-import Work.Combine.XCirc
+import Submission.Work.Combine.XCirc
 
 /-!
 # (key: combine) The price of the blocks of an invocation from kernel-evaluated counts

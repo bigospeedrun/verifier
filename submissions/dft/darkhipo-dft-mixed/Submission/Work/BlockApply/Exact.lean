@@ -1,5 +1,5 @@
-import Work.Block.Majorant
-import Work.BlockAccounting.Steps
+import Submission.Work.Block.Majorant
+import Submission.Work.BlockAccounting.Steps
 
 /-!
 # Block paths with an EXACT block count (agent key: block-apply)

@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.RecursionBounds
-import OAI.Computability.FourierTransform.TensorCertificate
+import Submission.OAI.Computability.FourierTransform.RecursionBounds
+import Submission.OAI.Computability.FourierTransform.TensorCertificate
 
 namespace OAI
 namespace PowerSaving

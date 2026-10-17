@@ -1,6 +1,6 @@
-import OAI.Computability.FourierTransform.WordCompilation
-import OAI.Computability.FourierTransform.SectorPacking
-import OAI.Computability.FourierTransform.TraversalPrograms
+import Submission.OAI.Computability.FourierTransform.WordCompilation
+import Submission.OAI.Computability.FourierTransform.SectorPacking
+import Submission.OAI.Computability.FourierTransform.TraversalPrograms
 
 namespace OAI
 

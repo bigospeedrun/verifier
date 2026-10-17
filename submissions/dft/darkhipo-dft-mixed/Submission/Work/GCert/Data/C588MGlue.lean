@@ -1,5 +1,5 @@
-import Work.Bridge401.GNetDef
-import Work.Gauge.Defs
+import Submission.Work.Bridge401.GNetDef
+import Submission.Work.Gauge.Defs
 
 /-!
 # The mixed-dispatch glue of `GXD.C588M`, in general form

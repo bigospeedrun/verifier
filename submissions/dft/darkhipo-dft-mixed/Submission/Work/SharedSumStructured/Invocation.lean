@@ -1,4 +1,4 @@
-import Work.SharedSumStructured.Labels
+import Submission.Work.SharedSumStructured.Labels
 
 /-!
 # (key: shared-sum-structured) One invocation of a two-stage network with an ARBITRARY helper circuit

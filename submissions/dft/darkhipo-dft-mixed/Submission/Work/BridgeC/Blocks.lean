@@ -1,4 +1,4 @@
-import Work.Reframe.GeomBase
+import Submission.Work.Reframe.GeomBase
 
 /-!
 # (key: bridge-c) The compressed label space `H ⊕ (B × H')`, `H' = {j : H // j ≠ l}`

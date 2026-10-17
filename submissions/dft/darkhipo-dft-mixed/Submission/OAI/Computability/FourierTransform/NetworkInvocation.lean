@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.NetworkLabels
+import Submission.OAI.Computability.FourierTransform.NetworkLabels
 
 namespace OAI
 

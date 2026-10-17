@@ -1,5 +1,5 @@
-import Work.Combine.XInvocation
-import Work.SharedSumStructured.Certificate
+import Submission.Work.Combine.XInvocation
+import Submission.Work.SharedSumStructured.Certificate
 
 /-!
 # (key: combine) The two-stage network for an arbitrary helper circuit, in WHOLE BLOCKS

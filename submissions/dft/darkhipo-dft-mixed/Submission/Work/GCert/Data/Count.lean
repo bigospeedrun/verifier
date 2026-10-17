@@ -1,4 +1,4 @@
-import Work.Combine.Ranks
+import Submission.Work.Combine.Ranks
 
 /-!
 # (key: gx-data) Kernel-friendly rank counts on explicit rank lists

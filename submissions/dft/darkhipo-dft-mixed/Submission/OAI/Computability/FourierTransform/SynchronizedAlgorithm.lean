@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.SectorAlgorithm
+import Submission.OAI.Computability.FourierTransform.SectorAlgorithm
 
 namespace OAI
 

@@ -1,4 +1,4 @@
-import Work.GFrame.Clifford.RepFree
+import Submission.Work.GFrame.Clifford.RepFree
 
 /-!
 # GFrame / Clifford, part 8 (STAGE B): the frame lemma for representatives; the gate rule

@@ -1,4 +1,4 @@
-import Work.SharedSumChecker.Sound
+import Submission.Work.SharedSumChecker.Sound
 
 /-!
 # Shared-sum checker: the checker of `Check.lean` is sound

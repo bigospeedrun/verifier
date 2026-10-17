@@ -1,5 +1,5 @@
-import Work.GFrame.Labels.Sched
-import Work.GFrame.Engine.Route
+import Submission.Work.GFrame.Labels.Sched
+import Submission.Work.GFrame.Engine.Route
 
 /-!
 # GFrame labels, part 4 (key: eng-labels): the generalised engine as a route calculus

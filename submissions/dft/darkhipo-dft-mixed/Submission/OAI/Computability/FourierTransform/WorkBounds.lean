@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.CompilerEnvironment
-import OAI.Computability.FourierTransform.IntegerPrograms
+import Submission.OAI.Computability.FourierTransform.CompilerEnvironment
+import Submission.OAI.Computability.FourierTransform.IntegerPrograms
 
 namespace OAI
 

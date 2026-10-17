@@ -1,5 +1,5 @@
-import Work.Combine.Split
-import Work.GCert.Labels.Spec
+import Submission.Work.Combine.Split
+import Submission.Work.GCert.Labels.Spec
 
 /-!
 # (key: gx-labels) Soundness of the kernel replay: `segK p gs S S' rs = true → Run p S gs S' rs`

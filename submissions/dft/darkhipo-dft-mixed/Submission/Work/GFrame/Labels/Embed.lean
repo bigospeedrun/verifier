@@ -1,5 +1,5 @@
-import Work.GFrame.Labels.GXMap
-import Work.Carrier.Sched
+import Submission.Work.GFrame.Labels.GXMap
+import Submission.Work.Carrier.Sched
 
 /-!
 # GFrame labels, part 6 (key: eng-labels): the OLD label calculus embeds

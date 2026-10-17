@@ -1,5 +1,5 @@
-import Work.BridgeC.Blocks
-import Work.Combine.XG
+import Submission.Work.BridgeC.Blocks
+import Submission.Work.Combine.XG
 
 /-!
 # (key: bridge-c) Stages, bank frames and climbs on the compressed label space `H ⊕ (B × H')`

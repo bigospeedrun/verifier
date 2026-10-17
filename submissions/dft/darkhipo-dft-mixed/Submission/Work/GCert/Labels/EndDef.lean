@@ -1,4 +1,4 @@
-import Work.GCert.Labels.Def
+import Submission.Work.GCert.Labels.Def
 
 /-!
 # (key: gx-labels) The label check at the two ends and at the scatter: kernel term (core Lean only)

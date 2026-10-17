@@ -1,5 +1,5 @@
-import Work.CarrierCheck.ScalOps
-import Work.CarrierCheck.Roles
+import Submission.Work.CarrierCheck.ScalOps
+import Submission.Work.CarrierCheck.Roles
 
 /-!
 # (key: carrier-check) The content matrix follows the gates; the scatter rows

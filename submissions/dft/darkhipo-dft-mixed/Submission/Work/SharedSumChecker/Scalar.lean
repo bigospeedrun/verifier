@@ -1,5 +1,5 @@
-import Work.SharedSumChecker.Circ
-import Work.SharedSumChecker.ScalarDef
+import Submission.Work.SharedSumChecker.Circ
+import Submission.Work.SharedSumChecker.ScalarDef
 
 /-!
 # Shared-sum checker: soundness of the scalar check

@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.PowerTables
-import OAI.Computability.FourierTransform.WorkingPreparation
+import Submission.OAI.Computability.FourierTransform.PowerTables
+import Submission.OAI.Computability.FourierTransform.WorkingPreparation
 
 namespace OAI
 

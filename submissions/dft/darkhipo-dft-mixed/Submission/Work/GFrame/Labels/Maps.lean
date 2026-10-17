@@ -1,4 +1,4 @@
-import Work.GFrame.Labels.Embed
+import Submission.Work.GFrame.Labels.Embed
 
 /-!
 # GFrame labels, part 7 (key: eng-labels): the two frame maps of the network are `GXMap`s

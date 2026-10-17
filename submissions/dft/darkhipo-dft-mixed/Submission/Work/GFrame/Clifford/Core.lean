@@ -1,5 +1,5 @@
-import Work.GFrame.Clifford.FreeLift
-import Work.Block.Frames
+import Submission.Work.GFrame.Clifford.FreeLift
+import Submission.Work.Block.Frames
 
 /-!
 # GFrame / Clifford, part 4 (STAGE B): exact representatives of ARBITRARY subspaces

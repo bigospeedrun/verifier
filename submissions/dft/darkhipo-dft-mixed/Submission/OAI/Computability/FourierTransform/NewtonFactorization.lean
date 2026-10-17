@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.FourierIdentities
+import Submission.OAI.Computability.FourierTransform.FourierIdentities
 
 namespace OAI
 

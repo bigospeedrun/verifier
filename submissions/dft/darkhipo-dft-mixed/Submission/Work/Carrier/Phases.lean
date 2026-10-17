@@ -1,4 +1,4 @@
-import Work.Carrier.Glue
+import Submission.Work.Carrier.Glue
 
 /-!
 # (key: carrier-thm) A carrier circuit given by its phases: hypotheses and scalar identities

@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.IntervalEffects
+import Submission.OAI.Computability.FourierTransform.IntervalEffects
 
 namespace OAI
 /-! Word primitives across equal disjoint intervals. Uniform shear realizations. -/

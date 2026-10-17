@@ -266,7 +266,7 @@ def paperW : ℝ := ((2 : ℕ) : ℝ) ^ (71:ℕ)
 def paperDelta : ℝ := 6871402692000000
 def paperMultiplier := paperM - paperDelta / paperW
 def theta : ℝ := Real.log paperMultiplier / Real.log paperM
-def decimalExponentC588 : ℝ := 1 - 12331685/(10^(10:ℕ))
+def decimalExponentC588 : ℝ := 1 - (123316855 : ℝ) / 100000000000
 
 def paperTime (n : ℕ) : ℝ :=
   (n:ℝ) * (Real.log (n:ℝ)) ^ theta * (Real.log (Real.log (n:ℝ))) ^ (4-theta)

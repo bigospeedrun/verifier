@@ -1,5 +1,5 @@
-import Work.BlockApply.Copies
-import Work.FoldRate.Arith
+import Submission.Work.BlockApply.Copies
+import Submission.Work.FoldRate.Arith
 
 /-!
 # (key: fold-rate) The engine fed with a block certificate made of `G` equal units, `G` opaque

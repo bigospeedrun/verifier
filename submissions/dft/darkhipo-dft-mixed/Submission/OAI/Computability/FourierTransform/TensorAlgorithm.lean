@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.TensorRecursion
+import Submission.OAI.Computability.FourierTransform.TensorRecursion
 
 namespace OAI
 namespace PowerSaving.RAM

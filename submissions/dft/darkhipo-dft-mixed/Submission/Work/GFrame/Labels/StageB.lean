@@ -1,5 +1,5 @@
-import Work.GFrame.Labels.GCalc
-import Work.GFrame.Clifford.Core
+import Submission.Work.GFrame.Labels.GCalc
+import Submission.Work.GFrame.Clifford.Core
 
 /-!
 # GFrame labels, part 9 (key: eng-labels): STAGE B, labels that are ARBITRARY subspaces

@@ -1,5 +1,5 @@
-import Work.Scratch.Engine
-import Work.SharedSumChecker.Check
+import Submission.Work.Scratch.Engine
+import Submission.Work.SharedSumChecker.Check
 
 /-!
 # Shared-sum checker: bit-level facts about the packed labels

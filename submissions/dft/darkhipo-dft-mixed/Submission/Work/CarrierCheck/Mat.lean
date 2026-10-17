@@ -1,5 +1,5 @@
-import Work.CarrierCheck.Roles
-import Work.SharedSumChecker.Scalar
+import Submission.Work.CarrierCheck.Roles
+import Submission.Work.SharedSumChecker.Scalar
 
 /-!
 # (key: carrier-check) Unit rows and unit columns of the gate product of a micro-program

@@ -1,4 +1,4 @@
-import Work.BlockApply.Exact
+import Submission.Work.BlockApply.Exact
 
 /-!
 # Copies and padding for an ARBITRARY block scratch certificate (agent key: block-apply)

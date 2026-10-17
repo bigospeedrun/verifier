@@ -1,5 +1,5 @@
-import Work.Block.Extras
-import WHTCheck.Solution
+import Submission.Work.Block.Extras
+import Submission.WHTCheck.Solution
 
 /-!
 # Block moves, part 12: the Walsh-Hadamard corollary for ANY engine exponent

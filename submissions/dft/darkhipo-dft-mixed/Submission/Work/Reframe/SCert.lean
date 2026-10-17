@@ -1,5 +1,5 @@
-import Work.Reframe.SNet
-import Work.BlockApply.Copies
+import Submission.Work.Reframe.SNet
+import Submission.Work.BlockApply.Copies
 
 /-!
 # (key: reframe) The folded three-stage network with SHARED helper sets, abstract form

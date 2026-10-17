@@ -1,5 +1,5 @@
-import Work.SharedSumChecker.PCert
-import Work.Combine.Ranks
+import Submission.Work.SharedSumChecker.PCert
+import Submission.Work.Combine.Ranks
 
 /-!
 # (key: carrier-check) Certificate of a CARRIER helper circuit: data, label check, shape check

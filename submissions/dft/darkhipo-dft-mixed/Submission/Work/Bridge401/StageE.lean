@@ -1,5 +1,5 @@
-import Work.Gauge.Defs
-import Work.GCert.Chain.Stage
+import Submission.Work.Gauge.Defs
+import Submission.Work.GCert.Chain.Stage
 
 /-!
 # (key: bridge-401) A stage of gauged invocations (`GInvE`)

@@ -1,4 +1,4 @@
-import Work.GCert.Scalar.Def
+import Submission.Work.GCert.Scalar.Def
 
 /-!
 # (key: gx-scalar) The scalar check of a `gcert/1` certificate, whole or in segments (kernel terms)

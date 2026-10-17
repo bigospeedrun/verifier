@@ -1,4 +1,4 @@
-import Work.SharedSumStructured.Invocation
+import Submission.Work.SharedSumStructured.Invocation
 
 /-!
 # (key: shared-sum-structured) The two-stage network for an ARBITRARY helper circuit

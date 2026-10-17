@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.IntervalPrograms
-import OAI.Computability.FourierTransform.BinaryFFT
+import Submission.OAI.Computability.FourierTransform.IntervalPrograms
+import Submission.OAI.Computability.FourierTransform.BinaryFFT
 
 namespace OAI
 

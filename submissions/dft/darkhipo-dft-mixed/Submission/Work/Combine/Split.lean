@@ -1,5 +1,5 @@
-import Work.SharedSumChecker.Impl
-import Work.Combine.SplitDef
+import Submission.Work.SharedSumChecker.Impl
+import Submission.Work.Combine.SplitDef
 
 /-!
 # (key: combine) The label check of a certificate in SEGMENTS (soundness)

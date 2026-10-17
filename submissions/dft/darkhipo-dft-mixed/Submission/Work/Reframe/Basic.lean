@@ -1,4 +1,4 @@
-import Work.Combine.XInvocation
+import Submission.Work.Combine.XInvocation
 
 /-!
 # (key: reframe) Re-framing an exact block route

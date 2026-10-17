@@ -1,7 +1,7 @@
-import Work.Gauge.ECheck
-import Work.Gauge.Labels
-import Work.Gauge.Inv
-import Work.GCert.Data.Glue
+import Submission.Work.Gauge.ECheck
+import Submission.Work.Gauge.Labels
+import Submission.Work.Gauge.Inv
+import Submission.Work.GCert.Data.Glue
 
 /-!
 # (key: gauge-401) Glue: a checked GAUGED certificate is a gauged invocation package

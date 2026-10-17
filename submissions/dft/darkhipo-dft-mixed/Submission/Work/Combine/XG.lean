@@ -1,5 +1,5 @@
-import Work.BlockApply.Exact
-import Work.SharedSumStructured.Labels
+import Submission.Work.BlockApply.Exact
+import Submission.Work.SharedSumStructured.Labels
 
 /-!
 # (key: combine) Whole blocks on arbitrary frame matrices

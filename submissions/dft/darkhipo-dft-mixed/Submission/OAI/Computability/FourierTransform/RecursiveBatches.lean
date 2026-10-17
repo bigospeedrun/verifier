@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.RoleArrays
+import Submission.OAI.Computability.FourierTransform.RoleArrays
 
 namespace OAI
 namespace PowerSaving.RAM

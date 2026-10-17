@@ -1,4 +1,4 @@
-import Work.Block.Bridge
+import Submission.Work.Block.Bridge
 
 /-!
 # GFrame engine, part 1: the generalised word language (agent key: eng-ram)

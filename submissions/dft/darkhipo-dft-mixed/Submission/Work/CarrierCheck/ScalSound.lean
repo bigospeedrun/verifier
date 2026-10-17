@@ -1,6 +1,6 @@
-import Work.CarrierCheck.ScalDef
-import Work.CarrierCheck.Valid
-import Work.SharedSumChecker.Scalar
+import Submission.Work.CarrierCheck.ScalDef
+import Submission.Work.CarrierCheck.Valid
+import Submission.Work.SharedSumChecker.Scalar
 
 /-!
 # (key: carrier-check) Soundness of the scalar check of a carrier certificate

@@ -1,6 +1,6 @@
-import Work.Bridge401.GGeom
-import Work.Gauge.Iface
-import Work.GCert.Chain.End
+import Submission.Work.Bridge401.GGeom
+import Submission.Work.Gauge.Iface
+import Submission.Work.GCert.Chain.End
 
 /-!
 # (key: bridge401) THE END THEOREMS for the entrance-gauged nine-stage layout: gauged halves + bank schedule + rate fact

@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.RAM
+import Submission.OAI.Computability.FourierTransform.RAM
 
 namespace OAI
 

@@ -1,4 +1,4 @@
-import Work.Block.Split
+import Submission.Work.Block.Split
 
 /-!
 # Block moves, part 2: cutting an array into fibres along `r` directions at once

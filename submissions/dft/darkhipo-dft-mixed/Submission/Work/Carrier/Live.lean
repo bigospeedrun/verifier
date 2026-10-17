@@ -1,5 +1,5 @@
-import Work.Carrier.Pack
-import Work.Carrier.Ring
+import Submission.Work.Carrier.Pack
+import Submission.Work.Carrier.Ring
 
 /-!
 # (key: carrier-thm) The live roles of an invocation, and the four dirt gates as matrices

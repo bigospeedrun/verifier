@@ -1,6 +1,6 @@
-import Work.Combine.XInvocation
-import Work.Combine.Ranks
-import Work.SharedSumChecker.Circ
+import Submission.Work.Combine.XInvocation
+import Submission.Work.Combine.Ranks
+import Submission.Work.SharedSumChecker.Circ
 
 /-!
 # (key: combine) A checked certificate as a BLOCK route: one block per frame change

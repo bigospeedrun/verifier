@@ -1,4 +1,4 @@
-import Work.SharedSumChecker.PCert
+import Submission.Work.SharedSumChecker.PCert
 
 /-!
 # (key: combine) The label check of a certificate in SEGMENTS (definitions, core Lean only)

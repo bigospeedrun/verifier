@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.PowerTables
-import Work.FourierC588.WorkingPreparation
+import Submission.OAI.Computability.FourierTransform.PowerTables
+import Submission.Work.FourierC588.WorkingPreparation
 
 /-
 Modified copy of lean/OAI/Computability/FourierTransform/ArbitraryLength.lean of github.com/openai/math

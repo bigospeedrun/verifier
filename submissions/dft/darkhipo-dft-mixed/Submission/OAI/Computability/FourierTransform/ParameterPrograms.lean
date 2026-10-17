@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.WorkBounds
+import Submission.OAI.Computability.FourierTransform.WorkBounds
 
 namespace OAI
 

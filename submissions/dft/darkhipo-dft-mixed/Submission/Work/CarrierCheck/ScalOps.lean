@@ -1,4 +1,4 @@
-import Work.CarrierCheck.ScalRun
+import Submission.Work.CarrierCheck.ScalRun
 
 /-!
 # (key: carrier-check) The scalar check on ops, chunks and the scatter rows; the content matrix

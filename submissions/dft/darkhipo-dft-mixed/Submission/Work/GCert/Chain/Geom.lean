@@ -1,6 +1,6 @@
-import Work.GCert.Chain.NetCert
-import Work.GCert.Chain.WinB
-import Work.BridgeGeom.B2
+import Submission.Work.GCert.Chain.NetCert
+import Submission.Work.GCert.Chain.WinB
+import Submission.Work.BridgeGeom.B2
 
 /-!
 # (key: gx-chain) THE NETWORK LEMMA (spec statement 6): the bridged word B_2 delivers a `GCert`

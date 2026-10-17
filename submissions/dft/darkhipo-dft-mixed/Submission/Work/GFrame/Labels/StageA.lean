@@ -1,6 +1,6 @@
-import Work.GFrame.Labels.GCalc
-import Work.GFrame.Labels.Embed
-import Work.GFrame.Clifford.AltBlock
+import Submission.Work.GFrame.Labels.GCalc
+import Submission.Work.GFrame.Labels.Embed
+import Submission.Work.GFrame.Clifford.AltBlock
 
 /-!
 # GFrame labels, part 8 (key: eng-labels): STAGE A, complete

@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.WordCompilation
-import OAI.Computability.FourierTransform.DisjointIntervals
+import Submission.OAI.Computability.FourierTransform.WordCompilation
+import Submission.OAI.Computability.FourierTransform.DisjointIntervals
 
 namespace OAI
 

@@ -1,4 +1,4 @@
-import Work.FourierC588.ConvolutionProgram
+import Submission.Work.FourierC588.ConvolutionProgram
 
 /-
 Modified copy of lean/OAI/Computability/FourierTransform/UniformBounds.lean of github.com/openai/math

@@ -1,4 +1,4 @@
-import Work.GFrame.Labels.Calc
+import Submission.Work.GFrame.Labels.Calc
 
 /-!
 # GFrame labels, part 2 (key: eng-labels): schedules over ANY label system

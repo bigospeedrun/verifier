@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.LayerWords
-import OAI.Computability.FourierTransform.WordPrograms
+import Submission.OAI.Computability.FourierTransform.LayerWords
+import Submission.OAI.Computability.FourierTransform.WordPrograms
 
 namespace OAI
 

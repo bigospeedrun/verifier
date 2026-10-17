@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.TensorProgram
-import OAI.Computability.FourierTransform.PowerTables
+import Submission.OAI.Computability.FourierTransform.TensorProgram
+import Submission.OAI.Computability.FourierTransform.PowerTables
 
 /-!
 # Scratch file (key: framework) for "idea B": a Walsh-Hadamard corollary of `hills_program`

@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.RAM
-import OAI.Computability.FourierCircuit.Core
+import Submission.OAI.Computability.FourierTransform.RAM
+import Submission.OAI.Computability.FourierCircuit.Core
 
 namespace OAI
 

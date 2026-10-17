@@ -1,5 +1,5 @@
-import Work.Carrier.Phases
-import Work.GFrame.Labels.All
+import Submission.Work.Carrier.Phases
+import Submission.Work.GFrame.Labels.All
 
 /-!
 # (key: gx-chain) The certificate as two halves: `Scal` (scalar half) and `Lab` (label half)

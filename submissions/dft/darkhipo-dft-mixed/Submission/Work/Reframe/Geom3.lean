@@ -1,4 +1,4 @@
-import Work.Reframe.GeomBase
+import Submission.Work.Reframe.GeomBase
 
 /-!
 # (key: reframe) The label space `H ⊕ (Bool × H)` of the shared three-stage word (`m = 3h`)

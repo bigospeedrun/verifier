@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.PrimeSelection
+import Submission.OAI.Computability.FourierTransform.PrimeSelection
 
 namespace OAI
 

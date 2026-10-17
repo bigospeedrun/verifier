@@ -1,5 +1,5 @@
-import Work.GFrame.Top.Menu
-import Work.Reframe.Basic
+import Submission.Work.GFrame.Top.Menu
+import Submission.Work.Reframe.Basic
 
 /-!
 # GFrame, top (key: eng-integrate): API parity of `GRoute` with `XRoute`, for the network copy

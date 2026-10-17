@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.ColumnAddresses
+import Submission.OAI.Computability.FourierTransform.ColumnAddresses
 
 namespace OAI
 

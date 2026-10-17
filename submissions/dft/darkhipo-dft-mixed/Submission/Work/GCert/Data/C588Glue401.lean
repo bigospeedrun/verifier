@@ -1,10 +1,10 @@
-import Work.Gauge.Glue
-import Work.Bridge401.GGeom
-import Work.GCert.Data.C588Cert
-import Work.GCert.Data.C588ScalOK
-import Work.GCert.Data.Gen.C588EChk
-import Work.GCert.Data.InstC588
-import Work.GCert.Data.Gen.C588Sched
+import Submission.Work.Gauge.Glue
+import Submission.Work.Bridge401.GGeom
+import Submission.Work.GCert.Data.C588Cert
+import Submission.Work.GCert.Data.C588ScalOK
+import Submission.Work.GCert.Data.Gen.C588EChk
+import Submission.Work.GCert.Data.InstC588
+import Submission.Work.GCert.Data.Gen.C588Sched
 
 /-!
 # (key: gx-data) the gauged invocation package and the bank schedule of `GXD.C588` (PR #401 layout)

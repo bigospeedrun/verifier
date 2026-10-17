@@ -1,4 +1,4 @@
-import Work.Bridge401.GNetStage
+import Submission.Work.Bridge401.GNetStage
 
 /-!
 # (key: bridge-401) The certificate of the nine-stage word with entrance gauges and residual banks (PR #401)

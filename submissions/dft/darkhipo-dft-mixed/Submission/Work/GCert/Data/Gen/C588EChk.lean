@@ -1,5 +1,5 @@
-import Work.Gauge.ECheck
-import Work.GCert.Data.Gen.C588Gl
+import Submission.Work.Gauge.ECheck
+import Submission.Work.GCert.Data.Gen.C588Gl
 set_option maxRecDepth 100000
 namespace GXD.C588
 open GXD

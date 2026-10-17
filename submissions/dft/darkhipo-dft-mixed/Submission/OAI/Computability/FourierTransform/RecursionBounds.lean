@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.TensorAlgorithm
+import Submission.OAI.Computability.FourierTransform.TensorAlgorithm
 
 namespace OAI
 

@@ -1,5 +1,5 @@
-import Work.FourierC588.SynchronizedAlgorithm
-import OAI.Computability.FourierTransform.ChineseRemainder
+import Submission.Work.FourierC588.SynchronizedAlgorithm
+import Submission.OAI.Computability.FourierTransform.ChineseRemainder
 
 /-
 Modified copy of lean/OAI/Computability/FourierTransform/WorkingTransform.lean of github.com/openai/math

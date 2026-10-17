@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.DirectionalWords
+import Submission.OAI.Computability.FourierTransform.DirectionalWords
 
 namespace OAI
 

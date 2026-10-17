@@ -1,4 +1,4 @@
-import Work.Carrier.Scat
+import Submission.Work.Carrier.Scat
 
 /-!
 # (key: carrier-thm) From the live roles to all roles of an invocation (scratch copies)

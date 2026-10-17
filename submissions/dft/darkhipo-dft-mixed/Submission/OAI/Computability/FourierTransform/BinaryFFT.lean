@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.DisjointIntervals
+import Submission.OAI.Computability.FourierTransform.DisjointIntervals
 
 namespace OAI
 

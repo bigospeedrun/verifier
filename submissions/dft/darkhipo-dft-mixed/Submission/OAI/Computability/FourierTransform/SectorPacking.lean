@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.TensorIndexing
-import OAI.Computability.FourierTransform.Cost
+import Submission.OAI.Computability.FourierTransform.TensorIndexing
+import Submission.OAI.Computability.FourierTransform.Cost
 
 namespace OAI
 

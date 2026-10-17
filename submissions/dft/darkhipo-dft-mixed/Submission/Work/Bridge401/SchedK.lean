@@ -1,4 +1,4 @@
-import Work.Bridge401.Sched
+import Submission.Work.Bridge401.Sched
 
 /-!
 # (key: bridge-401) A bank schedule as data, checked by the kernel (`schedK`)

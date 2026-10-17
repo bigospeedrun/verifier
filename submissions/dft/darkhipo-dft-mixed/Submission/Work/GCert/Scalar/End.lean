@@ -1,4 +1,4 @@
-import Work.GCert.Scalar.Fin
+import Submission.Work.GCert.Scalar.Fin
 
 /-!
 # (key: gx-scalar) Final test, contents at the start and at the end, equality of tries

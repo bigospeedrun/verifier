@@ -1,4 +1,4 @@
-import Work.GFrame.Clifford.Base
+import Submission.Work.GFrame.Clifford.Base
 
 /-!
 # GFrame / Clifford, part 12 (STAGE B): any two subspaces of one base; the complement rule

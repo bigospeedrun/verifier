@@ -1,5 +1,5 @@
-import Work.CarrierCheck.CCert
-import Work.Combine.Chunks
+import Submission.Work.CarrierCheck.CCert
+import Submission.Work.Combine.Chunks
 
 /-!
 # (key: carrier-check) What the label check and the shape check of a carrier certificate give

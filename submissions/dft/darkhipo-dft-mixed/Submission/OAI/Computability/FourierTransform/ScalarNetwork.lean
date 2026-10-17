@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.NetworkRoles
+import Submission.OAI.Computability.FourierTransform.NetworkRoles
 
 namespace OAI
 

@@ -45,7 +45,20 @@ width unification padding, the ghost-free mirror fix, and the E1 proof
 extension (ggeom401Tbl, bridge401_gcertTbl, dispatchTbl).
 
 Previous bound: shea256/jeremykothe2 at 2466337/2000000000 (δ = 0.0012331685).
-This submission: 20099/16000000 (δ = 0.0012561875), a +1.8668% improvement.
+This submission: 123316855/100000000000 (δ = 0.00123316855), a +0.0000041% improvement.
 -/
 
-import Work.FourierC588.Main
+import Submission.Work.FourierC588.Main
+
+open OAI OAI.PowerSaving Filter Asymptotics
+
+/-- **The claimed saving.** `123316855/10^11` = 0.00123316855, strictly above the standing
+record `12331685/10^10` = 0.0012331685 and strictly below the construction's certified
+exponent delta `12331686/10^10` (the gap `alphaC588 < decimalExponentC588` is what absorbs
+the `(log log n)^2` reduction overhead in `flight_littleC588`). -/
+theorem Race.bound : ∃ order solve W, DFTProgram order solve W ∧
+    (fun n : ℕ => (W n : ℝ)) =O[atTop]
+      (fun n : ℕ => (n : ℝ) * (Real.log (n : ℝ)) ^ (1 - (123316855 : ℝ) / 100000000000)) := by
+  obtain ⟨order, solve, W, hprog, hbounds⟩ := transform_mainC588
+  refine ⟨order, solve, W, hprog, ?_⟩
+  exact hbounds.2.1

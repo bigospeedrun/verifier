@@ -1,4 +1,4 @@
-import Work.GCert.Scalar.End
+import Submission.Work.GCert.Scalar.End
 
 /-!
 # (key: gx-scalar) Accepted replays as propositions: items, segments, `XRun`, `YRun`

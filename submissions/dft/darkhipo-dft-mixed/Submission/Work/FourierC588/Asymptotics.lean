@@ -1,4 +1,4 @@
-import Work.FourierC588.UniformBounds
+import Submission.Work.FourierC588.UniformBounds
 
 /-
 Modified copy of lean/OAI/Computability/FourierTransform/Asymptotics.lean of github.com/openai/math

@@ -1,4 +1,4 @@
-import Work.GFrame.Clifford.Entry
+import Submission.Work.GFrame.Clifford.Entry
 
 /-!
 # GFrame / Clifford, part 6 (STAGE B): two representatives of the SAME subspace

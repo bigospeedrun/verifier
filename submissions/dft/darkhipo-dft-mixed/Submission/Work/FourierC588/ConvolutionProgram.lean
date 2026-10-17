@@ -1,4 +1,4 @@
-import Work.FourierC588.TransformProgram
+import Submission.Work.FourierC588.TransformProgram
 
 /-
 Modified copy of lean/OAI/Computability/FourierTransform/ConvolutionProgram.lean of github.com/openai/math

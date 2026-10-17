@@ -1,4 +1,4 @@
-import Work.BlockAccounting.Moment
+import Submission.Work.BlockAccounting.Moment
 
 /-!
 # Block lists given step by step (agent key: block-accounting)

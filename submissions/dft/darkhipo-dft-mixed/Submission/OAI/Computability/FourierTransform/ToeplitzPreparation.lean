@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.ScalarPreparation
-import OAI.Computability.FourierTransform.ToeplitzUpdates
+import Submission.OAI.Computability.FourierTransform.ScalarPreparation
+import Submission.OAI.Computability.FourierTransform.ToeplitzUpdates
 
 namespace OAI
 

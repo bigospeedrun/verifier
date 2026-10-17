@@ -1,4 +1,4 @@
-import Work.Bridge.Inv
+import Submission.Work.Bridge.Inv
 
 /-!
 # (key: bridge-net) The BRIDGED five-stage network B_2 with shared helper sets, abstract form

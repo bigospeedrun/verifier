@@ -1,5 +1,5 @@
-import Work.GFrame.Labels.Quad
-import Work.GFrame.Labels.Sched
+import Submission.Work.GFrame.Labels.Quad
+import Submission.Work.GFrame.Labels.Sched
 
 /-!
 # GFrame labels, part 5 (key: eng-labels): STAGE A labels, climbs and frame maps

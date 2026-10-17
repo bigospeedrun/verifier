@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.Main
+import Submission.OAI.Computability.FourierTransform.Main
 
 /-!
 # Scratch file (key: scratch-arrays): the family-130 tensor engine with scratch roles

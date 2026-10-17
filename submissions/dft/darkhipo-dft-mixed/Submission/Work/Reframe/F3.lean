@@ -1,5 +1,5 @@
-import Work.Reframe.GeomNet
-import Work.Combine.XCirc
+import Submission.Work.Reframe.GeomNet
+import Submission.Work.Combine.XCirc
 
 /-!
 # (key: reframe) The shared three-stage word F3: block certificate for ANY checked helper circuit

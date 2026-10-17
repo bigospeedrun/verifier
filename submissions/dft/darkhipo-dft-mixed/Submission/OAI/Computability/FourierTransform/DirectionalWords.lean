@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.BinaryFrames
+import Submission.OAI.Computability.FourierTransform.BinaryFrames
 
 namespace OAI
 

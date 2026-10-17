@@ -1,5 +1,5 @@
-import Work.GCert.Scalar.Id
-import Work.CarrierCheck.Scat
+import Submission.Work.GCert.Scalar.Id
+import Submission.Work.CarrierCheck.Scat
 
 /-!
 # (key: gx-scalar) Live roles, gate products, scatter matrices of a `gcert/1` certificate

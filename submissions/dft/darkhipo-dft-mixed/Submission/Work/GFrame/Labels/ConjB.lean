@@ -1,4 +1,4 @@
-import Work.GFrame.Labels.BXMap
+import Submission.Work.GFrame.Labels.BXMap
 
 /-!
 # GFrame labels, part 15 (key: eng-labels): the STAGE B frame map of the bridged geometry

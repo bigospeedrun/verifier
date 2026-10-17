@@ -1,4 +1,4 @@
-import Work.Bridge.Net
+import Submission.Work.Bridge.Net
 
 /-!
 # (key: bridge-net) The certificate of the BRIDGED five-stage network B_2

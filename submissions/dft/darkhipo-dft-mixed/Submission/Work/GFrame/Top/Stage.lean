@@ -1,5 +1,5 @@
-import Work.GFrame.Top.Api
-import Work.Reframe.SNet
+import Submission.Work.GFrame.Top.Api
+import Submission.Work.Reframe.SNet
 
 /-!
 # GFrame, top (key: eng-integrate): a stage of generalised invocations

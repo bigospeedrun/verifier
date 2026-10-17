@@ -1,4 +1,4 @@
-import Work.Bridge.Roles
+import Submission.Work.Bridge.Roles
 
 /-!
 # (key: bridge-net) The invocation as an abstract package, and a stage of such invocations

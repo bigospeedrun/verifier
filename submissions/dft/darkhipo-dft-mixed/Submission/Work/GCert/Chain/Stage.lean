@@ -1,6 +1,6 @@
-import Work.GCert.Chain.InvThm
-import Work.Bridge.Cert
-import Work.GFrame.Top.Stage
+import Submission.Work.GCert.Chain.InvThm
+import Submission.Work.Bridge.Cert
+import Submission.Work.GFrame.Top.Stage
 
 /-!
 # (key: gx-chain) Network combinators on `GRoute`, and a stage of generalised invocations

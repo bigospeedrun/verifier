@@ -1,4 +1,4 @@
-import Work.GFrame.Labels.StageBFull
+import Submission.Work.GFrame.Labels.StageBFull
 
 /-!
 # GFrame labels, part 14 (key: eng-labels): STAGE B frame maps (label space ≠ address space)

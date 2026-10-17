@@ -1,4 +1,4 @@
-import Work.GFrame.Labels.Calc
+import Submission.Work.GFrame.Labels.Calc
 
 /-!
 # GFrame labels, part 3 (key: eng-labels): quadratic phases (STAGE A mathematics)

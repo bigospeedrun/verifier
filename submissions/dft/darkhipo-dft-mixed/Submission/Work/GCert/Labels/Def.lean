@@ -1,5 +1,5 @@
-import Work.GCert.Data.Raw
-import Work.Combine.SplitDef
+import Submission.Work.GCert.Data.Raw
+import Submission.Work.Combine.SplitDef
 
 /-!
 # (key: gx-labels) The label check of a `gcert/1` certificate: kernel terms (core Lean only)

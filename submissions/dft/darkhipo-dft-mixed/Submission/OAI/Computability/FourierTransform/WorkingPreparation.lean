@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.RootPreparation
-import OAI.Computability.FourierTransform.WorkingCompiler
+import Submission.OAI.Computability.FourierTransform.RootPreparation
+import Submission.OAI.Computability.FourierTransform.WorkingCompiler
 
 namespace OAI
 

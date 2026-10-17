@@ -1,4 +1,4 @@
-import Work.FourierC588.ArbitraryLength
+import Submission.Work.FourierC588.ArbitraryLength
 
 /-
 Modified copy of lean/OAI/Computability/FourierTransform/TransformProgram.lean of github.com/openai/math

@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.Asymptotics
-import OAI.Computability.FourierTransform.RegisterBounds
+import Submission.OAI.Computability.FourierTransform.Asymptotics
+import Submission.OAI.Computability.FourierTransform.RegisterBounds
 
 namespace OAI
 

@@ -1,5 +1,5 @@
-import Work.GCert.Data.Price
-import Work.GCert.Data.Gen.C588Hist
+import Submission.Work.GCert.Data.Price
+import Submission.Work.GCert.Data.Gen.C588Hist
 
 /-!
 # (key: gx-data) gcert/1 certificate `C588` (h = 9): the price of one invocation

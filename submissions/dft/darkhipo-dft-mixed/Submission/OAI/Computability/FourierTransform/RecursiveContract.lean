@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.RecursiveBatches
+import Submission.OAI.Computability.FourierTransform.RecursiveBatches
 
 namespace OAI
 namespace PowerSaving.RAM

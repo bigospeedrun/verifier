@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.NewtonFactorization
+import Submission.OAI.Computability.FourierTransform.NewtonFactorization
 
 namespace OAI
 

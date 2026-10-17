@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.ChineseRemainder
+import Submission.OAI.Computability.FourierTransform.ChineseRemainder
 
 namespace OAI
 

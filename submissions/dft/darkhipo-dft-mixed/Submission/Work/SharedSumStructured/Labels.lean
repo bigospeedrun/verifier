@@ -1,4 +1,4 @@
-import Work.SharedSumStructured.GPath
+import Submission.Work.SharedSumStructured.GPath
 
 /-!
 # (key: shared-sum-structured) Single-factor labels as projectors, and their two lifts

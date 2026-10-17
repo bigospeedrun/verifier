@@ -1,4 +1,4 @@
-import Work.GCert.Scalar.Main
+import Submission.Work.GCert.Scalar.Main
 
 /-!
 # (key: gauge-401) The E7 kernel check: a gauged slot never reaches a y role

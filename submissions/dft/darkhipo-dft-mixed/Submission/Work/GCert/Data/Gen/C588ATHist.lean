@@ -1,5 +1,5 @@
-import Work.GCert.Data.Count
-import Work.GCert.Data.Gen.C588AT
+import Submission.Work.GCert.Data.Count
+import Submission.Work.GCert.Data.Gen.C588AT
 /-! Kernel count of the BLOCK RANKS of the gcert/1 certificate `GXD.C588AT.raw` (h = 9) on the explicit rank lists
 `rA`, `rB`, `rF` (phase A, phase B, final climbs): `wsumK (SSC.wEq r) l 0` blocks of rank `r`, none above 8
 (`GXD.sum_of_wsumK` turns a count into `(l.map wt).sum` = `SSC.wsum wt l`).

@@ -1,4 +1,4 @@
-import Work.SharedSumStructured.Network
+import Submission.Work.SharedSumStructured.Network
 
 /-!
 # (key: shared-sum-structured) From the two-stage network to a scratch certificate and the engine

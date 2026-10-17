@@ -1,4 +1,4 @@
-import Work.CarrierCheck.ScalSound
+import Submission.Work.CarrierCheck.ScalSound
 
 /-!
 # (key: carrier-check) The scalar check runs the gates of the micro-program

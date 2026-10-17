@@ -1,4 +1,4 @@
-import OAI.Computability.FourierTransform.MeasuredFit
+import Submission.OAI.Computability.FourierTransform.MeasuredFit
 
 namespace OAI
 

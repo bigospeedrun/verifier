@@ -1,6 +1,6 @@
-import Work.GFrame.Labels.Embed
-import Work.Reframe.Geom3
-import Work.BridgeGeom.Blocks
+import Submission.Work.GFrame.Labels.Embed
+import Submission.Work.Reframe.Geom3
+import Submission.Work.BridgeGeom.Blocks
 
 /-!
 # GFrame labels, part 10 (key: eng-labels): the frame maps of the bridged geometry are `GXMap`s

@@ -1,5 +1,5 @@
-import Work.GCert.Chain.Win
-import Work.Carrier.PhasedInv
+import Submission.Work.GCert.Chain.Win
+import Submission.Work.Carrier.PhasedInv
 
 /-!
 # (key: gx-chain) The generalised invocation package `GInv`, and the pieces of the carrier word

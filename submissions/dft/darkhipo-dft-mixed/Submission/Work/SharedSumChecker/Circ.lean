@@ -1,5 +1,5 @@
-import Work.SharedSumChecker.Mats
-import Work.SharedSumChecker.PCert
+import Submission.Work.SharedSumChecker.Mats
+import Submission.Work.SharedSumChecker.PCert
 
 /-!
 # Shared-sum checker: a kernel-checked certificate gives a `Circuit` of

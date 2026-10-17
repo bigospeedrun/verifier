@@ -1,4 +1,4 @@
-import Work.Block.Paths
+import Submission.Work.Block.Paths
 
 /-!
 # Block moves, part 11: sanity lemmas, convenience lemmas and a plumbing instance

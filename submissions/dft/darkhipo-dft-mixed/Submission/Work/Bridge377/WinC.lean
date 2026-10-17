@@ -1,5 +1,5 @@
-import Work.GCert.Chain.Win
-import Work.BridgeC.Stage
+import Submission.Work.GCert.Chain.Win
+import Submission.Work.BridgeC.Stage
 
 /-!
 # (key: bridge-377) The windows of the compressed geometry `LC B H l` (PR #377)

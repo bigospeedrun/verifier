@@ -1,4 +1,4 @@
-import Work.CarrierCheck.Valid
+import Submission.Work.CarrierCheck.Valid
 
 /-!
 # (key: carrier-check) The live roles of a carrier certificate as a type

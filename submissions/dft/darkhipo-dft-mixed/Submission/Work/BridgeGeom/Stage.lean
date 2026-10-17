@@ -1,5 +1,5 @@
-import Work.BridgeGeom.Blocks
-import Work.Combine.XG
+import Submission.Work.BridgeGeom.Blocks
+import Submission.Work.Combine.XG
 
 /-!
 # (key: bridge-geom) Stages, bank frames and climbs on the label space `H ⊕ (B × H)`

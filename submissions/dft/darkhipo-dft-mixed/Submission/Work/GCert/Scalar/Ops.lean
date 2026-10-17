@@ -1,4 +1,4 @@
-import Work.GCert.Scalar.Step
+import Submission.Work.GCert.Scalar.Step
 
 /-!
 # (key: gx-scalar) The kernel check on gates, chunks and scatter rows runs the list of adds

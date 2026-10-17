@@ -1,4 +1,4 @@
-import Work.SharedSumChecker.Phase
+import Submission.Work.SharedSumChecker.Phase
 
 /-!
 # Shared-sum checker: labelled micro-programs give a `Route` of the scratch engine

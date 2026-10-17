@@ -1,5 +1,5 @@
-import Work.Reframe.SNet
-import Work.BlockApply.Copies
+import Submission.Work.Reframe.SNet
+import Submission.Work.BlockApply.Copies
 
 /-!
 # (key: bridge-net) Roles of the BRIDGED word: TWO bank pairs per class

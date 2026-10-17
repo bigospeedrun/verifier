@@ -1,4 +1,4 @@
-import Work.Carrier.Phases
+import Submission.Work.Carrier.Phases
 
 /-!
 # (key: carrier-thm) THE CARRIER INVOCATION THEOREM (general scope): `Phased.inv`

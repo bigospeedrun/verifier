@@ -1,6 +1,6 @@
-import Work.FourierC588.Seam
-import OAI.Computability.FourierTransform.SectorPrograms
-import OAI.Computability.FourierTransform.SectorIdentities
+import Submission.Work.FourierC588.Seam
+import Submission.OAI.Computability.FourierTransform.SectorPrograms
+import Submission.OAI.Computability.FourierTransform.SectorIdentities
 
 /-
 Modified copy of lean/OAI/Computability/FourierTransform/SectorAlgorithm.lean of github.com/openai/math

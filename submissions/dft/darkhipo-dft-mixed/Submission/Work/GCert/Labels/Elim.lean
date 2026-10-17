@@ -1,6 +1,6 @@
-import Work.SharedSumChecker.Impl
-import Work.GCert.Labels.Bits
-import Work.GCert.Labels.Canon
+import Submission.Work.SharedSumChecker.Impl
+import Submission.Work.GCert.Labels.Bits
+import Submission.Work.GCert.Labels.Canon
 
 /-!
 # (key: gx-labels) Soundness of the packed elimination and of the frame-table check

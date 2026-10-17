@@ -1,4 +1,4 @@
-import Work.GCert.Chain.Inv
+import Submission.Work.GCert.Chain.Inv
 
 /-!
 # (key: gx-chain) THE CARRIER INVOCATION THEOREM on the generalised engine: `Lab.inv`

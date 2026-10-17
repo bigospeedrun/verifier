@@ -1,4 +1,4 @@
-import Work.Reframe.GeomBase
+import Submission.Work.Reframe.GeomBase
 
 /-!
 # (key: bridge-geom) The label space `H ⊕ (B × H)` for ANY finite block index `B` (`m = (|B|+1) h`)

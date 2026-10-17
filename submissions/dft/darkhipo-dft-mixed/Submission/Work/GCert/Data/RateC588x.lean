@@ -1,4 +1,4 @@
-import Work.BlockAccounting.Moment
+import Submission.Work.BlockAccounting.Moment
 set_option maxRecDepth 4000
 namespace OAI.PowerSaving.BlockAccounting
 open Finset

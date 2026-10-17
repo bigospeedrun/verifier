@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.ToeplitzCompiler
-import OAI.Computability.FourierTransform.FourierWords
+import Submission.OAI.Computability.FourierTransform.ToeplitzCompiler
+import Submission.OAI.Computability.FourierTransform.FourierWords
 
 namespace OAI
 

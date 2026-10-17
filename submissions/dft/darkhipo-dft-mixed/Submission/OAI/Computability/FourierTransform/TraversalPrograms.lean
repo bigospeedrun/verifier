@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.PrefixTraversal
-import OAI.Computability.FourierTransform.WorkBounds
+import Submission.OAI.Computability.FourierTransform.PrefixTraversal
+import Submission.OAI.Computability.FourierTransform.WorkBounds
 
 namespace OAI
 

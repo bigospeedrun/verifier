@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.SynchronizedAlgorithm
-import OAI.Computability.FourierTransform.ChineseRemainder
+import Submission.OAI.Computability.FourierTransform.SynchronizedAlgorithm
+import Submission.OAI.Computability.FourierTransform.ChineseRemainder
 
 namespace OAI
 

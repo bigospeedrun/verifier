@@ -1,7 +1,7 @@
-import Work.BridgeGeom.Net
-import Work.Bridge.Cert
-import Work.Reframe.F3
-import Work.Combine.XCirc
+import Submission.Work.BridgeGeom.Net
+import Submission.Work.Bridge.Cert
+import Submission.Work.Reframe.F3
+import Submission.Work.Combine.XCirc
 
 /-!
 # (key: bridge-geom) The bridged word B_2: block certificate for ANY checked helper circuit

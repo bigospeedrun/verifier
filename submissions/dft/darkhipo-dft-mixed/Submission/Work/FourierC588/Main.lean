@@ -1,6 +1,6 @@
-import Work.FourierC588.Asymptotics
-import OAI.Computability.FourierTransform.RegisterBounds
-import Work.FourierC588.Goal
+import Submission.Work.FourierC588.Asymptotics
+import Submission.OAI.Computability.FourierTransform.RegisterBounds
+import Submission.Work.FourierC588.Goal
 
 /-
 Modified copy of lean/OAI/Computability/FourierTransform/Main.lean of github.com/openai/math

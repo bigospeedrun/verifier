@@ -1,5 +1,5 @@
-import Work.GCert.Chain.NetStage
-import Work.GFrame.Top.Assemble
+import Submission.Work.GCert.Chain.NetStage
+import Submission.Work.GFrame.Top.Assemble
 
 /-!
 # (key: gx-chain) The bridged word B_2 on the generalised engine: the certificate `GCert`

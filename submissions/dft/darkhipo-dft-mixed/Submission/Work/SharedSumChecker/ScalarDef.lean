@@ -1,4 +1,4 @@
-import Work.SharedSumChecker.PCert
+import Submission.Work.SharedSumChecker.PCert
 
 /-!
 # Shared-sum checker: the kernel check of the scalar identity `J L V = 1` (functions)

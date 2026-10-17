@@ -1,5 +1,5 @@
-import Work.Gauge.ECheck
-import Work.GCert.Data.Gen.C588ATGl
+import Submission.Work.Gauge.ECheck
+import Submission.Work.GCert.Data.Gen.C588ATGl
 set_option maxRecDepth 1000000
 set_option maxHeartbeats 2000000
 namespace GXD.C588AT

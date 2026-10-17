@@ -1,5 +1,5 @@
-import Work.SharedSumChecker.Bits
-import Work.GCert.Labels.Def
+import Submission.Work.SharedSumChecker.Bits
+import Submission.Work.GCert.Labels.Def
 
 /-!
 # (key: gx-labels) Bits of the packed numbers of the label check

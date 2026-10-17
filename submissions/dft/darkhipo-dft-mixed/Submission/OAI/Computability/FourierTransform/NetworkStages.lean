@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.NetworkInvocation
-import OAI.Computability.FourierTransform.FrameLifting
+import Submission.OAI.Computability.FourierTransform.NetworkInvocation
+import Submission.OAI.Computability.FourierTransform.FrameLifting
 
 namespace OAI
 

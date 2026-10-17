@@ -1,5 +1,5 @@
-import OAI.Computability.FourierTransform.RootPreparation
-import Work.FourierC588.WorkingCompiler
+import Submission.OAI.Computability.FourierTransform.RootPreparation
+import Submission.Work.FourierC588.WorkingCompiler
 
 /-
 Modified copy of lean/OAI/Computability/FourierTransform/WorkingPreparation.lean of github.com/openai/math

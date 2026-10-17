@@ -1,5 +1,5 @@
-import Work.GFrame.Engine.Letters
-import Work.BlockApply.Exact
+import Submission.Work.GFrame.Engine.Letters
+import Submission.Work.BlockApply.Exact
 
 /-!
 # GFrame engine, part 7: free matrices and one-role steps (agent key: eng-ram)

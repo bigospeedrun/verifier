@@ -1,4 +1,4 @@
-import Work.Carrier.Live
+import Submission.Work.Carrier.Live
 
 /-!
 # (key: carrier-thm) Live roles: the scatter without copies, and the two shears

@@ -1,4 +1,4 @@
-import Work.GCert.Scalar.Scat
+import Submission.Work.GCert.Scalar.Scat
 
 /-!
 # (key: gx-scalar) Parameters, first contents, final test, equality of tries
