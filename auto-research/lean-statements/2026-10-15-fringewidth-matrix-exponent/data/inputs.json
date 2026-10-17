@@ -1,0 +1,32 @@
+{
+  "base_commit": "51489ee2ac82596a41375e92ea8108814f931242",
+  "seed": 11,
+  "chosen_candidate": "matrix-exponent",
+  "site_commit": "385a74b2ae2eb51b9fd07674fd60070921100820",
+  "source_commit": "fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb",
+  "source_git_blob": "877d7ee3901c51382cf5bcb059a50d8dbb3cde77",
+  "mathlib_commit": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "manifest_git_blob": "e482097fe44d3d747b31881ad5e329786531be6a",
+  "upstream_license_git_blob": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+  "candidates": [
+    {
+      "task": "matrix-exponent",
+      "decision": "selected",
+      "reason": "Existing byte-identical circuit model already exposes AdmissibleExponent; the track explicitly lists the missing parameterized target."
+    },
+    {
+      "task": "van-der-waerden",
+      "decision": "deferred",
+      "reason": "A separate uniformity/strict-bound contract and finiteness review of the natural-number infimum are needed."
+    },
+    {
+      "task": "unit-distance-grid",
+      "decision": "rejected",
+      "reason": "PlanarUnitDistances.lean bounds the global extremal unit-distance count; it does not state the final-grid certificate quantity tracked by this row."
+    }
+  ],
+  "selection_note": "No earlier track packages at the base; only proof PR 10 was open. Candidates were not tied; seed assigned the track.",
+  "site_snapshot_note": "The single chat-knowledge.json request was cached at 2026-10-13 and truncated before matrix data. The matrix record was checked against data/matrix-multiplication.json at the pinned site commit.",
+  "github_access_note": "Initial source reads used the GitHub connector and were checked against blob IDs. After shell network access was enabled, validation and submission used a full clone at the pinned base commit."
+}

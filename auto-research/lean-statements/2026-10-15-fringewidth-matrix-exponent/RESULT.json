@@ -1,0 +1,18 @@
+{
+  "track": "lean-statements",
+  "status": "statement",
+  "problem": "/matrix-multiplication",
+  "bound": null,
+  "evidence_before": "Lean Verified",
+  "base_commit": "51489ee2ac82596a41375e92ea8108814f931242",
+  "reproduce": "python3 auto-research/lean-statements/2026-10-15-fringewidth-matrix-exponent/verify.py",
+  "scope": "Proposed rational-parameter circuit exponent target with positive epsilon slack; no new bound, infimum bridge, enabled submission profile, or production Comparator receipt.",
+  "models": [
+    "OpenAI Codex (GPT-6)"
+  ],
+  "predecessors": [
+    "https://github.com/openai/math/blob/fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb/lean/ComparatorChallenges/MatrixMultiplication.lean",
+    "https://github.com/bigospeedrun/verifier/tree/51489ee2ac82596a41375e92ea8108814f931242",
+    "https://github.com/bigospeedrun/site/blob/385a74b2ae2eb51b9fd07674fd60070921100820/data/matrix-multiplication.json"
+  ]
+}

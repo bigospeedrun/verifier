@@ -1,0 +1,17 @@
+Excerpt from the successful GitHub Actions run 38687970915, job 116267101362.
+The three sorry warnings belong to the unchanged upstream challenge placeholders.
+
+2026-10-15T05:39:40.1217123Z PASS: package manifest, unchanged upstream model/license/dependency pins, challenge hashes
+2026-10-15T05:40:54.5545721Z + lake env lean -o .lake/build/lib/lean/MatrixMultiplication.olean MatrixMultiplication.lean
+2026-10-15T05:40:59.9286744Z MatrixMultiplication.lean:118:8: warning: declaration uses `sorry`
+2026-10-15T05:40:59.9287267Z MatrixMultiplication.lean:122:8: warning: declaration uses `sorry`
+2026-10-15T05:40:59.9287754Z MatrixMultiplication.lean:126:8: warning: declaration uses `sorry`
+2026-10-15T05:41:00.1525307Z + lake env lean -DwarningAsError=true -o .lake/build/lib/lean/Statement.olean Statement.lean
+2026-10-15T05:41:04.5169106Z + lake env lean -DwarningAsError=true Checks.lean
+2026-10-15T05:41:08.8227142Z 'BigOSpeedrun.MatrixMultiplication.Bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-15T05:41:08.8227610Z 'BigOSpeedrun.MatrixMultiplication.bound_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-15T05:41:08.8227995Z 'BigOSpeedrun.MatrixMultiplication.Bound.mono' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-15T05:41:08.8228312Z 'scalar_correct' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-15T05:41:08.8228664Z 'scalar_cost' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-15T05:41:08.8229249Z PASS: Lean statement, rational substitution, wrong-bound type check, monotonicity, scalar circuit, allowed axioms
+2026-10-15T05:41:08.8229598Z SCOPE: statement validation only; no production Comparator receipt or new matrix bound

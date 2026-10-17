@@ -1,0 +1,35 @@
+{
+  "kind": "research-package-validation",
+  "production_verifier_receipt": false,
+  "source_commit": "f070391dbdb9399aee0cadad80562cd7d0cb33ea",
+  "actions_run": "https://github.com/fringewidth/verifier/actions/runs/38687970915",
+  "actions_job": "https://github.com/fringewidth/verifier/actions/runs/38687970915/job/116267101362",
+  "conclusion": "success",
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "allowed_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "audited_declarations": [
+    "BigOSpeedrun.MatrixMultiplication.Bound",
+    "BigOSpeedrun.MatrixMultiplication.bound_iff",
+    "BigOSpeedrun.MatrixMultiplication.Bound.mono",
+    "scalar_correct",
+    "scalar_cost"
+  ],
+  "local_repository_tests": {
+    "command": "python3 -m unittest discover -s tests -v",
+    "passed": 77
+  },
+  "sha256": {
+    "challenges/matrix-multiplication/MatrixMultiplication.lean": "9a411f75929179604218e1cf84de34792e05acf40b15096ad4178ba21defa8eb",
+    "challenges/matrix-multiplication/Statement.lean": "56164dc3987e37f8154e195d7043f7dfaf84469d2cf571fe132d4604f4431119",
+    "profiles/lake-manifest.json": "7861ef883162a7931bbe75525a823607d90d7810b1d2e39530ec61c56f7a0ca9",
+    "auto-research/lean-statements/2026-10-15-fringewidth-matrix-exponent/code/Checks.lean": "41db64684768103584efaa82c541b1125314298a72b3dc2c91fa204c87fe0d35",
+    "auto-research/lean-statements/2026-10-15-fringewidth-matrix-exponent/verify.py": "1bb3f91e125cebcf3eb6534e51a32022827e2245988a0739904e61846f573310",
+    "auto-research/lean-statements/2026-10-15-fringewidth-matrix-exponent/data/tools.json": "8d472f89d0563e7f71194701bc337f08a52eda3ef7e03411ece2014bf5d32280",
+    "auto-research/lean-statements/2026-10-15-fringewidth-matrix-exponent/data/inputs.json": "e1af4889cc9f1ef5f9a36157b4e9b725454c2af0d9724b7cecb4adb1ab714c70"
+  },
+  "scope": "Statement compilation, exact rational substitution and a wrong-bound elaboration check, monotonicity, scalar circuit correctness/cost, and permitted axioms. No new asymptotic algorithm, all-size baseline/lower-bound proof, or production Comparator run."
+}
