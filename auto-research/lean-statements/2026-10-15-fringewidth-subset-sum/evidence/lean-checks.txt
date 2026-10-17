@@ -1,0 +1,25 @@
+Local run on the contributor's machine (Darwin arm64, elan 4.2.4, Lean 4.33.1), from a copy of
+challenges/subset-sum/Statement.lean and code/Checks.lean. Same output as verify.py --lean expects.
+
+$ lean +leanprover/lean4:v4.33.1 -o Statement.olean Statement.lean
+(no output)
+$ LEAN_PATH=. lean +leanprover/lean4:v4.33.1 Checks.lean
+some true
+none
+some false
+some false
+some true
+8
+some false
+some true
+20
+42
+1
+3
+4
+'BigOSpeedrun.SubsetSum.SolvedInTime' depends on axioms: [propext, Quot.sound]
+'bigO_49_100' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BigO.mono' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SolvedInTime.mono' depends on axioms: [propext, Classical.choice, Quot.sound]
+'accept_correct' depends on axioms: [propext, Quot.sound]
+'reject_not_correct' depends on axioms: [propext, Quot.sound]
