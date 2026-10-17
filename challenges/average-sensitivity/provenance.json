@@ -1,0 +1,14 @@
+{
+  "source_repository": "https://github.com/openai/math",
+  "source_commit": "1581d4cbdd69a0faf34b2089614fe2a814316a6a",
+  "original_path": "lean/OAI/Combinatorics/GotsmanLinial/Model.lean",
+  "local_path": "OAI/Combinatorics/GotsmanLinial/Model.lean",
+  "git_blob": "fe42ea84d4bf21bee7da1491674254a125f46c5b",
+  "sha256": "babc05672496b5525c163c87b9945597754a46f3fb89c98ab43e06fa52ba7f0d",
+  "byte_identical": true,
+  "source_author": "OpenAI",
+  "license": "Apache-2.0",
+  "adapter_author": "Anchen0823 with OpenAI Codex assistance",
+  "lean": "leanprover/lean4:v4.33.1",
+  "mathlib": "0df444a360eaa60ab8c11dca51a86af692955474"
+}

@@ -1,0 +1,13 @@
+Average-sensitivity trusted statement proposal
+
+The unchanged OAI/Combinatorics/GotsmanLinial/Model.lean is authored by OpenAI,
+from openai/math commit 1581d4cbdd69a0faf34b2089614fe2a814316a6a, original path
+lean/OAI/Combinatorics/GotsmanLinial/Model.lean. It is Apache-2.0 licensed.
+
+Statement.lean is a separate parameterized board-target adapter, authored by
+Anchen0823 in 2026 with assistance from OpenAI Codex, under Apache-2.0.
+
+The existing coefficient-eight proposition in the upstream model is not
+assumed proved. No proof or new coefficient is supplied as part of this trusted
+statement proposal. The separately linked coefficient-3.762 proof retains its
+own attribution to OpenAI and to Prathmesh Lagdive, Vaibhav Aglave, Suraj Damre.
