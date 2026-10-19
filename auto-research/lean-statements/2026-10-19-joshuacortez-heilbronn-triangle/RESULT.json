@@ -1,0 +1,19 @@
+{
+  "track": "lean-statements",
+  "status": "statement",
+  "problem": "/other/heilbronn-triangle",
+  "bound": null,
+  "evidence_before": "Claimed",
+  "base_commit": "1e009d7adeb43a1ddffe8b8148be4bebba69e720",
+  "reproduce": "bash auto-research/lean-statements/2026-10-19-joshuacortez-heilbronn-triangle/verify.sh",
+  "scope": "Proposes a parameterized trusted statement Bound η for Δ(n) ≥ c·n^(-2+η) for all large n, and proves Bound 0, monotonicity and ¬Bound η for η > 2; it proves no board record.",
+  "models": [
+    "Claude Opus 5.5"
+  ],
+  "predecessors": [
+    "https://github.com/openai/math/blob/1581d4cbdd69a0faf34b2089614fe2a814316a6a/lean/OAI/Geometry/HeilbronnTriangle/Definitions.lean",
+    "https://github.com/openai/math/blob/1581d4cbdd69a0faf34b2089614fe2a814316a6a/lean/ComparatorChallenges/HeilbronnTriangle.lean",
+    "https://github.com/openai/math/blob/1581d4cbdd69a0faf34b2089614fe2a814316a6a/preprints/A-power-improvement-in-the-Heilbronn-triangle-lower-bound-September-25-2026/build/sections/01-introduction.tex",
+    "https://github.com/littleBro/heilbronn-triangle-bounds/tree/45738785a8877fddf268a36ac7f3703d510be55e"
+  ]
+}

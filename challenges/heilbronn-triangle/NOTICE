@@ -1,0 +1,14 @@
+Heilbronn triangle statement for Big O Speedrun
+
+OAI/Geometry/HeilbronnTriangle/Definitions.lean
+  Copyright OpenAI. Licensed under the Apache License, Version 2.0 (LICENSE).
+  Source: https://github.com/openai/math
+  Commit: 1581d4cbdd69a0faf34b2089614fe2a814316a6a
+  Path:   lean/OAI/Geometry/HeilbronnTriangle/Definitions.lean
+  Copied byte for byte, without modification.
+
+Statement.lean
+  New parameterized adapter for https://bigospeedrun.com/other/heilbronn-triangle.
+  Licensed under the Apache License, Version 2.0 (LICENSE).
+  Prepared with assistance from Claude (Anthropic). It does not modify the
+  OpenAI definitions, and OpenAI did not author the parameterization.

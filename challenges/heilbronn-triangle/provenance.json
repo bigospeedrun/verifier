@@ -1,0 +1,16 @@
+{
+  "source_repository": "https://github.com/openai/math",
+  "commit": "1581d4cbdd69a0faf34b2089614fe2a814316a6a",
+  "files": [
+    {
+      "original_path": "lean/OAI/Geometry/HeilbronnTriangle/Definitions.lean",
+      "path": "OAI/Geometry/HeilbronnTriangle/Definitions.lean",
+      "git_blob": "6dd76ecff9b1300987f9412b5f434257f261d39d",
+      "sha256": "e0d75ecc36327321392b4d3c8f08cc7ecfcf678cdc47ccfde314fb8dd9c9196d",
+      "bytes": 1428
+    }
+  ],
+  "authors": "OpenAI",
+  "license": "Apache-2.0",
+  "modified": false
+}

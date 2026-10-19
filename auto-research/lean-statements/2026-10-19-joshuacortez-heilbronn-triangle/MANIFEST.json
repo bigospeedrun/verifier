@@ -1,0 +1,17 @@
+{
+  "algorithm": "sha256",
+  "sha256": {
+    "Axioms.lean": "18764d9e13643efddbafe7807ab111f032a34e67be8cf49268c743f27139c05a",
+    "NOTICE.md": "4d9951d968e20b35f9884f590d0fc4180527f978859075de1db47e308596522d",
+    "README.md": "586f66690593078b17dcc8c3b1027e4917bee5a68cf387559bd8c89710cb5723",
+    "RESULT.json": "10ff70aaafd0c09b52391bb06d18104a348c08dcada883703303c6f31d14c5d6",
+    "VacuityCheck.lean": "517f5e8fc44b4603884c83fdde97b2dad566dbcd4558676aa36c7cdaf6d42864",
+    "challenges/heilbronn-triangle/LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "challenges/heilbronn-triangle/NOTICE": "0dbe4f972c8df52dd4dea42329b54c5b33da48ce261d071f12c1673e4faacdf0",
+    "challenges/heilbronn-triangle/OAI/Geometry/HeilbronnTriangle/Definitions.lean": "e0d75ecc36327321392b4d3c8f08cc7ecfcf678cdc47ccfde314fb8dd9c9196d",
+    "challenges/heilbronn-triangle/README.md": "92b2ef3463e98940e54a24acb7c88831783d2c623f510eb2b924e850f31c480b",
+    "challenges/heilbronn-triangle/Statement.lean": "512410d50823a099599f662fe5e15462ed6d89df36e7363799ec4a3e14aebfcb",
+    "challenges/heilbronn-triangle/provenance.json": "dce1cae3a6e28b40b39b7389c6a32b4dda24b36f87bdb501bcbed45991054418",
+    "verify.sh": "c3f9471e16b39f7fedbd031632d705bf00569b228aacfa63a927c66ec92a1e5d"
+  }
+}
