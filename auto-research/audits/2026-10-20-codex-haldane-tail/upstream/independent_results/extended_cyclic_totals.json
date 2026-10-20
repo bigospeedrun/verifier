@@ -1,0 +1,101 @@
+[
+  {
+    "n": 4,
+    "twist": 2,
+    "total": "8190246225517783004759644777485",
+    "multiplicity_sum": 81,
+    "maximum_coordinate_row_l1": 38,
+    "beta": "49/4",
+    "Q": 36028797018963968,
+    "J": 280,
+    "last_nonzero": 191
+  },
+  {
+    "n": 5,
+    "twist": 2,
+    "total": "2693291159342545327435485061654",
+    "multiplicity_sum": 243,
+    "maximum_coordinate_row_l1": 39,
+    "beta": "49/4",
+    "Q": 36028797018963968,
+    "J": 280,
+    "last_nonzero": 191
+  },
+  {
+    "n": 6,
+    "twist": 2,
+    "total": "860650384027084112474479308518",
+    "multiplicity_sum": 729,
+    "maximum_coordinate_row_l1": 40,
+    "beta": "49/4",
+    "Q": 36028797018963968,
+    "J": 280,
+    "last_nonzero": 191
+  },
+  {
+    "n": 7,
+    "twist": 2,
+    "total": "265131169820378879552587299220",
+    "multiplicity_sum": 2187,
+    "maximum_coordinate_row_l1": 41,
+    "beta": "49/4",
+    "Q": 36028797018963968,
+    "J": 280,
+    "last_nonzero": 191
+  },
+  {
+    "n": 8,
+    "twist": 2,
+    "total": "81081029277408532450480307339",
+    "multiplicity_sum": 6561,
+    "maximum_coordinate_row_l1": 42,
+    "beta": "49/4",
+    "Q": 36028797018963968,
+    "J": 280,
+    "last_nonzero": 191
+  },
+  {
+    "n": 9,
+    "twist": 2,
+    "total": "24519558668727710577876630675",
+    "multiplicity_sum": 19683,
+    "maximum_coordinate_row_l1": 43,
+    "beta": "49/4",
+    "Q": 36028797018963968,
+    "J": 280,
+    "last_nonzero": 191
+  },
+  {
+    "n": 10,
+    "twist": 2,
+    "total": "7399348338706828248627175652",
+    "multiplicity_sum": 59049,
+    "maximum_coordinate_row_l1": 44,
+    "beta": "49/4",
+    "Q": 36028797018963968,
+    "J": 280,
+    "last_nonzero": 191
+  },
+  {
+    "n": 11,
+    "twist": 2,
+    "total": "2223793314645334293227896360",
+    "multiplicity_sum": 177147,
+    "maximum_coordinate_row_l1": 47,
+    "beta": "49/4",
+    "Q": 36028797018963968,
+    "J": 280,
+    "last_nonzero": 191
+  },
+  {
+    "n": 12,
+    "twist": 2,
+    "total": "667861400490847837671025281",
+    "multiplicity_sum": 531441,
+    "maximum_coordinate_row_l1": 54,
+    "beta": "49/4",
+    "Q": 36028797018963968,
+    "J": 280,
+    "last_nonzero": 191
+  }
+]

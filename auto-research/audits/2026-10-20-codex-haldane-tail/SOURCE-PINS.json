@@ -1,0 +1,28 @@
+{
+  "repository": "https://github.com/amachino/haldane-gap-refinement",
+  "commit": "15909bdc15e947795b6fba946008dd8530bb3477",
+  "files_sha256": {
+    "sector_bounds.py": "210fbee3c0b93ed21636e0ce221469109421b278d0af2327f43984501a04d2ae",
+    "verify_gap_improvement.py": "674a59dccfa16b6db5e496a0017d510ab0972a88a1fd9990dd226dbaf2185d94",
+    "verify_local_energy.py": "6065a32654a65b102ef76eef0ab7f9315bd9e4073112c9cc244cefeba6f2b72a",
+    "verify_quarter_traces.py": "fcb06d250f19d0ce12c9fb997140553a1e6aac29f7b7924dec23ac53277db1ce",
+    "verify_octahedral_sectors.py": "c481924dca92f5da6e7091b21b5d537d6f8d592047649cd653abb9c9381e2f57",
+    "thermal_error_bounds.py": "8e91d0a84f3961e50e29eee9e73196b08a689e28a8a8c0a981f9e7b64b24f6b8",
+    "verify_extended_cyclic.py": "8366c4083b14709671992cfd574fecaf88a82f6938f71ae952d6aee609a201a9",
+    "verify_quarter_refinement.py": "6ac34f6542f52b4b7564be2b9bf1f5279177032c24f1a58725425688e3ab4e2f",
+    "independent_results/quarter_filters.json": "4712cd15f625af877059d059c44dfae2553b000c4a514259b142afe36808a95f",
+    "independent_results/quarter_moment_polynomials.json": "2f3bd057061da6532e451854dbd6324ca4c83299a0b3c1286e7662648b948485",
+    "independent_results/trial84.json": "ee4e404a90701d14bbcbf6787d0c05d75967f813830f3fbbd0f23ab391b9f7f3",
+    "independent_results/quarter_twist_totals.json": "d9b009a8828d14cb35b2eb1eed5817e464da6df3a4807b0817711359cb658e7a",
+    "independent_results/extended_cyclic_totals.json": "fd0357c11d6ae5f501e8af16167d67b38c189c063f9bdacadba710d7ce581c1f",
+    "source/verification/computations/evidence/source1/thermal-run/interval-summary.json": "4df3a07e1dcf673fd0569d86e229d4fbc7494594a1ff3dba7320fb1b1ac5ad5c",
+    "source/verification/computations/evidence/source1/error-bounds.json": "15c2114fc92db607476981d509cde9c03790f5c7acc93819b45b1abe36ecac35",
+    "LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "NOTICE": "e8cf3371fd772441186b4dfca0fa6ea889fd020d8992e8dbe6a946e52552698e",
+    "AUTHORSHIP.md": "c764151d8d94fd51f74379f3bf053e4cb8c05ffac4ad72cd7aa001e836a99f00",
+    "paper/note.tex": "bc93c0f40e5d416873c211c97961b5eaa160137acb2d15585b23d955326101fa",
+    "paper/quarter.tex": "6ac010245c3e7c0aaba726eefce3c5c16e81c60f5aef841d8a387c1b596bbbb0"
+  },
+  "upstream_openai_commit": "adc7f1241b42e322a6451854ab7e4b4c146bf78a",
+  "verifier_base_commit": "1e009d7adeb43a1ddffe8b8148be4bebba69e720"
+}

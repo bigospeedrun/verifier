@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-20",
+  "python_version": "3.15.0",
+  "command": "python3 auto-research/audits/2026-10-20-codex-haldane-tail/verify.py --baseline",
+  "baseline": {
+    "bound": "303/2000",
+    "named_checks": 381,
+    "finite_intervals": 7,
+    "tail_start": 32256,
+    "status": "pass"
+  },
+  "tightened": {
+    "bound": "1517/10000",
+    "named_checks": 381,
+    "finite_intervals": 7,
+    "tail_start": 32256,
+    "generated_certificate_matches_recorded_evidence": true,
+    "status": "pass"
+  },
+  "negative_check": {
+    "bound": "1517/10000",
+    "old_C": "6",
+    "old_B": "15/2",
+    "old_tail_accepts": false
+  },
+  "scope": "Exact scalar replay and written tail refinement conditional on pinned analytic and finite-input premises. No Lean proof or independent verification of those premises."
+}

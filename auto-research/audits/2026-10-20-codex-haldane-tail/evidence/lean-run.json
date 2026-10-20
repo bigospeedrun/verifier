@@ -1,0 +1,64 @@
+{
+  "status": "success",
+  "scope": "Lean kernel check of ten added scalar tail theorems and an independent exponential enclosure. The physical transfer argument, finite-length certificate and original finite inputs are outside this formalization.",
+  "full_haldane_statement_lean_verified": false,
+  "run_url": "https://github.com/yashpote/verifier/actions/runs/39406404335",
+  "run_id": 39406404335,
+  "proof_commit": "38d67aef630b1db61b2f5bc6f06fef5c0e89e6e4",
+  "toolchain": "leanprover/lean4:v4.34.1",
+  "lean_release_sha256": "47bf4bbd78f70c2e9670598ab7124d92b6efb7330ff33e5fbb4030f6fd72e4e4",
+  "mathlib_commit": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+  "source_sha256": "6c4ca67a522fac49c5880bc53ed7e66f24e40e9786cd2041c6bc40b15256efca",
+  "axioms": {
+    "strengthened_step": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "purity_floor": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "interpolation_constants": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "tail_geometric": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "conditional_gap": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "invariant_domain": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "final_tail_comparison": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "final_tail_comparison_real": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "final_exp_upper": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "final_exponential_comparison": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  }
+}

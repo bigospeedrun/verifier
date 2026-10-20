@@ -1,0 +1,40 @@
+{
+  "updatedAt": "2026-10-20T06:17:22Z",
+  "row": {
+    "path": "/other/haldane-gap",
+    "title": "Spin-one Haldane gap",
+    "aliases": [
+      "haldane gap",
+      "spin one haldane gap"
+    ],
+    "openaiFamily": "268",
+    "rankedQuantity": "\\gamma_L\\text{ at }J=1",
+    "better": "A higher value is better.",
+    "statement": "The quantity is the uniform periodic spin-one spectral-gap lower bound \\(\\gamma_L\\) at \\(J=1\\), compared on the original domain of even \\(L\\ge2304\\). A higher lower bound is better. The claim assumes the cited OpenAI spatial-transfer identities and certified finite inputs. The extension to every integer \\(L\\ge24\\) is listed under Relevant repos.",
+    "baseline": {
+      "bound": "\\gamma_L>\\log(20)/784",
+      "source": "https://github.com/openai/math/blob/adc7f1241b42e322a6451854ab7e4b4c146bf78a/preprints/The-periodic-spin-one-Haldane-gap-September-24-2026/paper.pdf",
+      "date": "2026-10-06"
+    },
+    "current": {
+      "bound": "\\gamma_L>0.1515",
+      "exactValue": "0.1515",
+      "conditions": "",
+      "evidence": "Claimed",
+      "authors": [
+        "amachino"
+      ],
+      "date": "2026-10-07",
+      "source": "https://github.com/amachino/haldane-gap-refinement/blob/15909bdc15e947795b6fba946008dd8530bb3477/README.md",
+      "proofScope": "No Lean proof is supplied."
+    },
+    "claimCount": 1,
+    "relevantRepos": [
+      {
+        "name": "amachino/haldane-gap-refinement",
+        "url": "https://github.com/amachino/haldane-gap-refinement",
+        "note": "The extension includes every integer length at least 24."
+      }
+    ]
+  }
+}

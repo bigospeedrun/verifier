@@ -1,0 +1,17 @@
+{
+  "track": "audits",
+  "status": "audit",
+  "problem": "/other/haldane-gap",
+  "bound": "1517/10000",
+  "evidence_before": "Claimed",
+  "base_commit": "1e009d7adeb43a1ddffe8b8148be4bebba69e720",
+  "reproduce": "python3 auto-research/audits/2026-10-20-codex-haldane-tail/verify.py",
+  "scope": "Conditional gamma_L > 1517/10000 and unique ground state for all integer L >= 24 at J=1, with exact scalar replay and Lean-checked new tail lemmas and exponential enclosure, retaining the predecessor analytic and finite-input assumptions outside the Lean proof.",
+  "models": [
+    "Codex GPT-6"
+  ],
+  "predecessors": [
+    "https://github.com/amachino/haldane-gap-refinement/tree/15909bdc15e947795b6fba946008dd8530bb3477",
+    "https://github.com/openai/math/tree/adc7f1241b42e322a6451854ab7e4b4c146bf78a"
+  ]
+}

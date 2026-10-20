@@ -1,0 +1,1335 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype,amsmath,amssymb,amsthm,booktabs}
+\usepackage[margin=26mm]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\hypersetup{pdftitle={Exact-arithmetic refinements of periodic spin-one Haldane-gap bounds},
+pdfauthor={GPT-6 Astra Max (OpenAI)},
+pdfsubject={Conditional gap lower bound with an exact rational certificate},
+pdfkeywords={spin-one Heisenberg chain, Haldane gap, purity bootstrap, exact arithmetic}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\DeclareMathOperator{\Tr}{Tr}
+\newcommand{\gap}{\gamma}
+\newcommand{\commit}{\texttt{adc7f1241b42e322a6451854ab7e4b4c146bf78a}}
+\title{Exact-arithmetic refinements\\[0.15em]
+of periodic spin-one Haldane-gap bounds}
+\author{GPT-6 Astra Max\\[0.25em]\normalsize OpenAI model acting as an autonomous research agent}
+\date{8 October 2026 \quad | \quad Version 1.7.0}
+\begin{document}
+\maketitle
+\begin{abstract}
+We prove, conditional on the cited OpenAI spatial-transfer and finite-input
+results, that the periodic spin-one Heisenberg chain has a unique ground
+state and $\gap_L>303/2000=0.1515$ for every integer $L\ge24$, at coupling
+$J=1$, including odd lengths. New quarter-turn thermal traces resolve
+the octahedral representation into four lists. Conjugacy of the physical
+half-turns supplies an additional moment identity and effective spatial
+multiplicities $1,4,5,3$. Eight full-ray filters, 117 full-interval moment
+polynomials, and a newly contracted 84-site trial sharpen the input to
+the retained recurrence. The exact certificate has 381 named checks,
+39 individually checked main-range lengths, seven finite intervals,
+and an infinite tail. Smaller bounds are $0.063$ for all integer $L\ge18$,
+$0.119$ for $L\ge20$, and $0.145$ for $L\ge22$.
+Earlier proofs and their records are retained. The work is unreviewed;
+priority, optimality, a formal proof, and an independent proof of the
+upstream analytic premises are not claimed.
+\end{abstract}
+
+\section{Statement and dependencies}
+Consider the periodic spin-one Heisenberg Hamiltonian
+\[
+ H_L=\sum_{j=0}^{L-1}\mathbf S_j\cdot\mathbf S_{j+1},
+ \qquad \mathbf S_L=\mathbf S_0,
+\]
+with coupling $J=1$ and integer $L\ge4$. Let $\gap_L$ denote the
+difference between the ground energy and the next distinct energy.
+Set $Z_L(b)=\Tr e^{-b(H_L+aLI)}$, where $a=700741/500000$, and
+\begin{equation}\label{eq:purities}
+ S(n,b)=\frac{Z_{2n}(b)}{Z_n(b)^2},\qquad
+ T(n,b)=\frac{Z_n(2b)}{Z_n(b)^2}.
+\end{equation}
+The shift cancels from both ratios. Throughout, references to both
+OpenAI manuscripts mean the same fixed upstream revision listed below.
+Terminating decimals used in inequalities denote exact rational numbers.
+The physical purity $T(n,b)$ is defined for every integer $n\ge4$.
+We use $S(n,b)$ as a spatial probability purity only when the reference
+length $n$ is even. Signed spatial traces, in contrast, are available
+at odd lengths too.
+
+\newpage
+\input{quarter.tex}
+\input{resolved.tex}
+\section{Retained version 1.5 sector refinement}
+\begin{theorem}\label{thm:sector}
+Assume the spatial-transfer and sector identities in
+\cite[Section 3]{upstream}, its certified thermal enclosures and
+120-site trial input, and the integer trial calculation below.
+At coupling $J=1$, the periodic spin-one chain has a unique ground state and
+\[
+ \boxed{\gap_L>\frac{27}{250}=0.108\quad\text{for every integer }L\ge32.}
+\]
+In addition, the respective strict bounds $0.03,0.05,0.07,0.08,0.09,0.10$
+hold at every integer length at least $20,22,24,26,28,30$.
+Separately, $\gap_{18}>0.03$, with a unique ground state.
+In particular, $\liminf_{L\to\infty}\gap_L\ge0.108$ over all integer
+lengths. Multiply the bounds by $J$ for positive coupling $J$.
+\end{theorem}
+
+The advance in version 1.5 was to retain the $I$, $O$, and $N$ sector information
+through each temperature doubling, as well as in the initialization.
+Joint moment inequalities improve the starting estimates. The sector
+identities, polynomial-filter principle, capped-mass principle, and
+physical-purity squaring inequality are from \cite{upstream}.
+The recurrence below and its explicit certificate were developed in
+this investigation. The proof remains conditional and unreviewed.
+
+\subsection{Sharper enclosures and simultaneous moment certificates}
+Throughout this section $b_*=49/4$. Instead of rounding every published
+thermal value to an error of $30\times10^{-6}$, retain the individual
+rational endpoints already supplied by \cite[Appendix B]{upstream}.
+For its integer total $W_{n,g}$, put $r=\lfloor\sqrt{W_{n,g}}\rfloor$,
+$Q_*=2^{55}$, $d_n=\lfloor\sqrt{3^n}\rfloor+1$, and
+$E_n=d_n[281(d_n+1)+1]$. With $x_n=(3/2-a)b_*n$ and
+\[
+ s_n=\sum_{k=0}^{100}\frac{x_n^k}{k!},\qquad t_n=\frac{x_n^{100}}{100!},
+\]
+the endpoints are
+\[
+ \frac{s_n(r-E_n)^2}{Q_*^2}\le Z_n(b_*,g)
+ \le\frac{(s_n+t_n)(r+1+E_n)^2}{Q_*^2}.
+\]
+Here $r>E_n$ and $0<x_n<15$. The omitted exponential tail is less
+than $t_nx_n/(101-x_n)<t_n$. Directed use of
+$J_n=(Z_n+3Z_n(P))/4$ and $N_n=(Z_n-Z_n(P))/4$ gives the sector
+intervals used by the checker. Their widths vary substantially with $n$.
+For example, the half-widths for $J_4$ and $J_{12}$ are approximately
+$5.73\times10^{-11}$ and $1.174\times10^{-5}$. These decimal displays
+are explanatory; the endpoint fractions determine acceptance.
+
+Applying the existing nonnegative filters $x^4P(x)^2$ with the following
+quartics gives
+\begin{equation}\label{eq:sector-caps}
+ |\mu_J|<U=1.0013391,\qquad -V<\mu_N<W,
+ \qquad V=.8710311,\quad W=.750234.
+\end{equation}
+The coefficient vectors, ordered from constant term to degree four, are
+\begin{align*}
+ P_J &: (689352,1861863,-27942647,-19230627,100000000),\\
+ P_{N,-} &: (1203899,1417731,-39524642,-3930710,100000000),\\
+ P_{N,+} &: (777722,-10520987,-31434317,57385029,100000000).
+\end{align*}
+For $P_J$, every coefficient of $P_J(\pm(U+y))$ is positive.
+The analogous assertion holds for $P_{N,-}(-(V+y))$ and
+$P_{N,+}(W+y)$. At each endpoint the filter exceeds its summed upper
+bound, obtained by selecting the appropriate moment interval endpoint
+for each coefficient sign. Thus exclusion holds on the entire exterior
+rays, not merely at a finite sample.
+
+Next let $d\nu_A=\sum_{\mu\in A}\mu^4\delta_\mu$ for $A=J,N$.
+This finite positive measure has moments $A_4,\ldots,A_{12}$.
+For a polynomial $q(x)=\sum_{j=0}^8c_jx^j$, a pointwise bound
+$q(x)\ge x^{m-4}$ on the appropriate support implies
+\[
+ A_m\le\sum_{j=0}^8c_j A_{j+4}.
+\]
+A minorant gives the reverse inequality. This remains valid for odd
+$m$: the integrating measure is positive, although the objective can
+have either sign. The fixed rational coefficient vectors and their
+endpoint sums are in \path{independent_results/moment_polynomials.json}.
+They were proposed by numerical linear optimization; the optimizer is
+not used in the certificate.
+
+To prove the polynomial inequalities on a continuum, map each support
+interval to $[0,1]$ and express the difference in the Bernstein basis
+$\binom{d}{j}t^j(1-t)^{d-j}$. These basis functions are nonnegative and
+sum to one, so nonnegative coefficients suffice. Exact de Casteljau
+bisection applies this test to both halves whenever necessary; finitely
+many accepted leaves cover the original interval. The checker rejects
+any unproved branch. All coefficients and subdivision operations are
+rational. Capped-mass bounds from $J_{12},N_{12}$ and
+\eqref{eq:sector-caps} are retained whenever they are sharper or a
+polynomial of the requested order is not supplied.
+
+\subsection{A sector residual bound and the initial state}
+Suppose an even reference order $m$ has total mass at most $D$,
+$I$ mass at most $A$, and $J=I+2O$ mass at most $B$, with
+$0<A\le B\le D$. A unique largest moment weight $s$ must be in $I$,
+since the other lists occur two or three times. After removing it,
+write $x$ for the $I$ residual mass, $y$ for the twice-counted $O$ mass,
+and $z$ for the three-times-counted $N$ mass. Then
+\[
+ x\le A-s,\quad x+y\le B-s,\quad x+y+z\le D-s.
+\]
+For $r\ge1$, the residual moment of relative order $r$ is at most
+\begin{equation}\label{eq:sector-R}
+ \mathcal R_r(s;D,A,B)=
+ \max_{(x,y)\in\mathcal V_s}
+ \{x^r+2(y/2)^r+3((D-s-x-y)/3)^r\},
+\end{equation}
+where
+\[
+ \mathcal V_s=\{(0,0),(A-s,0),(A-s,B-A),(0,B-s)\}.
+\]
+Indeed the uncapped moment inequality applies within each list.
+Increasing $z$ to the allowed remaining mass only increases its power.
+The resulting function of $(x,y)$ is convex on the polygon defined by
+the first two constraints, whose four vertices are displayed.
+This also proves the countable-list case by absolute summability.
+
+For $D/2<s\le A$, each vertex expression in
+$s^r+\mathcal R_r(s)$ is increasing in $s$ (strictly if $r>1$).
+Its derivative compares $s^{r-1}$ with a residual term no larger than
+$(D-s)^{r-1}$. Thus its maximum is increasing too. For $s\ge v>D/2$,
+$\mathcal R_r(s)\le\mathcal R_r(v)$: shrinking the allowed residual
+polygon cannot increase the original optimization. These observations
+justify both the leading-weight comparison and the residual estimate.
+
+Write $M_J(m),M_N(m)$ for the certified upper bounds and $m_N(m)$ for
+the lower bound at $b_*$. For $t\ge1$, physical positivity gives
+$Z_m(tb_*,g)\le Z_m(b_*,g)^t$ for each twist $g$.
+These are partition functions of twisted self-adjoint Hamiltonians,
+not signed Gibbs expectations. Since at even order
+$Z(P)=J-N$ and $Z(C)=I-O\le J$, valid caps at $tb_*$ are
+\begin{align*}
+ D&=(M_J(m)+3M_N(m))^t,&
+ E_P&=(M_J(m)-m_N(m))^t, &E_C&=M_J(m)^t,\\
+ A&=(D+3E_P+8E_C)/12,& B&=(D+3E_P)/4.
+\end{align*}
+All powers and caps in the implementation are enclosed outward.
+The 120-site trial implies $Z_{120}(tb_*)>1$.
+If $2(D/2)^{120/m}<1$, capped mass therefore forces a unique leading
+moment weight above $D/2$. It lies in $I$. A candidate $v$ with
+\begin{equation}\label{eq:sector-v}
+ D/2<v\le\min(1,A),\qquad
+ v^{120/m}+\mathcal R_{120/m}(v;D,A,B)<1
+\end{equation}
+forces $\lambda(tb_*)^m>v$. The dominant spatial eigenvalue is positive:
+if it were negative, the absolutely convergent signed trace at large
+odd lengths would be negative, contradicting the positive physical
+partition function. No odd-chain gap is presumed.
+
+For the main seed take $m=26$, $t=11/5$, and even reference $n=44$.
+At order $n$, divide the residual bounds by $v^{n/m}$ to obtain
+\begin{align*}
+ i&\ge (A-v)^{n/m}/v^{n/m},\\
+ j&\ge\max\{2((B-v)/2)^{n/m},
+                (A-v)^{n/m}+2((B-A)/2)^{n/m}\}/v^{n/m},\\
+ r&\ge\mathcal R_{n/m}(v;D,A,B)/v^{n/m}.
+\end{align*}
+Thus $i,j,r$ bound, respectively, the normalized $I$ residual,
+$J$ residual, and full residual at $(n,b)=(44,539/20)$.
+
+The same published $26$-dimensional integer matrix triple is newly
+contracted at length $88$. Put $V_{88}=\Tr(T^{88})$ and
+$U_{88}=\Tr(T^{86}O)$ as in \cite[Appendix C]{upstream}.
+The recorded integers satisfy
+\[
+ V_{88}>0,\qquad 500000U_{88}+700741V_{88}<0,
+ \qquad U_{88}/V_{88}\simeq-1.4014821054306783.
+\]
+Hence $Z_{88}(b)>1$ for all $b>0$. The new contraction is independently
+reconstructed from the published entry recipe; a four-site direct
+wavefunction calculation checks its norm and bond-energy convention.
+Full integers are in \path{independent_results/trial88.json};
+\path{verify_trial88.py} recomputes them using integer matrices.
+
+If $Z_{88}(b_*)\le M$, its largest physical Boltzmann weight exceeds
+one, and the remaining weights have sum less than $M-1$. Raising them
+to $t\ge1$ therefore gives
+\[
+ T(88,tb_*)\ge[1+(M-1)^t]^{-2}.
+\]
+This supplies the physical defect $q$. No assumed physical excitation
+multiplicity enters this bound.
+
+\subsection{Retaining the sectors through doubling}
+At even $(n,b)$, let the positive leading eigenvalue be $\lambda$.
+Suppose $i\le j\le r$ are upper bounds for the three normalized residual
+masses just defined, and $1-T(2n,b)\le q$. Then
+\[
+ Z_n(b)\le\lambda^n(1+r),\quad
+ Z_n(b,P)\le\lambda^n(1+j),\quad
+ Z_n(b,C)\le\lambda^n(1+i).
+\]
+Squaring each positive physical partition function bounds its value
+at $2b$. In units $\lambda^{2n}$ the new caps are
+\begin{align*}
+ D&=(1+r)^2=1+d_D,\\
+ B&=[(1+r)^2+3(1+j)^2]/4=1+d_J,\\
+ A&=[(1+r)^2+3(1+j)^2+8(1+i)^2]/12=1+d_I.
+\end{align*}
+On the other hand, the sum of squares of the new $n$th-moment weights is
+\[
+ \frac{Z_{2n}(2b)}{\lambda^{4n}}
+ =T(2n,b)\left(\frac{Z_{2n}(b)}{\lambda^{2n}}\right)^2
+ \ge1-q.
+\]
+When $D^2/2<1-q$, there is again a unique leading weight above $D/2$.
+For $h>0$, let $v=1-h>D/2$ and define
+\begin{align*}
+ R(h)=\max\{& (d_D+h)^2/3,\ (d_I+h)^2+(d_D-d_I)^2/3,\\
+            & (d_I+h)^2+(d_J-d_I)^2/2+(d_D-d_J)^2/3,\\
+            & (d_J+h)^2/2+(d_D-d_J)^2/3\}.
+\end{align*}
+This is \eqref{eq:sector-R} at relative order two. The strict comparison
+\begin{equation}\label{eq:sector-h}
+ q+R(h)<2h-h^2
+\end{equation}
+forces $\lambda(2b)^n/\lambda(b)^{2n}>v$, by the same increasing-function
+argument as \eqref{eq:sector-v}. At the new reference $(2n,2b)$, we may use
+\begin{align*}
+ i_+&\ge(d_I+h)^2/v^2,\\
+ j_+&\ge\max\{(d_J+h)^2/2,(d_I+h)^2+(d_J-d_I)^2/2\}/v^2,\\
+ r_+&\ge R(h)/v^2,\qquad p_+=1-(1+r_+)^{-2},\\
+ q_+&\ge f\bigl(1-(1-q)^2(1-p_+)\bigr),\qquad
+ f(u)=u^2/[2(1-u)^2].
+\end{align*}
+The $r_+$ estimate implies $S(2n,2b)\ge(1+r_+)^{-2}$.
+The last line follows from the original partition-function cancellation
+and physical squaring proof: $T(4n,b)\ge(1-q)^2(1-p_+)$, followed by
+temperature doubling. Thus only the spatial part of the update is
+replaced. Upward rounding of $i_+,j_+,r_+,q_+$ preserves all bounds.
+
+\subsection{Finite lengths, infinite tail, and verification}
+Each recurrence step also bounds the residual moments at the same
+order $n$ at both temperatures:
+\[
+ R_b(n)\le r,\qquad R_{2b}(n)\le s:=(d_D+h)/v.
+\]
+Choose rational $c,\rho_0,\rho_1\in(0,1)$ with
+$c^n\le v$, $\rho_0^n\ge r$, and $\rho_1^n\ge s$.
+The signed trace argument gives, for every integer $n\le A\le L\le B$,
+\begin{equation}\label{eq:sector-interval}
+ T(L,b)\ge c^B
+ \frac{1-s\rho_1^{A-n}}{(1+r\rho_0^{A-n})^2},
+\end{equation}
+whenever the numerator is positive. This is the same-reference-order
+interpolation: no larger-moment upper bound is used to upper-bound a
+smaller moment.
+
+For shorter lengths, use \eqref{eq:sector-v} at $t=2$ and
+$m=18,20,22,24,26$. At every integer $L\ge m$ it gives
+\[
+ Z_L(2b_*)\ge v^{L/m}
+ -\mathbf1_{L\text{ odd}}\mathcal R_{L/m}(v;D,A,B).
+\]
+At even $L$, $M_J(L)+3M_N(L)$ bounds the denominator partition function.
+At odd $L$ one can discard the negative $N$ eigenvalues to obtain
+$J_L+3N_L\le M_J(L)+3N_{12}^{\rm up}W^{L-12}$; when available, a
+signed polynomial upper bound on $N_L$ is sharper. Dividing the
+numerator bound by the square of the denominator bound gives a
+purity lower bound $K$. The exact test
+$\exp(b\delta)<K/(1-K)$, together with $K>1/2$, proves a unique
+physical ground state and $\gap_L>\delta$.
+
+The certificate makes 237 named exact checks, in addition to its root
+and Bernstein-subdivision comparisons. It checks each length $32$ through
+$82$ separately at $b_*$, and covers the next lengths by the following
+intervals. The last column gives the recurrence index $k$, with
+$b_k=(539/20)2^k$.
+\begin{center}
+\begin{tabular}{rrr}
+\toprule First length & Last length & $k$\\ \midrule
+83&85&0\\86&99&0\\100&141&0\\142&221&1\\222&356&1\\
+357&727&2\\728&1508&3\\1509&3231&4\\3232&7417&5\\7418&16895&6\\
+\bottomrule
+\end{tabular}
+\end{center}
+Each adjacent pair $20,21$ through $30,31$ is checked at its respective
+smaller constant; combining these with the stronger bounds above it gives
+the stated all-integer ranges. The isolated length $18$ is checked too.
+The machine-readable record gives every parameter and verifies that the
+main finite cover omits no integer.
+After eight sector-resolved updates the reference is
+$n_0=11264$, $b_0=34496/5$. The checker verifies
+$p_0^3\le w_0^2$ and $q_0\le w_0$, for the recorded rational $w_0$.
+The retained asymmetric invariant \eqref{eq:adaptive-invariant} then
+applies with $w_+=6w^2$ and
+$T(L,b_k)\ge1-(15/2)w_k$ on $3n_k/2\le L\le3n_k$.
+Its dyadic intervals cover every integer $L\ge16896$.
+With a rational upper enclosure $E\ge\exp((27/250)b_0)$, the final tests are
+\[
+ 6Ew_0<1,\qquad E\frac{(15/2)w_0}{1-(15/2)w_0}<1.
+\]
+They prove the strict bound on the infinite tail, not just on a
+large finite sample. The finite checks and tail together prove
+Theorem~\ref{thm:sector}.
+
+The checker \path{verify_sector_refinement.py} uses only Python's
+standard library. Root evaluations merely propose rational parameters;
+every direction is proved by enclosing the corresponding integer
+power with rational arithmetic. Positive products are rounded outward
+on a $10^{-500}$ grid. The analytic arguments are not machine-formalized.
+The previous five certificates and their source dependencies are retained.
+
+\paragraph{Supplemental computations and limits of the search.}
+Three additional cyclic-twist traces at $b_*$ were computed at
+$n=6,8,10$ using the unmodified packed-integer recurrence in
+\cite[Appendix A]{upstream}, with Poisson mean $98$ replacing $84$.
+Their rational enclosures are, respectively,
+$.925305814\pm10^{-9}$, $.974160373\pm2\times10^{-8}$, and
+$.993475958\pm4\times10^{-7}$.
+For completeness, conditioning changes the contraction average by at
+most $2\,3^{98}/2^{257}$; the column-rounding error is at most
+$257(2\sqrt{3^n}+1)/2^{56}$. Multiplying by
+$\sqrt{e^{x_n}3^n}$ gives certified norm-error upper bounds
+$2.1\times10^{-10}$, $6\times10^{-9}$, and $1.8\times10^{-7}$.
+The computed scaled squared norms are below one, so the trace error
+is at most $2D+D^2$ for a norm-error bound $D$.
+The original contraction, representative-column, and packed-lane
+proofs are unchanged. These traces are separately reproducible and
+checked, but are not used in Theorem~\ref{thm:sector}.
+Temperature and reference-length searches, and attempts using these
+extra traces, are recorded in \path{RESEARCH_NOTES.md}. Their numerical
+decay rates are diagnostics, not upper bounds or optimality claims.
+
+\newpage
+\section{Retained version 1.4 spectral refinement}
+\begin{theorem}\label{thm:spectral}
+Assume the spatial-transfer representation and sector decomposition of
+\cite[Section 3]{upstream}, the thermal and trial inputs used in
+\cite[Section 5]{upstream}, and the periodic spectral conclusions of
+\cite[Proposition 3.4]{boundary}, at the pinned revision. Then
+\[
+ \boxed{\gap_L>\frac7{100}=0.07
+ \quad\text{for every integer }L\ge33,\qquad J=1,}
+\]
+and the ground state is unique on this range. Also $\gap_{32}>3/50$,
+with a unique ground state. Consequently $\gap_L>0.06$ for every integer
+$L\ge32$, and $\liminf_{L\to\infty}\gap_L\ge0.07$ over all integer
+lengths. For positive $J$, multiply these lower bounds by $J$.
+\end{theorem}
+
+This improves the version 1.3 constant by $1/6$, and includes the
+additional odd length $33$. All finite thermal and variational data
+are unchanged. The polynomial-filter and capped-mass principles below
+are already in \cite[Section 5]{upstream}; the new work is the filter
+coefficient selection, the sharper spectral estimates and reseeding,
+and their connection to the all-integer interpolation certificate.
+
+\subsection{A tighter filter and partition-function upper bounds}
+Put $b_*=49/4$. The spatial spectrum consists of a $J$ sector and three
+identical $N$ sectors. Let $j_k$ be the published center for $J_k$,
+$4\le k\le12$, with absolute error at most
+$\epsilon=30\times10^{-6}$. These centers are
+$(Z_k+3Z_k(P))/4$ from the thermal table in
+\cite[Lemma 5.1]{upstream}, and are recorded in the checker.
+Choose
+\begin{align*}
+ P(x)&=12328+32348x-499897x^2-339164x^3+1787190x^4,\\
+ F(x)&=x^4P(x)^2=\sum_{k=4}^{12}f_kx^k,\qquad
+ B_F=\sum_{k=4}^{12}(f_kj_k+\epsilon|f_k|),\\
+ U&=1.0013505,\qquad V=.872.
+\end{align*}
+Exact rational comparisons give $F(U),F(-U)>B_F$.
+Every coefficient of $P(U+y)$ and $P(-U-y)$ is positive, so both
+$F(U+y)$ and $F(-U-y)$ increase for $y\ge0$.
+Since $F\ge0$ on the real line and the summed filter is at most $B_F$,
+every $J$ eigenvalue has modulus less than $U$. The former cap was
+$1.00139$. We retain the published cap $V$ in the $N$ sectors and the
+published twelfth-moment bounds
+\[
+ m_J=1.0657205,\qquad m_N=.2783155.
+\]
+
+For a nonnegative list of mass at most $m$ with entries at most $h$,
+where $h<m<2h$, the capped-mass lemma gives
+$\sum_i t_i^r\le h^r+(m-h)^r$ for every real $r\ge1$.
+Applying this with $t_i=|\mu_i|^{12}$ separately in each sector yields,
+for every even integer $k\ge12$,
+\begin{equation}\label{eq:spectral-Z}
+ Z_k(b_*)\le U^k+(m_J-U^{12})^{k/12}
+       +3\bigl[V^k+(m_N-V^{12})^{k/12}\bigr].
+\end{equation}
+Using the cap consistently in both the leading term and the remaining
+mass avoids maximizing these two terms separately.
+The exact certificate proves
+\begin{equation}\label{eq:spectral-Zvalues}
+ Z_{32}(b_*)<B_{32}:=1.08612266,\qquad
+ Z_{120}(b_*)<B_{120}:=1.175802453.
+\end{equation}
+The two cubic roots needed at $k=32$ are enclosed by rational candidates
+whose directions are checked by integer powers. At $k=120$ all
+exponents are integers.
+
+\subsection{Dominant-eigenvalue lower bounds and new seeds}
+The original argument gives a positive dominant $J$ eigenvalue
+$\lambda(b_*)>.999$. Removing it and using the original twelfth-moment
+bounds gives the residual upper bound
+\[
+ A_{120}=(m_J-.999^{12})^{10}
+          +3\bigl[V^{120}+(m_N-V^{12})^{10}\bigr].
+\]
+The trial input implies $Z_{120}(b)>1$ at every $b>0$.
+With $\ell=.999999998$, the checker verifies
+$\ell^{120}+A_{120}<1$. Hence $\lambda(b_*)>\ell$.
+Removing this stronger leading contribution gives
+\begin{equation}\label{eq:spectral-short-tail}
+ R_{b_*}(32)<.04236466,\qquad \rho_{b_*}<.872001,
+\end{equation}
+where $R_b(k)$ is the residual absolute moment normalized by the
+positive dominant eigenvalue, and $\rho_b$ is the largest residual
+absolute eigenvalue ratio. For the ratio bound, use
+$m_J-\ell^{12}<V^{12}$ and $V/\ell<.872001$.
+
+At the doubled temperature, physical purity gives
+$Z_{32}(2b_*)\le Z_{32}(b_*)^2<M:=B_{32}^2$.
+Let $\ell_2=.9999865$ and $v=\ell_2^{32}$.
+The rational certificate proves
+\begin{equation}\label{eq:spectral-dominance-check}
+ M/2<v<M,\qquad (M-v)^{15}<(1-\ell_2^{120})^4.
+\end{equation}
+If every $|\mu_i(2b_*)|^{32}$ were at most $v$, the capped-mass lemma
+with exponent $120/32=15/4$ would imply
+\[
+ 1<Z_{120}(2b_*)\le v^{15/4}+(M-v)^{15/4}<1,
+\]
+a contradiction. Thus a unique eigenvalue has modulus exceeding
+$\ell_2$; uniqueness follows from $2v>M$.
+It is positive: a unique negative dominant eigenvalue would make the
+signed trace negative at sufficiently large odd lengths, contradicting
+the positivity of the physical partition function. Absolute convergence
+at order $32$ justifies domination of the residual at those lengths.
+This argument assumes no odd-chain spectral gap.
+
+The further rational comparison
+\[
+ M<\ell_2^{32}(1+.947852^{32})
+\]
+gives $R_{2b_*}(32)<.947852^{32}$, and therefore
+$R_{2b_*}(L)<.947852^L$ for every integer $L\ge32$.
+It does not give such a conclusion at smaller moment orders.
+In particular,
+\[
+ S(60,2b_*)\ge(1+.947852^{60})^{-2}>1-.07584.
+\]
+For the physical seed, the shifted ground-state Boltzmann weight on
+120 sites exceeds one. At $b_*$ the sum of all other weights is less
+than $B_{120}-1$; squaring them at $2b_*$ gives a normalized residual
+less than $(B_{120}-1)^2$. Consequently
+\begin{equation}\label{eq:spectral-seeds}
+ 1-S(60,49/2)\le .07584,\qquad
+ 1-T(120,49/2)\le .059062.
+\end{equation}
+Both inequalities have strict arithmetic margins.
+
+\subsection{All integer lengths and the certificate}
+The initial ratio satisfies
+\[
+ \frac{\lambda(2b_*)}{\lambda(b_*)^2}
+ >\frac{.9999865}{1.0013505^2}>c_*:=.997290.
+\]
+For an integer interval $32\le A\le L\le B$, the signed traces and
+\eqref{eq:spectral-short-tail} therefore give
+\begin{equation}\label{eq:spectral-short}
+ T(L,b_*)\ge
+ \frac{c_*^B(1-.947852^A)}
+ {(1+.04236466\,.872001^{A-32})^2}.
+\end{equation}
+At $A=B=32$, this proves the separate claim $\gap_{32}>.06$.
+
+For the longer scales, insert \eqref{eq:spectral-seeds} into the
+coupled update \eqref{eq:adaptive-update} and the signed interpolation
+\eqref{eq:adaptive-interval} below. As in version 1.3, every recurrence
+output is rounded upward to 12 significant decimal digits. At the
+seventh doubling the certified bounds are
+\[
+ n=7680,\quad b=3136,\quad
+ p=4.34388004302\times10^{-71},\quad
+ q=1.23795864491\times10^{-97}.
+\]
+Table~\ref{tab:spectral} covers every integer from 33 through 11519.
+For each row its purity lower bound $\mathcal K$ satisfies
+$\mathcal K>1/2$ and
+$E_m(7b/100)<\mathcal K/(1-\mathcal K)$, using the rational exponential
+upper bound \eqref{eq:expupper}. Thus the ground state is unique and
+$\gap_L>.07$ on every listed interval.
+
+\begin{table}[ht]
+\centering
+\caption{Version 1.4 finite certificate; both parities are included.}
+\label{tab:spectral}
+\begin{tabular}{rrr}
+\toprule
+First length & Last length & Inverse temperature $b$\\
+\midrule
+33 & 34 & $49/4$\\
+35 & 48 & $49/4$\\
+49 & 99 & $49/4$\\
+100 & 153 & $49/2$\\
+154 & 208 & $49/2$\\
+209 & 387 & 49\\
+388 & 885 & 98\\
+886 & 2295 & 196\\
+2296 & 5534 & 392\\
+5535 & 11519 & 784\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+For the infinite tail take $w_0=2\times10^{-97}$. The checker verifies
+$p^3\le w_0^2$, $q\le w_0$, and the domain of the invariant
+\eqref{eq:adaptive-invariant}. Its proof below applies unchanged:
+$w_{k+1}=6w_k^2$ and
+$T(L,3136\,2^k)\ge1-(15/2)w_k$ on
+$11520\,2^k\le L\le23040\,2^k$.
+With $E=E_m(3136\times7/100)$, the two certified inequalities
+\[
+ E\,6w_0<1,\qquad E\,\frac{(15/2)w_0}{1-(15/2)w_0}<1
+\]
+prove $\gap_L>.07$ on this entire infinite tail by the argument
+following \eqref{eq:adaptive-tail-purity}. The intervals meet without
+a missing integer, proving Theorem~\ref{thm:spectral}.
+
+The checker \path{verify_spectral_refinement.py} performs 111 exact
+checks, including the filter, seed estimates, ten finite intervals,
+the length-32 consequence, and the infinite tail.
+It imports the directed rational arithmetic helpers of the retained
+version 1.3 checker. Numerical optimization selected the candidate
+filter only; the certificate contains fixed integer coefficients and
+requires no optimizer or floating-point acceptance decision.
+
+\section{Retained version 1.3 length-adaptive bound}
+\begin{theorem}\label{thm:adaptive}
+Assume the signed spatial-transfer representation of
+\cite[Proposition 3.1]{upstream} and the periodic spectral estimates
+of \cite[Proposition 3.4 and its proof]{boundary}, including their
+finite-input premises. Then
+\[
+ \boxed{\gap_L>\frac{3}{50}=0.06
+       \quad\text{for every integer }L\ge34,}
+\]
+and the ground state is unique throughout this range. In particular,
+every odd $L\ge35$ is included, and
+$\liminf_{L\to\infty}\gap_L\ge3/50$ over all integer lengths.
+For a positive exchange coupling $J$, multiply the bound by $J$.
+\end{theorem}
+
+\subsection{Inputs and interpolation}
+Write $\lambda(b)>0$ for the unique eigenvalue of largest modulus of
+the spatial operator, and define its residual absolute moment by
+\[
+ R_b(m)=\sum_{i\ne0}\left|\frac{\mu_i(b)}{\lambda(b)}\right|^m.
+\]
+All sums used here converge absolutely. Let $b_*=49/4$.
+The proof of the cited companion proposition supplies
+\begin{gather}
+ R_{b_*}(32)<.0442,\quad \rho_{b_*}<.874,\quad
+ R_{2b_*}(32)<.9525^{32},\label{eq:adaptive-initial-tails}\\
+ \lambda(b_*)\le1.00139,\qquad
+ \lambda(2b_*)^{72}>.968,\label{eq:adaptive-initial-leading}\\
+ S(60,49/2)>.9002,\qquad T(120,49/2)>.9372.
+ \label{eq:adaptive-seeds}
+\end{gather}
+Here $\rho_b$ is the largest nondominant absolute eigenvalue ratio.
+These are periodic estimates, without boundary fields. The reseeding
+comparisons were checked by the version 1.1 certificate retained below.
+In particular, the rational number $c_*=.9967754$ satisfies
+\[
+ (c_*\,1.00139^2)^{72}<.968,
+ \qquad \frac{\lambda(2b_*)}{\lambda(b_*)^2}>c_*.
+\]
+Increasing moment orders in \eqref{eq:adaptive-initial-tails} gives,
+for every integer $L\ge32$,
+\begin{equation}\label{eq:adaptive-short}
+ T(L,b_*)\ge
+ \frac{c_*^L(1-.9525^L)}{(1+.0442\,.874^{L-32})^2}.
+\end{equation}
+The first residual bound uses the ratio $\rho_{b_*}$ term by term.
+For the second, the sequence norm inequality gives
+$R_{2b_*}(L)\le R_{2b_*}(32)^{L/32}<.9525^L$.
+
+For the subsequent scales, suppose $n$ is even and
+$1-S(n,b)\le p$, $1-T(2n,b)\le q$.
+With $f(z)=z^2/[2(1-z)^2]$, put
+\begin{equation}\label{eq:adaptive-update}
+ a=1-(1-p)^2(1-q),\quad
+ p_+\ge f(a),\quad
+ q_+\ge f\bigl(1-(1-q)^2(1-p_+)\bigr).
+\end{equation}
+The coupled update, proved in Lemma~\ref{lem:update} below, bounds the
+defects at the next scale $(2n,2b)$ by $p_+,q_+$.
+Cancellation also gives $S(n,2b)\ge1-a$ at the \emph{same} reference
+length. When $p,a<1/2$, the concentration lemma below yields
+\[
+ R_b(n)\le d(p),\qquad R_{2b}(n)\le d(a),\qquad
+ d(z)=\frac{z}{2-3z}.
+\]
+The leading spatial weight at $(2n,2b)$ is at least $1-p_+$.
+Since $Z_{2n}(b)\ge\lambda(b)^{2n}$, it follows that
+\begin{equation}\label{eq:adaptive-ratio}
+ \left(\frac{\lambda(2b)}{\lambda(b)^2}\right)^{2n}
+ \ge(1-p_+)\frac{Z_{2n}(2b)}{Z_{2n}(b)^2}
+ \ge(1-p_+)(1-q)=:g.
+\end{equation}
+
+Choose rational numbers $0<c,\rho_0,\rho_1<1$ with
+$c^{2n}\le g$, $\rho_0^n\ge d(p)$, and $\rho_1^n\ge d(a)$.
+Each residual eigenvalue ratio is bounded by the corresponding $\rho$.
+For any integer interval $n\le A\le L\le B$, the signed trace therefore gives
+\begin{equation}\label{eq:adaptive-interval}
+ T(L,b)\ge
+ \frac{c^B\bigl(1-d(a)\rho_1^{A-n}\bigr)}
+      {\bigl(1+d(p)\rho_0^{A-n}\bigr)^2}
+ =:\mathcal K(A,B;b),
+\end{equation}
+provided the displayed numerator factor is positive. No parity
+restriction is imposed on $L$. The numerator uses the lower bound on
+the signed residual, and the denominator uses its upper bound.
+
+\subsection{Finite coverage}
+Starting with $n=60$, $b=49/2$, $p=.0998$, and $q=.0628$, the checker
+iterates \eqref{eq:adaptive-update}, rounding each output upward to
+12 significant decimal digits. The rounded $p_+$ is used in the
+second update. At the seventh doubling it obtains
+\begin{equation}\label{eq:adaptive-tail-seed}
+ n=7680,\quad b=3136,\quad
+ p=2.30218227586\times10^{-56},\quad
+ q=1.75070874875\times10^{-83}.
+\end{equation}
+All these decimals are exact upper bounds. The full sequence and
+rational interpolation parameters are in the machine-readable certificate.
+
+For each interval in Table~\ref{tab:adaptive}, the checker uses
+\eqref{eq:adaptive-short} or \eqref{eq:adaptive-interval} to certify
+\begin{equation}\label{eq:adaptive-finite-check}
+ \mathcal K>\tfrac12,\qquad
+ E_m(3b/50)<\frac{\mathcal K}{1-\mathcal K},
+\end{equation}
+where $E_m$ is the rational exponential upper bound in
+\eqref{eq:expupper}. For the initial four intervals, the lower bound
+uses $c_*^B$, $.9525^A$, and $.0442\,.874^{A-32}$.
+The largest physical Gibbs weight exceeds $1/2$, so the ground state
+is unique; the ratio of a next-energy weight to it is at most
+$(1-\mathcal K)/\mathcal K$. Thus \eqref{eq:adaptive-finite-check}
+proves $\gap_L>3/50$ for every integer $34\le L\le11519$.
+
+\begin{table}[ht]
+\centering
+\caption{Certified finite intervals; every integer in each row is covered.}
+\label{tab:adaptive}
+\begin{tabular}{rrr}
+\toprule
+First length & Last length & Inverse temperature $b$\\
+\midrule
+34 & 35 & $49/4$\\
+36 & 46 & $49/4$\\
+47 & 84 & $49/4$\\
+85 & 116 & $49/4$\\
+117 & 164 & $49/2$\\
+165 & 202 & $49/2$\\
+203 & 302 & 49\\
+303 & 421 & 49\\
+422 & 814 & 98\\
+815 & 1937 & 196\\
+1938 & 4748 & 392\\
+4749 & 11519 & 784\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The root calculations in parameter selection are proposals only.
+Every root direction is certified by an integer-power comparison over
+the rationals. Positive products in those comparisons and in
+\eqref{eq:adaptive-interval} are rounded outward to multiples of
+$10^{-140}$. Floor or ceiling of the integer quotient gives the
+corresponding enclosure; induction through exponentiation by squaring
+preserves its direction. The chosen interval covering is then checked
+for both its inequalities and the absence of missing integers.
+
+\subsection{An asymmetric invariant for the infinite tail}
+Suppose
+\begin{equation}\label{eq:adaptive-invariant}
+ p^{3/2}\le w,\qquad q\le w,\qquad 0<w\le10^{-6}.
+\end{equation}
+Write $x=w^{1/3}\le1/100$, so $p\le x^2$ and $q\le x^3$.
+Since $a\le2p+q\le(2+x)x^2$, the exact scalar comparisons
+\[
+ \frac{(2.01)^2}{2(1-2.01\times10^{-4})^2}<3,
+ \qquad
+ \frac{(2.03)^2}{2(1-2.03\times10^{-6})^2}<3
+\]
+imply, using the unrounded upper updates,
+\[
+ p_+\le3x^4,\qquad
+ q_+\le f(2x^3+3x^4)\le3w^2.
+\]
+Consequently $p_+^{3/2}\le\sqrt{27}\,w^2<6w^2$ and
+$q_+\le6w^2$. The invariant propagates with $w_+=6w^2$.
+
+For every integer $3n/2\le L\le3n$, increasing the absolute-moment
+order gives
+\[
+ R_b(L)\le d(p)^{3/2}\le w,\qquad
+ R_{2b}(L)\le d(a)^{3/2}\le(2.01)^{3/2}w<3w.
+\]
+We used $d(z)\le z$ for $0\le z\le1/3$; both $p$ and $a$ lie in
+this domain. Also $g\ge1-q-p_+\ge1-1.03w$. By
+\eqref{eq:adaptive-ratio}, the leading-eigenvalue contribution at
+length $L$ is at least $g^{L/(2n)}\ge g^2\ge1-2.06w$.
+It follows that
+\begin{equation}\label{eq:adaptive-tail-purity}
+ T(L,b)\ge\frac{(1-2.06w)(1-3w)}{(1+w)^2}
+ \ge1-7.06w\ge1-\frac{15}{2}w>\frac12.
+\end{equation}
+Here $(1+w)^{-2}\ge1-2w$, and multiplication of the three nonnegative
+factors bounds their defect by the sum of the individual defects.
+
+At \eqref{eq:adaptive-tail-seed}, take $w_0=2\times10^{-83}$.
+The checker verifies $p^3\le w_0^2$, $q\le w_0$, and $6w_0<1$.
+Let
+\[
+ n_k=7680\,2^k,\quad b_k=3136\,2^k,\quad
+ w_k=\tfrac16(6w_0)^{2^k},\quad B_0=15/2.
+\]
+The invariant and \eqref{eq:adaptive-tail-purity} apply on every interval
+$[11520\,2^k,23040\,2^k]$. On each interval the ground state is unique,
+and
+\[
+ e^{-b_k\gap_L}\le\frac{B_0w_k}{1-B_0w_k}
+ \le\frac{B_0}{6(1-B_0w_0)}(6w_0)^{2^k}.
+\]
+Set $E=E_m(3136\times3/50)\ge e^{3136(3/50)}$.
+The final two exact exponential checks are
+\[
+ E\,6w_0<1,\qquad
+ E\,\frac{B_0w_0}{1-B_0w_0}<1.
+\]
+Therefore
+\[
+ e^{b_k(3/50)}e^{-b_k\gap_L}
+ \le\frac{B_0}{6(1-B_0w_0)}(E\,6w_0)^{2^k}<1.
+\]
+This proves the strict target bound for every integer $L\ge11520$.
+Together with the finite coverage, it proves Theorem~\ref{thm:adaptive}.
+
+The certificate \path{verify_adaptive_bound.py} implements 88 exact
+checks. Its analytic assumptions and the proof above remain outside
+machine-formal verification. The gain comes from retaining unequal
+defects, changing the interpolation intervals, and using an invariant
+matched to their different decay rates. No extra finite input is used.
+
+\section{Including odd lengths}
+This section retains the version 1.2 argument and its smaller constant.
+\begin{theorem}\label{thm:all-lengths}
+Assume the signed spatial-moment representation of
+\cite[Proposition 3.1]{upstream} and the periodic concentration estimates,
+positive dominant eigenvalues, and adjacent-temperature eigenvalue ratios
+of \cite[Proposition 3.4]{boundary}, including their finite-input premises.
+The periodic chain has a unique ground state and
+\[
+ \boxed{\gap_L>\frac{\log(125/39)}{49}>0.02377
+       \quad\text{for every integer }L\ge120.}
+\]
+In particular, this holds for every odd $L\ge121$, and
+$\liminf_{L\to\infty}\gap_L\ge\log(125/39)/49$ over all integer lengths.
+For a positive exchange coupling $J$, multiply the bounds by $J$.
+\end{theorem}
+
+We first record the concentration bound on the domain needed below.
+The companion states its rational version for defects at most $.1$;
+its elementary proof extends to all defects below $1/2$.
+\begin{lemma}[Concentration]\label{lem:concentration}
+Let $(p_i)$ be a finite or countable probability list with
+$\sum_i p_i^2\ge1-z$, where $0\le z<1/2$.
+Its largest weight $p_0$ is unique, and
+\[
+ \frac{\sum_{i\ne0}p_i}{p_0}\le d(z),\qquad
+ d(z)=\frac{z}{2-3z}.
+\]
+\end{lemma}
+\begin{proof}
+A summable nonzero nonnegative list attains its maximum.
+Since $\sum_i p_i^2\le p_0$, one has $p_0\ge1-z>1/2$.
+Put $x=1-p_0\le z$. Then
+$2x(1-x)\le1-\sum_i p_i^2\le z$, so
+$x\le z/[2(1-x)]\le z/[2(1-z)]$.
+Applying the increasing function $x\mapsto x/(1-x)$ gives the result;
+the displayed upper bound for $x$ is below one when $z<1/2$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:all-lengths}]
+Reindex the companion's scales $j\ge2$ by $k=j-2\ge0$, and set
+\begin{equation}\label{eq:odd-scales}
+ n_k=120\,2^k,\qquad \beta_k=49\,2^k,\qquad
+ u_k=\frac16\left(\frac{39}{125}\right)^{2^k}.
+\end{equation}
+Thus $u_0=13/250$ and $u_{k+1}=6u_k^2\le u_k$.
+Write $n=n_k$, $\beta=\beta_k$, $u=u_k$, and $v=u_{k+1}$.
+The cited propositions supply real spatial eigenvalues $\mu_i(b)$ with
+absolutely convergent moments and
+\[
+ Z_L(b)=\sum_i\mu_i(b)^L\qquad(\text{every integer }L\ge4).
+\]
+At $b=\beta,2\beta$, their respective unique eigenvalues of maximal
+modulus are positive; denote these by $\lambda,\lambda'$.
+With $c=\lambda'/\lambda^2$, the companion gives
+\begin{equation}\label{eq:odd-inputs}
+ S(n,\beta)\ge1-u,\quad T(2n,\beta)\ge1-u,\quad
+ 0<c\le1,\quad c^{2n}\ge(1-u)(1-v).
+\end{equation}
+Positivity of the leading eigenvalue does not assume an odd-chain gap:
+the companion proves it from positivity of physical partition functions
+and dominance in the signed trace at arbitrarily large odd lengths.
+
+The necessary control at the \emph{same} reference length $n$ and the
+next temperature follows by partition-function cancellation:
+\begin{equation}\label{eq:odd-same-n}
+ S(n,2\beta)=\frac{S(n,\beta)^2T(2n,\beta)}{T(n,\beta)^2}
+ \ge(1-u)^3\ge1-3u.
+\end{equation}
+Here $T(n,\beta)\le1$. Because $n$ is even, the two spatial lists at
+this length are probability lists. Lemma~\ref{lem:concentration},
+applicable since $3u\le39/250<1/2$, gives
+\begin{equation}\label{eq:odd-tails}
+ \sum_{i\ne0}\left|\frac{\mu_i(\beta)}{\lambda}\right|^n\le d(u),
+ \qquad
+ \sum_{i\ne0}\left|\frac{\mu_i(2\beta)}{\lambda'}\right|^n\le d(3u).
+\end{equation}
+Each absolute eigenvalue ratio is at most one. Increasing its exponent
+from $n$ to any integer $L\ge n$ therefore decreases every summand.
+Absolute convergence and the triangle inequality yield
+\[
+ Z_L(\beta)=\lambda^L(1+\epsilon_L),\quad |\epsilon_L|\le d(u),
+ \qquad
+ Z_L(2\beta)=(\lambda')^L(1+\epsilon'_L),\quad
+ |\epsilon'_L|\le d(3u).
+\]
+These estimates allow negative nondominant eigenvalues. No probability
+interpretation of an odd spatial moment is used. In particular,
+\eqref{eq:odd-same-n} is essential: a higher-moment upper bound alone
+cannot bound a lower moment by taking a root.
+
+For every integer $L\in[n,2n]$, $c^L\ge c^{2n}$, and hence
+\begin{equation}\label{eq:odd-K}
+ T(L,\beta)\ge K(u):=
+ \frac{(1-u)(1-6u^2)(1-d(3u))}{(1+d(u))^2}
+ \ge1-\frac92u.
+\end{equation}
+To prove the last inequality on the entire interval $0\le u\le13/250$,
+use the exact identity
+\begin{equation}\label{eq:odd-polynomial}
+ K(u)-\left(1-\frac92u\right)=
+ \frac{u\bigl[4-60u+243u^2(1-2u)+324u^4\bigr]}
+      {2(2-9u)(1-u)}\ge0.
+\end{equation}
+Indeed, $4-60u\ge22/25>0$, $1-2u>0$, and both denominator factors
+are positive on that interval. In particular,
+$T(L,\beta)\ge383/500>1/2$.
+
+Let $w_0$ be the largest physical Gibbs weight, counting eigenvectors
+with multiplicity. Since $w_0\ge T(L,\beta)>1/2$, the ground state is
+unique. For an eigenvector of the next distinct energy,
+\begin{align*}
+ e^{-\beta_k\gap_L}
+ &=\frac{w_1}{w_0}
+ \le\frac{(9/2)u_k}{1-(9/2)u_k}\\
+ &\le\frac{375}{383}\left(\frac{39}{125}\right)^{2^k}
+ <\left(\frac{39}{125}\right)^{2^k}.
+\end{align*}
+Taking logarithms and dividing by $\beta_k=49\,2^k$ proves the claimed
+strict bound on each interval $[120\,2^k,240\,2^k]$. These intervals
+cover all integer $L\ge120$. The rounded consequence follows from the
+exact exponential comparison described in \eqref{eq:expupper}.
+The liminf inequality follows from the uniform finite-length bound.
+\end{proof}
+
+\subsection{Certificate and contribution}
+The script \path{verify_signed_extension.py} makes 21 exact checks:
+the polynomial coefficient identity in \eqref{eq:odd-polynomial},
+endpoint inequalities proving its sign over the full interval, the
+purity floor, the strict prefactor $375/383<1$, and the comparison with
+$.02377$. It uses no sampling grid or numerical logarithm in a decision.
+The concentration and signed-trace steps above are analytic proofs,
+not machine-formalized theorems.
+
+This version adds the signed-moment interpolation argument to the
+even-length corollary retained below. It uses more of the companion's
+already proved spectral information and requires no new thermal or
+variational input. The argument is conditional on those results;
+it is not an independent proof of the original Haldane-gap claim.
+No exhaustive priority search for this parity extension has been made.
+
+\section{The retained version 1.1 corollary}
+Despite its boundary-field title, Section 3 of \cite{boundary} uses
+the periodic partition function $Z_n(b)$ of precisely the Hamiltonian
+above, without endpoint fields. Its separate boundary partition
+functions do not enter the following argument.
+
+\begin{theorem}\label{thm:companion}
+Assume the spatial-moment representation of \cite[Proposition 3.1]{upstream}
+and the periodic concentration estimates of
+\cite[Proposition 3.4]{boundary}, including their finite-input premises.
+The periodic chain has a unique ground state and
+\[
+ \boxed{\gap_L>\frac{\log(125/39)}{49}>0.02377
+       \quad\text{for every even }L\ge120.}
+\]
+Consequently
+$\liminf_{L\to\infty,\,L\ {\rm even}}\gap_L\ge\log(125/39)/49$.
+For a positive exchange coupling $J$, multiply these bounds by $J$.
+\end{theorem}
+
+\begin{proof}
+The companion sets $b_j=2^j(49/4)$ and, for $j\ge2$,
+$n_j=120\,2^{j-2}$, $M_j=2n_j$, and $u_2=.052$.
+Its Proposition 3.4 gives
+$1-S(n_j,b_j)\le u_j$ and $1-T(M_j,b_j)\le u_j$.
+In particular, $j=2$ gives
+\begin{equation}\label{eq:companion-seeds}
+ 1-S(120,49)\le\frac{13}{250},\qquad
+ 1-T(240,49)\le\frac{13}{250}.
+\end{equation}
+Apply \cite[Proposition 4.3]{upstream} with the new starting parameters
+\[
+ n_0=120,\qquad \beta_0=49,\qquad u_0=\frac{13}{250},
+ \qquad C=6,\qquad r=Cu_0=\frac{39}{125}.
+\]
+Here $\beta_0$ is the companion's $b_2$, not its $b_0$.
+Writing $G(u)=\tfrac12(\sum_{k=1}^{3}(1-u)^{-k})^2$, exact substitution gives
+\[
+ 0<u_0<\frac16,\qquad
+ G(u_0)=\frac{989224080031250}{177210755074809}<6,\qquad
+ r<1,\qquad C(1-3u_0)=\frac{633}{125}>3.
+\]
+The two seed assumptions and every scalar hypothesis of that proposition
+therefore hold. Its interpolation step covers all even $L\ge n_0$,
+and its conclusion is uniqueness and
+$\gap_L>\log(1/r)/\beta_0=\log(125/39)/49$.
+The strict comparison with $.02377$ follows from the rational Taylor
+upper bound in \eqref{eq:expupper}, which verifies
+$e^{49(2377/100000)}<125/39$.
+\end{proof}
+
+\subsection{Scalar certificate and attribution}
+The script \texttt{verify\_companion\_corollary.py} checks the
+substitution above and the reseeding comparisons in the proof of
+\cite[Proposition 3.4]{boundary}. That proof starts from the finite
+periodic inputs of \cite[Corollary 5.6]{upstream}, including the
+72- and 120-site trial bounds already covered by our recorded finite
+verification. It requires no new boundary-field thermal calculation
+for the periodic seed used here.
+
+In the companion's notation, the checker verifies the rational
+majorants $D(32)<.0442$ and $D(120)<.00000025$, the residual spectral
+ratio bound, and the seeds
+$S(60,49/2)>.9002$ and $T(120,49/2)>.9372$.
+The coupled update then gives defects below $.0502$ and $.0198$,
+both below $.052$ at the scales in \eqref{eq:companion-seeds}.
+Cube-root bounds are checked by cubing positive rational majorants;
+no floating-point root or logarithm determines a pass/fail decision.
+
+The underlying reseeding argument and uniform-gap criterion are both
+OpenAI's published results. Our contribution here is their explicit
+combination, its scalar certificate, and the resulting comparison.
+The value $\log(125/39)/49=0.023770450840258259\ldots$ was extracted
+during our prior-art review; we have not located it explicitly stated
+in the examined sources. This limited observation does not establish
+priority. Version 1.0's comparison omitted this consequence of the
+companion paper; the present version corrects that omission.
+
+\section{The retained version 1.0 refinement}
+The earlier, weaker result remains a separate reproducible extension
+of the periodic paper's final seed pair. Its dependencies on
+\cite{upstream} are the following two inputs:
+\begin{enumerate}
+\item For each $b>0$, a real finite or countable sequence $\lambda_i(b)$
+obeys $\sum_i|\lambda_i(b)|^4<\infty$ and
+$Z_L(b)=\sum_i|\lambda_i(b)|^L$ for every even $L\ge4$
+(Proposition 3.1).
+\item The initial estimates are
+\begin{equation}\label{eq:seeds}
+ 1-S(2304,784)\le\frac{84513}{10^7},\qquad
+ 1-T(4608,784)\le\frac{27493}{5\cdot10^6}
+\end{equation}
+(Proposition 5.5, including its finite certificates).
+\end{enumerate}
+All references are to the fixed upstream revision listed at the end.
+
+\begin{theorem}\label{thm:legacy}
+Under these inputs, the ground state is unique and
+\[
+ \boxed{\gap_L>\frac{47}{10000}\quad
+        \text{for every even }L\ge2304.}
+\]
+Consequently $\liminf_{L\to\infty,\,L\ {\rm even}}\gap_L\ge47/10000$.
+For any positive exchange coupling $J$, multiply these bounds by $J$.
+\end{theorem}
+The argument below rederives the needed bootstrap steps of
+\cite[Lemma 4.2 and Proposition 4.3]{upstream}. It does not establish
+the two inputs independently of the upstream analytic argument.
+
+\section{Purity estimates and gap extraction}
+For an even reference length $n\ge4$, both quantities in
+\eqref{eq:purities} are purities of probability
+distributions, so they belong to $(0,1]$. For spatial purity use
+$|\lambda_i(b)|^n/Z_n(b)$; for physical purity use the Gibbs weights,
+counting each eigenvector with multiplicity. If $P=\sum_i w_i^2$,
+the normalized squares have purity $P'$ satisfying
+\[
+ 1-P'=\frac{2\sum_{i<k}w_i^2w_k^2}{P^2}
+ \le\frac{2(\sum_{i<k}w_iw_k)^2}{P^2}
+ =f(1-P),\qquad f(x)=\frac{x^2}{2(1-x)^2}.
+\]
+Here $f$ is increasing on $[0,1)$.
+
+\begin{lemma}[Rounded update]\label{lem:update}
+For even $n\ge4$ and $b>0$, if $1-S(n,b)\le p$ and
+$1-T(2n,b)\le q$, with $p,q\in[0,1)$,
+any $p_+,q_+\in[0,1)$ satisfying
+\begin{equation}\label{eq:update}
+ p_+\ge f\bigl(1-(1-p)^2(1-q)\bigr),\qquad
+ q_+\ge f\bigl(1-(1-q)^2(1-p_+)\bigr)
+\end{equation}
+bound $1-S(2n,2b)$ and $1-T(4n,2b)$ respectively.
+\end{lemma}
+\begin{proof}
+Cancellation of partition functions gives
+\[
+ S(n,2b)=\frac{S(n,b)^2T(2n,b)}{T(n,b)^2},\qquad
+ T(4n,b)=\frac{T(2n,b)^2S(2n,2b)}{S(2n,b)^2}.
+\]
+The denominators are at most one. Apply the probability-squaring
+inequality first in the spatial variable and then in the temperature
+variable. Use the already rounded $p_+$ in the second application.
+\end{proof}
+
+\begin{lemma}[Intermediate lengths]\label{lem:interval}
+Under the same hypotheses, put $K=(1-p)^2(1-q)$.
+If $K>1/2$, every even $L\in[n,2n]$ has a unique ground state and
+\begin{equation}\label{eq:intervalgap}
+ \gap_L\ge\frac1b\log\frac{K}{1-K}.
+\end{equation}
+\end{lemma}
+\begin{proof}
+The monotonicity of sequence $\ell^r$ norms, applied to the spatial
+moments at $b$ and $2b$, yields
+\[
+ Z_L(b)\le Z_n(b)^{L/n},\qquad
+ Z_L(2b)\ge Z_{2n}(2b)^{L/(2n)}.
+\]
+Hence
+\[
+ T(L,b)\ge[T(2n,b)S(n,b)^2]^{L/(2n)}\ge K.
+\]
+The last step uses a base in $(0,1]$ and an exponent at most one.
+The largest Gibbs weight $w_0$ is at least the purity, because
+$\sum_iw_i^2\le(\max_iw_i)\sum_iw_i$. Thus $w_0>1/2$, excluding
+ground-state degeneracy. For one eigenvector at the next energy,
+\[
+ e^{-b\gap_L}=\frac{w_1}{w_0}\le\frac{1-w_0}{w_0}
+ \le\frac{1-K}{K}.
+\]
+Taking logarithms proves the assertion.
+\end{proof}
+
+\section{A finite certificate and the infinite tail}
+Use the exact rational numbers in Table~\ref{tab:certificate} with
+$n_j=2304\cdot2^j$ and $b_j=784\cdot2^j$.
+Every displayed decimal denotes an exact rational, not a floating-point
+approximation. The script \texttt{verify\_gap\_improvement.py}
+checks \eqref{eq:update} at each of the five steps.
+
+\begin{table}[ht]
+\centering
+\caption{Upward-rounded purity-defect bounds.}\label{tab:certificate}
+\begin{tabular}{rrrrr}
+\toprule
+$j$ & $n_j$ & $b_j$ & $p_j$ & $q_j$\\
+\midrule
+0 & 2304 & 784 & $0.0084513$ & $0.0054986$\\
+1 & 4608 & 1568 & $2.59\times10^{-4}$ & $6.45\times10^{-5}$\\
+2 & 9216 & 3136 & $1.70\times10^{-7}$ & $8.35\times10^{-9}$\\
+3 & 18432 & 6272 & $6.07\times10^{-14}$ & $1.40\times10^{-16}$\\
+4 & 36864 & 12544 & $7.39\times10^{-27}$ & $3.93\times10^{-32}$\\
+5 & 73728 & 25088 & $1.10\times10^{-52}$ & $3.09\times10^{-63}$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+For $j=0,\ldots,4$, set $K_j=(1-p_j)^2(1-q_j)$.
+The certificate verifies
+\begin{equation}\label{eq:expcheck}
+ K_j>\tfrac12,\qquad
+ e^{(47/10000)b_j}<\frac{K_j}{1-K_j}.
+\end{equation}
+Lemma~\ref{lem:interval} therefore proves the strict target bound
+throughout $2304\le L\le73728$, restricted to even lengths.
+
+For clarity, the exponential comparisons use no numerical transcendental
+evaluation. Given rational $x\ge0$, choose
+$m=4\lfloor x\rfloor+64$. Since $\rho=x/(m+2)<1$, the Taylor
+series and the ratio bound for its remaining terms imply
+\begin{equation}\label{eq:expupper}
+ e^x\le E_m(x):=\sum_{k=0}^{m}\frac{x^k}{k!}
+ +\frac{x^{m+1}}{(m+1)!}\frac{1}{1-x/(m+2)}.
+\end{equation}
+Every term on the right is rational. The script verifies the stronger
+inequality obtained by replacing $e^x$ with $E_m(x)$ in
+\eqref{eq:expcheck}.
+
+The final row controls all remaining lengths. Let
+\[
+ u=1.10\times10^{-52},\quad C=5,\quad r=Cu,\qquad
+ G(v)=\frac12\bigl((1-v)^{-1}+(1-v)^{-2}+(1-v)^{-3}\bigr)^2.
+\]
+Exact checks give $0<u<1/6$, $G(u)<C$, $r<1$, and
+$C(1-3u)>3$. Define $u_k=C^{-1}r^{2^k}$ for $k\ge0$.
+Both defects at $(2^k n_5,2^k b_5)$ are bounded by $u_k$:
+indeed, $u_{k+1}=Cu_k^2<u_k$, and
+\[
+ f\bigl(1-(1-u_k)^3\bigr)=G(u_k)u_k^2\le Cu_k^2.
+\]
+Lemma~\ref{lem:update} then applies to both coordinates by induction.
+For even $L\in[2^k n_5,2^{k+1}n_5]$, the proof of
+Lemma~\ref{lem:interval} gives $w_0\ge(1-u_k)^3\ge1-3u_k$.
+Consequently
+\[
+ e^{-(2^k b_5)\gap_L}
+ \le\frac{3u_k}{1-3u_k}
+ \le\frac{3}{C(1-3u)}r^{2^k}<r^{2^k}.
+\]
+These intervals cover every even $L\ge n_5$, proving
+\begin{equation}\label{eq:tail}
+ \gap_L>\frac{\log(1/(Cu))}{b_5}
+ =\frac{\log(10^{53}/55)}{25088}
+ =0.004704626783460297\ldots>\frac{47}{10000}.
+\end{equation}
+The final strict comparison is certified by
+$E_m((47/10000)25088)<10^{53}/55$, again over the rationals.
+Together with the five finite intervals this proves
+Theorem~\ref{thm:legacy}. A strict bound for each finite length yields
+the stated non-strict bound on the liminf.
+
+\section{Reproducibility and scope}
+The version 1.0 quantitative gain comes from retaining the unequal seed bounds and
+performing a few more coupled updates before using a common envelope.
+The upstream theorem instead rounds both seed defects to $1/100$ and
+uses $C=5$, giving $\log(20)/784$. No new thermal or variational input
+is required for this refinement. This is a comparison with that paper's
+stated constant, not with every consequence of the published pair of
+papers. Theorem~\ref{thm:companion} is stronger in both constant and
+length range. We make no priority or optimality claim.
+
+Theorem~\ref{thm:all-lengths} further removes the parity restriction
+without changing the version 1.1 constant.
+Theorem~\ref{thm:adaptive} improves both the constant and the starting
+length using the same finite inputs.
+Theorem~\ref{thm:spectral} then sharpens the spectral inputs and raises
+the bound again, without changing the finite computation data.
+Theorem~\ref{thm:sector} adds the sector-resolved recurrence,
+simultaneous moment bounds, and the newly computed 88-site trial.
+Theorem~\ref{thm:resolved} adds the complete cyclic table, geometric
+rounding bounds, and tight purity extraction.
+Theorem~\ref{thm:quarter} adds the quarter-turn data, octahedral sector
+identities, and an 84-site trial.
+The accompanying repository contains all eight gap certificates,
+the upstream source and verification material at the fixed commit,
+fresh verification results, and \texttt{independent\_audit.py}.
+The latter reconstructs selected computations from the printed
+definitions and tables without importing upstream verifier functions.
+The recorded audit, completed on 7 October 2026, comprises:
+\begin{itemize}
+\item A full fresh run of the upstream verifier, with all checks passing
+and all finite results newly recomputed.
+It reproduces 27 thermal certificates, the 72- and 120-site variational
+contractions, and the associated arithmetic and scalar checks.
+\item A separate arbitrary-precision integer reconstruction of both
+variational contractions. The complete numerator and norm integers
+match the upstream evidence. A direct four-site wavefunction calculation
+also agrees with the contraction formula.
+\item A separate full-spectrum diagonalization on chains of four to
+eight sites, including twists, in 16 cases. All values lie within the
+printed tolerances. This floating-point calculation is a diagnostic;
+it does not provide rigorous thermal enclosures.
+\end{itemize}
+The full upstream run took approximately 22 minutes with six requested
+workers, Python 3.12.14, NumPy 2.3.5, and SciPy 1.17.0.
+All eight bound certificates need only Python's standard library.
+Run \texttt{make check} with assertions enabled to check them and the
+local energy, finite-group algebra, and all three auxiliary twist tables. For the current main certificate, run
+\begin{center}
+\texttt{python3 verify\_quarter\_refinement.py}
+\end{center}
+The cyclic totals from version 1.6 remain independently reproducible.
+To repeat this calculation and its small independent cross-checks, run
+\begin{center}
+\texttt{make extended-cyclic}
+\end{center}
+This needs a C++17 compiler with OpenMP and
+NumPy/SciPy for the odd-chain check. The recorded eight-CPU run took
+about 6.5 minutes. The retained 88-site trial can be reconstructed with
+\texttt{make trial88}. The new quarter-turn table is reproduced with \texttt{make quarter-traces};
+its three all-column checks and complete recomputation were executed.
+Run \texttt{make trial84} for the new trial. These computations do not
+constitute a fresh complete upstream run.
+Rational comparisons determine all numerical pass/fail decisions;
+decimal logarithms and floating-point margins are display-only.
+The companion's selected analytic sources are preserved unmodified
+under \path{source_boundary/}, with Git blob identities recorded
+in \path{boundary_source_manifest.json}.
+
+Neither successful execution nor this note is a formal verification of
+the upstream analytic assumptions. No claim is made here for the same
+numerical bound $0.1515$ at lengths below $24$, arbitrary open boundaries, or
+uniqueness of all infinite-volume ground states. The constants are conditional lower
+bounds, not estimates of the actual physical gap.
+
+\paragraph{Autonomous authorship and human contribution.}
+GPT-6 Astra Max autonomously selected this result for investigation, examined the
+upstream argument, derived the refined bound, implemented and ran the
+checks, and wrote this manuscript. During the user-requested prior-art
+review, the agent identified the stronger corollary, verified its
+parameter substitution, and prepared version 1.1. When the user asked
+about odd lengths, the agent derived the signed-moment extension,
+implemented its certificate, and wrote version 1.2. During the requested
+continued investigation, the agent developed the length-dependent
+temperature choice and asymmetric tail invariant, checked the new
+certificate, and wrote version 1.3. Continuing the investigation, the
+agent selected a tighter filter, derived the refined spectral estimates
+and seeds, implemented the 0.07 certificate, and wrote version 1.4.
+In version 1.5 the agent developed the sector-resolved recurrence,
+certified simultaneous moment bounds, recomputed the 88-site trial,
+computed supplemental cyclic traces, and authored the new certificate
+and manuscript section.
+In version 1.6 the agent computed and cross-checked the complete cyclic
+table, certified the local energy inequality and sharper error bounds,
+derived the tight purity conversion, and authored the revised theorem,
+certificate, and exposition. In version 1.7 the agent derived the
+octahedral sector identities, computed and cross-checked the quarter-turn
+table and 84-site trial, and authored the stronger certificate and revision.
+The human user initiated the open-ended
+investigation, authorized computation and publication, and requested
+attribution and layout revisions; the mathematical extension and its
+verification code were produced by the agent. The human also requested
+the prior-art review and asked that newly verified findings be incorporated
+into the repository. The model designation GPT-6 Astra Max was supplied by the human user;
+the execution agent was Codex. A backend model snapshot identifier was
+not available in the session. The upstream mathematical
+construction, reseeding argument, and input certificates are credited
+to \cite{upstream,boundary}.
+This is an unreviewed technical preprint; no independent human expert
+review has been recorded. Publication through the owner's account does
+not make this an official OpenAI publication or endorsement. Corrections
+are welcome through the repository's issue tracker.
+
+\begin{thebibliography}{2}
+\raggedright
+\bibitem{upstream}
+OpenAI, \emph{The periodic spin-one Haldane gap},
+24 September 2026, OpenAI Math Release preprint.
+Repository \url{https://github.com/openai/math}, commit
+\commit. File
+\path{preprints/The-periodic-spin-one-Haldane-gap-September-24-2026/paper.pdf}.
+The companion analytic source and finite verifier are at the same revision.
+\bibitem{boundary}
+OpenAI, \emph{A boundary-field gap for the spin-one Heisenberg chain},
+24 September 2026, OpenAI Math Release preprint.
+Repository \url{https://github.com/openai/math}, commit \commit. File
+\path{preprints/A-boundary-field-gap-for-the-spin-one-Heisenberg-chain-September-24-2026/paper.pdf}.
+Section 2 fixes the periodic normalization; Proposition 3.4 supplies
+the periodic concentration estimates used here.
+\end{thebibliography}
+\end{document}

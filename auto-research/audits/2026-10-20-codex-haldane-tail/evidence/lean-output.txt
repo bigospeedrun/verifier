@@ -1,0 +1,16 @@
+HaldaneTail.lean:72:43: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+HaldaneTail.lean:383:51: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+'HaldaneTail.strengthened_step' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HaldaneTail.purity_floor' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HaldaneTail.interpolation_constants' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HaldaneTail.tail_geometric' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HaldaneTail.conditional_gap' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HaldaneTail.invariant_domain' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HaldaneTail.final_tail_comparison' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HaldaneTail.final_tail_comparison_real' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HaldaneTail.final_exp_upper' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HaldaneTail.final_exponential_comparison' depends on axioms: [propext, Classical.choice, Quot.sound]
