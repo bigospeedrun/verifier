@@ -1,0 +1,12 @@
+{
+  "track": "formalization",
+  "status": "formalization",
+  "problem": "/other/unit-distance-grid",
+  "bound": "8*4 = 32",
+  "evidence_before": "Claimed",
+  "base_commit": "1e009d7adeb43a1ddffe8b8148be4bebba69e720",
+  "reproduce": "bash auto-research/formalization/2026-10-20-fringewidth-unit-distance-grid/verify.sh",
+  "scope": "Lean proof over an arbitrary field of the gauge invariance, normalization, Cramer and sign-change, collinear and counting steps of proof.tex; the source generic-grid, private-valuation and Kummer lemmas enter as hypotheses; also shows that the written translation T = U1 in section 1 must be T = U1 - omega J r1.",
+  "models": ["Claude Opus 5.5"],
+  "predecessors": ["https://github.com/rohanarun/unit-distance-grid-refinement/blob/4e7b3af0a46a7127a57019a0ab6d76fa2b55fe2e/proof.tex"]
+}

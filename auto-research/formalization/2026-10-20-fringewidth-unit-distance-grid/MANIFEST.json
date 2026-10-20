@@ -1,0 +1,14 @@
+{
+  "algorithm": "sha256",
+  "sha256": {
+    "NOTICE.md": "0d415de3a5ab8ecc3768fbe88c9ac19d2d26675c4da0646a17e13fd8fce185b5",
+    "README.md": "bf4ed3d7d1e20676d2bfcacf3554d7e2e68eda180e1404cac44bf4af2a84fab5",
+    "RESULT.json": "34180fc9136405eadcda2790627f8b56033c93e452977ea28a6cb5c4ec280e3e",
+    "lean/Axioms.lean": "9ed51019d639505377261890fbebe39d5bad6c065ab34d48b963eaed89a3c647",
+    "lean/UnitDistanceGrid.lean": "6056470427c24fdb612424efd723a7c836b57693af8ccbae417e25f9d1d783ac",
+    "lean/lake-manifest.json": "ae156474dbe5632559b94b1b052223de7d16df5052a3c2c7756ee98b8322d559",
+    "lean/lakefile.toml": "b655af543a4f5e06733b3aed9d901a3881a70c44be2f24a0a6c8de6fa0205c79",
+    "lean/lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+    "verify.sh": "25af6226bfdeffcf1abc1acf3185cec1b75ff9de2603531112c236c3f2cdfcf9"
+  }
+}
