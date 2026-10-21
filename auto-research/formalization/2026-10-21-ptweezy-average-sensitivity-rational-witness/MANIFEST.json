@@ -1,0 +1,17 @@
+{
+  "algorithm": "sha256",
+  "sha256": {
+    "NOTICE.md": "e5f51b05de963097ccfdb016e01e18d4a484cdb0c9d922894f05c01c09495936",
+    "README.md": "793b39ad1891d0562d2082d489484b58da9620d8aefa80913534ac6f6e125c13",
+    "RESULT.json": "3ce24d1bfc166e8df8a295be48acda36cdcdd2f7279716ac842f8d31cb7b5273",
+    "code/Cert.lean": "782799cd84e937b8bc12910c4a175ad28b438ba833780f4ed1c02dd04ad85c68",
+    "code/Narrow.lean": "183140bdfc6667077e7249621e98376d3d35e8d59ac4a249c4ae6be87d285e95",
+    "code/lean-project/lake-manifest.json": "52ec701a666936c4f9ee0f946d20142f7a4b9869c0638472cb24fca1d77380d6",
+    "code/lean-project/lakefile.toml": "9875e7abdd9e41c61b53cc457d7f4d0dc1ea7e7088d6e9f0b0e32d491e33765d",
+    "code/lean-project/lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+    "evidence/lean-build.log": "0e5cba6ee7eba1e746fb72a1d69354b64b5a31b717062aa2ccfea4c2628cfe7b",
+    "evidence/narrow-build.log": "dcd6c758d2fcf5e31bc194c67db38dcafedff6d6a5feb3b71163067a3584f34b",
+    "verify.py": "90b2727801769d35ad9a9d6b2427155aec7ceebf5f43cc0d3a2ce379b63470bc",
+    "verify.sh": "784ddafe1c60ba285dfeb125b254ff0933a1b5faa212618caf0f5e1489f8bc21"
+  }
+}

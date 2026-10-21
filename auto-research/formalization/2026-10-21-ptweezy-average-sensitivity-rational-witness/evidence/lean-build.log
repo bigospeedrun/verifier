@@ -1,0 +1,21 @@
+# Re-verification build, 2026-10-21, 4-core Linux machine.
+# Lean 4.34.1; lakefile.toml, lean-toolchain and lake-manifest.json from code/lean-project/.
+# `lake exe cache get` could not reach the Mathlib cache from this machine, so Mathlib
+# was compiled from source. A first `lake build` was stopped by a 2-hour session limit
+# after compiling 5195 modules; the output below is the resumed `lake build`, which
+# finished the build. Earlier progress lines are omitted.
+$ lean --version
+Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)
+$ lake build
+✔ [8921/8925] Built Mathlib.Topology.VectorBundle.ContinuousAlternatingMap (11s)
+✔ [8922/8925] Built Mathlib.Topology.Sheaves.Flasque (7.4s)
+✔ [8923/8925] Built Mathlib (26s)
+ℹ [8924/8925] Built Cert (56s)
+info: Cert.lean:17:0: 'cert_main' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Cert.lean:18:0: 'cert_chain' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (8925 jobs).
+
+real	95m39.963s
+user	299m55.076s
+sys	47m14.036s
+LAKE_EXIT:0

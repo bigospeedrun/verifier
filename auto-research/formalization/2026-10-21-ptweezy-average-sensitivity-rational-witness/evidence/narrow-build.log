@@ -1,0 +1,7 @@
+'cert_main' depends on axioms: [propext, Classical.choice, Quot.sound]
+'cert_chain' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+real	1m43.615s
+user	0m3.368s
+sys	0m10.655s
+LEAN_EXIT:0
