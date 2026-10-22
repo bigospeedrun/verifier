@@ -1,0 +1,15 @@
+{
+  "algorithm": "sha256",
+  "sha256": {
+    "NOTICE.md": "771c8eea6ef56cf87771cf8914b11176842b648cf62235e75179316436c6afad",
+    "README.md": "a5062218751475ef59ffc94407505babaf0cb80b5439991e8c5514f80eb08d01",
+    "RESULT.json": "9132010760772d2778c230558fde572c26b1cb6c1fa7f9cbf98df54659189806",
+    "code/MatroidScalar.lean": "47535bdd7883a97cee95d9774b2a99304f665ef648fb339ce943cfde799694d7",
+    "code/lean-project/lake-manifest.json": "52ec701a666936c4f9ee0f946d20142f7a4b9869c0638472cb24fca1d77380d6",
+    "code/lean-project/lakefile.toml": "982f6eb4bc92819cf25460add656e87ca9c69db5d7cc3fad2e66b6d11a2d0746",
+    "code/lean-project/lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+    "evidence/lean-build.log": "21be47e58015bcb96b532e5825037db05114f07c3d48a0d17fd45c4fe8676d95",
+    "verify.py": "e202de95395a77181f5e5d8615e3db0c8dcb990e5ca635db3e5c75634a2a9e7d",
+    "verify.sh": "784ddafe1c60ba285dfeb125b254ff0933a1b5faa212618caf0f5e1489f8bc21"
+  }
+}

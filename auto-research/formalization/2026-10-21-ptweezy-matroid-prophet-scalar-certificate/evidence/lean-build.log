@@ -1,0 +1,13 @@
+build start 2026-10-22T02:21:11Z
+ℹ [2245/2246] Built MatroidScalar (34s)
+info: MatroidScalar.lean:434:0: 'MatroidProphet.appendixA_certificate' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: MatroidScalar.lean:435:0: 'MatroidProphet.constant_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: MatroidScalar.lean:436:0: 'MatroidProphet.CCurve141_value' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: MatroidScalar.lean:437:0: 'MatroidProphet.CCurve141_gt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: MatroidScalar.lean:438:0: 'MatroidProphet.d_lt_S4' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (2246 jobs).
+
+real	0m44.884s
+user	0m13.731s
+sys	0m9.716s
+LAKE_EXIT:0
