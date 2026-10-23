@@ -1,0 +1,13 @@
+{
+  "algorithm": "sha256",
+  "sha256": {
+    "NOTICE.md": "fb41443e2baeccd70ed22279b8e60ccc82eea7c80f0540634acc8c781acde166",
+    "README.md": "fd8f4240a5789d27c585aa21861227aebca376e3fc1241084a89cd0aea050360",
+    "RESULT.json": "ecca747a454071dcf174ea31f797ef4bf87d7096e70158153127cc1ec0bd0445",
+    "code/sidorenko_audit.py": "04a4bdaba86f825aca252bdbfd7c306605464c3372a23f3ff7174b821df68829",
+    "data/baseline-faces-bits.json": "9a8be39c683f5f65bb4f2ba190fedbb6b8d2fd8d84efa5ab709bbce5823985ae",
+    "data/source-pins.json": "24622fe3839c471e6fc72ab9e7d5ea7bce0abe2a30ee0dc46a8c05f1a725142d",
+    "evidence/audit-results.json": "da2a02dc7f16ea1874f6457dc3eac11a1eae10814c847939d9d149706231b55d",
+    "verify.py": "6d4be7b2313f0476fd3a2b9f649c922f364154eb20365d2d1ee9920dff267146"
+  }
+}
