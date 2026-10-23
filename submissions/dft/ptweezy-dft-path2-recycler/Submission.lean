@@ -379,20 +379,25 @@ Upstream LICENSE:
 
 -/
 import Submission.Work.FourierT16A8Z.Main
+import Submission.Work.Recycler.Buffer
+import Submission.Work.Recycler.NS1Unit
+import Submission.Work.Recycler.RecyclerBridge
+import Submission.Work.Recycler.NS1Circuit
+import Submission.Work.Recycler.RecyclerSeam
 
-open OAI.PowerSaving Filter Asymptotics
+open OAI.PowerSaving OAI.PowerSaving.Recycler Filter Asymptotics Real
 
 theorem Race.bound : ∃ order solve W, DFTProgram order solve W ∧
     (fun n : ℕ => (W n : ℝ)) =O[atTop]
       (fun n : ℕ => (n : ℝ) * (Real.log (n : ℝ)) ^
-        (1 - (302015999999 : ℝ) / 100000000000000)) := by
+        (1 - (1510079999999 : ℝ) / 500000000000000)) := by
   obtain ⟨order, solve, W, hprogram, htime⟩ := transform_mainT16A8Z
   refine ⟨order, solve, W, hprogram, ?_⟩
   have hdecimal : decimalTimeT16A8Z =
       (fun n : ℕ => (n : ℝ) * (Real.log (n : ℝ)) ^
-        (1 - (302015999999 : ℝ) / 100000000000000)) := by
+        (1 - (1510079999999 : ℝ) / 500000000000000)) := by
     funext n
-    have hexponent : decimalExponentT16A8Z = 1 - (302015999999 : ℝ) / 100000000000000 := by
+    have hexponent : decimalExponentT16A8Z = 1 - (1510079999999 : ℝ) / 500000000000000 := by
       norm_num [decimalExponentT16A8Z]
     simp only [decimalTimeT16A8Z, hexponent]
   exact hdecimal ▸ htime.2.1
