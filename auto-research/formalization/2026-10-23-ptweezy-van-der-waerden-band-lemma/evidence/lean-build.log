@@ -1,0 +1,13 @@
+build start 2026-10-23T19:33:16Z
+procedure: fresh dir; packaged lakefile.toml + lean-toolchain + lake-manifest.json + BandLemma.lean copied in; dependency packages reused from the local pinned checkout (identical revs to lake-manifest.json) in place of a network `lake exe cache get`
+ℹ [1982/1983] Built BandLemma (18s)
+info: BandLemma.lean:229:0: 'VanDerWaerden.card_le_two_of_band' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: BandLemma.lean:230:0: 'VanDerWaerden.band_three_points' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: BandLemma.lean:231:0: 'VanDerWaerden.band_card_le_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: BandLemma.lean:232:0: 'VanDerWaerden.points_band_card_le_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (1983 jobs).
+
+real	38.616s
+user	8.258s
+sys	7.260s
+LAKE_EXIT:0

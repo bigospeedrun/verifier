@@ -1,0 +1,15 @@
+{
+  "algorithm": "sha256",
+  "sha256": {
+    "NOTICE.md": "ec7038327297f4df21bfd41c8bd2bd0f42366745a6a1e72a9a17dab373e3ce5f",
+    "README.md": "72b90582f2fe9bef2117869f0760a76e23ad0560fa85483169e0e7a459c73e74",
+    "RESULT.json": "ceb95ac90a3a14d804e13dae3fdbed9e1c236a31917b67ada9d5bb980bf44981",
+    "code/BandLemma.lean": "2d76642c2fce9d51b6d448a813adf5fb72ebcd8613ac0ad12aac0a76bac69d55",
+    "code/lean-project/lake-manifest.json": "7861ef883162a7931bbe75525a823607d90d7810b1d2e39530ec61c56f7a0ca9",
+    "code/lean-project/lakefile.toml": "86081ebaac86c1dca11fb6c0204624a269a4a2f55266baa9c7b19f3f8c1b8eb7",
+    "code/lean-project/lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+    "evidence/lean-build.log": "7c9268690aea596e54d64ff0d96c680e1cb1dbdde7ac0d3633f11da45e4078d1",
+    "verify.py": "9150eee3e4ee27718fa3b64c24100993b7e412960d2d6e377cc98631857f26cf",
+    "verify.sh": "784ddafe1c60ba285dfeb125b254ff0933a1b5faa212618caf0f5e1489f8bc21"
+  }
+}
