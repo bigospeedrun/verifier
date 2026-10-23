@@ -31,6 +31,48 @@ def recyclerExponentNS1 : ℝ := 1 - recyclerSavingNS1
 def recyclerTimeNS1 (n : ℕ) : ℝ :=
   (n : ℝ) * (Real.log (n : ℝ)) ^ recyclerExponentNS1
 
+/-- Explicit work allowance under Path 2: Nat.ceil of recyclerTimeNS1. -/
+def recyclerWork (n : ℕ) : ℕ :=
+  if n = 0 then 0 else Nat.ceil (recyclerTimeNS1 n)
+
+lemma recyclerTime_pos {n : ℕ} (hn : 2 ≤ n) : 0 < recyclerTimeNS1 n := by
+  have hn' : (0 : ℝ) < n := by exact_mod_cast (by omega : 0 < n)
+  have hlog : 0 < Real.log (n : ℝ) := Real.log_pos (by exact_mod_cast (by omega : 1 < n))
+  exact mul_pos hn' (Real.rpow_pos_of_pos hlog _)
+
+/-- The Path 2 work allowance is strictly O(n (log n)^(1 - 82009/500000)). -/
+theorem recyclerWork_isBigO :
+    (fun n : ℕ => (recyclerWork n : ℝ)) =O[atTop] recyclerTimeNS1 := by
+  refine isBigO_iff.mpr ⟨2, ?_⟩
+  filter_upwards [eventually_ge_atTop 3] with n hn
+  have hpos : 0 < recyclerTimeNS1 n := recyclerTime_pos (by omega)
+  have hne : ¬ (n = 0) := by omega
+  dsimp [recyclerWork]
+  rw [if_neg hne]
+  have hceil : (Nat.ceil (recyclerTimeNS1 n) : ℝ) ≤ recyclerTimeNS1 n + 1 := (Nat.ceil_lt_add_one hpos.le).le
+  have hlog : 1 ≤ Real.log (n : ℝ) := by
+    have he : Real.exp 1 ≤ (3 : ℝ) := by
+      have := Real.exp_one_lt_d9
+      linarith
+    have hn3 : (3 : ℝ) ≤ (n : ℝ) := by exact_mod_cast hn
+    rw [← Real.log_exp 1]
+    exact Real.log_le_log (Real.exp_pos 1) (he.trans hn3)
+  have h1_le : 1 ≤ recyclerTimeNS1 n := by
+    dsimp [recyclerTimeNS1]
+    have hn1 : 1 ≤ (n : ℝ) := by exact_mod_cast (by omega : 1 ≤ n)
+    have hrpow : 1 ≤ (Real.log (n : ℝ)) ^ recyclerExponentNS1 := by
+      have hexp_pos : 0 ≤ recyclerExponentNS1 := by
+        dsimp [recyclerExponentNS1, recyclerSavingNS1]
+        norm_num
+      exact Real.one_le_rpow hlog hexp_pos
+    calc (1 : ℝ) = 1 * 1 := by ring
+      _ ≤ (n : ℝ) * (Real.log (n : ℝ)) ^ recyclerExponentNS1 := mul_le_mul hn1 hrpow zero_le_one (by positivity)
+  have hceil_pos : 0 ≤ (Nat.ceil (recyclerTimeNS1 n) : ℝ) := by positivity
+  rw [abs_of_nonneg hceil_pos, abs_of_pos hpos]
+  linarith
+
+#print axioms recyclerWork_isBigO
+
 /-- TimeBounds under the Recycler architecture:
 The work is bounded by O(n * (log n)^(1 - s)) with s = 0.164018. -/
 def TimeBoundsRecycler (W : ℕ → ℕ) : Prop :=
