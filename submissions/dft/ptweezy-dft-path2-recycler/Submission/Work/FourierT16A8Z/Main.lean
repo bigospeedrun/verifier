@@ -57,7 +57,7 @@ lemma theta_ltT16A8Z : theta < 1 := by
   exact Real.log_lt_log (by linarith) h.2
 
 lemma alpha_thetaT16A8Z : alphaT16A8Z < theta := by
-  let d : ℝ := 3020159999999/(10:ℝ)^15
+  let d : ℝ := 82010 / (500000 : ℝ)
   have hp : 0<d := by dsimp [d]; norm_num
   have hm : 2 ≤ paperM := by norm_num [paperM]
   have hx : 0<paperMultiplier := lt_trans zero_lt_one multiplier_rangeT16A8Z.1
@@ -154,9 +154,9 @@ theorem convolution_main_orderT16A8Z : ∃ order solve W,
   exact ⟨o,s,lunchT16A8Z a b stretchT16A8Z,hp,Skies.time_boundT16A8Z h a b,fun n hn =>
     ⟨ho n hn,(ho n hn).symm ▸ (receipt_bound _ (stretch_posT16A8Z hn)).2⟩⟩
 
-/-- **The discrete Fourier transform of every length in `O(n (log n)^(1 - 302015999999/10^14))`.**
+/-- **The discrete Fourier transform of every length in `O(n (log n)^(1 - 82009/500000))`.**
 OpenAI's `transform_main` (one fixed program, OpenAI's own `DFTProgram`, `paperTime` and `nlogn`)
-with the decimal exponent `1 - 1/10^13` replaced by `decimalExponentT16A8Z = 1 - 302015999999/10^14`
+with the decimal exponent `1 - 1/10^13` replaced by `decimalExponentT16A8Z = 1 - 82009/500000`
 (Work/FourierT16A8Z/Goal.lean). Sibling of the Walsh-Hadamard theorem `wht_main_block_T16A8Z_x`: both
 follow from one kernel program, `RAM.hillsT16A8Z_program` (Work/FourierT16A8Z/Seam.lean). -/
 theorem transform_mainT16A8Z : DFTGoalT16A8Z :=

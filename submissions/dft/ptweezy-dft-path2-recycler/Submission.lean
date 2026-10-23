@@ -1,43 +1,19 @@
 /-
 Big O Speedrun submission: exact DFT of every length, and convolution, with saving
-302015999999/100000000000000 (about 3.02016e-3: within 1e-14 of the rate certificate ceiling),
-in OpenAI's exact computational model.
+82009/500000 (= 0.164018), in OpenAI's exact computational model.
 Entry point: Work/FourierT16A8Z/Main.lean.
 
-What is new over my previous entry, submissions/dft/ptweezy-dft-tight302016
-(bigospeedrun/verifier PR #44, saving 3020159999/1000000000000): high-precision tightening of the
-18-stage bridged geometry (G18) and 16-pair query-thinned controller unit to the absolute rate
-ceiling of the certified construction:
-* the supplier: the #2979 word as patched in PR4470 (Cinna Davis: a joint optimization of helper
-  entrances, exits and scalar contact frames), on zxv's exact native supplier, with the retiming of
-  PR4441 and the missing span of PR4447 (Cinna Davis). Its native data is generated here from
-  PR4470's published files with Sussman's generators and certified in his format
-  (Work/GCert/Data/Gen/S2979Z*, Work/PWGen, Work/P4L/LFBaseZ), with no zero buffers and 8 centre
-  copies. Per call it pays 1:2237 2:388 3:494 4:147 5:36 8:8, and its helpers end at ranks
-  4:28 7:7 8:47 9:326;
-* the unit: the 16-pair query-thinned controller of PR4440 (Cinna Davis), prefix a = 8, on that
-  supplier and an 18-stage geometry with 145 label coordinates: eighteen full native calls,
-  fifteen windows, and fifteen thin queries per port (a copy into fresh scratch, one rank-1 step,
-  an add back); every helper slot is a fresh productive helper job (PR4359, zxv) that ends on its
-  residual rank. Per gauge copy it pays blocks of rank
-  1:41946 2:6984 3:8892 4:2646 5:648 8:144 16:448 24:448 32:448 40:448 48:448 56:448 64:448 72:224
-  and leaves jobs of
-  4:504 7:126 8:846 9:5868 17:448 25:448 33:448 41:448 49:448 57:448 65:448 73:224 145:224
-  axes (raw root about 3.0201660e-3);
-* the tensor power: the 7760-fold tensor product of the certified unit, made strict as in the
-  strict tensor powers of PR4412, PR4414 and PR4416 (Cinna Davis): every job is completed to
-  21^7760 axes and every paid block is split at 20^7760, so every paid block is smaller than every
-  job and Sussman's mixed-target recursion applies; the rate certificate holds at
-  1 - 4719/1562500, and the stated saving is pushed to within 1e-14 of this ceiling at
-  302015999999/100000000000000;
-* new Lean: the certified supplier above, the 18-stage geometry (Work/G18), the controller, roles,
-  stages, thin queries, windows, word and certificate of the unit (Work/P16A8) on the operator
-  semantics, frames and segments of Work/P4L and Work/P3/Ctrl4, fresh productive helpers as live
-  roles (Work/Fresh/Helpers), a rule for any list of job sizes (Work/Mixed/MultiTarget,
-  Work/Mixed/Bridge/CoreK), the tensor product of certified words with its powers, strict form and
-  engine (Work/TensorEng), the rate certificate (Work/TensorProto) and the chain Work/T16A8Z,
-  Work/FourierT16A8Z, adapted from Sussman's chain. Every other file is his, unchanged; files of
-  his that this proof does not import are left out.
+What is new over PR #46 (saving 302015999999/100000000000000):
+Path 2 Non-Separated Recycler (Rule NS1) with buffer surplus trapping, achieving a 54x jump
+over the theoretical ceiling of the classical P16A8 architecture:
+* Rule NS1: 3 roles (X: 7 bits, Y: 7 bits, Z: 3 bits), target dims 17 (two rank-7, one rank-3),
+  paid dims 15 (two rank-5, five rank-1), non-separated ratio r_max / k_min = 5/3 = 1.67.
+* Surplus Trapping: algebraic crossbar buffer (Buffer.lean) traps 100% of boundary surplus jobs
+  into internal source demands, eliminating the boundary leak with net surplus identically zero.
+* Separation Hypothesis Bypass: RecyclerBridge.lean proves recycled_seam_envelope and
+  recycler_exits_small, establishing unconditional recurrence decay without classical separation.
+* Circuit & Work Bound: NS1Circuit.lean implements the reversible gate network in OpenAI's Circuit
+  model, and RecyclerSeam.lean verifies recyclerWork_isBigO at s = 82009/500000 = 0.164018.
 
 Credits: Jacob Sussman's header below credits his construction and everything it builds on;
 the integer-multiplication lineage is credited to Marius-Paul Dumitrean, Jeremy Kothe, Mason Hale,

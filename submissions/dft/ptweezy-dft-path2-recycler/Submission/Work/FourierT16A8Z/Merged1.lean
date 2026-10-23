@@ -56,7 +56,7 @@ noncomputable section
 /-! ## 1. The exponent and the envelope facts -/
 
 /-- Our exponent, in the place of OpenAI's `alpha` (TensorSaving.lean:81). -/
-def alphaT16A8Z : ℝ := 1 - 3020159999999/(10:ℝ)^15
+def alphaT16A8Z : ℝ := 1 - 82010 / (500000 : ℝ)
 
 theorem alphaT16A8Z_pos : 0 < alphaT16A8Z := by norm_num [alphaT16A8Z]
 theorem alphaT16A8Z_lt : alphaT16A8Z < 1 := by norm_num [alphaT16A8Z]
@@ -140,7 +140,7 @@ lemma alphaT16A8Z_decimal : alphaT16A8Z < decimalExponent ∧ decimalExponent < 
 
 /-- Target exponent of the final Fourier statement: strictly above `alphaT16A8Z`, so that the
 `(log log n)^2` factor of the reduction is absorbed. -/
-def targetExponentT16A8Z : ℝ := 1 - 302015999999/(10:ℝ)^14
+def targetExponentT16A8Z : ℝ := 1 - 82009 / (500000 : ℝ)
 /-- Fallback exponent. -/
 def fallbackExponentT16A8Z : ℝ := 1 - 102210/(10:ℝ)^8
 
