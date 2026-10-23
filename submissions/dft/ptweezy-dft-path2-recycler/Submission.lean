@@ -390,14 +390,14 @@ open OAI.PowerSaving OAI.PowerSaving.Recycler Filter Asymptotics Real
 theorem Race.bound : ∃ order solve W, DFTProgram order solve W ∧
     (fun n : ℕ => (W n : ℝ)) =O[atTop]
       (fun n : ℕ => (n : ℝ) * (Real.log (n : ℝ)) ^
-        (1 - (1510079999999 : ℝ) / 500000000000000)) := by
+        (1 - (82009 : ℝ) / 500000)) := by
   obtain ⟨order, solve, W, hprogram, htime⟩ := transform_mainT16A8Z
   refine ⟨order, solve, W, hprogram, ?_⟩
   have hdecimal : decimalTimeT16A8Z =
       (fun n : ℕ => (n : ℝ) * (Real.log (n : ℝ)) ^
-        (1 - (1510079999999 : ℝ) / 500000000000000)) := by
+        (1 - (82009 : ℝ) / 500000)) := by
     funext n
-    have hexponent : decimalExponentT16A8Z = 1 - (1510079999999 : ℝ) / 500000000000000 := by
+    have hexponent : decimalExponentT16A8Z = 1 - (82009 : ℝ) / 500000 := by
       norm_num [decimalExponentT16A8Z]
     simp only [decimalTimeT16A8Z, hexponent]
   exact hdecimal ▸ htime.2.1
