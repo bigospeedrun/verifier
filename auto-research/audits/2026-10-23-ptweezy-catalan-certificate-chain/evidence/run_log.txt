@@ -1,0 +1,18 @@
+== L1 design arithmetic ==
+  derived a=8 L=44 C=47 H=49 A=14; C1, C2 hold; P = 53 (saved modulus 53, RESULT prime field None)
+== L2 structural ==
+  counting identity: 6174 cases, 0 failures; valuations: 23 primes, 0 failures, agree with claimant's saved rows: True; bound attained at 5 primes
+== L3 (C3) nonvanishing ==
+  paper control Table 1 match: True; new design: zeta2 0/1406, max denom prime 47 (saved 47), pivots match saved: True, dets nonzero: {'0': True, '1': True, '-1': True}
+== L4 F_low ==
+  integrals: new 4825/2, controls 8609/2 (paper 48), 17114 (paper 96); F_low in [-2.278735682279574, -2.278735682279574]; saved printed endpoint agrees at print precision: True (diff -2.2e-20)
+== L5 (C4) rigorous certificate ==
+  cat_tail_edges_out.json kappa=2: U <= -2.281264736128935 (saved -2.2812647361289353652), crits X 34 Y 37, gates {'C3_X': True, 'C3_Y': True, 'C4_widths': True, 'C4_allowances': True, 'C5_grid': True, 'C2_numdiff': True, 'C2_closed': True}
+  cat_tail_edges_out.json kappa=1: U <= -2.419237646550258 (saved -2.4192376465502577698), crits X 32 Y 37, gates {'C3_X': True, 'C3_Y': True, 'C4_widths': True, 'C4_allowances': True, 'C5_grid': True, 'C2_numdiff': True, 'C2_closed': True}
+  cat_tail_edges_out.json: margin in [0.002529053849361805, 0.002529053849361805] (saved lower 0.00252905384936), positive: True
+  cat_tail_opt_out.json kappa=2: U <= -2.280919630275 (saved -2.2809196302750002088), crits X 31 Y 23, gates {'C3_X': True, 'C3_Y': True, 'C4_widths': True, 'C4_allowances': True, 'C5_grid': True, 'C2_numdiff': True, 'C2_closed': True}
+  cat_tail_opt_out.json kappa=1: U <= -2.418800516216788 (saved -2.4188005162167882565), crits X 19 Y 21, gates {'C3_X': True, 'C3_Y': True, 'C4_widths': True, 'C4_allowances': True, 'C5_grid': True, 'C2_numdiff': True, 'C2_closed': True}
+  cat_tail_opt_out.json: margin in [0.002183947995426648, 0.002183947995426648] (saved lower 0.00218394799543), positive: True
+== L6 assembly ==
+  gamma = 0.00252905384936; rho1 <= 5.142701322700419; second coefficient <= 2.936673275316051 (dominance True); rho2 <= 6.027643464197217
+  mu(G) <= 2401.740991129575 < 2401.741: True; float reproduction of the source's mu_upper: 2401.740991131532 vs saved 2401.740991131532 (diff 0.00e+00)

@@ -1,0 +1,51 @@
+{
+ "what": "The claimant's own parametrised scripts, copied to a scratch directory and run fresh on this machine (2026-10-23) against the packaged witness files; their regenerated outputs were compared with the outputs packaged in the pinned source. Cross-check only: no audit computation uses these scripts.",
+ "runs": [
+  {
+   "script": "cat_newdesign_check.py",
+   "seconds_on_this_box": 3.3,
+   "GATE_FAILS": 0,
+   "gates": {
+    "S": 0,
+    "Z": 0,
+    "B": 0,
+    "V": 0
+   }
+  },
+  {
+   "script": "cat_cert4_new.py",
+   "seconds_on_this_box": 1.5,
+   "GATE_FAILS": 0,
+   "gates": {
+    "P1": 0,
+    "P2": 0,
+    "P3": 0,
+    "N1": 0,
+    "N2": 0,
+    "N3": 0,
+    "N4": 0
+   }
+  },
+  {
+   "script": "cat_cert7_new.py",
+   "seconds_on_this_box": 46.7,
+   "GATE_FAILS": 0,
+   "gates": {
+    "C6": 0,
+    "C1": 0,
+    "C2": 0,
+    "C3": 0,
+    "C4": 0,
+    "C5": 0,
+    "C7": 0
+   }
+  }
+ ],
+ "regenerated_outputs_match_packaged": {
+  "structural_V_rows_and_B_ranks_identical": true,
+  "cert4_pivots_identical": true,
+  "cert7_f_low_lower_identical": true,
+  "cert7_margins_identical": true,
+  "cert7_U_endpoints_identical": true
+ }
+}

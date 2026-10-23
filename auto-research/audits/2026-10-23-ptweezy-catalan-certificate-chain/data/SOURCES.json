@@ -1,0 +1,31 @@
+{
+ "claimant_package": {
+  "repo": "https://github.com/fringewidth/catalan-exponent",
+  "commit": "0e4877172b313a04da51c972ac91348f071b8481",
+  "files": {
+   "RESULT.json": "repo root; the claimant's assembled result (float assembly)",
+   "cat_tail_edges_out.json": "certificates/cert_36_6_2_3_2/; witness data (load-bearing input to L5)",
+   "cat_tail_opt_out.json": "certificates/cert_36_6_2_3_2/; witness data (second, weaker certificate)",
+   "cat_cert4_new_out.json": "certificates/cert_36_6_2_3_2/; claimant's saved (C3) output, comparison only",
+   "cat_cert7_new_out.json": "certificates/cert_36_6_2_3_2/; claimant's saved (C4) output, comparison only",
+   "cat_newdesign_check_out.json": "certificates/cert_36_6_2_3_2/; claimant's saved structural output, comparison only",
+   "cat_equilibrium_out.json": "certificates/cert_36_6_2_3_2/; claimant's saved equilibrium output, context only"
+  }
+ },
+ "paper": {
+  "repo": "https://github.com/MarcosCarreira/catalan-designs",
+  "commit": "ec231b32f94cc3ec6a3e61b717b264f8382bb4ac",
+  "note": "paper/catalan_design_extension.tex supplies the written definitions (def:det, def:fixed, def:loss, def:upper, thm:main, xcor:massminors, xthm:exponent) and Table 1; new_design/ holds the original scripts the fringe package parametrised."
+ },
+ "verifier_base_commit": "106c0f1b12f14c2dc735e7c35636e94a382fe858",
+ "site_snapshot": "https://bigospeedrun.com/other/catalan read 2026-10-23: Carreira row at 2715 (Claimed); relevant-repos line credits fringewidth/catalan-exponent with mu(G) < 2401.741.",
+ "sha256": {
+  "RESULT.json": "e7ffd442e9142b3e49e93e20376126cb7c1c6ef00fef01b76b5936ae52442426",
+  "cat_cert4_new_out.json": "fcc5dcf2a064570c8648f38e2a809985d23175adbda8382aa64277d8eb4ae806",
+  "cat_cert7_new_out.json": "1902eeb0748d087f51fc73b556db0a8662667bbee9ac959c01efc7b913a6700a",
+  "cat_equilibrium_out.json": "8e98c8b760e5248a07371e7befab9b3eba5b93cc34a53daf9c87a525c3622cc5",
+  "cat_newdesign_check_out.json": "d92a823eb111595d803395d5f7da168fb15152eca5bbc20a7cca6f76de25c5c6",
+  "cat_tail_edges_out.json": "c5c0df03eae8d1e5b11c80d7cfe5599ad571e4fe7165cb074e56518f89300316",
+  "cat_tail_opt_out.json": "052e07b43f4a5f7b8a4b3aef41d5dc2353c8cdb6fc925dc6584afc0e7681096e"
+ }
+}
