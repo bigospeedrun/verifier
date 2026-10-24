@@ -1,0 +1,17 @@
+{
+  "algorithm": "sha256",
+  "sha256": {
+    "NOTICE.md": "d2c8e8df907d45a3698a85ecbf830a3e1feba33b4a591166bcd2eacbae367468",
+    "README.md": "5531a034970d8e2b66d618e07b9730e2070eea76bf3daae2a8cd8a2faa050e5e",
+    "RESULT.json": "31faf6c33ddb6b646fae931a0bf74389bd30794a8c8c429acaf65353af5d78aa",
+    "code/extract.lean": "9d7b5917e1bee819e0df8ceef268dbf377261a9f0e605710a6b033a83f7b36fb",
+    "data/kernel-audit-recorded.json": "f247e7303ad728c5b7592ece438ee5a63129b1c09ee34203c226c2fdde5f68c7",
+    "data/source-pins.json": "b6738c28bacc4a42eb124e835c21c218302cb22797e57acc7e0445b049f8c597",
+    "evidence/build-log.txt": "f11e156278184549f93efe44e8cf5b1333179d864adf24a97b840a538afcc8f7",
+    "evidence/build-summary.json": "c72b146a6ba65290948f3b39afbe286b29a9ad69d9a754c99d9c6917c1a3f5d2",
+    "evidence/comparison.json": "f6af5ae7a06b7354600521efd8b128a8e85ae924e249160c3d2baeb9648dcee2",
+    "evidence/independent-extraction.txt": "5f1f84b2567dda76e412d6b2282620f453d577a1440b554c8c5fe29d3b56c5db",
+    "evidence/reproduce-output.txt": "50f2ed57438090f5d6310e551187c91ed99f0839781a8416ba5bc21722994b84",
+    "verify.py": "a556612e5e6c6167db5c2023ef76b4b358b643b6a9ed9a9feada0424b65611e9"
+  }
+}

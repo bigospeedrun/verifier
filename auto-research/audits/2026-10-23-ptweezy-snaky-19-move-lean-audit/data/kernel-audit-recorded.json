@@ -1,0 +1,70 @@
+{
+  "status": "kernel_verified_and_reproduced",
+  "checked_at_utc": "2026-10-15T11:25:51.376522+00:00",
+  "certificate_sha256": "baf8774e1fc6eea60b1756437e8b3caae0ede5e001b10c0c3787aab51840782e",
+  "lean_version": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+  "compiler_archive_sha256": "65f22a4f047738ec742667b3247e836a86ebf06eabc12655c3dee00637e37866",
+  "reproduction_commands": [
+    "python3 topics/snaky/formal/build.py --lean /absolute/path/to/lean --target Snaky.Audit",
+    "python3 topics/snaky/reproduce.py --reconstruct"
+  ],
+  "theorem_and_axiom_output": [
+    "Snaky.snaky_wins_17x17_in_19 : Snaky.BlackWinsIn (Snaky.placements 17 17 Snaky.snaky) (17 * 17) 19 [] []",
+    "Snaky.snaky_wins_plane_in_19 : Snaky.PlaneBlackWinsIn 19 [] []",
+    "'Snaky.snaky_wins_17x17_in_19' depends on axioms: [propext, Classical.choice, Quot.sound]",
+    "'Snaky.snaky_wins_plane_in_19' depends on axioms: [propext, Classical.choice, Quot.sound]"
+  ],
+  "result_build": {
+    "status": "compiled",
+    "target": "Snaky.Result19",
+    "threads": 1,
+    "memory_limit_mb": 4096,
+    "timeout_per_module_seconds": 180,
+    "host": "macOS-26.3-arm64-arm-64bit",
+    "modules_in_dependency_closure": 1181,
+    "modules_compiled_this_run": 1175,
+    "elapsed_seconds": 1832.3214,
+    "child_max_rss": 2360246272,
+    "child_max_rss_unit": "bytes"
+  },
+  "audit_build": {
+    "status": "compiled",
+    "target": "Snaky.Audit",
+    "threads": 1,
+    "memory_limit_mb": 4096,
+    "timeout_per_module_seconds": 180,
+    "host": "macOS-26.3-arm64-arm-64bit",
+    "modules_in_dependency_closure": 1182,
+    "modules_compiled_this_run": 1,
+    "elapsed_seconds": 2.4297,
+    "child_max_rss": 505921536,
+    "child_max_rss_unit": "bytes"
+  },
+  "cached_base_modules": [
+    "Snaky.Game",
+    "Snaky.Cards",
+    "Snaky.Controls",
+    "Snaky.Bounded",
+    "Snaky.CardsSound",
+    "Snaky.Plane"
+  ],
+  "new_formal_source_sha256": {
+    "Snaky/Plane.lean": "c4e2bccd2762b144874119eb45aa752985657e967f447b469c8b00865ed47469",
+    "Snaky/Result19.lean": "83377e02dd56b781f06006655dc98c744fa7cdad62ca0ea3d07403b8a752f05a",
+    "Snaky/Audit.lean": "ef155c7d5581a861b4811e9e17f5559605a47dff8357f825f8bececf086fe291",
+    "build.py": "22c37f66fb52b390fd67f4e65ba806103c2c30e962ca7a5e95abfa2ec3ee3bdf"
+  },
+  "independent_reproduction": {
+    "exit_code": 0,
+    "unit_tests_passed": 31,
+    "candidate_corruption_controls_rejected": [
+      "root_height_reduced_to_18",
+      "required_root_reply_removed"
+    ],
+    "reconstructed_certificate_byte_for_byte_identical": true,
+    "construction_seconds": 13.663054,
+    "constructor_calls": 36084,
+    "compact_cards": 3468
+  },
+  "scope": "Upper bound of 19 actual Maker claims, including the winning claim, from the empty infinite integer square board; also the empty 17 by 17 board. No optimality claim."
+}

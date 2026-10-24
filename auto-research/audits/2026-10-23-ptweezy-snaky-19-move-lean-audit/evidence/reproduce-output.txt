@@ -1,0 +1,38 @@
+start_utc=2026-10-24T00:36:31Z
+...............................
+----------------------------------------------------------------------
+Ran 31 tests in 0.011s
+
+OK
+VERIFIED: 3468 cards, 61040 inside and 3456 outside response checks; Black wins on 17x17 within 19 Black moves. Computational audit, not a new optimality result.
+{
+  "certificate_sha256": "baf8774e1fc6eea60b1756437e8b3caae0ede5e001b10c0c3787aab51840782e",
+  "controls": [
+    {
+      "control": "root_height_reduced_by_one",
+      "error": "height-descent: card 3467 reply (7, 8) target height 18 is not below 18",
+      "status": "rejected"
+    },
+    {
+      "control": "root_response_removed",
+      "error": "missing-response: card 3467 lacks reply (0, 4)",
+      "status": "rejected"
+    }
+  ],
+  "corrupted_root_height": 18,
+  "original_root_height": 19,
+  "removed_response": [
+    0,
+    4
+  ],
+  "root_index": 3467,
+  "status": "controls_passed",
+  "verifier_sha256": "04bafdca67b5211139b73cb547e33e8261750578bfc729cdd9f1587d84295a10"
+}
+{"status": "constructed", "elapsed_seconds": 18.134847, "constructor_stats": {"calls": 36084, "catalog_leaves": 180, "baseline_leaves": 35751, "internal_cards": 153}, "catalog_stats": {"queries": 333, "families_examined": 13739064, "support_tests": 283735, "hits": 180}, "synthesized_card_count": 153}
+wrote /tmp/snaky-reproduction-jbk6fkxj/construction.json
+{"input_cards": 10562, "output_cards": 3468, "compact_root": {"child": 3467, "orientation": 0, "translation": [0, 0]}, "root_height": 19, "source_counts": {"20_move_catalog": 1662, "15x15_catalog": 1653, "constructed": 153}, "output_sha256": "baf8774e1fc6eea60b1756437e8b3caae0ede5e001b10c0c3787aab51840782e"}
+Reconstruction is byte-for-byte identical.
+VERIFIED: Snaky within 19 Maker moves; see SOUNDNESS.md for the infinite-board proof.
+exit=0
+end_utc=2026-10-24T00:36:57Z

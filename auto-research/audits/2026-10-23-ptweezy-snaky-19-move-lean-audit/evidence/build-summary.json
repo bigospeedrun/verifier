@@ -1,0 +1,151 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "module_seconds_sum": 2264.0,
+      "modules_compiled": 419,
+      "note": "Module-second sum for attempt 1 is the sum over the 419 modules it compiled, recovered from the merged final state file; wall time start-to-last-module is about 2,240 s.",
+      "outcome": "Process died at about 2026-10-23T23:36Z when its launcher session ended; no Lean error, no module failure, no exit record. All 419 compiled modules were preserved in build.py's resumable per-module state (.build/state.json + oleans).",
+      "peak_rss_kib_sampled": 2380292,
+      "start_utc": "2026-10-23T22:58:53Z"
+    },
+    {
+      "attempt": 2,
+      "child_max_rss_kib_build_py": 2490308,
+      "elapsed_seconds_build_py": 1795.9775,
+      "end_utc": "2026-10-24T00:35:52Z",
+      "exit_code": 0,
+      "modules_compiled": 763,
+      "outcome": "Completed the closure; Snaky.Audit compiled and printed both theorem types and axiom lists. The 419 cached modules were digest-verified and reused, not recompiled, exactly as build.py is designed to resume.",
+      "peak_rss_kib_sampled": 2490416,
+      "start_utc": "2026-10-24T00:05:53Z"
+    }
+  ],
+  "audit": "Independent rebuild of the Snaky.Audit kernel audit (shjvandekamp/math @ db6e1d89)",
+  "command": "python3 topics/snaky/formal/build.py --lean <lean-4.34.1> --target Snaky.Audit",
+  "dry_run_first_modules": [
+    {
+      "module": "Snaky.Game",
+      "seconds": 14.25
+    },
+    {
+      "module": "Snaky.Cards",
+      "seconds": 1.27
+    },
+    {
+      "module": "Snaky.Controls",
+      "seconds": 1.08
+    },
+    {
+      "module": "Snaky.Bounded",
+      "seconds": 1.1
+    },
+    {
+      "module": "Snaky.CardsSound",
+      "seconds": 5.31
+    },
+    {
+      "module": "Snaky.Plane",
+      "seconds": 1.97
+    },
+    {
+      "module": "Snaky.Gen19.Data00",
+      "seconds": 42.95
+    },
+    {
+      "module": "Snaky.Gen19.Data01",
+      "seconds": 43.4
+    }
+  ],
+  "environment": {
+    "cpu": "AMD EPYC 9D64 88-Core Processor (2 cores available)",
+    "host_platform_string_from_build_py": "Linux-7.0.0-39-generic-x86_64-with-glibc2.39",
+    "kernel": "Linux 7.0.0-39-generic x86_64",
+    "lean": "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+    "memory_limit_mb_per_process": 4096,
+    "ram_kib_total": 8125588,
+    "threads": 1,
+    "timeout_per_module_seconds": 180
+  },
+  "log_warnings": [
+    "Snaky/CardsSound.lean:233: two linter warnings 'This simp argument is unused' in the author's source. No errors, no 'declaration uses sorry' anywhere; build.py aborts on any sorry warning and did not."
+  ],
+  "module_cap_check": {
+    "all_modules_within_cap": true,
+    "cap_seconds": 180,
+    "slowest_module": "Snaky.Gen19.Data06",
+    "slowest_seconds": 133.22
+  },
+  "reconstruction": {
+    "author_recorded": {
+      "compact_cards": 3468,
+      "construction_seconds": 13.663054,
+      "constructor_calls": 36084,
+      "reconstructed_certificate_byte_for_byte_identical": true,
+      "unit_tests_passed": 31
+    },
+    "command": "python3 topics/snaky/reproduce.py --reconstruct",
+    "construction_seconds": 18.134847,
+    "constructor_calls": 36084,
+    "corruption_controls_rejected": [
+      "root_height_reduced_by_one",
+      "root_response_removed"
+    ],
+    "end_utc": "2026-10-24T00:36:57Z",
+    "exit_code": 0,
+    "output_sha256": "baf8774e1fc6eea60b1756437e8b3caae0ede5e001b10c0c3787aab51840782e",
+    "python_card_checker": "VERIFIED: 3468 cards, 61040 inside and 3456 outside response checks",
+    "reconstructed_certificate_byte_for_byte_identical": true,
+    "start_utc": "2026-10-24T00:36:31Z",
+    "unit_tests_passed": 31
+  },
+  "slowest_modules": [
+    {
+      "module": "Snaky.Gen19.Data06",
+      "seconds": 133.2229
+    },
+    {
+      "module": "Snaky.Gen19.Data04",
+      "seconds": 77.6417
+    },
+    {
+      "module": "Snaky.Gen19.Data02",
+      "seconds": 57.0751
+    },
+    {
+      "module": "Snaky.Gen19.Data03",
+      "seconds": 52.0117
+    },
+    {
+      "module": "Snaky.Gen19.Data05",
+      "seconds": 44.572
+    },
+    {
+      "module": "Snaky.Gen19.Data01",
+      "seconds": 43.4043
+    },
+    {
+      "module": "Snaky.Gen19.Data00",
+      "seconds": 42.9545
+    },
+    {
+      "module": "Snaky.Gen19.Chunk140R25",
+      "seconds": 26.0537
+    },
+    {
+      "module": "Snaky.Gen19.Chunk184R21",
+      "seconds": 23.9601
+    },
+    {
+      "module": "Snaky.Gen19.Chunk037",
+      "seconds": 16.8785
+    }
+  ],
+  "sorry_in_any_module_log": false,
+  "totals": {
+    "certificate_sha256": "baf8774e1fc6eea60b1756437e8b3caae0ede5e001b10c0c3787aab51840782e",
+    "modules_compiled_by_this_audit": 1182,
+    "modules_in_dependency_closure": 1182,
+    "sum_module_seconds_all": 4048.53
+  }
+}

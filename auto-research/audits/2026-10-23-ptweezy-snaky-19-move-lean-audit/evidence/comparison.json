@@ -1,0 +1,49 @@
+{
+  "axiom_differences": [],
+  "compared_against": "data/kernel-audit-recorded.json (byte copy of topics/snaky/formal/kernel-audit.json at the pinned commit)",
+  "exact_line_set_match_all_three_sources": true,
+  "extra_theorems": [],
+  "missing_theorems": [],
+  "recorded_field": "theorem_and_axiom_output",
+  "sorryAx_present": false,
+  "sources_compared": {
+    "independent_probe_output": "evidence/independent-extraction.txt, produced by the auditor-written probe code/extract.lean run against the freshly compiled oleans (not copied from the author JSON or from Audit.lean)",
+    "recorded_author_json": "macOS-26.3-arm64 author run, checked_at 2026-10-15T11:25:51Z",
+    "this_build_audit_module_output": "the four lines printed by Snaky.Audit in evidence/build-log.txt during this independent Linux x86_64 rebuild"
+  },
+  "theorems": {
+    "Snaky.snaky_wins_17x17_in_19": {
+      "headline": false,
+      "match": true,
+      "recorded_axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "this_build_axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "type": "Snaky.BlackWinsIn (Snaky.placements 17 17 Snaky.snaky) (17 * 17) 19 [] []"
+    },
+    "Snaky.snaky_wins_plane_in_19": {
+      "headline": true,
+      "match": true,
+      "recorded_axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "this_build_axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "type": "Snaky.PlaneBlackWinsIn 19 [] []"
+    }
+  },
+  "type_differences": [],
+  "unexpected_axioms": [],
+  "verdict": "EXACT MATCH: both theorem types and both axiom lists reproduce identically."
+}

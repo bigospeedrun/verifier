@@ -1,0 +1,4 @@
+Snaky.snaky_wins_plane_in_19 : Snaky.PlaneBlackWinsIn 19 [] []
+Snaky.snaky_wins_17x17_in_19 : Snaky.BlackWinsIn (Snaky.placements 17 17 Snaky.snaky) (17 * 17) 19 [] []
+'Snaky.snaky_wins_plane_in_19' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Snaky.snaky_wins_17x17_in_19' depends on axioms: [propext, Classical.choice, Quot.sound]
