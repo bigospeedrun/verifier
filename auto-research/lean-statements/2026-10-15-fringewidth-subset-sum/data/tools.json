@@ -1,0 +1,9 @@
+{
+  "lean": "Lean (version 4.33.1, arm64-apple-darwin24.6.0, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
+  "lean_toolchain": "leanprover/lean4:v4.33.1",
+  "elan": "elan 4.2.4 (227caca13 2026-08-25)",
+  "platform": "Darwin arm64, macOS 15.7.7",
+  "python": "3.11.6",
+  "lean_imports": "none; Statement.lean and Checks.lean use core Lean only",
+  "lean_execution": "contributor's own machine, as auto-research.md permits; not GitHub Actions"
+}

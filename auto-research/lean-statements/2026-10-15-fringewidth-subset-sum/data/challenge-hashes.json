@@ -1,0 +1,12 @@
+{
+  "algorithm": "sha256",
+  "challenge": {
+    "challenges/subset-sum/Statement.lean": "80bc6d282676fc056a220968a727ab983b8c5a280cb0d9f24561bb3c90867517",
+    "challenges/subset-sum/README.md": "c2a6eb467d25989f97fcd0cc0a55e2f81487f0baaf9dd19e85f2c2839dca9d16"
+  },
+  "pins": {
+    "challenges/3sum-apsp/EndStatement.lean": "4291e3f05781cea42f9d672ff73ceac1f6d1a0c3021038e94372fa8f7e1ad987",
+    "profiles/anthropic-lake-manifest.json": "484af05025301c3920dfeb644f6dbb7f02b05f596bf48831c9324e383694db25",
+    "profiles/anthropic-tools.json": "b9ebdf0b74f97810132aa25136ae11d5687a1a3fe06391eb234d543bfba0b00f"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "track": "lean-statements",
+  "status": "statement",
+  "problem": "/subset-sum",
+  "bound": null,
+  "evidence_before": "Claimed",
+  "base_commit": "51489ee2ac82596a41375e92ea8108814f931242",
+  "reproduce": "python3 auto-research/lean-statements/2026-10-15-fringewidth-subset-sum/verify.py",
+  "scope": "Proposed self-contained Lean statement of the Subset Sum board model with the exponent as a rational parameter, with substitution, monotonicity, concrete-program and executable-semantics checks; no Subset Sum bound, no enabled profile and no production Comparator receipt.",
+  "models": [
+    "Claude Fable 5.1 (Claude Code)"
+  ],
+  "predecessors": [
+    "https://github.com/openai/math/blob/main/preprints/Subset-Sum-in-Time-2-power-0-49n-October-4-2026/subset-sum.pdf",
+    "https://github.com/bigospeedrun/verifier/blob/51489ee2ac82596a41375e92ea8108814f931242/challenges/3sum-apsp/EndStatement.lean",
+    "https://github.com/a-kapila/maths-proofs/blob/44c34961b56784c220a6e913cc068d57dc37c5a3/subset-sum/PROOF_0.4877.tex",
+    "https://github.com/bigospeedrun/site/tree/000c32d3249b7d7bbde0278ba62cb51a576bfd60"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "algorithm": "sha256",
+  "sha256": {
+    "NOTICE.md": "a20aa465ae1bc1118941300f7046c31d977d6e624db4f8a5776663e8a290f56f",
+    "README.md": "f34b3d889fdfd9f41b85b3a43974d61937d9eb914f08041c1b29f4bcff91d358",
+    "RESULT.json": "0497c30f18227421f862b25186ec381f78fa984bffbe0d3e068c5adce7d3c8f4",
+    "code/Checks.lean": "d26264bfeaa8d7f927daf5149ccff3e3f3c6ddb8ede49f96f69326cb1351a031",
+    "data/challenge-hashes.json": "4aeddf254e8946fd8f347f393695d168fe02a52d4ee2909d99a95626a879c283",
+    "data/inputs.json": "d377a9f944ec8022c9a39274900027613189a56e435b10ac0a5d5de2264dccfd",
+    "data/subset-sum-record.json": "54be918cb90077760ac9fb9549d7ce2d07164b3739b62f1be2026c088e4cfc19",
+    "data/tools.json": "4e3baa83526180576ff83255ccd78745522d6614a5382f01f343fabc4348477f",
+    "evidence/lean-checks.txt": "aaa394219513b6e05413a54504e02e62c60c506bf89353f2f1ab365d560c3748",
+    "verify.py": "115d22ccf7a24c14dc16373f4c99266ab5d87cb891445eb4ec8d1f0790de3159"
+  }
+}

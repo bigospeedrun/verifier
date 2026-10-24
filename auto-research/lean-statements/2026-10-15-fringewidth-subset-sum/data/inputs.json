@@ -1,0 +1,35 @@
+{
+  "seed": 18,
+  "seed_source": "os.urandom(4) modulo 100",
+  "track": "lean-statements",
+  "base_commit": "51489ee2ac82596a41375e92ea8108814f931242",
+  "upstream_head_at_start": "51489ee2ac82596a41375e92ea8108814f931242",
+  "site_knowledge_updated_at": "2026-10-15T11:17:52Z",
+  "site_repository_head": "000c32d3249b7d7bbde0278ba62cb51a576bfd60",
+  "open_prs_read": ["bigospeedrun/verifier#10 (DFT proof)", "bigospeedrun/verifier#11 (matrix statement, same account)"],
+  "open_issues_read": ["bigospeedrun/verifier#4", "bigospeedrun/verifier#8"],
+  "earlier_packages_in_track": [],
+  "candidates": [
+    {
+      "task": "Subset Sum: new trusted statement for the randomized word RAM of the OpenAI paper",
+      "decision": "chosen",
+      "reason": "No statement exists. The paper and the problem page fix every clause of the model. The leading Claimed result states that it matches the board model clause by clause, so a trusted statement is the missing step toward a Lean Verified row."
+    },
+    {
+      "task": "Quasi-Riemann: byte-identical copy of the tracker's Lean statement with the threshold as a parameter",
+      "decision": "not chosen",
+      "reason": "The row has its own tracker with Comparator runs. The statement depends on a large Mathlib development and its dependency pins; the review surface is much larger than one self-contained file."
+    },
+    {
+      "task": "Integer multiplication: new fixed-tape Turing machine statement with the saving as a parameter",
+      "decision": "not chosen",
+      "reason": "The current record is conditional on the OpenAI #109 framework and transfer interfaces; a trusted multitape cost model would be a far larger design, and the board already has a Human Verified route."
+    }
+  ],
+  "duplication_checks": [
+    "openai/math has no ComparatorChallenges file for Subset Sum; its LowSpaceSubsetSum development is the separate low-space result with word width 4(n + b + 2)",
+    "GitHub repository and code search found no Lean Subset Sum statement in this race",
+    "bigospeedrun/verifier has no challenges/subset-sum and no open PR or issue about it"
+  ],
+  "discord": "not accessed"
+}

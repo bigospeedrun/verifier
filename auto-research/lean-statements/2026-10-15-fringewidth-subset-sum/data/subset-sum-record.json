@@ -1,0 +1,100 @@
+{
+  "page": "Given positive integers \\(a_1,\\ldots,a_n\\) and a nonnegative target \\(t\\) , decide whether a subset sums to \\(t\\) ; repeats and the empty subset are allowed. For \\(n\\ge2\\) , let \\(b\\) be the maximum input or target bit length. A single randomized word-RAM program uses \\(w=\\lceil4(n+b+\\log_2(n+2))\\rceil\\) -bit words, halts on every run and is correct with probability at least \\(2/3\\) on each input.\nClassic bound: \\(O^*(2^{n/2})\\) ([Horowitz and Sahni 1974](https://doi.org/10.1145/321812.321823)).\nFull computation rules\nWord reads and writes, indirect addressing, comparison, arithmetic (including multiplication, division and remainder), bitwise operations, shifts and independent uniform random words each cost one operation. Overflow costs multiple operations. Retained random words use memory. All input access and preparation count; the program has no advice or external tables. For each fixed \\(c\\) and \\(b\\le n^c\\) , the bound holds for every random outcome, and the program does not depend on \\(c\\) .\nThe bound has the form \\(O(2^{\\alpha n})\\) . \\(\\alpha\\) is the time exponent; lower is better.\nWhat counts as Claimed: Published results for this problem without a qualifying repository review or Lean proof check.\nWhat counts as Human Verified: This problem has no community repo with a qualifying review rule.\nWhat counts as Lean Verified: A result shows here when we rebuild its Lean proof from source and check, with the Lean kernel, that it proves our exact problem statement.",
+  "problem": {
+    "baseline": "O^*(2^{n/2})",
+    "current": [
+      {
+        "assumptions": [],
+        "authors": [
+          {
+            "avatar": "/avatars/a-kapila-3623d87235.jpg",
+            "login": "a-kapila",
+            "name": "Annanay Kapila",
+            "twitterUsername": "annanay",
+            "url": "https://github.com/a-kapila"
+          }
+        ],
+        "bound": "O(2^{0.4877n})",
+        "comparisonNote": "Theorem 1 matches the board model clause by clause: word length ceil(4(n+b+log(n+2))), halts on every run, success probability at least 2/3, every random outcome costs O(2^(0.4877n)) for every fixed c and b <= n^c, and the program does not depend on c. The (LD) inequality is a case split inside the proof, not an assumption. Source comparison, not a proof check.",
+        "date": "2026-10-14T14:55:32Z",
+        "dateMeaning": "Source date",
+        "evidence": "Claimed",
+        "exactScore": "4877/10000",
+        "id": "a-kapila-subset-sum-0-4877-2026",
+        "scoreRelation": "attained",
+        "sources": [
+          {
+            "name": "Source",
+            "url": "https://github.com/a-kapila/maths-proofs/blob/44c34961b56784c220a6e913cc068d57dc37c5a3/subset-sum/PROOF_0.4877.tex#L56-L66"
+          },
+          {
+            "name": "Paper",
+            "url": "https://github.com/a-kapila/maths-proofs/blob/44c34961b56784c220a6e913cc068d57dc37c5a3/subset-sum/PROOF_0.4877.pdf"
+          },
+          {
+            "name": "Commit",
+            "url": "https://github.com/a-kapila/maths-proofs/tree/44c34961b56784c220a6e913cc068d57dc37c5a3"
+          }
+        ]
+      }
+    ],
+    "currentByEvidence": {
+      "Claimed": [
+        {
+          "assumptions": [],
+          "authors": [
+            {
+              "avatar": "/avatars/a-kapila-3623d87235.jpg",
+              "login": "a-kapila",
+              "name": "Annanay Kapila",
+              "twitterUsername": "annanay",
+              "url": "https://github.com/a-kapila"
+            }
+          ],
+          "bound": "O(2^{0.4877n})",
+          "comparisonNote": "Theorem 1 matches the board model clause by clause: word length ceil(4(n+b+log(n+2))), halts on every run, success probability at least 2/3, every random outcome costs O(2^(0.4877n)) for every fixed c and b <= n^c, and the program does not depend on c. The (LD) inequality is a case split inside the proof, not an assumption. Source comparison, not a proof check.",
+          "date": "2026-10-14T14:55:32Z",
+          "dateMeaning": "Source date",
+          "evidence": "Claimed",
+          "exactScore": "4877/10000",
+          "id": "a-kapila-subset-sum-0-4877-2026",
+          "scoreRelation": "attained",
+          "sources": [
+            {
+              "name": "Source",
+              "url": "https://github.com/a-kapila/maths-proofs/blob/44c34961b56784c220a6e913cc068d57dc37c5a3/subset-sum/PROOF_0.4877.tex#L56-L66"
+            },
+            {
+              "name": "Paper",
+              "url": "https://github.com/a-kapila/maths-proofs/blob/44c34961b56784c220a6e913cc068d57dc37c5a3/subset-sum/PROOF_0.4877.pdf"
+            },
+            {
+              "name": "Commit",
+              "url": "https://github.com/a-kapila/maths-proofs/tree/44c34961b56784c220a6e913cc068d57dc37c5a3"
+            }
+          ]
+        }
+      ],
+      "Human Verified": [],
+      "Lean Verified": []
+    },
+    "path": "/subset-sum",
+    "repositories": [
+      {
+        "acceptsSubmissions": false,
+        "name": "openai/math",
+        "url": "https://github.com/openai/math"
+      },
+      {
+        "acceptsSubmissions": false,
+        "name": "Swapnil-jain/subsetsum-derand",
+        "url": "https://github.com/Swapnil-jain/subsetsum-derand"
+      }
+    ],
+    "scope": "Positive integers a_1,...,a_n and nonnegative target t, n>=2; repeats and empty subset allowed. Let b be maximum input/target bit length. Word RAM has w=ceil(4(n+b+log2(n+2))) bits. Reads/writes, indirect addressing, comparison, arithmetic including multiply/divide/remainder, bitwise operations and shifts cost one word operation; overflow uses charged multiple operations. Independent uniform w-bit random word costs one operation; one-way randomness with retained words charged to memory. One finite program for all n,b, no advice or external tables; all preprocessing and input access charged. Halts on every run, correct with probability at least 2/3 for every fixed input. For every fixed c and b<=n^c, every random outcome costs O(2^(0.49n)); program does not depend on c.",
+    "title": "Subset Sum",
+    "updatedAt": "2026-10-15T00:56:36Z"
+  },
+  "source": "https://bigospeedrun.com/chat-knowledge.json",
+  "updatedAt": "2026-10-15T11:17:52Z"
+}
