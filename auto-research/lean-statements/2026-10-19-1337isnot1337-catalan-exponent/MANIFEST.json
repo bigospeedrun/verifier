@@ -1,0 +1,22 @@
+{
+  "algorithm": "sha256",
+  "sha256": {
+    "NOTICE.md": "6a74d64d7ad746b55600f73629de6948cfe8bc21a1660ddf2062ddcb0ec769c4",
+    "README.md": "f6c64e8ed503c8dcf7abc3b6974332b18c0e57f8c324c89af35d550940bdea7d",
+    "RESULT.json": "e3a101b546c63005c9747dc70119bb1a62ac392d5b1dbfc1e3400fabc4eab78b",
+    "code/Validation.lean": "54cf0565d85ffca65511e4e85e4814385e870c934b91efc22bdf42e88e81eabe",
+    "code/check-catalan.yml": "4e3fc5d2e27915a049347a3cd712e8730f4b4dcfab0f1e12e1cab29fba85ad8c",
+    "code/verify-lean.sh": "73d50a48f889957cf4984523e1d54c93767cc5793283b6b53a316599b41b3fbb",
+    "data/Challenge.lean": "12bed382b5620e7bd7396ff513741a33544a997526dfbe73ef670fd531fa7c41",
+    "data/NOTICE.upstream": "ea0f969b2d8621f8f0d89fdbd3324b98ea89b991f650afa124612557339ab8ac",
+    "data/SOURCES.json": "3e1455b762bf72b79200ca823d484aaba984806032761fdea359503b9035ee93",
+    "data/TARGETS.json": "7cb61652cac8847c389f5030906a070e5c119aac2714dbc7e39cd5e656af42c5",
+    "data/source-lake-manifest.json": "131141d79454ae6e1425087b5b9b0d10923feaec85e4ef911b94f312e212e90a",
+    "evidence/axioms.txt": "d20d951184c34b71a191fb78274727f2e0beafe8a8fccb0a645694a75effa2ac",
+    "evidence/board-before.md": "2ec2463ee2ac530f3cae649f67bcb0e43b34c5808ff424fc4b58890de48003ee",
+    "evidence/check-history.json": "4e3012522a05980bc4e9d0aeae79e6634b9d3caf6a83ef7e16785678e369c21e",
+    "evidence/lean-check.json": "4dbfd795451df74915abd8f52a2bb746732d0c00b7fffbafdca20e6ca895255a",
+    "evidence/site-row.json": "fbd57235bdb783cedf6f11c8cb59677347327f900eb3161d0d063462b4b0c031",
+    "verify.py": "b8edc93646c6fd16da2ae999b1571dfab0f640aa7912cf6fe25609074e515aa6"
+  }
+}

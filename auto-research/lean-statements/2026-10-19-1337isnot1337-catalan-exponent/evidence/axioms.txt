@@ -1,0 +1,5 @@
+2026-10-19T17:27:30.4906862Z 'CatalanStatementValidation.source_740_shape' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-19T17:27:30.4908419Z 'CatalanStatementValidation.source_740_implies_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-19T17:27:30.4909766Z 'CatalanStatementValidation.bound_mono' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-19T17:27:30.4911044Z 'CatalanStatementValidation.zero_has_upperBound_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-19T17:27:30.4912346Z 'CatalanStatementValidation.no_bound_zero' depends on axioms: [propext, Classical.choice, Quot.sound]

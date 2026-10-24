@@ -1,0 +1,8 @@
+{
+  "algorithm": "sha256",
+  "sha256": {
+    "challenges/catalan/Statement.lean": "bb12ed53a51fafdd861d3c220ef4af6422e8b0cdae233e3deed681545e8aae06",
+    "challenges/catalan/README.md": "1807ce7925399dd36448e763b901394f67f93f78c0249414661e7b71b6ccaad2",
+    "challenges/catalan/LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+  }
+}

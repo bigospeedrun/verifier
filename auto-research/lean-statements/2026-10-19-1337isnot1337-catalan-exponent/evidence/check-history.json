@@ -1,0 +1,22 @@
+[
+  {
+    "run_id": 39292950246,
+    "head_sha": "6c3b660214c705f1ac6548fbea5dadaf73cd278a",
+    "outcome": "failure",
+    "finding": "Cache setup used filesystem paths absent from the downstream project. No Lean proof check was reached.",
+    "fix": "Use fully qualified Mathlib module names."
+  },
+  {
+    "run_id": 39293455638,
+    "head_sha": "90953f85cf9cd73b55c0ef600a581daae30f7b8e",
+    "outcome": "failure",
+    "finding": "Lean accepted the first four printed validation declarations, but the final rejection proof left b*x+1=1+b*x unsolved and included sorryAx. The run correctly failed.",
+    "fix": "Close the commutative ring identity explicitly with ring."
+  },
+  {
+    "run_id": 39293900600,
+    "head_sha": "b8a7ab794fed5f624467249b59bc73f6ce561c55",
+    "outcome": "success",
+    "finding": "Statement compiled; all five printed validation declarations compiled without holes and reported only permitted axioms."
+  }
+]

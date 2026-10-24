@@ -1,0 +1,21 @@
+{
+  "repository": "https://github.com/slitsey/catalan-irrationality-measure",
+  "commit": "50672b810873d8371b2b6bdd0057bb6cb2e3da24",
+  "files": {
+    "data/Challenge.lean": {
+      "upstream_path": "Challenge.lean",
+      "sha256": "12bed382b5620e7bd7396ff513741a33544a997526dfbe73ef670fd531fa7c41"
+    },
+    "data/source-lake-manifest.json": {
+      "upstream_path": "lake-manifest.json",
+      "sha256": "131141d79454ae6e1425087b5b9b0d10923feaec85e4ef911b94f312e212e90a"
+    },
+    "data/NOTICE.upstream": {
+      "upstream_path": "NOTICE",
+      "sha256": "ea0f969b2d8621f8f0d89fdbd3324b98ea89b991f650afa124612557339ab8ac"
+    }
+  },
+  "mathlib_commit": "065356127b1dc0016f66b7283ce0ce2c4055aa55",
+  "lean_toolchain": "leanprover/lean4:v4.35.0-rc2",
+  "license_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+}

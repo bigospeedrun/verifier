@@ -1,0 +1,14 @@
+{
+  "track": "lean-statements",
+  "status": "statement",
+  "problem": "/other/catalan",
+  "bound": "740",
+  "evidence_before": "Claimed",
+  "base_commit": "1e009d7adeb43a1ddffe8b8148be4bebba69e720",
+  "reproduce": "python3 auto-research/lean-statements/2026-10-19-1337isnot1337-catalan-exponent/verify.py",
+  "scope": "A parameterized irrationality-exponent statement with validation controls; no finite Catalan bound, source proof, or Comparator acceptance is established.",
+  "models": ["OpenAI Codex GPT-6"],
+  "predecessors": [
+    "https://github.com/slitsey/catalan-irrationality-measure/blob/50672b810873d8371b2b6bdd0057bb6cb2e3da24/Challenge.lean"
+  ]
+}

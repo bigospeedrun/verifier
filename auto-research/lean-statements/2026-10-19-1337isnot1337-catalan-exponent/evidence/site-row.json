@@ -1,0 +1,43 @@
+{
+  "retrieved_utc": "2026-10-19T17:18:36.646470+00:00",
+  "url": "https://bigospeedrun.com/chat-knowledge.json",
+  "updatedAt": "2026-10-19T15:17:24Z",
+  "full_response_sha256": "2742b77e625924d6984968ebfbc6e125fc6ebedf12705f772d174175b2723a23",
+  "row": {
+    "path": "/other/catalan",
+    "title": "Catalan\u2019s constant",
+    "aliases": [
+      "catalan",
+      "catalans constant"
+    ],
+    "openaiFamily": "005",
+    "rankedQuantity": "\\mu(G)",
+    "better": "A lower value is better.",
+    "statement": "The quantity is an upper bound on the irrationality exponent \\(\\mu(G)\\) of Catalan\u2019s constant. A lower bound is better. The release states irrationality but gives no finite exponent bound; the baseline is the trivial extended-real upper bound \\(+\\infty\\).",
+    "baseline": {
+      "bound": "\\mu(G)\\le +\\infty",
+      "source": "https://github.com/openai/math/blob/adc7f1241b42e322a6451854ab7e4b4c146bf78a/preprints/Catalans-constant-is-irrational-September-24-2026/paper.pdf",
+      "date": "2026-10-06"
+    },
+    "current": {
+      "bound": "\\mu(G)\\le 740",
+      "exactValue": "740",
+      "conditions": "The prime-number-theorem argument gives the exponent \\(373706640/505079\\approx 739.90\\), so \\(\\mu(G)\\le 740\\). With Chebyshev bounds in the last step, the argument gives \\(\\mu(G)\\le 2220\\), but that version still uses the prime number theorem in two other steps. The README credits the new lemma to Claude (Anthropic) working with Sean Litsey.",
+      "evidence": "Claimed",
+      "authors": [
+        "S. Litsey"
+      ],
+      "date": "2026-10-17",
+      "source": "https://github.com/slitsey/catalan-irrationality-measure/blob/50672b810873d8371b2b6bdd0057bb6cb2e3da24/README.md",
+      "proofScope": "The supplied Lean code proves the rational-approximation bounds for all sufficiently large natural denominators and all integer numerators, with exponents 740 and 2220. The author reports that both pass Lean\u2019s main kernel and the standard-axiom audits; the independent-kernel and comparator checks are pending. No site rerun. The author\u2019s CI had not finished for this commit when we listed it."
+    },
+    "claimCount": 16,
+    "relevantRepos": [
+      {
+        "name": "fringewidth/catalan-exponent",
+        "url": "https://github.com/fringewidth/catalan-exponent/blob/0e4877172b313a04da51c972ac91348f071b8481/README.md#L3-L40",
+        "note": "Carreira's theorem with a smaller design gives \\(\\mu(G)<2401.741\\); search and certification by Claude."
+      }
+    ]
+  }
+}

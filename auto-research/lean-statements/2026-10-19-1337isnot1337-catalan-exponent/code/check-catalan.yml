@@ -1,0 +1,23 @@
+name: Check Catalan statement on contributor fork
+on:
+  push:
+    branches: [ci/catalan-statement]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  lean:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Install elan
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/v4.2.4/elan-init.sh -o /tmp/elan-init.sh
+          sh /tmp/elan-init.sh -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Compile and print axiom dependencies
+        run: |
+          bash auto-research/lean-statements/2026-10-19-1337isnot1337-catalan-exponent/code/verify-lean.sh

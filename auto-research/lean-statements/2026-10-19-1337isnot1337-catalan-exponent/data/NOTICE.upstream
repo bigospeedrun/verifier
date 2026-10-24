@@ -1,0 +1,44 @@
+An irrationality measure for Catalan's constant -- Lean formalization
+Copyright 2026 Sean Litsey
+
+This repository is licensed under the Apache License, Version 2.0 (see LICENSE).
+It contains third-party material, also licensed under the Apache License, Version 2.0:
+
+1. OAI/  (478 files)
+   From OpenAI's mathematics repository, https://github.com/openai/math,
+   commit fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb, directory lean/OAI/
+   (the formalization accompanying "Catalan's constant is irrational", OpenAI, 2026).
+   Only the files needed by this development are included. They were modified as follows:
+   - each file was mechanically converted to Lean's module system (a `module` header,
+     `public import`, and `@[expose] public section` after the imports);
+   - minimal changes were made for Lean v4.35.0-rc2 and Mathlib v4.35.0-rc2 (see PORTING.md);
+   - in the 37 point-evaluation files OAI/NumberTheory/Catalan/SecondBarrier/
+     BarrierCaseTwoPoint{X0..X18,Y0..Y17}.lean and in BarrierCaseTwoGlobalBounds.lean, the
+     comparison constants -98399/100000 and -160890/100000 were replaced by the sharper
+     -9840333/10000000 and -16089463/10000000; the evaluation points and rational
+     approximations are unchanged, and BarrierCaseTwoGlobalBounds.lean keeps OpenAI's original
+     statements as corollaries (barrierCase2X_global_upper, barrierCase2Y_global_upper).
+   Apart from these sharpened constants, the mathematical content and the declarations are
+   unchanged.
+
+2. PrimeNumberTheoremAnd/  (10 files)
+   Files that OpenAI's repository adds to the PrimeNumberTheoremAnd project
+   (https://github.com/AlexKontorovich/PrimeNumberTheoremAnd, commit
+   c39a751132c88b6e8080b74c74023fd95b3d8be0) through its compatibility patch
+   lean/patches/PrimeNumberTheoremAnd-lean4341.patch at the commit above.
+   They were modified in the same way as item 1.
+
+3. scripts/, test/, docbuild/, .github/, Gemfile, Gemfile.lock
+   From the Palomar submission template, https://github.com/PalomarRegistry/PalomarTemplate,
+   adapted to this project.
+
+Everything else (CatalanMeasure/, CatalanMeasure.lean, Challenge.lean, Solution.lean,
+comparator.json, formalization.yaml, README.md, PORTING.md, paper/, scripts/certgen/) is new work
+for this project.
+
+The general determinant lemmas and first-case dual bound were later moved, with unchanged
+statements and proof bodies, from RealDeterminantUpper.lean into the new vendored file
+OAI/NumberTheory/Catalan/Determinants/RealDeterminantCore.lean. Two generic denominator
+lemmas from OpenAI's Case2Height namespace were also copied, with unchanged proof bodies,
+into CatalanMeasure/Cert/DenominatorBounds.lean. These changes isolate reusable lemmas from
+the old second-case certificate, which the current main proof supersedes.

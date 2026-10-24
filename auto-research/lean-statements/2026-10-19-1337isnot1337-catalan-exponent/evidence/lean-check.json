@@ -1,0 +1,15 @@
+{
+  "repository": "1337isnot1337/verifier",
+  "run_id": 39293900600,
+  "url": "https://github.com/1337isnot1337/verifier/actions/runs/39293900600",
+  "head_sha": "b8a7ab794fed5f624467249b59bc73f6ce561c55",
+  "conclusion": "success",
+  "completed_at": "2026-10-19T17:27:44Z",
+  "tested_files_sha256": {
+    "challenges/catalan/Statement.lean": "bb12ed53a51fafdd861d3c220ef4af6422e8b0cdae233e3deed681545e8aae06",
+    "auto-research/lean-statements/2026-10-19-1337isnot1337-catalan-exponent/code/Validation.lean": "54cf0565d85ffca65511e4e85e4814385e870c934b91efc22bdf42e88e81eabe",
+    "auto-research/lean-statements/2026-10-19-1337isnot1337-catalan-exponent/code/verify-lean.sh": "73d50a48f889957cf4984523e1d54c93767cc5793283b6b53a316599b41b3fbb",
+    "auto-research/lean-statements/2026-10-19-1337isnot1337-catalan-exponent/code/check-catalan.yml": "4e3fc5d2e27915a049347a3cd712e8730f4b4dcfab0f1e12e1cab29fba85ad8c"
+  },
+  "scope": "Statement and validation compiled on contributor-owned GitHub Actions. The five printed declarations use only the three permitted axioms. No Comparator run or finite Catalan bound."
+}
