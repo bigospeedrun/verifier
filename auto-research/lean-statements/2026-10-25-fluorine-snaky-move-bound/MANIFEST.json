@@ -3,11 +3,12 @@
   "sha256": {
     "Controls.lean": "2b15359aff2aeb1a4afb60d5cab0aaa0990bbdc6205f701886f778bcf2754017",
     "NOTICE.md": "cf274fa5608496bcd22b68c612f0600172ce6aca8655b391264d3673874753e0",
-    "README.md": "9c6bdfd25115042abc93fad1d7c6b28e14511f346da84235d3d87d0d874dd400",
+    "README.md": "be26d5f60f937415cc37b4da73cb2a32f231c41573a71d506bab776cc0b0a08e",
     "RESULT.json": "752b75db49a1b188136f82668d0548273bcb801c5b158ca7c913e453864a6cc5",
-    "selection.json": "fb83eff2351de67c04ce5c463101d7a3ff729aee0a3c23d0c17ba38ca995e001",
+    "selection.json": "bfb6d16ed89ca00fb3cb11a022e72158ab5d1e3eb1b0616b488abc4692234dff",
     "SnakyTwentyOne.lean.txt": "6b26e6b265ec08aaf044c3564cb346d6a989cfbf92f0e102af741c6962c988f5",
     "source-hashes.json": "a82fa4d355ce48b322a074ab1198ad8cc8fc04d2f45d8be8892a6f806d127afe",
+    "validation.json": "18adb206e862144ff6043291368efe4ce796c4e3abd8fc97649c6581901283a4",
     "verify.py": "4ada3824c1d1be18f6e16652a0d01deabf6ea6d13457cbbb6057b34075fc90c3"
   }
 }

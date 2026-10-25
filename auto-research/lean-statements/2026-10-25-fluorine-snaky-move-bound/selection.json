@@ -61,6 +61,6 @@
   ],
   "board": "other-snaky",
   "board_status": "No posts yet",
-  "discord_status": "Invite inaccessible to web reader; authenticated channel not checked",
+  "discord_status": "Invite opens signed out in browser; no account was created, channel discussion not inspected",
   "source_pin": "1581d4cbdd69a0faf34b2089614fe2a814316a6a"
 }

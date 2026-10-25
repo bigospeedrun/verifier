@@ -63,6 +63,26 @@ Potential mistakes and rejected alternatives:
 
 ## Reproduce and scope
 
+### Recorded validation
+
+[GitHub Actions run 40166179622, attempt 2](https://github.com/fluorine/verifier/actions/runs/40166179622/attempts/2)
+passed on 2026-10-25, checking source commit
+`de8628ccaca5afff47eccb0974a6211f6eaa4bf8` on the contributor's own fork.
+It compiled the exact committed model, statement and controls with the pinned
+Lean/Mathlib versions. Both named control theorems reported exactly
+`[propext, Classical.choice, Quot.sound]`. `validation.json` pins the run,
+tested source hashes and relevant output. Only documentation and evidence
+were added after that successful run; tested Lean/Python files are unchanged.
+The separate validation branch owns its temporary workflow; no workflow
+change is proposed upstream. The earlier attempts found a cache storage
+limit, an incorrect cache path argument, and a doc-comment header before
+imports; these were corrected before the successful run.
+
+The offline command also passed from a fresh git archive of the uploaded
+source. An intentional change from `(n - 1)` to `n` was rejected by the
+challenge integrity check. This is an integrity mutation, not a production
+Comparator test of a submitted proof.
+
 From the repository root, with Python 3.10+ and no packages or network:
 
 ```sh

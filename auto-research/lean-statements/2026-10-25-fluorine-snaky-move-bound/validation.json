@@ -1,0 +1,30 @@
+{
+  "run_url": "https://github.com/fluorine/verifier/actions/runs/40166179622/attempts/2",
+  "run_id": 40166179622,
+  "run_attempt": 2,
+  "job_id": 121088223119,
+  "conclusion": "success",
+  "workflow_commit": "2e11cd747c078db26d4afc09714b74ddc9e136a5",
+  "tested_source_commit": "de8628ccaca5afff47eccb0974a6211f6eaa4bf8",
+  "date": "2026-10-25",
+  "toolchain": "leanprover/lean4:v4.34.1",
+  "mathlib": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+  "excerpt": [
+    "2026-10-25T05:40:45.4708709Z de8628ccaca5afff47eccb0974a6211f6eaa4bf8",
+    "2026-10-25T05:41:50.7280022Z Decompressed 685 file(s)",
+    "2026-10-25T05:41:55.7136067Z PASS: package hashes, source extraction, full target substitution and dependency pin",
+    "2026-10-25T05:41:55.7137531Z PASS: 8 orientations, 8 final-reply controls, earlier collisions, duplicate claims and six-cell lower-bound sanity",
+    "2026-10-25T05:41:55.7139961Z 'BigOSpeedrun.Snaky.not_bound_zero' depends on axioms: [propext, Classical.choice, Quot.sound]",
+    "2026-10-25T05:41:55.7140623Z 'BigOSpeedrun.Snaky.baseline_adapter' depends on axioms: [propext, Classical.choice, Quot.sound]",
+    "2026-10-25T05:41:55.7141232Z PASS: Lean zero-bound refutation, six-cell count and conditional baseline adapter"
+  ],
+  "scope": "Statement compilation, zero-bound refutation, cardinality control and conditional baseline adapter only; no positive bound or Comparator receipt.",
+  "tested_hashes": {
+    "LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "Model.lean": "dfac7d6cb5f2d0272c00ce819bd0549f0b59195f07296ab971a4cc0c0b837434",
+    "README.md": "a444457e6906bf12671b258d149cdb113e8bd8376522b99f5f5630ff74e3a6bd",
+    "Statement.lean": "e1047fd910425ba01a659c9b51e5ec1b4774bc42a1e828c9a9f822babe20ec83"
+  },
+  "verify_sha256": "4ada3824c1d1be18f6e16652a0d01deabf6ea6d13457cbbb6057b34075fc90c3",
+  "controls_sha256": "2b15359aff2aeb1a4afb60d5cab0aaa0990bbdc6205f701886f778bcf2754017"
+}
