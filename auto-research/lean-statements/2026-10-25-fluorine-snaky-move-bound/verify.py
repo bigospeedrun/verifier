@@ -102,7 +102,7 @@ def main():
             (project/'lean-toolchain').write_text('leanprover/lean4:v4.34.1\n')
             (project/'lakefile.toml').write_text('name = "snaky_statement"\nversion = "0.1.0"\n[[require]]\nname = "mathlib"\ngit = "https://github.com/leanprover-community/mathlib4.git"\nrev = "d13f23b723b8a846827a245b89c10fc7d3f11612"\n')
             (project/'lake-manifest.json').write_bytes(profile)
-            subprocess.run(['lake','exe','cache','get',*['/'.join(m.split('.'))+'.lean' for m in imports]],cwd=project,check=True)
+            subprocess.run(['lake','exe','cache','get',*imports],cwd=project,check=True)
             # Compile only the two trusted source modules before the controls.
             for path in ['challenges/other-snaky/Model','challenges/other-snaky/Statement']:
                 output = project/'.lake/build/lib/lean'/Path(path+'.olean')
