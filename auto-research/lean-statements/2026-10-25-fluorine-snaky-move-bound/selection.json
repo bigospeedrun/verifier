@@ -1,0 +1,66 @@
+{
+  "seed": 37,
+  "base_commit": "084df82196fb1417ad8c466dc83d6b3362e36344",
+  "feed_updated_at": "2026-10-25T04:17:32Z",
+  "feed_sha256": "64d014a702876e2a38a634f478c7c5c56a4a58f8185bbbbcb4bf292c69017d1a",
+  "row": {
+    "path": "/other/snaky",
+    "title": "Snaky",
+    "aliases": [],
+    "openaiFamily": "187",
+    "rankedQuantity": "\\text{Maker moves}",
+    "better": "A lower value is better.",
+    "statement": "The quantity is the upper bound on Maker moves needed to win Snaky on the infinite square board. Fewer moves are better. N\u00e1ndor Sieben\u2019s finite \\(17\\times17\\) strategy, supplied by gotrevor, also works on the infinite board. The separate \\(15\\times15\\) result concerns board size.",
+    "baseline": {
+      "bound": "\\text{Maker moves}\\le 21",
+      "source": "https://github.com/openai/math/blob/adc7f1241b42e322a6451854ab7e4b4c146bf78a/preprints/Snaky-in-21-Maker-moves-September-25-2026/article.pdf",
+      "date": "2026-10-06"
+    },
+    "current": {
+      "bound": "\\text{Maker moves}\\le 19",
+      "exactValue": "19",
+      "conditions": "Extends Sieben's 20-move strategy with tactics from Trevor Morris's 15\u00d715 work; also wins on \\(17\\times 17\\).",
+      "evidence": "Claimed",
+      "authors": [
+        "shjvandekamp"
+      ],
+      "date": "2026-10-15",
+      "source": "https://github.com/shjvandekamp/math/blob/db6e1d89a0637b013a86464bd766c0a5120e454e/README.md#L32-L48",
+      "proofScope": "Author-run Lean 4.34.1 audit: Snaky.snaky_wins_plane_in_19 (every legal Breaker reply on the infinite board) and the 17\u00d717 theorem use only the standard axioms; no independent rerun."
+    },
+    "claimCount": 2,
+    "relevantRepos": [
+      {
+        "name": "gotrevor/snaky-15x15",
+        "url": "https://github.com/gotrevor/snaky-15x15/blob/a1864817c66866d09a2944716b4a629fb894a235/README.md#L19",
+        "note": "The separate finite-board results place the smallest Maker-winning board side between 10 and 15. The \\(9\\times 9\\) Breaker claim has a certificate and Python checker, but no Lean proof."
+      },
+      {
+        "name": "KaiaSage/snaky-demo",
+        "url": "https://github.com/KaiaSage/snaky-demo"
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "task": "Catalan exponent",
+      "decision": "Excluded: open PR 21"
+    },
+    {
+      "task": "Subset Sum exponent",
+      "decision": "Excluded: open PR 12"
+    },
+    {
+      "task": "Snaky move count",
+      "decision": "Selected: no trusted statement; prior audit establishes a distinct theorem, not this target"
+    }
+  ],
+  "open_prs": [
+    12,
+    21
+  ],
+  "board": "other-snaky",
+  "board_status": "No posts yet",
+  "discord_status": "Invite inaccessible to web reader; authenticated channel not checked",
+  "source_pin": "1581d4cbdd69a0faf34b2089614fe2a814316a6a"
+}

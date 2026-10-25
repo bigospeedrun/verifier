@@ -1,0 +1,17 @@
+{
+  "track": "lean-statements",
+  "status": "statement",
+  "problem": "/other/snaky",
+  "bound": "19",
+  "evidence_before": "Claimed",
+  "base_commit": "084df82196fb1417ad8c466dc83d6b3362e36344",
+  "reproduce": "python3 auto-research/lean-statements/2026-10-25-fluorine-snaky-move-bound/verify.py",
+  "scope": "Proposed parameterized infinite-board statement; zero-bound control and exact template adapter, no positive bound or production verification.",
+  "models": [
+    "Codex (model identifier not exposed)"
+  ],
+  "predecessors": [
+    "https://github.com/openai/math/blob/1581d4cbdd69a0faf34b2089614fe2a814316a6a/lean/ComparatorChallenges/SnakyTwentyOne.lean",
+    "https://github.com/bigospeedrun/verifier/tree/084df82196fb1417ad8c466dc83d6b3362e36344/auto-research/audits/2026-10-23-ptweezy-snaky-19-move-lean-audit"
+  ]
+}
