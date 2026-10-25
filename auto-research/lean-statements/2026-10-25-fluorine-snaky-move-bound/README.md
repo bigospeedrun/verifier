@@ -35,7 +35,8 @@ remaining budget and both ownership sets; it cannot read future replies.
 The entire OpenAI theorem conclusion is parameterized, not just HasSnaky:
 cardinality and disjointness controls are retained. `verify.py` compares the
 whole proposition after substituting 21 -> n and 20 -> n-1. `Model.lean`
-retains the original definition block exactly. The archived template contains
+retains the original definition block exactly, with four narrower imports
+in place of the aggregate `import Mathlib`. The archived template contains
 an unproved challenge theorem, so it is data only and never imported.
 
 Potential mistakes and rejected alternatives:
@@ -79,6 +80,9 @@ Finite controls are not a strategy proof or a Comparator receipt.
 On your own GitHub Actions runner with elan installed, append `--lean`.
 It stages a temporary project with Lean 4.34.1, the full verifier dependency
 manifest, and Mathlib `d13f23b723b8a846827a245b89c10fc7d3f11612`.
+Only the four imported modules and their dependency closures are cached.
+The initial full-Mathlib cache attempt exhausted runner storage before
+compiling the statement; narrower imports preserve every model definition.
 It compiles the model, target and `Controls.lean`, checks the zero-bound
 refutation, the six-cell count, and a **conditional** baseline adapter.
 The adapter proves only that the original 21-move proposition has exactly

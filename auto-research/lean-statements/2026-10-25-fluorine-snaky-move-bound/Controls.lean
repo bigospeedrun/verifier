@@ -5,7 +5,7 @@ namespace BigOSpeedrun.Snaky
 
 theorem not_bound_zero : ¬ Bound 0 := by
   rintro ⟨σ, _, hσ⟩
-  have hw := (hσ (fun _ => (0, 0)) (by intro k hk; omega)).1
+  have hw := (hσ (fun _ => (0, 0)) (by intro k hk; exact (Nat.not_lt_zero _ hk).elim)).1
   rcases hw with ⟨r, t, ht⟩
   have hm := ht (Finset.mem_image_of_mem (placement r t)
     (show (0, 0) ∈ snaky by simp [snaky]))

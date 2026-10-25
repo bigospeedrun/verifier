@@ -39,7 +39,10 @@ def main():
     require(hashlib.sha256(source.encode()).hexdigest() == pins['upstream_sha256'], 'upstream archive')
     prefix = source.split('\nnamespace SnakyPrototype\nopen OrdinaryStrategy')[0]
     model = (CH / 'Model.lean').read_text(encoding='utf-8')
-    require(model.split('-/\n', 1)[1] == prefix + '\nend OAI\n', 'unchanged definition block')
+    imports = ['Mathlib.Data.Finset.Card', 'Mathlib.Data.Int.Basic',
+               'Mathlib.Data.Fintype.Prod', 'Mathlib.Algebra.Group.Prod']
+    expected = prefix.replace('import Mathlib\n', ''.join('import '+m+'\n' for m in imports), 1)
+    require(model.split('-/\n', 1)[1] == expected + '\nend OAI\n', 'unchanged definition block with narrow imports')
     statement = (CH / 'Statement.lean').read_text(encoding='utf-8')
     original_target = source.split('theorem snaky_winning_strategy_21_with_legal_states :\n',1)[1].split(' := by')[0]
     target = statement.split('def Bound (n : ℕ) : Prop :=\n',1)[1].split('\n\nend')[0]
@@ -99,7 +102,7 @@ def main():
             (project/'lean-toolchain').write_text('leanprover/lean4:v4.34.1\n')
             (project/'lakefile.toml').write_text('name = "snaky_statement"\nversion = "0.1.0"\n[[require]]\nname = "mathlib"\ngit = "https://github.com/leanprover-community/mathlib4.git"\nrev = "d13f23b723b8a846827a245b89c10fc7d3f11612"\n')
             (project/'lake-manifest.json').write_bytes(profile)
-            subprocess.run(['lake','exe','cache','get'],cwd=project,check=True)
+            subprocess.run(['lake','exe','cache','get',*['/'.join(m.split('.'))+'.lean' for m in imports]],cwd=project,check=True)
             # Compile only the two trusted source modules before the controls.
             for path in ['challenges/other-snaky/Model','challenges/other-snaky/Statement']:
                 output = project/'.lake/build/lib/lean'/Path(path+'.olean')
