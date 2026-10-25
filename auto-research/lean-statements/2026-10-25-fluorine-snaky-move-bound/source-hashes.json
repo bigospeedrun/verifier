@@ -1,7 +1,7 @@
 {
   "challenge": {
     "LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
-    "Model.lean": "c71f7c53215d518ffca18aa09570e76e9163bc80d71b7422ab9e8afbbde4e04d",
+    "Model.lean": "dfac7d6cb5f2d0272c00ce819bd0549f0b59195f07296ab971a4cc0c0b837434",
     "README.md": "a444457e6906bf12671b258d149cdb113e8bd8376522b99f5f5630ff74e3a6bd",
     "Statement.lean": "e1047fd910425ba01a659c9b51e5ec1b4774bc42a1e828c9a9f822babe20ec83"
   },
