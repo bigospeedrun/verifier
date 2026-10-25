@@ -1,4 +1,4 @@
-/-! Definitions extracted unchanged from OpenAI SnakyTwentyOne.lean at
+/- Definitions extracted unchanged from OpenAI SnakyTwentyOne.lean at
 1581d4cbdd69a0faf34b2089614fe2a814316a6a. Apache-2.0. Modified file: the unproved
 fixed-bound challenge theorem is excluded. See the byte-identical research archive. -/
 import Mathlib.Data.Finset.Card
