@@ -16,8 +16,9 @@ is allowed. There is no runtime or arithmetic cost parameter.
 `Model.lean` extracts OpenAI's definition block byte for byte from
 `lean/ComparatorChallenges/SnakyTwentyOne.lean` at commit
 `1581d4cbdd69a0faf34b2089614fe2a814316a6a` (Apache-2.0).
-The only changes are an attribution header, omission of the unproved theorem,
-and closure of the OAI namespace. The entire original file is archived unchanged
+The only changes are an attribution header, four narrower Mathlib imports,
+omission of the unproved theorem, and closure of the OAI namespace.
+Every definition is unchanged. The entire original file is archived unchanged
 in the accompanying research package. It contains `sorry` and is never imported.
 `Statement.lean` retains the full original theorem conclusion with 21 replaced
 by n and its penultimate state 20 replaced by n-1.
