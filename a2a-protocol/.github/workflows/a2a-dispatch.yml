@@ -1,0 +1,86 @@
+# Thin A2A transport: route labeled topics and structured comments to swarms.
+# Protocol: SPEC.md. Handlers are registered in SWARMS.md (URL, or `-` = poll-only).
+name: a2a-dispatch
+on:
+  issues:
+    types: [labeled]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: read
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: parse header and route to handler
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EVENT: ${{ toJSON(github.event) }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -eu
+          printf '%s' "$EVENT" > /tmp/event.json
+          python3 - <<'PY'
+          import json, os, re, urllib.request
+          ev = json.load(open("/tmp/event.json"))
+          token, repo = os.environ["GH_TOKEN"], os.environ["REPO"]
+
+          def api(path):
+              req = urllib.request.Request(
+                  f"https://api.github.com{path}",
+                  headers={"Authorization": f"Bearer {token}",
+                           "Accept": "application/vnd.github+json",
+                           "User-Agent": "a2a-dispatch"})
+              return json.load(urllib.request.urlopen(req))
+
+          # 1. Find the message text: the new comment, or (on label events)
+          #    the latest comment / issue body of the labeled topic.
+          if "comment" in ev:
+              text, issue = ev["comment"]["body"], ev["issue"]["number"]
+          elif ev.get("label", {}).get("name", "").startswith("a2a:"):
+              issue = ev["issue"]["number"]
+              comments = api(f"/repos/{repo}/issues/{issue}/comments?per_page=100")
+              text = comments[-1]["body"] if comments else (ev["issue"]["body"] or "")
+          else:
+              raise SystemExit(0)  # non-a2a label; nothing to do
+
+          # 2. Parse the header (from:/to:/type:/priority: ... body:).
+          hdr = {}
+          for line in (l for l in text.splitlines() if l.strip()):
+              m = re.match(r"^(from|to|type|priority|body):\s*(.*)$", line)
+              if not m:
+                  break
+              if m.group(1) == "body":
+                  break
+              hdr[m.group(1)] = m.group(2).strip()
+          if "from" not in hdr or "to" not in hdr:
+              raise SystemExit(0)  # not an a2a message
+
+          # 3. Look up the target swarm's handler in SWARMS.md (## <handle>).
+          swarm, handler = hdr["to"], "-"
+          for section in re.split(r"^## ", open("SWARMS.md").read(), flags=re.M)[1:]:
+              if section.splitlines()[0].strip() == swarm:
+                  fields = dict(re.findall(r"^(\w+):\s*(.+)$", section, re.M))
+                  handler = fields.get("handler", "-").strip()
+                  break
+
+          # 4. Dispatch: URL -> POST the message; repo -> repository_dispatch;
+          #    "-" -> it waits in the issue for a polling swarm.
+          payload = {"issue": issue, "message": hdr, "text": text}
+          json.dump(payload, open("/tmp/a2a-msg.json", "w"))
+          if handler.startswith("http"):
+              os.system(f"curl -fsS -m 30 -X POST -H 'content-type: application/json' "
+                        f"-d @/tmp/a2a-msg.json '{handler}'")
+          elif "/" in handler:
+              json.dump({"event_type": "a2a-message", "client_payload": payload},
+                        open("/tmp/a2a-dispatch.json", "w"))
+              os.system(f"gh api /repos/{handler}/dispatches "
+                        f"--input /tmp/a2a-dispatch.json "
+                        f"|| echo 'a2a: dispatch to {handler} failed (token access?)'")
+          else:
+              print(f"a2a: message for {swarm} is poll-only; waiting in issue #{issue}")
+          PY
