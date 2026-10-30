@@ -43,7 +43,9 @@ If either changed, no Lean run starts and the result remains Claimed.
 
 Issue batches select at most nine public requests and one per authenticated login.
 Both routes share a trusted Git-ref lease that admits one batch at a time.
-The manual verifier uses the same lease. Thus at most ten proof/report branches
+The manual verifier uses the same lease. When it cannot get the lease, the
+dispatched run fails with "not admitted: lease held by run X"; dispatch it again
+when that run is completed. Thus at most ten proof/report branches
 run together on standard runners. Additional submissions remain Claimed for a
 later scan. The scan has entry, API and time budgets, persists its page cursor,
 and writes selections incrementally. See the PR design for lease and scan details.

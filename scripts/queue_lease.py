@@ -110,10 +110,19 @@ def assert_owner(ref=REF):
         raise ValueError('Batch lease belongs to another run/attempt; rerun the whole workflow')
 
 
+def holder(ref=REF):
+    sha = s.api('git/ref/' + ref)['object']['sha']
+    return json.loads(s.api('git/commits/' + sha)['message'])['run_id']
+
+
 def main():
     lease = acquire()
     with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
         out.write('admitted=' + str(lease is not None).lower() + '\n')
+    # A run that a person dispatched must not end green without a check. Scheduled polls skip quietly.
+    if lease is None and os.environ.get('GITHUB_EVENT_NAME') == 'workflow_dispatch':
+        print(f'::error::not admitted: lease held by run {holder()}; dispatch again when that run is completed')
+        raise SystemExit(1)
 
 
 if __name__ == '__main__':

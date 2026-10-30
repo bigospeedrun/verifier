@@ -122,15 +122,28 @@ class LeanOptionsTests(unittest.TestCase):
         self.assertIn('[lean_lib.leanOptions]\nautoImplicit = false\nexponentiation.threshold = 2048\n', text)
 
     def test_bad_options_are_refused(self):
-        for options in [{}, {'x': 'text'}, {'x': -1}, {'x': 1.5}, {'bad name': True}, {'x;y': 1}, []]:
+        for options in [{}, {'autoImplicit': 'text'}, {'exponentiation.threshold': -1}, {'exponentiation.threshold': 1.5},
+                        {'bad name': True}, {'x;y': 1}, [],
+                        # A valid name that is not reviewed: refused by the allowlist.
+                        {'debug.skipKernelTC': True}, {'maxHeartbeats': 0}]:
             with self.assertRaises(ValueError):
                 v.lakefile(['A'], root_options={'A': options})
         with self.assertRaisesRegex(ValueError, 'not built'):
-            v.lakefile(['A'], root_options={'B': {'x': True}})
-        clash = [{'source_roots': ['A'], 'lean_options': {'x': True}}, {'source_roots': ['A'], 'lean_options': {'x': False}}]
+            v.lakefile(['A'], root_options={'B': {'autoImplicit': True}})
+        clash = [{'source_roots': ['A'], 'lean_options': {'autoImplicit': True}},
+                 {'source_roots': ['A'], 'lean_options': {'autoImplicit': False}}]
         with self.assertRaisesRegex(ValueError, 'different Lean options'):
-            v.dependency_root_options(clash)
-        self.assertEqual(v.dependency_root_options([{'source_roots': ['A']}]), {})
+            v.dependency_root_options(clash, ['Submission'])
+        self.assertEqual(v.dependency_root_options([{'source_roots': ['A']}], ['Submission']), {})
+
+    def test_a_dependency_root_must_not_be_a_submission_verifier_or_reserved_root(self):
+        # It fails at prepare, before any build, with or without lean_options.
+        for root in ['Submission', 'VerifierChallenge', 'VerifierX', 'Lean', 'Init']:
+            for dep in [{'source_roots': ['A', root]}, {'source_roots': [root], 'lean_options': {'autoImplicit': False}}]:
+                with self.assertRaisesRegex(ValueError, 'dependency root'):
+                    v.dependency_root_options([dep], ['Submission'])
+        self.assertEqual(v.dependency_root_options(PROFILE['solution_dependencies'], PROFILE['source_roots'])['StepMachines'],
+                         ETH_OPTIONS)
 
     def test_other_profiles_get_no_option_blocks(self):
         profiles = [json.loads(p.read_text()) for p in (v.ROOT / 'profiles').glob('*.json')]
@@ -142,7 +155,7 @@ class LeanOptionsTests(unittest.TestCase):
             self.assertFalse(any('lean_options' in d for d in deps), p['challenge_file'])
             roots = p.get('source_roots', ['Submission']) + [r for d in deps for r in d['source_roots']]
             text = v.lakefile(roots, p.get('manifest_file', 'profiles/lake-manifest.json'), p.get('auto_implicit', False),
-                              v.dependency_root_options(deps))
+                              v.dependency_root_options(deps, p.get('source_roots', ['Submission'])))
             self.assertNotIn('[lean_lib.leanOptions]', text)
             self.assertEqual(text, v.lakefile(roots, p.get('manifest_file', 'profiles/lake-manifest.json'),
                                               p.get('auto_implicit', False)))

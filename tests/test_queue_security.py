@@ -30,6 +30,24 @@ class QueueSecurityTests(unittest.TestCase):
         with patch.dict(os.environ,GITHUB_RUN_ID='13',GITHUB_RUN_ATTEMPT='1'),patch.object(s,'api',side_effect=api):
             self.assertIsNone(q.acquire())
 
+    def test_a_dispatched_run_that_is_not_admitted_fails_and_names_the_holder(self):
+        def api(path, data=None, method=None):
+            if path.startswith('git/ref/'):return {'object':{'sha':'old'}}
+            if path=='git/commits/old':return {'message':json.dumps({'run_id':'12','run_attempt':'1','page':2,'offset':4}),'tree':{'sha':'tree'}}
+            if path=='actions/runs/12':return {'status':'in_progress'}
+            self.fail('Active lease must not write '+path)
+        for event,fails in [('workflow_dispatch',True),('schedule',False)]:
+            with tempfile.TemporaryDirectory() as tmp, patch.dict(os.environ,GITHUB_RUN_ID='13',GITHUB_RUN_ATTEMPT='1',
+                    GITHUB_EVENT_NAME=event,GITHUB_OUTPUT=str(Path(tmp)/'output')), patch.object(s,'api',side_effect=api), \
+                    patch('sys.stdout',new_callable=io.StringIO) as out:
+                if fails:
+                    with self.assertRaises(SystemExit) as caught:q.main()
+                    self.assertEqual(caught.exception.code,1)
+                    self.assertIn('not admitted: lease held by run 12',out.getvalue())
+                else:
+                    q.main();self.assertEqual(out.getvalue(),'')
+                self.assertEqual((Path(tmp)/'output').read_text(),'admitted=false\n')
+
     def test_cas_loser_cannot_launch_batch(self):
         writes=[]
         def api(path,data=None,method=None):

@@ -182,14 +182,19 @@ def chain_targets(profile, chains):
     return ''.join(chain[-1] + '\n' for chain in chains)
 
 
+# The Lean options that a solution dependency may set: those of a reviewed upstream build (eth, integer factoring).
+# A new option needs review; Comparator and nanoda re-check every exported term in any case.
+LEAN_OPTION_NAMES = {'autoImplicit', 'relaxedAutoImplicit', 'exponentiation.threshold', 'pp.unicode.fun'}
+
+
 def lean_options(options):
-    """Lake [leanOptions] lines: option names, and boolean or non-negative integer values only."""
+    """Lake [leanOptions] lines: reviewed option names, and boolean or non-negative integer values only."""
     if not isinstance(options, dict) or not options:
         raise ValueError('lean_options must be a non-empty object')
     lines = ''
     for name, value in sorted(options.items()):
-        if not isinstance(name, str) or not NAME.fullmatch(name):
-            raise ValueError('invalid Lean option name')
+        if not isinstance(name, str) or name not in LEAN_OPTION_NAMES:
+            raise ValueError('Lean option name is not in LEAN_OPTION_NAMES')
         if isinstance(value, bool):
             lines += f'{name} = {"true" if value else "false"}\n'
         elif type(value) is int and value >= 0:
@@ -232,10 +237,15 @@ rev = "d13f23b723b8a846827a245b89c10fc7d3f11612"
     return result
 
 
-def dependency_root_options(dependencies):
-    """Each root of a solution dependency with lean_options gets those options."""
+def dependency_root_options(dependencies, source_roots):
+    """Each root of a solution dependency with lean_options gets those options.
+    A dependency root must not be a submission root, a Verifier* root or a reserved root: this fails at
+    prepare, before the build (build_roots refuses the last two again in pack and unpack)."""
     options = {}
     for dep in dependencies:
+        for root in dep['source_roots']:
+            if root in source_roots or root.startswith('Verifier') or root in RESERVED_ROOTS:
+                raise ValueError('a solution dependency root must not be a submission, Verifier or reserved root')
         if 'lean_options' not in dep:
             continue
         lean_options(dep['lean_options'])
@@ -326,7 +336,7 @@ def prepare():
     data = receipt(); data['generated_challenge_sha256'] = digest(stage / 'VerifierChallenge.lean'); save(data)
     (stage / 'VerifierAudit.lean').write_text('import ' + profile['solution_module'] + '\n' +
                                            ''.join('#print axioms ' + n + '\n' for n in names))
-    (stage / 'lakefile.toml').write_text(lakefile(profile['source_roots'] + [root for dep in dependencies for root in dep['source_roots']] + ['VerifierChallenge', 'VerifierAudit'], profile.get('manifest_file', 'profiles/lake-manifest.json'), profile.get('auto_implicit', False), dependency_root_options(dependencies)))
+    (stage / 'lakefile.toml').write_text(lakefile(profile['source_roots'] + [root for dep in dependencies for root in dep['source_roots']] + ['VerifierChallenge', 'VerifierAudit'], profile.get('manifest_file', 'profiles/lake-manifest.json'), profile.get('auto_implicit', False), dependency_root_options(dependencies, profile['source_roots'])))
     (stage / 'lean-toolchain').write_text(request['lean_toolchain'] + '\n')
     shutil.copyfile(ROOT / profile.get('manifest_file', 'profiles/lake-manifest.json'), stage / 'lake-manifest.json')
     (stage / '.lake/build').mkdir(parents=True); (stage / '.lake/packages').mkdir()
