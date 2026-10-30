@@ -182,9 +182,28 @@ def chain_targets(profile, chains):
     return ''.join(chain[-1] + '\n' for chain in chains)
 
 
-def lakefile(roots, manifest_file='profiles/lake-manifest.json', auto_implicit=False):
+def lean_options(options):
+    """Lake [leanOptions] lines: option names, and boolean or non-negative integer values only."""
+    if not isinstance(options, dict) or not options:
+        raise ValueError('lean_options must be a non-empty object')
+    lines = ''
+    for name, value in sorted(options.items()):
+        if not isinstance(name, str) or not NAME.fullmatch(name):
+            raise ValueError('invalid Lean option name')
+        if isinstance(value, bool):
+            lines += f'{name} = {"true" if value else "false"}\n'
+        elif type(value) is int and value >= 0:
+            lines += f'{name} = {value}\n'
+        else:
+            raise ValueError('a Lean option value must be a boolean or a non-negative integer')
+    return lines
+
+
+def lakefile(roots, manifest_file='profiles/lake-manifest.json', auto_implicit=False, root_options=None):
     # A profile may keep Lean's default autoImplicit=true when its upstream build does
     # (integer factoring). It only changes how sources elaborate; Comparator checks the result.
+    # root_options gives a root the Lean options of its own upstream build (a solution dependency's
+    # lean_options); Lake applies a library's leanOptions after the package's.
     result = '''name = "Verifier"
 version = "0.1.0"
 [leanOptions]
@@ -201,11 +220,30 @@ rev = "d13f23b723b8a846827a245b89c10fc7d3f11612"
         if auto_implicit is not True:
             raise ValueError('auto_implicit must be a boolean')
         result = result.replace('autoImplicit = false', 'autoImplicit = true')
+    root_options = root_options or {}
+    if set(root_options) - set(roots):
+        raise ValueError('Lean options for a root that is not built')
     for name in roots:
         if not NAME.fullmatch(name):
             raise ValueError('invalid library name')
         result += f'\n[[lean_lib]]\nname = {json.dumps(name)}\n'
+        if name in root_options:
+            result += '[lean_lib.leanOptions]\n' + lean_options(root_options[name])
     return result
+
+
+def dependency_root_options(dependencies):
+    """Each root of a solution dependency with lean_options gets those options."""
+    options = {}
+    for dep in dependencies:
+        if 'lean_options' not in dep:
+            continue
+        lean_options(dep['lean_options'])
+        for root in dep['source_roots']:
+            if root in options and options[root] != dep['lean_options']:
+                raise ValueError('two solution dependencies give one root different Lean options')
+            options[root] = dep['lean_options']
+    return options
 
 
 def prepare():
@@ -288,7 +326,7 @@ def prepare():
     data = receipt(); data['generated_challenge_sha256'] = digest(stage / 'VerifierChallenge.lean'); save(data)
     (stage / 'VerifierAudit.lean').write_text('import ' + profile['solution_module'] + '\n' +
                                            ''.join('#print axioms ' + n + '\n' for n in names))
-    (stage / 'lakefile.toml').write_text(lakefile(profile['source_roots'] + [root for dep in dependencies for root in dep['source_roots']] + ['VerifierChallenge', 'VerifierAudit'], profile.get('manifest_file', 'profiles/lake-manifest.json'), profile.get('auto_implicit', False)))
+    (stage / 'lakefile.toml').write_text(lakefile(profile['source_roots'] + [root for dep in dependencies for root in dep['source_roots']] + ['VerifierChallenge', 'VerifierAudit'], profile.get('manifest_file', 'profiles/lake-manifest.json'), profile.get('auto_implicit', False), dependency_root_options(dependencies)))
     (stage / 'lean-toolchain').write_text(request['lean_toolchain'] + '\n')
     shutil.copyfile(ROOT / profile.get('manifest_file', 'profiles/lake-manifest.json'), stage / 'lake-manifest.json')
     (stage / '.lake/build').mkdir(parents=True); (stage / '.lake/packages').mkdir()

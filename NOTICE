@@ -27,3 +27,11 @@ and Louis-Martin Rousseau wrote the statement and the proof. The upstream LICENS
 remains next to that statement, and profiles/factoring-lake-manifest.json is their
 unchanged lake-manifest.json. The rerun profile is a Big O Speedrun addition dated
 2026-10-30.
+
+challenges/integer-factoring-sqrtlog/Challenge.lean is the same upstream Challenge.lean
+(c91cc3f4, Apache-2.0, by Isaac Rudich and Louis-Martin Rousseau), byte for byte, with one
+appended theorem that states their Factoring.SqrtLogLogConjecture as proved. The appended
+theorem and the rerun profile are Big O Speedrun additions dated 2026-10-30. The upstream
+LICENSE remains next to that statement. The profile builds, without changes, sources from
+1337isnot1337/integer-factoring, IsaacRudich/SubexponentialDeterministicFactoring and
+anthropics/formal-math (all Apache-2.0) at pinned commits; none of their files is copied here.

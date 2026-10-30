@@ -1,0 +1,245 @@
+{
+  "lean_toolchain": "leanprover/lean4:v4.33.1",
+  "challenge_file": "challenges/integer-factoring-sqrtlog/Challenge.lean",
+  "challenge_sha256": "b35e0c5ed133a06417810751921145554b4c3d0c223cedb9e329465ac21eeb31",
+  "solution_module": "HalfTheorem",
+  "theorem_names": [
+    "IntegerFactoring.HalfAppendix.sqrtLogLog_factoring"
+  ],
+  "source_roots": [
+    "BinaryCoarsen",
+    "BinaryFac",
+    "BinaryNet",
+    "BoundedTop",
+    "CappedProducts",
+    "CarryCheck",
+    "CliqueNetwork",
+    "CliqueRows",
+    "CliqueTermCheck",
+    "ClusterEdge",
+    "ClusterSize",
+    "ClusterStateDigit",
+    "CodingBounds",
+    "CrossCheck",
+    "CrossQueryCorrect",
+    "CrossQueryPoly",
+    "CrossWidthBound",
+    "DiscreteRate",
+    "EntryBound",
+    "ExplicitCoding",
+    "ExplicitPad",
+    "FactorCheck",
+    "FastTop",
+    "GateFields",
+    "GateMessage",
+    "GatePair",
+    "GateSide",
+    "GateSize",
+    "GateTransforms",
+    "GateVectors",
+    "GateWeight",
+    "GroupingCodePoly",
+    "GroupingPredicate",
+    "GroupingSearchCost",
+    "GroupingSearchPoly",
+    "HalfSchedule",
+    "HalfTheorem",
+    "InputCheck",
+    "LevelPoly",
+    "LevelSelect",
+    "MasterPad",
+    "NumericGates",
+    "NumericTransform",
+    "PadCost",
+    "PaddedMachineRate",
+    "PaddedRowSum",
+    "PaddedWordMachine",
+    "PairOffset",
+    "PrefixEvaluator",
+    "PureFactor",
+    "ReferenceStatement",
+    "RootFactors",
+    "RowSimplify",
+    "RowSumBridge",
+    "SearchPoly",
+    "SelectedClusterPair",
+    "SelectedClusterSide",
+    "SelectedClusterWeight",
+    "SelectedEntry",
+    "SelectedFactor",
+    "SelectedFieldBounds",
+    "SelectedGateCode",
+    "SelectedGood",
+    "SelectedGroupingPoly",
+    "SelectedPadCost",
+    "SelectedPadSide",
+    "SelectedPrefix",
+    "SelectedRadix",
+    "SelectedRow",
+    "SelectedRowBridge",
+    "SelectedStateCount",
+    "SelectedStateDigit",
+    "SelectedSummand",
+    "SelectedTable",
+    "SelectedTop",
+    "SelectedTopEdge",
+    "SelectedTopSide",
+    "SelectedTopWeight",
+    "SizeParamPoly",
+    "Tabulate",
+    "TopArithmetic",
+    "TopEvaluator",
+    "TopGrouping",
+    "TopParamsPoly",
+    "TopStateArithmetic",
+    "TopStates",
+    "TopValue",
+    "WeightCheck",
+    "WordCode",
+    "WordEncoding",
+    "WrittenPoly"
+  ],
+  "source_subdir": "formal-appendix",
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "bound": "1/2",
+  "score_relation": "attained",
+  "model": "integer-factoring/deterministic-bit-model",
+  "upstream_repo": "https://github.com/1337isnot1337/integer-factoring",
+  "upstream_commit": "e91442d3162cae7f775e008efb2ea998c4478344",
+  "tools_file": "profiles/anthropic-tools.json",
+  "manifest_file": "profiles/anthropic-lake-manifest.json",
+  "auto_implicit": true,
+  "solution_dependencies": [
+    {
+      "repo_url": "https://github.com/1337isnot1337/integer-factoring",
+      "commit": "e91442d3162cae7f775e008efb2ea998c4478344",
+      "source_subdir": "formal",
+      "source_roots": [
+        "HalfPad",
+        "HalfPrefix"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "repo_url": "https://github.com/IsaacRudich/SubexponentialDeterministicFactoring",
+      "commit": "c91cc3f4947caca8977e81a5d14244f73b5ae2b1",
+      "source_roots": [
+        "Challenge",
+        "FactoringAux"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "repo_url": "https://github.com/anthropics/formal-math",
+      "commit": "16a5ce41304fcdaea4e0be7c132e1c361dc26da5",
+      "source_subdir": "eth/proof/statements",
+      "source_roots": [
+        "AppHalfPiecesStatement",
+        "AppRunningTimeStatement",
+        "ClauseBoundStatement",
+        "CountKSatStatement",
+        "FixedWidthVariableBoundStatement",
+        "KSatStatement",
+        "LevelsStatement",
+        "NetworkStatements",
+        "ParityChecksStatement",
+        "PartitionStatement",
+        "PiecesStatement",
+        "StepMachineStatements",
+        "ThreeSatRateStatement",
+        "ThreeSatStatement"
+      ],
+      "license": "Apache-2.0",
+      "lean_options": {
+        "autoImplicit": false,
+        "relaxedAutoImplicit": false,
+        "pp.unicode.fun": true,
+        "exponentiation.threshold": 2048
+      }
+    },
+    {
+      "repo_url": "https://github.com/anthropics/formal-math",
+      "commit": "16a5ce41304fcdaea4e0be7c132e1c361dc26da5",
+      "source_subdir": "eth/proof/machines",
+      "source_roots": [
+        "StepMachines",
+        "ToTuring"
+      ],
+      "license": "Apache-2.0",
+      "lean_options": {
+        "autoImplicit": false,
+        "relaxedAutoImplicit": false,
+        "pp.unicode.fun": true,
+        "exponentiation.threshold": 2048
+      }
+    },
+    {
+      "repo_url": "https://github.com/anthropics/formal-math",
+      "commit": "16a5ce41304fcdaea4e0be7c132e1c361dc26da5",
+      "source_subdir": "eth/proof/networks",
+      "source_roots": [
+        "Groundwork"
+      ],
+      "license": "Apache-2.0",
+      "lean_options": {
+        "autoImplicit": false,
+        "relaxedAutoImplicit": false,
+        "pp.unicode.fun": true,
+        "exponentiation.threshold": 2048
+      }
+    },
+    {
+      "repo_url": "https://github.com/anthropics/formal-math",
+      "commit": "16a5ce41304fcdaea4e0be7c132e1c361dc26da5",
+      "source_subdir": "eth/proof/rates",
+      "source_roots": [
+        "ClauseBound",
+        "GeneralPieces",
+        "PaddedDescent"
+      ],
+      "license": "Apache-2.0",
+      "lean_options": {
+        "autoImplicit": false,
+        "relaxedAutoImplicit": false,
+        "pp.unicode.fun": true,
+        "exponentiation.threshold": 2048
+      }
+    },
+    {
+      "repo_url": "https://github.com/anthropics/formal-math",
+      "commit": "16a5ce41304fcdaea4e0be7c132e1c361dc26da5",
+      "source_subdir": "eth/proof/consequences",
+      "source_roots": [
+        "CountKSat",
+        "CountKSatRate",
+        "WidthK"
+      ],
+      "license": "Apache-2.0",
+      "lean_options": {
+        "autoImplicit": false,
+        "relaxedAutoImplicit": false,
+        "pp.unicode.fun": true,
+        "exponentiation.threshold": 2048
+      }
+    },
+    {
+      "repo_url": "https://github.com/anthropics/formal-math",
+      "commit": "16a5ce41304fcdaea4e0be7c132e1c361dc26da5",
+      "source_subdir": "eth/proof/sparsification",
+      "source_roots": [
+        "SparsifyWidthK"
+      ],
+      "license": "Apache-2.0",
+      "lean_options": {
+        "autoImplicit": false,
+        "relaxedAutoImplicit": false,
+        "pp.unicode.fun": true,
+        "exponentiation.threshold": 2048
+      }
+    }
+  ]
+}

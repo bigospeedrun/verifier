@@ -93,8 +93,13 @@ layout that the verifier reads.
 Closed to issues and PRs. A maintainer can rerun Isaac Rudich and Louis-Martin
 Rousseau's proof of score 0 (time `N^o(1)`) against their unchanged statement in
 `challenges/integer-factoring/Challenge.lean`, with Lean `leanprover/lean4:v4.35.0`.
-See [the statement README](../challenges/integer-factoring/README.md). There is no
-`Race.bound` target for a score above 0 yet.
+See [the statement README](../challenges/integer-factoring/README.md).
+
+A maintainer can also rerun 1337isnot1337's claimed proof of score 1/2 (time
+`2^O(n/√log n)`, their `Factoring.SqrtLogLogConjecture`) against the same statement with
+one appended theorem, in `challenges/integer-factoring-sqrtlog/Challenge.lean`, with Lean
+`leanprover/lean4:v4.33.1`. See [its README](../challenges/integer-factoring-sqrtlog/README.md).
+There is no `Race.bound` target for other scores yet.
 
 Integer multiplication and Subset Sum have no trusted statement in this gate.
 SSSP is outside the site submission scope.

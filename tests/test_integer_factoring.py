@@ -65,7 +65,7 @@ class FrozenFilesTests(unittest.TestCase):
 
 class AutoImplicitTests(unittest.TestCase):
     # Their lakefile sets no Lean options, so their sources use Lean's default autoImplicit=true.
-    def test_only_this_profile_keeps_lean_default_auto_implicit(self):
+    def test_only_the_factoring_profiles_keep_lean_default_auto_implicit(self):
         self.assertIs(PROFILE['auto_implicit'], True)
         self.assertIn('autoImplicit = true', v.lakefile([], PROFILE['manifest_file'], True))
         self.assertIn('autoImplicit = false', v.lakefile([]))
@@ -73,8 +73,9 @@ class AutoImplicitTests(unittest.TestCase):
             v.lakefile([], auto_implicit='true')
         profiles = [json.loads(p.read_text()) for p in (v.ROOT / 'profiles').glob('*.json')]
         profiles += list(json.loads((v.ROOT / 'profiles/direct.json').read_text()).values())
-        self.assertEqual([p.get('challenge_file') for p in profiles if isinstance(p, dict) and 'auto_implicit' in p],
-                         [PROFILE['challenge_file']])
+        # integer-factoring-sqrtlog builds the same upstream sources (and its submission's), which also use the default.
+        self.assertEqual(sorted(p.get('challenge_file') for p in profiles if isinstance(p, dict) and 'auto_implicit' in p),
+                         sorted([PROFILE['challenge_file'], 'challenges/integer-factoring-sqrtlog/Challenge.lean']))
 
 
 class RequestTests(unittest.TestCase):

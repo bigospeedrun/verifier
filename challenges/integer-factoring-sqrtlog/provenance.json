@@ -1,0 +1,19 @@
+{
+  "source_repository": "https://github.com/IsaacRudich/SubexponentialDeterministicFactoring",
+  "source_commit": "c91cc3f4947caca8977e81a5d14244f73b5ae2b1",
+  "original_path": "Challenge.lean",
+  "local_path": "Challenge.lean",
+  "prefix_git_blob": "6d9bf51d75a2b26e2031101b7c09063b4a987463",
+  "prefix_sha256": "c3adce9c7a04732442b615e69b3d33960ebc61dcacc5d281797c303d266ae12b",
+  "prefix_byte_identical": true,
+  "appended_theorem": "IntegerFactoring.HalfAppendix.sqrtLogLog_factoring",
+  "sha256": "b35e0c5ed133a06417810751921145554b4c3d0c223cedb9e329465ac21eeb31",
+  "source_author": "Isaac Rudich and Louis-Martin Rousseau",
+  "license": "Apache-2.0",
+  "license_git_blob": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+  "claim_repository": "https://github.com/1337isnot1337/integer-factoring",
+  "claim_commit": "e91442d3162cae7f775e008efb2ea998c4478344",
+  "claim_path": "formal-appendix/HalfTheorem.lean",
+  "lean": "leanprover/lean4:v4.33.1",
+  "mathlib": "0df444a360eaa60ab8c11dca51a86af692955474"
+}
