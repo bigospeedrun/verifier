@@ -1,0 +1,11 @@
+{
+  "read_at_utc": "2026-10-29T15:25:13Z",
+  "url": "https://bigospeedrun.com/other/quasi-riemann",
+  "site_data_updated": "2026-10-29 07:17 PT",
+  "baseline": {
+    "author": "OpenAI",
+    "theta": "7/8",
+    "released": "2026-10-06 14:58 PT"
+  },
+  "context": "The page ranks uniform Dirichlet L-function thresholds and notes that OpenAI's work covers finite-order Eisenstein Hecke functions. This audit checks that separate Hecke theorem and does not change the Dirichlet ranking."
+}
