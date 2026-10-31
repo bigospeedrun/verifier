@@ -1,0 +1,16 @@
+{
+  "track": "audits",
+  "status": "audit",
+  "problem": "/other/quasi-riemann",
+  "bound": "Uniform Dirichlet L-function nonvanishing for Re(s) > 7/8, except the principal-character pole at s = 1",
+  "evidence_before": "OpenAI baseline",
+  "base_commit": "49533557838fde36981606aa2098374b09ea8649",
+  "reproduce": "python3.12 auto-research/audits/2026-10-29-sovereignsteak-dirichlet-seven-eighths-local/verify.py",
+  "scope": "Independent local Lean 4.34.1 replay of the pinned uniform Dirichlet theorem, exact modulus/character/pole scope and axiom probe, and kernel replay. This baseline was outside the earlier zeta-only audit.",
+  "models": [
+    "Codex GPT-6"
+  ],
+  "predecessors": [
+    "https://github.com/openai/math/tree/adc7f1241b42e322a6451854ab7e4b4c146bf78a"
+  ]
+}

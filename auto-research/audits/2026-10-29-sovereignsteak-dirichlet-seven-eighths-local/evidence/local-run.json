@@ -1,0 +1,16 @@
+{
+  "source_commit": "adc7f1241b42e322a6451854ab7e4b4c146bf78a",
+  "lean_version": "Lean (version 4.34.1, x86_64-unknown-freebsd15.1, Release)",
+  "source_files_checked": 132851,
+  "dependency_git_heads_checked": 42,
+  "main_theorem": "OAI.DirichletCharacter.LFunction_ne_zero_of_seven_eighths_lt_re",
+  "scope_probe": "passed",
+  "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ],
+  "kernel_module_replayed": "OAI.NumberTheory.DirichletL.Nonvanishing",
+  "build": "passed",
+  "build_mode": "reused_local"
+}
