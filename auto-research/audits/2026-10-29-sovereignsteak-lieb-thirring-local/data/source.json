@@ -1,0 +1,17 @@
+{
+  "commit": "adc7f1241b42e322a6451854ab7e4b4c146bf78a",
+  "aggregate_algorithm": "SHA-256 of sorted Git-tracked path bytes, NUL, and each 32-byte SHA-256 file digest concatenated",
+  "tracked_files": 132851,
+  "tracked_bytes": 2181791366,
+  "aggregate_sha256": "20c041dae77692d8cf22c25bacdf6c17a317ec2a8be8046f891a37b9cf3ae46e",
+  "key_files_sha256": {
+    "lean/ComparatorChallenges/LiebThirring.lean": "008bcfc167bb1931b14682171578ab2422a7176658bafd95dafb8feb13ab8ade",
+    "lean/ComparatorChallenges/LiebThirring.json": "f268c47258b1afc0c96bffe7b35757b86657050ebaf9a6c3c67f4e7a9f38955a",
+    "lean/OAI/Analysis/LiebThirring/Model.lean": "fc10df121db6f69b684b6c469bd2458d6b9aa78c57906524a68c35f70ad616b6",
+    "lean/OAI/Analysis/LiebThirring/Main.lean": "0cdcb02e908d87d1ee4586fe7108960f7785190cc77b1c9f2297864951428c3b",
+    "lean/docs/262.md": "bae1097fcc6511b4be5add84a6924526faa445eca87e1d0390b22149696d60ff",
+    "lean/lake-manifest.json": "cf6105a25d9dca2f166b241d9191bd12c7e13305890dc9c4d0952351cccc0794",
+    "lean/lakefile.lean": "4cca977ebece444b6c999d99755c1ad3c93119bafc127ea761f7f703c7279e74",
+    "lean/lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+  }
+}

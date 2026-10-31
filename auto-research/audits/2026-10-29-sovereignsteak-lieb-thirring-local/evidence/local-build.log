@@ -1,0 +1,62 @@
+warning: PrimeNumberTheoremAnd: repository '/tmp/oai-math-git/lean/.lake/packages/PrimeNumberTheoremAnd' has local changes
+warning: belyi: repository '/tmp/oai-math-git/lean/.lake/packages/belyi' has local changes
+warning: formal-schemes: repository '/tmp/oai-math-git/lean/.lake/packages/formal-schemes' has local changes
+warning: elliptic-curves: repository '/tmp/oai-math-git/lean/.lake/packages/elliptic-curves' has local changes
+warning: tempered-fundamental-groups: repository '/tmp/oai-math-git/lean/.lake/packages/tempered-fundamental-groups' has local changes
+warning: oka: repository '/tmp/oai-math-git/lean/.lake/packages/oka' has local changes
+warning: orbicurve-cores: repository '/tmp/oai-math-git/lean/.lake/packages/orbicurve-cores' has local changes
+warning: pi1: repository '/tmp/oai-math-git/lean/.lake/packages/pi1' has local changes
+warning: heights: repository '/tmp/oai-math-git/lean/.lake/packages/heights' has local changes
+warning: genl: repository '/tmp/oai-math-git/lean/.lake/packages/genl' has local changes
+warning: tate-curves-theta: repository '/tmp/oai-math-git/lean/.lake/packages/tate-curves-theta' has local changes
+warning: iut: repository '/tmp/oai-math-git/lean/.lake/packages/iut' has local changes
+warning: gromov: repository '/tmp/oai-math-git/lean/.lake/packages/gromov' has local changes
+warning: SphereEversion: repository '/tmp/oai-math-git/lean/.lake/packages/SphereEversion' has local changes
+warning: schoenflies-lean: repository '/tmp/oai-math-git/lean/.lake/packages/schoenflies-lean' has local changes
+warning: ClassFieldTheory: repository '/tmp/oai-math-git/lean/.lake/packages/ClassFieldTheory' has local changes
+warning: AINTLIB: repository '/tmp/oai-math-git/lean/.lake/packages/AINTLIB' has local changes
+warning: AbsorptionCutoff: repository '/tmp/oai-math-git/lean/.lake/packages/AbsorptionCutoff' has local changes
+warning: StrongPNT: repository '/tmp/oai-math-git/lean/.lake/packages/StrongPNT' has local changes
+warning: carleson: repository '/tmp/oai-math-git/lean/.lake/packages/carleson' has local changes
+warning: rellich-kondrachov: repository '/tmp/oai-math-git/lean/.lake/packages/rellich-kondrachov' has local changes
+warning: Zeta3Irrational: repository '/tmp/oai-math-git/lean/.lake/packages/Zeta3Irrational' has local changes
+warning: fixed-point-theorems: repository '/tmp/oai-math-git/lean/.lake/packages/fixed-point-theorems' has local changes
+✔ [8924/8961] Built OAI.Analysis.LiebThirring.Model (18s)
+✔ [8925/8961] Built OAI.Analysis.LiebThirring.MatrixOrder (23s)
+✔ [8926/8961] Built OAI.Analysis.LiebThirring.ResolventCalculus (19s)
+✔ [8927/8961] Built OAI.Analysis.LiebThirring.MatrixTangent (18s)
+✔ [8928/8961] Built OAI.Analysis.LiebThirring.FieldLimit (31s)
+✔ [8929/8961] Built OAI.Analysis.LiebThirring.RankOne (29s)
+✔ [8930/8961] Built OAI.Analysis.LiebThirring.FieldRegularity (23s)
+✔ [8931/8961] Built OAI.Analysis.LiebThirring.FieldPrimitive (29s)
+✔ [8932/8961] Built OAI.Analysis.LiebThirring.ActionPenalty (14s)
+✔ [8933/8961] Built OAI.Analysis.LiebThirring.BoundaryValues (17s)
+✔ [8934/8961] Built OAI.Analysis.LiebThirring.ActionBounds (22s)
+✔ [8935/8961] Built OAI.Analysis.LiebThirring.BoundState (23s)
+✔ [8936/8961] Built OAI.Analysis.LiebThirring.CubeFlags (24s)
+✔ [8937/8961] Built OAI.Analysis.LiebThirring.FlagGeometry (27s)
+✔ [8938/8961] Built OAI.Analysis.LiebThirring.FiniteParity (41s)
+✔ [8939/8961] Built OAI.Analysis.LiebThirring.GenericPosition (23s)
+✔ [8940/8961] Built OAI.Analysis.LiebThirring.EquivariantFlags (26s)
+✔ [8941/8961] Built OAI.Analysis.LiebThirring.InitialOrbit (32s)
+✔ [8942/8961] Built OAI.Analysis.LiebThirring.FreeLocus (24s)
+✔ [8943/8961] Built OAI.Analysis.LiebThirring.BoundaryParity (34s)
+✔ [8944/8961] Built OAI.Analysis.LiebThirring.Continuation (36s)
+✔ [8945/8961] Built OAI.Analysis.LiebThirring.RowSigns (27s)
+✔ [8946/8961] Built OAI.Analysis.LiebThirring.MatrixFlow (38s)
+✔ [8947/8961] Built OAI.Analysis.LiebThirring.FlowContinuation (24s)
+✔ [8948/8961] Built OAI.Analysis.LiebThirring.FieldFlow (20s)
+✔ [8949/8961] Built OAI.Analysis.LiebThirring.ConnectingPath (23s)
+✔ [8950/8961] Built OAI.Analysis.LiebThirring.IntervalAction (22s)
+✔ [8951/8961] Built OAI.Analysis.LiebThirring.Gamma (17s)
+✔ [8952/8961] Built OAI.Analysis.LiebThirring.QuadraticForms (16s)
+✔ [8953/8961] Built OAI.Analysis.LiebThirring.CutoffEnergy (22s)
+✔ [8954/8961] Built OAI.Analysis.LiebThirring.SobolevProjection (63s)
+✔ [8955/8961] Built OAI.Analysis.LiebThirring.EnergyAlgebra (17s)
+✔ [8956/8961] Built OAI.Analysis.LiebThirring.FlagApproximation (15s)
+✔ [8957/8961] Built OAI.Analysis.LiebThirring.SpectralTrials (17s)
+✔ [8958/8961] Built OAI.Analysis.LiebThirring.ComplexFamilies (16s)
+✔ [8959/8961] Built OAI.Analysis.LiebThirring.MomentBound (14s)
+✔ [8960/8961] Built OAI.Analysis.LiebThirring.ExtremizerMass (15s)
+✔ [8961/8961] Built OAI.Analysis.LiebThirring.Main (14s)
+Build completed successfully (8961 jobs).

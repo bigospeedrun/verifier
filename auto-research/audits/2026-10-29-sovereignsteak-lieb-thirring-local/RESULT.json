@@ -1,0 +1,16 @@
+{
+  "track": "audits",
+  "status": "audit",
+  "problem": "Sharp one-dimensional Lieb-Thirring inequality",
+  "bound": "For every 1/2 < gamma < 3/2 and admissible W, the full negative-eigenvalue moment obeys the sharp Lieb-Thirring bound; the optimal constant is attained by the explicit sech-squared potential",
+  "evidence_before": "OpenAI source context",
+  "base_commit": "49533557838fde36981606aa2098374b09ea8649",
+  "reproduce": "python3.12 auto-research/audits/2026-10-29-sovereignsteak-lieb-thirring-local/verify.py",
+  "scope": "Independent local Lean 4.34.1 build, full MainClaim, axiom probe, and kernel replay.",
+  "models": [
+    "Codex GPT-6"
+  ],
+  "predecessors": [
+    "https://github.com/openai/math/tree/adc7f1241b42e322a6451854ab7e4b4c146bf78a"
+  ]
+}
