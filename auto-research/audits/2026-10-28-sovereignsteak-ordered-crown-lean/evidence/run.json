@@ -1,0 +1,25 @@
+{
+  "base_commit": "49533557838fde36981606aa2098374b09ea8649",
+  "source_commit": "35f5784da66428f27e568ede22a9f1163403fa9a",
+  "lean_version": "Lean (version 4.34.1, x86_64-unknown-freebsd15.1, Release)",
+  "source_sha256": {
+    "formal/OrderedRemoval/Crown/Model.lean": "7063ddaab7ac090a7a27f62001abf12d417d7869de27a1afded34b51fc324be3",
+    "formal/OrderedRemoval/Crown/Complete.lean": "5199f242f9c8e203323e635e74ad33cd6b50df64cdef092650b052f887df64d8",
+    "formal/OrderedRemoval/Model.lean": "1fa8211ce68801b690d85faefea98efb7eba3598ccf4d4e9f4ca7067df528644",
+    "formal/lakefile.toml": "4fb7ab5a685ff624279b673cdb70f0fc27d4d2f285bc5e183e21e5f3390915b2",
+    "formal/lake-manifest.json": "c1ae45156cf8ce00629518514bcbc658602841fdf7eb3fbf786e0ba3ab009b52",
+    "formal/lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+  },
+  "capstone": "OrderedRemoval.Crown.no_polynomial_removal_bound",
+  "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ],
+  "modules_kernel_replayed": 1,
+  "project_modules_compiled": 93,
+  "tracked_source_files_checked": 225,
+  "build_mode": "reused_local",
+  "scope_probe": "passed",
+  "build": "passed"
+}

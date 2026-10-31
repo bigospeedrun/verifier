@@ -1,0 +1,15 @@
+{
+  "algorithm": "sha256",
+  "sha256": {
+    "NOTICE.md": "2c37efb4d11f1f5a2d160d1b6b80e2d06003b3ae2086081f191ad755a9c61ec7",
+    "README.md": "9a1084d4afe42d6b8abad51d3a265fba4d1e2a6cb02bd9b9782f13ba527598e5",
+    "RESULT.json": "4cf7370881b9f6d1af0920c35e09a311748ba93714dda2952c7f00806e24b0e8",
+    "code/Scope.lean": "00d0d7e0fe11098b6f0c0f14f7868dd26e89aa90902d99dc793d4666eeca1f0a",
+    "data/site-record.json": "6293d2815fb9388c0bece4c3e21da5445b60d6ca578eebf5925c4c66a38f6ede",
+    "data/source-files.json": "9ba5db19451a4c17d0a2a466b5e44fd5454ffbc193bbe12d9e8f0e32d427441d",
+    "evidence/compilation.json": "daa78e084334c12fa7abb2bf4b5b217795d82e48b6ef96c567e1671aa78842fd",
+    "evidence/run.json": "efc38a07eecccc2bb40c0e8be53906b532afb661ae7ab952a709d4cd86409298",
+    "evidence/source-match.json": "1001f52d00b398ceb93ad0b9f9d8e929ff27054a771ba139ede9ada7558ea825",
+    "verify.py": "41a8d9435636458d66312acdf0b53e0987f71ad3ec0ebf63bd54648ca26d77b7"
+  }
+}

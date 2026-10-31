@@ -1,0 +1,14 @@
+{
+  "source": "https://bigospeedrun.com/chat-knowledge.json",
+  "snapshot_updated_at": "2026-10-28T15:17:45Z",
+  "row_path": "/other/ordered-matrix-removal",
+  "current": {
+    "bound": "3\\times 3\\text{ pattern }(9\\text{ cells})",
+    "exactValue": "9",
+    "conditions": "",
+    "evidence": "Claimed",
+    "date": "2026-10-12",
+    "source": "https://github.com/shea256/ordered-binary-matrix-removal/blob/35f5784da66428f27e568ede22a9f1163403fa9a/README.md#L7-L44",
+    "proofScope": "Source inspection only; no independent rerun. OrderedRemoval.Crown.no_polynomial_removal_bound states that the fixed 3×3 crown has no polynomial removal bound, for arbitrarily small distance parameters and arbitrarily large hosts, with arbitrary binary repairs. Lean uses a padded host; the exact copy count and the smaller written host are outside Lean."
+  }
+}

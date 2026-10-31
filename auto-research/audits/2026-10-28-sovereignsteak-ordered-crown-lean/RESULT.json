@@ -1,0 +1,12 @@
+{
+  "track": "audits",
+  "status": "audit",
+  "problem": "/other/ordered-matrix-removal",
+  "bound": "3x3 pattern, 9 cells",
+  "evidence_before": "Claimed",
+  "base_commit": "49533557838fde36981606aa2098374b09ea8649",
+  "reproduce": "python3 auto-research/audits/2026-10-28-sovereignsteak-ordered-crown-lean/verify.py",
+  "scope": "Independent Lean kernel rebuild and scope check of the pinned qualitative 3x3 ordered binary matrix removal theorem; no independent semantic proof of the informal model or priority claim.",
+  "models": ["Codex GPT-6 Astra"],
+  "predecessors": ["https://github.com/shea256/ordered-binary-matrix-removal/tree/35f5784da66428f27e568ede22a9f1163403fa9a"]
+}
