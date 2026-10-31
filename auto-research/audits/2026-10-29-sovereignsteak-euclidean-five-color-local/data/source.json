@@ -1,0 +1,17 @@
+{
+  "commit": "adc7f1241b42e322a6451854ab7e4b4c146bf78a",
+  "aggregate_algorithm": "SHA-256 of sorted Git-tracked path bytes, NUL, and each 32-byte SHA-256 file digest concatenated",
+  "tracked_files": 132851,
+  "tracked_bytes": 2181791366,
+  "aggregate_sha256": "20c041dae77692d8cf22c25bacdf6c17a317ec2a8be8046f891a37b9cf3ae46e",
+  "key_files_sha256": {
+    "lean/ComparatorChallenges/EuclideanFiveColor.lean": "7055ba6ec44990ca1da798f3fab5db8398b58485e633102acf6732e5bbe957cd",
+    "lean/ComparatorChallenges/EuclideanFiveColor.json": "46b5d2c6fa6c2977b52e36c2b19953ee57fc7535584848c6d4010af4edf81b39",
+    "lean/OAI/Geometry/PlaneColoring/Coloring.lean": "70a2f493ed99008d6a6c37da50c32c22461832469773352406178790fa078898",
+    "lean/OAI/Geometry/PlaneColoring/Five.lean": "d08f426552d55e74f9e0328425748bd0172d95cadbad4cc900f43436337c2309",
+    "lean/docs/158.md": "f0b95c7c0bb3803202c634901c0f1dfc0d5a14234361f351ba3f9599b39729c0",
+    "lean/lake-manifest.json": "cf6105a25d9dca2f166b241d9191bd12c7e13305890dc9c4d0952351cccc0794",
+    "lean/lakefile.lean": "4cca977ebece444b6c999d99755c1ad3c93119bafc127ea761f7f703c7279e74",
+    "lean/lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+  }
+}

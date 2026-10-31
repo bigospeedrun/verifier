@@ -1,0 +1,24 @@
+{
+  "source_commit": "adc7f1241b42e322a6451854ab7e4b4c146bf78a",
+  "lean_version": "Lean (version 4.34.1, x86_64-unknown-freebsd15.1, Release)",
+  "comparator_definition_equivalence": "lean_scope_probe",
+  "source_files_checked": 132851,
+  "dependency_git_heads_checked": 42,
+  "dependency_overlay_files_checked": 734,
+  "theorems": [
+    "OAI.EuclideanFiveColor.no_proper_five_coloring"
+  ],
+  "scope_probe": "passed",
+  "axioms": {
+    "OAI.EuclideanFiveColor.no_proper_five_coloring": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "kernel_modules_replayed": [
+    "OAI.Geometry.PlaneColoring.Five"
+  ],
+  "build": "passed",
+  "build_mode": "reused_local"
+}
