@@ -1,0 +1,12 @@
+{
+  "track": "audits",
+  "status": "audit",
+  "problem": "/other/quasi-riemann",
+  "bound": "For every t >= 2811857/10000000, every zero of H_t is real; classically Lambda <= 0.2811857",
+  "evidence_before": "none",
+  "base_commit": "49533557838fde36981606aa2098374b09ea8649",
+  "reproduce": "python3.12 auto-research/audits/2026-10-28-sovereignsteak-dbn-liu-lean/verify.py",
+  "scope": "Independent same-pin Lean rebuild, exact scope and kernel check, plus Comparator/nanoda positive and tampered negative controls for a related de Bruijn-Newman result; Lambda is a different quantity from the site's ranked zero-free threshold.",
+  "models": ["Codex GPT-6 Astra"],
+  "predecessors": ["https://github.com/DrMurphyIsIn/qrh-debruijn-newman/tree/afd94c7ddf8bea3a3b8bb2e95657cccae463993c"]
+}

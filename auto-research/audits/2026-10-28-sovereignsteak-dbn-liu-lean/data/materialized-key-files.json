@@ -1,0 +1,14 @@
+{
+  "workspace": "OpenAI/math @ adc7f124 + Liu @ 7d10420 + Arda @ 2b1be6c",
+  "sha256": {
+    "ArdaDBNLiu.lean": "1dcf6f08e6b1111f5e0dad8266a6934b93718f3fc7bbba6d7611c680381f9b0c",
+    "ArdaLiuBridge.lean": "fa2fed1454b88c21248f6ea8c665c1ee1ffe49c48d3d0bf7e7a18ee028c97abc",
+    "DBNZeroFreeHalfplane.lean": "a0670d8da5fc7e0f16be2de469674bb5ee9ae95af545c0b208e4fad973ff2f8a",
+    "DBNDefs.lean": "5bf5eb076f3f07913bc18f833721b88fe77b4ba906f2ce6f12bcbaec2703520b",
+    "AxiomGuardLiuBridge.lean": "88c32151c6ef48923e2475069036c4e679c3b6d4b690595f4dd00e9a05acbe43",
+    "RHZeroFreeExtension.lean": "795837354fe9d226ece889e8945d8fe2ee7ff57c8e55274a71fe641787416aa0",
+    "lakefile.lean": "0f6720b125eab5376c3103f942e966b9dbfb89c1ab854ceebb683060acb4a157",
+    "lake-manifest.json": "cf6105a25d9dca2f166b241d9191bd12c7e13305890dc9c4d0952351cccc0794",
+    "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+  }
+}

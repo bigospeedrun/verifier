@@ -1,0 +1,22 @@
+{
+  "nice_values_during_build": {
+    "lean": [
+      0
+    ],
+    "lake": [
+      0
+    ],
+    "worker": [
+      19
+    ],
+    "xmrig": [
+      10
+    ]
+  },
+  "sample_counts": {
+    "lean": 66,
+    "lake": 2,
+    "worker": 112,
+    "xmrig": 1
+  }
+}

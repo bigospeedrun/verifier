@@ -1,0 +1,76 @@
+{
+  "result": "passed",
+  "run_url": "https://github.com/SovereignSteak/qrh-debruijn-newman/actions/runs/40760974281",
+  "run_id": 40760974281,
+  "fork_head": "da5204459539e3298dbf87c71abc9338ec4554b1",
+  "audited_source": "afd94c7ddf8bea3a3b8bb2e95657cccae463993c",
+  "fork_diff_paths": [
+    ".github/lean/Scope.lean",
+    ".github/workflows/verify-liu.yml"
+  ],
+  "scope_file_sha256": "6d1dfa6505f19e3582532bd7063e2e5e3d274d400cb62fe51879a726ed1cb99d",
+  "job_log_sha256": "687b6d7fcdf71b0b3db02fd23a6dc2e0be0f8bcff9f4d4497114767598290274",
+  "steps": {
+    "Materialize (Arda at the tag, vendored copies checked; openai/math + Liu at pins, hashes checked)": {
+      "conclusion": "success",
+      "started_at": "2026-10-28T20:13:35Z",
+      "completed_at": "2026-10-28T20:14:18Z"
+    },
+    "Resolve and patch OpenAI's dependencies, fetch Mathlib oleans": {
+      "conclusion": "success",
+      "started_at": "2026-10-28T20:14:18Z",
+      "completed_at": "2026-10-28T20:18:03Z"
+    },
+    "Build": {
+      "conclusion": "success",
+      "started_at": "2026-10-28T20:18:03Z",
+      "completed_at": "2026-10-28T21:57:38Z"
+    },
+    "Axiom guard": {
+      "conclusion": "success",
+      "started_at": "2026-10-28T21:57:38Z",
+      "completed_at": "2026-10-28T21:57:51Z"
+    },
+    "Independent scope and Lean kernel replay": {
+      "conclusion": "success",
+      "started_at": "2026-10-28T21:57:51Z",
+      "completed_at": "2026-10-28T21:58:41Z"
+    },
+    "Build Comparator + lean4export (v4.34.0 tag, toolchain v4.34.1)": {
+      "conclusion": "success",
+      "started_at": "2026-10-28T21:58:42Z",
+      "completed_at": "2026-10-28T21:58:51Z"
+    },
+    "Build nanoda (2nd kernel)": {
+      "conclusion": "success",
+      "started_at": "2026-10-28T21:58:51Z",
+      "completed_at": "2026-10-28T21:59:25Z"
+    },
+    "Comparator (nanoda on): positive challenge accepted, negative control REJECTED": {
+      "conclusion": "success",
+      "started_at": "2026-10-28T21:59:25Z",
+      "completed_at": "2026-10-28T22:15:00Z"
+    }
+  },
+  "scope_probe": "passed",
+  "axioms": {
+    "main": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "rational": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "liu": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "kernel_replay": "ArdaDBNLiu",
+  "comparator_positive": "ACCEPTED",
+  "comparator_tampered": "uncaught exception: Const does not match between challenge and target 'DBN.Φ'"
+}

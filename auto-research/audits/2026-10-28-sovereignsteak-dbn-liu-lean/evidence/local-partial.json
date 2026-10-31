@@ -1,0 +1,21 @@
+{
+  "host": "FreeBSD",
+  "lean_version": "4.34.1",
+  "source_files_checked": 124,
+  "openai_closure_files_checked": 2925,
+  "liu_source_files_checked": 225,
+  "dependency_heads_checked": 42,
+  "compatibility_patches_checked": 23,
+  "materialized_key_files_checked": 9,
+  "partial_build_last_successful_step": 10924,
+  "partial_build_total_steps": 12117,
+  "partial_build_exit_code": 143,
+  "exit_reason": "Stopped intentionally after the independent fork run passed its full Lean, scope, axiom, kernel, and Comparator checks.",
+  "partial_scope_checks": [
+    "literal DBN.Phi definition",
+    "literal DBN.H Fourier integral definition",
+    "unrestricted zero-free-halfplane converter type",
+    "converter axiom collection syntax and allowed axiom set"
+  ],
+  "local_full_build_claimed": false
+}

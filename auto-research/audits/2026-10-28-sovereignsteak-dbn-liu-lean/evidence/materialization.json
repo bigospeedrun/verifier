@@ -1,0 +1,16 @@
+{
+  "release_commit": "afd94c7ddf8bea3a3b8bb2e95657cccae463993c",
+  "release_tracked_files_checked": 124,
+  "arda_tag": "qrh-liu-v1.1.0",
+  "arda_commit": "2b1be6c5023d69aa7c9bc70ee843bdaa1bf383db",
+  "vendored_island_and_judge_directories_identical": true,
+  "registry_nodes_identical": 3,
+  "openai_commit": "adc7f1241b42e322a6451854ab7e4b4c146bf78a",
+  "openai_closure_modules_checked": 2925,
+  "liu_commit": "7d10420de90efa2f082a06a342fc7accbd57ab37",
+  "liu_source_hashes_checked": 225,
+  "lean_modules_placed": 219,
+  "manifest_package_pins_equal": 42,
+  "mathlib_commit": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+  "materialization": "passed"
+}

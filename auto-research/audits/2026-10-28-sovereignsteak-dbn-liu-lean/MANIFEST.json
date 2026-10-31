@@ -1,0 +1,18 @@
+{
+  "algorithm": "sha256",
+  "sha256": {
+    "NOTICE.md": "cfe7003f561b0cf4e4ce533e38ebcb801eda93e439dafecc92001fffe23e9ff6",
+    "README.md": "07b01f2f1febb4a11514ceed9d344b2b196ca2d6ccb23cb17d7531b4456301f9",
+    "RESULT.json": "54a7fa62d0968ea1c4c22a871bac8a1be8ff4c9bb2d5385604bd90f510204c61",
+    "code/Scope.lean": "6d1dfa6505f19e3582532bd7063e2e5e3d274d400cb62fe51879a726ed1cb99d",
+    "data/materialized-key-files.json": "47f63bd757e28bae4970f45ea9eeeb727d5900f749852c1021d40e03499a7dd4",
+    "data/site-record.json": "be6ec73de6b217f14f83819f2efa21151f6cb9de6f8800235dcd60dba12ec1cc",
+    "data/source-files.json": "49fddf51139b266c7e9164b789d7c921b895d934aa3865d0dcc64813608873c9",
+    "evidence/ci-run.json": "87521e701661adf4b1427684eaa52f6482e60c742bec7672cf5d939d4fab5cc5",
+    "evidence/dependencies.json": "69dac76c964957dcf8f17428c7d3d14e583be36b62b5df57c6be4cd8732a7b5d",
+    "evidence/local-partial.json": "fd1eb9abf57ccbbc58c9d183a35d976ff90567cdf2c74b7836e32cb966e07ccd",
+    "evidence/materialization.json": "a2f25605e0d1062519b29d76d0ecf114918d7586d50665d7382b69fa5df71539",
+    "evidence/priority.json": "4404cf48de54c659965c04935645ea53a4ac783287ce384e66f7c931986ef69b",
+    "verify.py": "1d4106965daead37bdf05f5112d27113b241317f3954f7b8d1dcf91cb56111fd"
+  }
+}

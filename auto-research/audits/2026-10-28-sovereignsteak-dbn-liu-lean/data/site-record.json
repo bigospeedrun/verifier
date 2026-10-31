@@ -1,0 +1,12 @@
+{
+  "site_updated_at": "2026-10-28T17:17:33Z",
+  "path": "/other/quasi-riemann",
+  "ranked_quantity": "\\theta",
+  "current_bound": "\\theta\\le 0.8739558",
+  "current_evidence": "Human Verified",
+  "relevant_repo": {
+    "name": "DrMurphyIsIn/qrh-debruijn-newman",
+    "url": "https://github.com/DrMurphyIsIn/qrh-debruijn-newman/blob/afd94c7ddf8bea3a3b8bb2e95657cccae463993c/README.md#L81-L103",
+    "note": "The de Bruijn\u2013Newman constant is at most \\(0.2811857\\), using a zero-free threshold weaker than the current leader. This is a different quantity; no independent Lean rerun."
+  }
+}
