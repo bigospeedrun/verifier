@@ -1,0 +1,29 @@
+{
+  "source_commit": "adc7f1241b42e322a6451854ab7e4b4c146bf78a",
+  "lean_version": "Lean (version 4.34.1, x86_64-unknown-freebsd15.1, Release)",
+  "source_files_checked": 132851,
+  "dependency_git_heads_checked": 42,
+  "dependency_overlay_files_checked": 734,
+  "theorems": [
+    "OAI.GrahamSpherical.full_main",
+    "OAI.GrahamSphericalReference.challenge"
+  ],
+  "scope_probe": "passed",
+  "axioms": {
+    "OAI.GrahamSpherical.full_main": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OAI.GrahamSphericalReference.challenge": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "kernel_modules_replayed": [
+    "OAI.Combinatorics.SphericalRamsey.Result"
+  ],
+  "build": "passed",
+  "build_mode": "reused_local"
+}

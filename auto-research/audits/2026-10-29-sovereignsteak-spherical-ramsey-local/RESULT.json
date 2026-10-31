@@ -1,0 +1,16 @@
+{
+  "track": "audits",
+  "status": "audit",
+  "problem": "Twelve-point spherical non-Ramsey witness",
+  "bound": "An explicit 12-point subset of the unit circle admits a 50-coloring avoiding monochromatic isometric copies in every positive Euclidean dimension",
+  "evidence_before": "OpenAI source context",
+  "base_commit": "49533557838fde36981606aa2098374b09ea8649",
+  "reproduce": "python3.12 auto-research/audits/2026-10-29-sovereignsteak-spherical-ramsey-local/verify.py",
+  "scope": "Independent local Lean 4.34.1 build, exact witness and coloring statement, axiom probes, and kernel replay.",
+  "models": [
+    "Codex GPT-6"
+  ],
+  "predecessors": [
+    "https://github.com/openai/math/tree/adc7f1241b42e322a6451854ab7e4b4c146bf78a"
+  ]
+}

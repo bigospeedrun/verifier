@@ -1,0 +1,15 @@
+{
+  "commit": "adc7f1241b42e322a6451854ab7e4b4c146bf78a",
+  "aggregate_algorithm": "SHA-256 of sorted Git-tracked path bytes, NUL, and each 32-byte SHA-256 file digest concatenated",
+  "tracked_files": 132851,
+  "tracked_bytes": 2181791366,
+  "aggregate_sha256": "20c041dae77692d8cf22c25bacdf6c17a317ec2a8be8046f891a37b9cf3ae46e",
+  "key_files_sha256": {
+    "lean/OAI/Combinatorics/SphericalRamsey/Model.lean": "ea48c1c522c7e892c00ac1c64ff671e3e9270565d4ac92edc0bb1df38b2c4ece",
+    "lean/OAI/Combinatorics/SphericalRamsey/Main.lean": "d3921c8b59e52a654b6ba1908103fc890e62fe7935e689f7ce2fad15fc4dd6b4",
+    "lean/OAI/Combinatorics/SphericalRamsey/Result.lean": "db8a3882a10b92022dac262a568d314782b8fad1f6b9c0835712bac655ec6b5a",
+    "lean/lake-manifest.json": "cf6105a25d9dca2f166b241d9191bd12c7e13305890dc9c4d0952351cccc0794",
+    "lean/lakefile.lean": "4cca977ebece444b6c999d99755c1ad3c93119bafc127ea761f7f703c7279e74",
+    "lean/lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+  }
+}

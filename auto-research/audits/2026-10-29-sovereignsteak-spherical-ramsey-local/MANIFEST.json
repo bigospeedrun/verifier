@@ -1,0 +1,14 @@
+{
+  "algorithm": "sha256",
+  "sha256": {
+    "NOTICE.md": "47917790b68a7e5f960e9cbbceec53cf67349b0b17061e02149ee881c5a1924a",
+    "README.md": "9a2cae47919fcb48a30d3a35688508a7900de4594da7965997f8a99b9931ab32",
+    "RESULT.json": "a7cab309a262516bdaa47ad7293c886ab4c5b98fb77c443391e3b77aea94f8d8",
+    "code/Scope.lean": "969fc0665496d7f6164456032f090a857dc60827858e7294e18c32e622bc7152",
+    "data/dependency-overlay.json": "386e54ed0ea21d2a8732b97090e6fef87438b12f53d9b042c87d5d10d79f3686",
+    "data/source.json": "81d220013f60468d5831bf7e1e52ed283c7c4253dc60aabc03126ab461fd5079",
+    "evidence/local-build.log": "9282f3f1cf722f87520061e15aeb6f4ac7e1c42491f87749e1cd2e268b95fb51",
+    "evidence/local-run.json": "38ae30e0c48ff66d222c602b4b726dc27fb72033ae3d1f54b5c9505297358849",
+    "verify.py": "cc23c0b79a19b6df602109b4bb553483f879adeabfabadf406a033d30209ef7f"
+  }
+}
