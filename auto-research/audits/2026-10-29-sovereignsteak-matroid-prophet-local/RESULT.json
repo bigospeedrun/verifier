@@ -1,0 +1,16 @@
+{
+  "track": "audits",
+  "status": "audit",
+  "problem": "One-sample matroid prophet inequality against an almighty adversary",
+  "bound": "Expected online reward at least 2^-310 times expected offline optimum, with one sample per element, a finite seed law, prefix feasibility, and adaptive arrival order",
+  "evidence_before": "OpenAI source context",
+  "base_commit": "49533557838fde36981606aa2098374b09ea8649",
+  "reproduce": "python3.12 auto-research/audits/2026-10-29-sovereignsteak-matroid-prophet-local/verify.py",
+  "scope": "Independent local Lean 4.34.1 build, full OneSampleChallenge, axiom probe, and kernel replay.",
+  "models": [
+    "Codex GPT-6"
+  ],
+  "predecessors": [
+    "https://github.com/openai/math/tree/adc7f1241b42e322a6451854ab7e4b4c146bf78a"
+  ]
+}

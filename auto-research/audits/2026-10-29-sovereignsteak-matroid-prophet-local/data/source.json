@@ -1,0 +1,17 @@
+{
+  "commit": "adc7f1241b42e322a6451854ab7e4b4c146bf78a",
+  "aggregate_algorithm": "SHA-256 of sorted Git-tracked path bytes, NUL, and each 32-byte SHA-256 file digest concatenated",
+  "tracked_files": 132851,
+  "tracked_bytes": 2181791366,
+  "aggregate_sha256": "20c041dae77692d8cf22c25bacdf6c17a317ec2a8be8046f891a37b9cf3ae46e",
+  "key_files_sha256": {
+    "lean/ComparatorChallenges/MatroidProphet.lean": "2bdb8a904832c5bc8e380d85951cca6f7cf535fc0c882b2b41384c2197dcadfa",
+    "lean/ComparatorChallenges/MatroidProphet.json": "0797164ae266a053b85ae5c19fdc75d6e82f1b6077a64d6456c8b7e2d753bdd1",
+    "lean/OAI/Probability/MatroidProphet/Model.lean": "08a0fa4b801f44a0d4bc552a4549b06f63e6fde67de87ce9f82564952074ab8f",
+    "lean/OAI/Probability/MatroidProphet/Main.lean": "98363b92b3f6ebc487c689e9f9ebd5924a665a76963bfda174875d8ef9b6a291",
+    "lean/docs/111.md": "738413ac4597f53c1b01a5cbc6c649f7a763337f5a843c200ca004d6375ff0b2",
+    "lean/lake-manifest.json": "cf6105a25d9dca2f166b241d9191bd12c7e13305890dc9c4d0952351cccc0794",
+    "lean/lakefile.lean": "4cca977ebece444b6c999d99755c1ad3c93119bafc127ea761f7f703c7279e74",
+    "lean/lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+  }
+}
