@@ -1,0 +1,12 @@
+{
+  "track": "audits",
+  "status": "audit",
+  "problem": "/other/quasi-riemann",
+  "bound": "The Riemann zeta function has no zero for Re(s) > 7/8",
+  "evidence_before": "none",
+  "base_commit": "49533557838fde36981606aa2098374b09ea8649",
+  "reproduce": "python3.12 auto-research/audits/2026-10-28-sovereignsteak-zeta-seven-eighths-local/verify.py",
+  "scope": "Independent local Lean 4.34.1 rebuild, exact Mathlib riemannZeta statement and axiom probe, and kernel replay of OpenAI's pinned 7/8 zeta theorem. This is a baseline theorem, not a new site-ranked Dirichlet threshold.",
+  "models": ["Codex GPT-6"],
+  "predecessors": ["https://github.com/openai/math/tree/adc7f1241b42e322a6451854ab7e4b4c146bf78a", "https://github.com/davegoldblatt/openai-zeta-proof-check/tree/3f11b2203b76902f1b6b234115437302a94b79c3"]
+}
