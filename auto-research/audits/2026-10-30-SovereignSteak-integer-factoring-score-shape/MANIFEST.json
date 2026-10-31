@@ -1,0 +1,11 @@
+{
+ "algorithm": "sha256",
+ "sha256": {
+  "NOTICE.md": "6ded6ee3d16e56b3e69a4a044d57f8d3f5fe13eded12552f68a71f3597d6c9d0",
+  "README.md": "8229c5bccff28da30a6eb163090d0665aa12fecae9097c62ac1ceef80799ccdf",
+  "RESULT.json": "93eb2c9703f1006eda1b20895c3e93cca986e1a56a5204ce14c745a8923806e2",
+  "data/source-pins.json": "a21a652a0573f299b1857d8bad08c31095a1227399fbda23917f3f506786ea4f",
+  "evidence/citations.md": "78b9438f74ad62077b1296c947b34b71fdc45f61384c3dff962a33fbac114805",
+  "verify.py": "aea3d3f962c210205a3fac3efb4687574c9a79f98dd57a74683ed46132c75d2b"
+ }
+}

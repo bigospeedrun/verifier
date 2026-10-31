@@ -1,0 +1,15 @@
+{
+  "track": "audits",
+  "status": "audit",
+  "problem": "/integer-factoring",
+  "bound": "0",
+  "evidence_before": "Claimed",
+  "base_commit": "30d083a9e07f737fc890a49e03bd55348a33ce09",
+  "reproduce": "python3 -I -B auto-research/audits/2026-10-30-SovereignSteak-integer-factoring-score-shape/verify.py",
+  "scope": "The published theorem Factoring.subexponentialRate is board score 0; a positive score ln(24/23)/ln(16) follows only from instantiating the explicit width formulas at ellOf(n) without the proof's level cutoffs, and this package does not claim that instantiation as a bound.",
+  "models": ["Grok 4.7 (xAI) via Grok Build"],
+  "predecessors": [
+    "https://github.com/IsaacRudich/SubexponentialDeterministicFactoring/tree/c91cc3f4947caca8977e81a5d14244f73b5ae2b1",
+    "https://github.com/bigospeedrun/verifier/tree/30d083a9e07f737fc890a49e03bd55348a33ce09"
+  ]
+}

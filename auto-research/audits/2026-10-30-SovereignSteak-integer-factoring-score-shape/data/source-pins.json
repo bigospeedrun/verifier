@@ -1,0 +1,56 @@
+{
+  "repository": "https://github.com/IsaacRudich/SubexponentialDeterministicFactoring",
+  "commit": "c91cc3f4947caca8977e81a5d14244f73b5ae2b1",
+  "license": "Apache-2.0",
+  "license_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+  "files": {
+    "Challenge.lean": {
+      "sha256": "c3adce9c7a04732442b615e69b3d33960ebc61dcacc5d281797c303d266ae12b",
+      "bytes": 3528
+    },
+    "Solution.lean": {
+      "sha256": "7065c25bf9687d914cdaafa58f4cfafef8d13508d95a4c1dd03c1b65ac31a3c9",
+      "bytes": 1775
+    },
+    "README.md": {
+      "sha256": "335ef225afcf6c89ddb829c1520c06feb82e79efb2db8d85817992391483311a",
+      "bytes": 9934
+    },
+    "FactoringAux/UniExp.lean": {
+      "sha256": "3c53b201923df36ff5de417c4b8a02f69ced3ba0fe1792217cd9c2a388938fa9",
+      "bytes": 27835
+    },
+    "FactoringAux/UniMain.lean": {
+      "sha256": "7654d4b59fcb724eba4941d20675372c53a965c9f6c603a4c675f03e418787f9",
+      "bytes": 2078
+    },
+    "FactoringAux/UniFinal.lean": {
+      "sha256": "be3f61f770fdfc65528dac2d0e5960c7367fefeeda648b163d82643ea34128a8",
+      "bytes": 5451
+    },
+    "FactoringAux/UniParams.lean": {
+      "sha256": "f9e9fb5978d1168b8eb8d356d0e2a6c768cc03564a0b358b85047187d4763736",
+      "bytes": 6329
+    },
+    "FactoringAux/EngineGroup.lean": {
+      "sha256": "f190262f74b1e92dd2abab68c9d7c3fc48972e78c72cfac6baf2ceea13f83ebe",
+      "bytes": 9840
+    },
+    "FactoringAux/EngineRate.lean": {
+      "sha256": "558e0e0ff1ee83207fb77d6b2bbb00ad36fd2c55dba6aa861a6e4d0a4fc6efae",
+      "bytes": 1070
+    },
+    "FactoringAux/EngineCostRate.lean": {
+      "sha256": "078872b12d5501e6cca45c9bc9cccdd2e66049811faede128c9fe6f78d43f98d",
+      "bytes": 18079
+    },
+    "FactoringAux/EngineCostFinal.lean": {
+      "sha256": "6bc148855de18958bcc7c66c8ec93491b21c0648a05ef3bc14c608f60809b470",
+      "bytes": 18832
+    },
+    "FactoringAux/EngineCostMain.lean": {
+      "sha256": "9b220eeda355686a1a2b0fe1071f161ed908e7b07b51473e4818570e42e02b09",
+      "bytes": 11700
+    }
+  }
+}
