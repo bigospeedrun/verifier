@@ -1,0 +1,1 @@
+This audit checks OpenAI's pinned Lean formalization of a counterexample to metric-entropy duality. The source `lean/LICENSE` is Apache-2.0. This package contains a new scope probe and audit code; it does not copy the source proof.

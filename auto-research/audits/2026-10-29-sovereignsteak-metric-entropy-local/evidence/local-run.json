@@ -1,0 +1,24 @@
+{
+  "source_commit": "adc7f1241b42e322a6451854ab7e4b4c146bf78a",
+  "lean_version": "Lean (version 4.34.1, x86_64-unknown-freebsd15.1, Release)",
+  "comparator_model_definitions": "exact_match",
+  "source_files_checked": 132851,
+  "dependency_git_heads_checked": 42,
+  "dependency_overlay_files_checked": 734,
+  "theorems": [
+    "OAI.MetricEntropyDuality.exists_entropy_duality_counterexample_with_covers"
+  ],
+  "scope_probe": "passed",
+  "axioms": {
+    "OAI.MetricEntropyDuality.exists_entropy_duality_counterexample_with_covers": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "kernel_modules_replayed": [
+    "OAI.Analysis.MetricEntropy.Main"
+  ],
+  "build": "passed",
+  "build_mode": "reused_local"
+}

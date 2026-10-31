@@ -1,0 +1,16 @@
+{
+  "track": "audits",
+  "status": "audit",
+  "problem": "Counterexample to metric-entropy duality",
+  "bound": "For every a,b >= 1, a positive-dimensional symmetric convex body K has finite primal and dual covers but b log N(B_infinity^polar,a^-1 K^polar) < log N(K,B_infinity)",
+  "evidence_before": "OpenAI source context",
+  "base_commit": "49533557838fde36981606aa2098374b09ea8649",
+  "reproduce": "python3.12 auto-research/audits/2026-10-29-sovereignsteak-metric-entropy-local/verify.py",
+  "scope": "Independent local Lean 4.34.1 build, exact covering-number statement, axiom probe, and kernel replay.",
+  "models": [
+    "Codex GPT-6"
+  ],
+  "predecessors": [
+    "https://github.com/openai/math/tree/adc7f1241b42e322a6451854ab7e4b4c146bf78a"
+  ]
+}
