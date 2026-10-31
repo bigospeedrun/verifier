@@ -1,0 +1,3132 @@
+{
+  "algorithm": "sha256",
+  "packages": {
+    "AINTLIB": {
+      "rev": "160e446617a2168c34c95bbe7a76c4105b392434",
+      "changed_files": {
+        "lakefile.toml": {
+          "status": " M",
+          "sha256": "dabe29ddd4fa049acc23c4dd6e11bd6c41b459e7ca000f05756753e0f852572e"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        },
+        "projects/Chebotarev/CebotarevDensity/Abelian.lean": {
+          "status": " M",
+          "sha256": "ed18f53b3ab8baadc7540128210d034d03d567f23dd5637b62c6982d330013a2"
+        },
+        "projects/Chebotarev/CebotarevDensity/AbsoluteDegreeOneDensity.lean": {
+          "status": "??",
+          "sha256": "f29221d4a770e3c91cf48fd7d36f8a4cdf879c8e3b0c43c19e5c67b733e031e5"
+        },
+        "projects/Chebotarev/CebotarevDensity/Cyclotomic.lean": {
+          "status": " M",
+          "sha256": "c2018cf059ee89f9767cf4c145b3cfa14be7cfabe93d43ccadd12a761edf0d7a"
+        },
+        "projects/Chebotarev/CebotarevDensity/CyclotomicNormResidue.lean": {
+          "status": " M",
+          "sha256": "48bb2d4d3cef326e074909097e4bccfe9203d55a33785249113627803640edca"
+        },
+        "projects/Chebotarev/CebotarevDensity/FixedFieldDensity.lean": {
+          "status": " M",
+          "sha256": "97decfa82fc78b5408363a30edb6f71b783b012d56a0e52e2bfdf454bec16c9f"
+        },
+        "projects/Chebotarev/CebotarevDensity/ForMathlib/CharacterOrthogonality.lean": {
+          "status": " M",
+          "sha256": "d30edb3591160c2deea4935917ca45ac2ebd66f437fb29871ebc2af28cff01fe"
+        },
+        "projects/Chebotarev/CebotarevDensity/ForMathlib/IdealCongruenceCount.lean": {
+          "status": " M",
+          "sha256": "dd2a777cab24f0353e9331e1a079f53fe7f4cfc2824f77dbaf71aed74227f079"
+        },
+        "projects/Chebotarev/CebotarevDensity/ForMathlib/LatticePointCount.lean": {
+          "status": " M",
+          "sha256": "7c28b0255440e6a7f5daedbe38cd7be494253e42aa3c98354ab538740e903445"
+        },
+        "projects/Chebotarev/CebotarevDensity/ForMathlib/NormLeOneLipschitz.lean": {
+          "status": " M",
+          "sha256": "a50b59afda35994dea5339a7ab84022b029966d377f208f1e4b2e24bb3301ecb"
+        },
+        "projects/Chebotarev/CebotarevDensity/ForMathlib/TsumFiberBound.lean": {
+          "status": "??",
+          "sha256": "dccb8322623f88864ee80bcc205e850302804d30d3003e42e2cde1d95c047c76"
+        },
+        "projects/Chebotarev/CebotarevDensity/Frobenius.lean": {
+          "status": " M",
+          "sha256": "5b7413ae84ba12a639f9546a7efbe9d760260af80b2020d2d657af2a7978c78d"
+        },
+        "projects/Chebotarev/CebotarevDensity/Main.lean": {
+          "status": " M",
+          "sha256": "2a27d6f5e10313715e94c5dca5890d6a86e760aefc1ea91c1f03a988becf567f"
+        },
+        "projects/Chebotarev/CebotarevDensity/NumberFieldEulerProduct.lean": {
+          "status": " M",
+          "sha256": "06f0bf5fe5d93b7a2aec5f14e652429ebda2538b7f5f2dc62723404e9044d227"
+        },
+        "projects/Chebotarev/CebotarevDensity/ZetaProduct.lean": {
+          "status": " M",
+          "sha256": "54859b50bac59258edfa1b9639b8e7322a4319b5af83ef062dff245287f77843"
+        },
+        "projects/DedekindResidue/DedekindResidue/AuxiliaryFunction.lean": {
+          "status": " M",
+          "sha256": "2492e883e529a90d053dbf209622e0c7d2cf7469dd1380caee8ded65c24392a3"
+        },
+        "projects/DedekindResidue/DedekindResidue/CompletedZeta/AnalyticControl.lean": {
+          "status": " M",
+          "sha256": "cfa5a6caeb3314aff9ea271ea0f3494b6667ed1ab4faaf8d9189a5c1f023b40a"
+        },
+        "projects/DedekindResidue/DedekindResidue/CompletedZeta/Existence.lean": {
+          "status": " M",
+          "sha256": "4e70f01eb4611deb0831d7c1170ae74e4ac05f5c80c8a13faae8d6fa2120a769"
+        },
+        "projects/DedekindResidue/DedekindResidue/CompletedZeta/FunctionalEquation.lean": {
+          "status": " M",
+          "sha256": "ac94ee23a194856cd801caf5354c779eb6c7b3ff1687bfe03f562a0bff90c77b"
+        },
+        "projects/DedekindResidue/DedekindResidue/CompletedZeta/HeckeTheta.lean": {
+          "status": " M",
+          "sha256": "2390c3c64390092987be94e226d0cac784dd5b5a62db72e4c93cba09ed05ebf7"
+        },
+        "projects/DedekindResidue/DedekindResidue/CompletedZeta/MellinAgreement.lean": {
+          "status": " M",
+          "sha256": "a03a973ebfd9d98d618ee64f7485037fbd854091e41a9e2b9432e6ff0bc74ba0"
+        },
+        "projects/DedekindResidue/DedekindResidue/CompletedZeta/PoissonLattice.lean": {
+          "status": " M",
+          "sha256": "06af9bd937de7fc5f0863c39e9ea1fc2ebee68d98c748f2f69a89c7f500623e0"
+        },
+        "projects/DedekindResidue/DedekindResidue/CompletedZeta/PoissonSummation.lean": {
+          "status": " M",
+          "sha256": "93fff3ac3314fc1de181c8d22e55c6c2a511b7f662aaf31737d33081764d84ec"
+        },
+        "projects/DedekindResidue/DedekindResidue/CompletedZeta/ThetaEstimates.lean": {
+          "status": " M",
+          "sha256": "6dfe058b9453c2daa5468aca97cc6903c5e114d15477b1f7abaad0cb395ab166"
+        },
+        "projects/DedekindResidue/DedekindResidue/CompletedZeta/ThetaLattice.lean": {
+          "status": " M",
+          "sha256": "0badedc13c9d44de4886e64483f0512dd4538145c4dc258ef5e17ac9e369b837"
+        },
+        "projects/DedekindResidue/DedekindResidue/ExplicitFormula/FourierJordan.lean": {
+          "status": " M",
+          "sha256": "c85c6ac76a24789ca5799b189a478516b68d11b4ac7388fb9b89fc1a208cca1c"
+        },
+        "projects/DedekindResidue/DedekindResidue/ExplicitFormula/GammaSide.lean": {
+          "status": " M",
+          "sha256": "51e7197d0b11ab7882d774e79126ab4e9cf09d0ac766748b64d4e429b7093ee0"
+        },
+        "projects/DedekindResidue/DedekindResidue/ExplicitFormula/PrimeSide.lean": {
+          "status": " M",
+          "sha256": "1464828544608053c433147ad87ab9583c707a0b090819ac847e3c0028bade5e"
+        },
+        "projects/DedekindResidue/DedekindResidue/ExplicitFormula/ZeroCapture.lean": {
+          "status": " M",
+          "sha256": "b1dd8121b6785f53ed8620aa26715c4c2d7f812586459a007f0733f78722dc7b"
+        },
+        "projects/DedekindResidue/DedekindResidue/Lemma2.lean": {
+          "status": " M",
+          "sha256": "2cf488e4ae84e72612aa24f0fa4d5fdef2fa313104e04158d239020d06b250da"
+        },
+        "projects/FltRegularBernoulli/BernoulliRegular/BernoulliGeneralized.lean": {
+          "status": " M",
+          "sha256": "6f4ccd95346ae32495f831c8d9c06dfdbe43d6c2e8937b209fa22de64079984b"
+        },
+        "projects/FltRegularBernoulli/BernoulliRegular/Characters.lean": {
+          "status": " M",
+          "sha256": "2a48e6dcbc0a8daf892473e5a7fc2749ce36edb938b75ff659794d37e168ce5e"
+        },
+        "projects/FltRegularBernoulli/BernoulliRegular/GaussSum/Basic.lean": {
+          "status": " M",
+          "sha256": "fa9d502e6af331a476d4245d5f0a0cebbf6d168e457159dcafbec5f02021eb18"
+        },
+        "projects/FltRegularBernoulli/BernoulliRegular/GaussSum/SignInvariant/BlockDeterminant.lean": {
+          "status": " M",
+          "sha256": "d22c3094d94783dfec6d4ae630687dabd4f008cd7dc8fa2629966e3520082e74"
+        },
+        "projects/FltRegularBernoulli/BernoulliRegular/GaussSum/SignInvariant/BranchChoice.lean": {
+          "status": " M",
+          "sha256": "d62b313a09d450c9936259d8ecbfb5f7ff720e9f961c562c3b7ad8332af38548"
+        },
+        "projects/FltRegularBernoulli/BernoulliRegular/GaussSum/SignInvariant/Operator.lean": {
+          "status": " M",
+          "sha256": "ea87441189384ae9f21d92cc024ea77bac1bb784e95dbbc2e1231523c53de41b"
+        },
+        "projects/FltRegularBernoulli/BernoulliRegular/GaussSum/SignInvariant/Trace.lean": {
+          "status": " M",
+          "sha256": "5dda6d06492a95804afd5f3b41dfbfedc9b56025853c5dbab89ba00c680c4e18"
+        },
+        "projects/FltRegularBernoulli/BernoulliRegular/LValueAtOne/Defs.lean": {
+          "status": " M",
+          "sha256": "e9f37f5402fc1e7393d72fdbf14a5d8554f118868e9f34d314cda30b713e55b5"
+        },
+        "projects/FltRegularBernoulli/BernoulliRegular/LValueAtOne/Even.lean": {
+          "status": " M",
+          "sha256": "3a4feb7b320675ad98dbe4a44ee58479b2cd8f58cde46b90397db3f9b91892e1"
+        },
+        "projects/HasseWeil/HasseWeil/FormalGroup/CharP.lean": {
+          "status": " M",
+          "sha256": "e9abdb966f566ef5ec598c698fc069c1f7f613605a0f86a26e164a01a536c743"
+        },
+        "projects/HasseWeil/HasseWeil/FormalGroup/Differential.lean": {
+          "status": " M",
+          "sha256": "bb0874aac05eaaaa6e27c58c825fec2c6056c9b70a25bcf09650d4fc03de5145"
+        },
+        "projects/HasseWeil/HasseWeil/FormalGroup/EvalGroup.lean": {
+          "status": " M",
+          "sha256": "b2408bae779a4709bffd05ce6e8ab82824fa6a63f70e4979560e86bf883134fe"
+        },
+        "projects/HasseWeil/HasseWeil/FormalGroup/FormalGroup.lean": {
+          "status": " M",
+          "sha256": "c8ccbf7f54f1f76e216990c3b55775a71b5e0ae5f6c5e2cfebd9d289de4cdf12"
+        },
+        "projects/HasseWeil/HasseWeil/FormalGroup/FormalGroupAssoc.lean": {
+          "status": " M",
+          "sha256": "dad68f8f8a4fadfe5a9aedfaf87b9c9165a925684f49fc521d2e20083f9efb42"
+        },
+        "projects/HasseWeil/HasseWeil/FormalGroup/FormalGroupCorrespondence.lean": {
+          "status": " M",
+          "sha256": "cbb9de922e7c6193f1605145cb707a701c4dd13aa346b6533295bd871807c20e"
+        },
+        "projects/HasseWeil/HasseWeil/FormalGroup/FormalGroupLawSpec.lean": {
+          "status": " M",
+          "sha256": "85715ec3e6e16205daca99f5b74a27ecf6a5d88dde5c8dafd9533c8b9c378b34"
+        },
+        "projects/HasseWeil/HasseWeil/FormalGroup/InvariantDiff.lean": {
+          "status": " M",
+          "sha256": "5d397c770d39f0912852019225fbcb089b695f744bd42995cf37311242c4dbab"
+        },
+        "projects/HasseWeil/HasseWeil/FormalGroup/Inverse.lean": {
+          "status": " M",
+          "sha256": "266028c9fbaa9699918c574ba9fc31f718bf972000ff8b8a42082fd3ca991b36"
+        },
+        "projects/HasseWeil/HasseWeil/FormalGroup/Logarithm.lean": {
+          "status": " M",
+          "sha256": "ff932b51d92936db824e51ec341f1b4dc0ccf9fc5a910fea28f65319b7d52214"
+        },
+        "projects/HasseWeil/HasseWeil/FormalGroup/PDeriv.lean": {
+          "status": " M",
+          "sha256": "4eef9dd06a099448326fedc0fc5211a011ba9f82f2a1861965ceb0a0924daa78"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/AdditionPullback.lean": {
+          "status": " M",
+          "sha256": "2c50a14c72021f407385784f5852bd1eb97d0dfb25a24f2606b2851fd79b41e9"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/AdditionPullback/Differential.lean": {
+          "status": " M",
+          "sha256": "25c611ff0196e05f8911d29172b7c9b8b4c15f69636019bd03411a59c83adbde"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/AdditionPullback/SilvermanIV14.lean": {
+          "status": " M",
+          "sha256": "5ac8fdc2878ef86f868a36cda1b9a299b58e2be4eb3a4a4ed0a73623f2e0a993"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Auxiliary/DiffQuotientRule.lean": {
+          "status": " M",
+          "sha256": "800a6522772a329323b242abefe15569caf6337174ceb29d832efa82230c6a75"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Auxiliary/EllipticDivisibilitySequence.lean": {
+          "status": " M",
+          "sha256": "f51b3a5ac11f7953947edae486b928fae98cb46454d20f6c1b191b80386123db"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Basic.lean": {
+          "status": " M",
+          "sha256": "f0476eceacc9a810bfb778120d02f486419192679ff0d82749f3d1f0ee67dcc1"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/BridgeFrobenius.lean": {
+          "status": " M",
+          "sha256": "e34a5c11659043ffe0972ff9e30e4de46b072ebd83359c397483a3165e399c15"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/ChordExpansion.lean": {
+          "status": " M",
+          "sha256": "7deeda48eb32edac0045ab947722dfbfb5beea88d2a12de7dc9ed5f31be64762"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Differentials.lean": {
+          "status": " M",
+          "sha256": "a238ac6d0955c51828e8b830f7ce6291c977c7c0249a5fd655ae3b161ea32987"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Divisor/Divisors.lean": {
+          "status": " M",
+          "sha256": "545c3ac2e486fc5a1ec4737afb29ad12f42850453aa8179dc5f99fbd308755fb"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Divisor/EffectiveSumReduce.lean": {
+          "status": " M",
+          "sha256": "e590ee8175f916126117700cfafe85d2a0c830603d1923807063e996d62164a5"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Divisor/Miller.lean": {
+          "status": " M",
+          "sha256": "a3e33e58dbfdd3c68c3392cc6d63df1461a22c9c7a8e36c197367a44c57e26d8"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Divisor/MillerAllChar.lean": {
+          "status": " M",
+          "sha256": "677e4c9564c8dbb6be85d72dd13f387475881d24b0223c7da37623099f65a464"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Divisor/PicZero.lean": {
+          "status": " M",
+          "sha256": "c919f6678eba2242c6c86d69b102f42b13a8f1dd1344961fc70a3663aa3435a5"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Divisor/PicZeroPushforward.lean": {
+          "status": " M",
+          "sha256": "6e0bf77dc0edad8097d75790e32e48ec437d361e9633bf7aefce083fffecc39e"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Divisor/ProjectiveDivisor.lean": {
+          "status": " M",
+          "sha256": "e29dd9d4579679a90875b7619f30fe163bbacb853ab55d9e22ab57314ec06fcb"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Divisor/PushforwardDivisor.lean": {
+          "status": " M",
+          "sha256": "669367be5c165c4c71ae849984a5faa48ed0c7da5b9839f552a909de885f99a3"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Fiber/AFConditional.lean": {
+          "status": " M",
+          "sha256": "96bbea3a8eb8cc82f0ce6b8803b9e5160f5cddb25c20d3f7dfcb977d7a5f457a"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Fiber/GenericFiber.lean": {
+          "status": " M",
+          "sha256": "f0ec1f01c97f83e7716d6e0ac03cc1d79ce5ea2fa172c86557ea29f8be446191"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Frobenius/FrobeniusFixedPoint.lean": {
+          "status": " M",
+          "sha256": "9d114fac71fb4de61fb4c4083d108e774f93736233803915729ee3e5fdc91d2b"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/IntegralClosure.lean": {
+          "status": " M",
+          "sha256": "7ced09759b16255fa8408eb0623fcb441986ace42a53dc5503b9de75b4350b76"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Map/CoordHomFinite.lean": {
+          "status": " M",
+          "sha256": "7dd2f643916e6c3e1e54afcffa92e8ca9bcd4ceafaac43232d15b6f494ae7b51"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Map/CurveMap.lean": {
+          "status": " M",
+          "sha256": "4c28166927aec8c3251ae39a31896248242c4a0022ad140e0d49a02a212b31bb"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Map/CurveMapBaseChange.lean": {
+          "status": " M",
+          "sha256": "ec425c3288f6ce5bab02035189e2370ce0a7fc8e4aae84d9de2a4c8f85e732d5"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Ramification/InseparableDegree.lean": {
+          "status": " M",
+          "sha256": "1a0aab12338270bddf547c46c6703cff5b091ad36ca55f1b67068fd126a01373"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Ramification/PoleOrderParity.lean": {
+          "status": " M",
+          "sha256": "84653658a6332d72a573d459a3edd7b2005bc632e68469a3cc626c3cebcd6af3"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Ramification/RamificationAtInfinity.lean": {
+          "status": " M",
+          "sha256": "a121be673fe72f24bed67316f290269a228e2dc5fcf43ae14870945e7eb834a1"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Transcendence.lean": {
+          "status": " M",
+          "sha256": "4ad9c047a44d5e25e00cbc144aa90104a3e0ec865c98038dedd85ee9fdd71dd9"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Valuation/AlgebraicNonNegOrd.lean": {
+          "status": " M",
+          "sha256": "43cc933d11e03cb7e04b09046d876cc33b92f8f5bb90f779c126b8d8b38c84e1"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Valuation/Infinity.lean": {
+          "status": " M",
+          "sha256": "fd266e9f3496fb5b9c27a29fd85c17dd1cf200c6adc96dacdf8967cf1f73f119"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Valuation/NoFinitePolesBridge.lean": {
+          "status": " M",
+          "sha256": "ffffe8c783e7d5a7cb520c634f4c688718fcdcf2873ab9d312a4856d27b28cb8"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Valuation/NormValuation.lean": {
+          "status": " M",
+          "sha256": "8ab6068fe8a91225bd136e2ba33d2fa4158bc24ed299a1b46c599c887722db31"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Valuation/RankOneDomination.lean": {
+          "status": " M",
+          "sha256": "1747d8cfac441e953dc6ced4d9b23cda6140e3772d10f4c936b2df3a8df51adf"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Valuation/SmoothPointTranslate.lean": {
+          "status": " M",
+          "sha256": "7a3281bfa368b175a25d4232013adef57a7bad634cf3d10bcb1da9ed07d608d1"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Curves/Valuation/Valuation.lean": {
+          "status": " M",
+          "sha256": "72bd6368469832d4878dc7f3ad54161ce36e9730fb1ace316cf55600d1ffe8a2"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/EC/AffinePointMap.lean": {
+          "status": " M",
+          "sha256": "3edc71b32c0950430afce6248fb4d16f1fac80670bf0908bd316aacbc1938a1f"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/EC/DifferentialOrd.lean": {
+          "status": " M",
+          "sha256": "84e5991bd4d27ab2f8aa5ad02236039bf6bf80db380e41ec5b727ecc4b0936d7"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/EC/GenericPoint.lean": {
+          "status": " M",
+          "sha256": "cf7ad13dcd6758c75067d2cbf3e527661ea25ced9f9bd3989dabf3d029b60ce9"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/EC/GenericPointZsmul.lean": {
+          "status": " M",
+          "sha256": "db987e3170382674442651d479e9cbe53e3a187a8d28f9af5452f5062c076e54"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/EC/MulByIntSamePlace.lean": {
+          "status": " M",
+          "sha256": "c45bb60171414d2268e5d8c843880e15f02bd9d1174b572a470f56dca40d20c9"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/EC/MulByIntUnramified.lean": {
+          "status": " M",
+          "sha256": "aeb8ff51ff01b58e3a92c8e26a6765cdbbc592208c5a4d7212480ffcac10b899"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/EC/SeparableKernelTorsor.lean": {
+          "status": " M",
+          "sha256": "a2702ccbd27f7eacf76081ac71c10df8be2fab5c70e278564f4d68108ffa7369"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/EC/TranslateOrdInfty.lean": {
+          "status": " M",
+          "sha256": "b4f897d9b91313d8b91c0e0209a9b47fc3dd9e5bbf33aa6448c4bdd0d9089a7e"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/EC/TranslateValuation.lean": {
+          "status": " M",
+          "sha256": "1c2cfd1ff798cca2efc8f5e8bd7fdf170c6237a9df6aef7baac203c09c880ba1"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/EC/Translation.lean": {
+          "status": " M",
+          "sha256": "a1310392e9391943333c4cfcdadd601dec971dfe59587bd8823b206118da0167"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/EC/TranslationOrd.lean": {
+          "status": " M",
+          "sha256": "c002a0d2c84d078203d8912ea6d1e1a71f75e030861b0e5d7ffda55beb6bcae6"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/LocalExpansion.lean": {
+          "status": " M",
+          "sha256": "0da7dc6d230d58956970af3f630642fa683ad148125fd480aee564ab68c44bf8"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/MulByIntPullback.lean": {
+          "status": " M",
+          "sha256": "fde1feca0127572e95884f857bc0e8c93bdfe77b6dedcb142c01aa61b0455223"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/OmegaCoeffMulByIntFiniteField.lean": {
+          "status": " M",
+          "sha256": "4033c3f04a825b636f443746e1a23f216f0a7b2bf29b51c8d6b8970baa4b30d6"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/OmegaPullbackCoeff.lean": {
+          "status": " M",
+          "sha256": "46da27c15f1fa198629de8f9a63851c4a1dc324117ea0752393b53458fe8e2e4"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/OrdAtInftyBridge.lean": {
+          "status": " M",
+          "sha256": "956bc9c9db418f6520020ea05eed51e16612dfe7f04ed04552305751ecfebbb9"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Ramification.lean": {
+          "status": " M",
+          "sha256": "3b87fdc6ab74921c602246a2eaad566a095fd1c78e661b09370a6e70f18b0972"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Valuation.lean": {
+          "status": " M",
+          "sha256": "7b19b49e076e16675fd1cbd9d3965f0b4e3e4ac9c61e4db1f037ec84383dc2a9"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Verschiebung/Genuine.lean": {
+          "status": " M",
+          "sha256": "9f2c24fe0ebbd31f6de92dacbb7711c7f11895c383a222ca9bd84fdac03e39bd"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Verschiebung/PurelyInsep.lean": {
+          "status": " M",
+          "sha256": "1e0612a0505f72ccc2bf555da97328cd4cbf07659f14371ec99826a07e171988"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Verschiebung/QthRoots.lean": {
+          "status": " M",
+          "sha256": "044d12585ac30e59b62e48851d5076c3963318b6695c0eac39c761cc497a5829"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Verschiebung/Route2Universal.lean": {
+          "status": " M",
+          "sha256": "6e01e4e6ad613a6157b112a1c49075e0731756d0835d66fa83e9ae03a20f9c91"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/Verschiebung/UniversalQthRootWitness.lean": {
+          "status": " M",
+          "sha256": "f0eec6e19a3429de16fae65851fb06b063048fe2ccaf3b1371e48f3a3f1c9daf"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/WallA/VSideDual.lean": {
+          "status": " M",
+          "sha256": "1e48c749c12286185beb56bfcdebf29e224084646b1242a72c1a882e59776ead"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/WronskianAux.lean": {
+          "status": " M",
+          "sha256": "e4db4dde87171d781e5d6774bd9c0a5619aecab24d41b96da8a2b32b72cf9527"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/WronskianAux/CNorm.lean": {
+          "status": " M",
+          "sha256": "4340adb61327d12b8b4e70ab7dd35cb1ef6f7261365b156398d87359275bca00"
+        },
+        "projects/HasseWeil/HasseWeil/Foundation/WronskianAux/Prefix.lean": {
+          "status": "??",
+          "sha256": "19c8f185addf4186a483c93a295f925b076f3f965fb12f83c6f325d8337ebaad"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/Infrastructure.lean": {
+          "status": " M",
+          "sha256": "3baf848f8d49bc4e5695cbb05dbb9ac9def6e225b6b70b372cf279ffc1b6f703"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/PointCount.lean": {
+          "status": " M",
+          "sha256": "8c3dc14ba8dd45ad72375b19e506f41a815bf2ea5ec3416dba247eec8283ebd6"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/PoleDivisorFallback.lean": {
+          "status": " M",
+          "sha256": "ab8cf7720c60aee5a47d47d6805e654e2cf1f9abdf79d09fa209e2436214edc7"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/PoleDivisorTwoTorsion.lean": {
+          "status": " M",
+          "sha256": "4c05b8bc5c7973112c3ee4c349775b6711e3aed975aad0f56da86f8d25124d59"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/Primitives.lean": {
+          "status": " M",
+          "sha256": "493f3fa3517507ebff39ff01b187d31c5d65acbf082fa77da4c6e3fae38aea0d"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/SepDegreeEqPointCount.lean": {
+          "status": " M",
+          "sha256": "6c318f983968262120c74a1eb0f92841119d6598af7b8cc545f3124db0d82bbb"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/SepDegreeWitnesses.lean": {
+          "status": " M",
+          "sha256": "284c54d2062e9c0e330caf6b0b20fce117092c11e33dc92879e2b8bd5f1769e5"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/Separability.lean": {
+          "status": " M",
+          "sha256": "3df506f35a482945633fb1a0226484c29f7ccebf3cbc9bb24aade3471d1fdde9"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/WeilPairing/Constancy.lean": {
+          "status": " M",
+          "sha256": "e5534db414177c8038d0e05b3c1709963b71cd07c5c6d820c6734f89d004e0bb"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/WeilPairing/DivisorPullback.lean": {
+          "status": " M",
+          "sha256": "283c777b2925c873b8cab221bec35c988239d8616649a999dd9331aceebe882a"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/WeilPairing/DivisorTranslate.lean": {
+          "status": " M",
+          "sha256": "dce79ab0f34a0ea13f782838a2b62ddcfea445bcaea5d431180a4f9f5415393c"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/WeilPairing/Fiber.lean": {
+          "status": " M",
+          "sha256": "b3730af3cbd015ce277914055e82cba78ebb6345ea24e8b0926320d6d430a470"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/WeilPairing/FrobMatrixData.lean": {
+          "status": " M",
+          "sha256": "86f0494e25eab49dfaa5780cfa7814c8edb97f49cea31a04e26a14aa14963d10"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/WeilPairing/FrobeniusDivisorGalois.lean": {
+          "status": " M",
+          "sha256": "9f37b40513c72330498b22527a813e7a1fd76f22ea48a36d1b5a3facd3396a97"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/WeilPairing/FrobeniusGenericCovariance.lean": {
+          "status": " M",
+          "sha256": "09baae0675b4b6ccd529093fac12b7b8ac319c1da82c1a15d1aa19fa0fdc99eb"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/WeilPairing/HfactLemma.lean": {
+          "status": " M",
+          "sha256": "9b022282a1d7b581b064ca43575292bfd79cbd1c328cb55a945c7b1e52279a36"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/WeilPairing/OneSubDualDivisor.lean": {
+          "status": " M",
+          "sha256": "9147d8fa9d367c9684f481fb1c1407a2a9fa559c51bf1cd266c782ca612dd200"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/WeilPairing/OneSubFrobeniusBaseChangeWitnesses.lean": {
+          "status": " M",
+          "sha256": "b1a3b67e9cb96d324e0b97baf5db3fb74ce85a3a95e3bb9883e44a2c6e3f3641"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/WeilPairing/PairingNondeg.lean": {
+          "status": " M",
+          "sha256": "b84a3350d5ed1b9bb3ffc69b27d89c9aafd7af0caada026614a7bcba65f7c8ca"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/WeilPairing/PairingProps.lean": {
+          "status": " M",
+          "sha256": "0d1489543ff8f8c789fe486afbc48530f39a3f7cf2a1839bfb205ea0e07ab3de"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/WeilPairing/PencilDualDivisor.lean": {
+          "status": " M",
+          "sha256": "d47dc1f73af979fbc2b1b502f97cc16638869575ed9567974baa025788f3207d"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/WeilPairing/Pullback.lean": {
+          "status": " M",
+          "sha256": "3734ffe4fd2eff7ced3ebca08dd1fb66894e08c5ac13f609232404a3fb3e9282"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/WeilPairing/Scaling/FrobeniusGalois.lean": {
+          "status": " M",
+          "sha256": "60b4441fd5e6a5ce84d5ea2e1412f257f5e208d4f2e83ef9515ec40532cbf449"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/WeilPairing/Scaling/OneSub.lean": {
+          "status": " M",
+          "sha256": "dc4ff242bc0ad173cb2550a4a7a4172b7d861060ce675b80e30a40cfd6c268a5"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/WeilPairing/Scaling/Separable.lean": {
+          "status": " M",
+          "sha256": "ba9d95b03e2ffcc0cbb7afe56934dfe6bfd6abc043a0fe5da5c2207d58916191"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/WeilPairing/SigmaBridge.lean": {
+          "status": " M",
+          "sha256": "88a76a3118870c3d301dd47762b90a3ac86be680dd109ad5fbfd05b5ce730236"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/WeilPairing/TorsionKernelRational.lean": {
+          "status": " M",
+          "sha256": "360951cf8cf818ebd1eeb72ab7bc7416f46afd0ab4de55fcdbb691b8841c9970"
+        },
+        "projects/HasseWeil/HasseWeil/HasseBound/WeilPairing/TorsionModule.lean": {
+          "status": " M",
+          "sha256": "2ee1c4980c1cacda9aec9434b746fd18b9eca7f769ad4b9d3154c3ad9847c74b"
+        },
+        "projects/HasseWeil/HasseWeil/Isogeny/BaseChange/Basic.lean": {
+          "status": " M",
+          "sha256": "949da903a2c02ce23b012b9d41f2f2a551c2b1185ada2051724cd7a5932a417f"
+        },
+        "projects/HasseWeil/HasseWeil/Isogeny/BaseChange/Concrete.lean": {
+          "status": " M",
+          "sha256": "d46cc72ab7429d77e91fc611d430b7e8c8e9b4e13cacbf1e3c434040db249815"
+        },
+        "projects/HasseWeil/HasseWeil/Isogeny/Basic.lean": {
+          "status": " M",
+          "sha256": "c26ac38d15b2ef1e81c7a723871cef8c93ad08c8731b192b37852461572a7cce"
+        },
+        "projects/HasseWeil/HasseWeil/Isogeny/ClassGroup.lean": {
+          "status": " M",
+          "sha256": "27f774bd8486b52b26d6a0e13bdfe798a00349d3337d05b382d39ec7c39b32aa"
+        },
+        "projects/HasseWeil/HasseWeil/Isogeny/FormalSeries.lean": {
+          "status": " M",
+          "sha256": "584ef4cc70029441cff2eb5d8b2e8c47f74d10b3c5397340776ff431d5f467a6"
+        },
+        "projects/HasseWeil/HasseWeil/Isogeny/Frobenius/FunctionField.lean": {
+          "status": " M",
+          "sha256": "757aeae6ba130510555f4216dfc8987e7e1b9afc6dcf59531065259b23a9b007"
+        },
+        "projects/HasseWeil/HasseWeil/Isogeny/Frobenius/OrdAtInfty.lean": {
+          "status": " M",
+          "sha256": "df2e4311406aa63c403afbc3263a9dcfe9b9b2d546752afc93bd432372e386da"
+        },
+        "projects/HasseWeil/HasseWeil/Isogeny/FunctionField.lean": {
+          "status": " M",
+          "sha256": "757452144be642f51a9e218f8bcb458be7675451930817b92fd303c38f93ff06"
+        },
+        "projects/HasseWeil/HasseWeil/Isogeny/GroupHom/PicZero.lean": {
+          "status": " M",
+          "sha256": "d524884b7170d92cc2e05811292210f68719a4fd725048bc78378e2888469f8f"
+        },
+        "projects/HasseWeil/HasseWeil/Isogeny/Kernel.lean": {
+          "status": " M",
+          "sha256": "e4cb2c74add4f851705407ceee1c71219b47f937a968bd03d856ca3d60f69455"
+        },
+        "projects/HasseWeil/HasseWeil/Isogeny/OmegaCoeffViaFormalGroup.lean": {
+          "status": " M",
+          "sha256": "459cdb8e732ade859f8db2753291e574f51155086374e35ae3d984acd8d90793"
+        },
+        "projects/HasseWeil/HasseWeil/Isogeny/OrdTransport.lean": {
+          "status": " M",
+          "sha256": "43f73da4fc4d84cb241143e3ee371df4d72b73c1ac23c130f945b4f1e93b5635"
+        },
+        "projects/HasseWeil/HasseWeil/Isogeny/SeparableWitnessReductions.lean": {
+          "status": " M",
+          "sha256": "b723fc6a0919f6bbd5d5e78f90178e892d2655d559510bb9b197dd42ffe30634"
+        },
+        "projects/HasseWeil/HasseWeil/Isogeny/VerschiebungFactorization.lean": {
+          "status": " M",
+          "sha256": "74ce5726887d905db94cec0db5606febb2e0a05867e5499e57d03b3c93fe0ccd"
+        },
+        "projects/HasseWeil/HasseWeil/Pic0/ClassGroupNorm.lean": {
+          "status": " M",
+          "sha256": "d5f15d5d8b59043572684ea0305afcb8fd6a1c22c77ed07dfd1774f1aee192ed"
+        },
+        "projects/HasseWeil/HasseWeil/Pic0/PicDual.lean": {
+          "status": " M",
+          "sha256": "87a0c4528828b491a8157197cf39e4531eaf01fd2d296ac5d875ec01f8f2cd9b"
+        },
+        "projects/HasseWeil/HasseWeil/Pic0/ToClassSurjective.lean": {
+          "status": " M",
+          "sha256": "57a757ed26b262df4183962a7dd6aa2c0020fcd0fc8357afc387101c7b0d32ef"
+        }
+      }
+    },
+    "AbsorptionCutoff": {
+      "rev": "41c45c6d72e979419e46224bb7b4be5cee31f2b5",
+      "changed_files": {
+        "AbsorptionCutoff/Supercritical/Renewal.lean": {
+          "status": " M",
+          "sha256": "9a1da707ddc7791e973fdbfe9f9964b35edc99ce5b0f51e03c13d02d2e79d10b"
+        },
+        "AbsorptionCutoff/Supercritical/RenewalApprox.lean": {
+          "status": " M",
+          "sha256": "236a3decae51cdbe8edc4cebdd2a005f6682aa8caa994e82fe98a13a8872efc4"
+        },
+        "lakefile.toml": {
+          "status": " M",
+          "sha256": "d0a29a7c4215e49b39fb9ea7db1eed6e09fb75a385c915cc60aff2c355826fb4"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        }
+      }
+    },
+    "BibtexQuery": {
+      "rev": "4d8616fd4870d0a3453d845770833eac7951fe1c",
+      "changed_files": {}
+    },
+    "ClassFieldTheory": {
+      "rev": "2eb22d6485af45f29c5219de6c49f196a61c4f49",
+      "changed_files": {
+        "Lean4/ClassFieldTheory/AbstractClassFieldTheory/Reciprocity/Construction/MainTransferFrobeniusGeometry.lean": {
+          "status": " M",
+          "sha256": "40c0d0d2252e13e2756ec1a7167c7b93b5d456ac8aa47f47b6a73bc9844fa506"
+        },
+        "Lean4/ClassFieldTheory/AbstractClassFieldTheory/Reciprocity/Construction/MainTransferFrobeniusRestriction.lean": {
+          "status": "??",
+          "sha256": "ab7160c1a74bae680379087cf4331931e0742f727a29fd22457b7c26cd6b2874"
+        },
+        "Lean4/ClassFieldTheory/AbstractClassFieldTheory/Reciprocity/Construction/MainTransferFrobeniusSubgroup.lean": {
+          "status": "??",
+          "sha256": "614969a0666a2aa01a128bc66867a003124ced22c7725e64a984636a65c33c8f"
+        },
+        "Lean4/ClassFieldTheory/AbstractClassFieldTheory/Reciprocity/Construction/MainTransferNormOrbitEquiv.lean": {
+          "status": "??",
+          "sha256": "3d95df6a1e7c8d401538f5b50b1537e86b0689d76a7328c43d511d6a6821faee"
+        },
+        "Lean4/ClassFieldTheory/AbstractClassFieldTheory/Reciprocity/Construction/MainTransferNormOrbitMk.lean": {
+          "status": "??",
+          "sha256": "f5300cf04d416b41502f9772a62a36ca6cec31267f8bd6aeee14fd0a5a55dd4b"
+        },
+        "Lean4/ClassFieldTheory/AlgebraicNumberTheory/AdeleBaseChange.lean": {
+          "status": " M",
+          "sha256": "6dbcad91b7af75b29604eda0a104604d5f679de6b97c317f7eec2f8d206dc9b3"
+        },
+        "Lean4/ClassFieldTheory/AlgebraicNumberTheory/Idele/NormTopology/ExtensionBehavior.lean": {
+          "status": " M",
+          "sha256": "83b0b03b73e9864ffe4b43677e7479a55ac9a434e14664621fa8577414f1e63f"
+        },
+        "Lean4/ClassFieldTheory/AlgebraicNumberTheory/RayClass/Ideal.lean": {
+          "status": " M",
+          "sha256": "5e699b21df19b00e262f9a52023f8ae4545bbf387bd5271b21d8404344657395"
+        },
+        "Lean4/ClassFieldTheory/AlgebraicNumberTheory/RayClass/IdealApproximation.lean": {
+          "status": "??",
+          "sha256": "3c62ebd527dc7cf4b8111fbfba9e0192f7f4c4942d88edd3bc40e4d9a645f03b"
+        },
+        "Lean4/ClassFieldTheory/AlgebraicNumberTheory/RayClass/IdealGroups.lean": {
+          "status": "??",
+          "sha256": "82ddfdefffd3e16260c7764871d986a6d77a4d29f1b015ad5139d36282a7e3ae"
+        },
+        "Lean4/ClassFieldTheory/Definitions/ConductorsAndRayClassFields/RayClassIdealModulusProjection.lean": {
+          "status": " M",
+          "sha256": "d758998eb9a16454545f4dba0bbbb7cef1f1062787776b7fb6c3cea3c182e2d1"
+        },
+        "Lean4/ClassFieldTheory/Definitions/ConductorsAndRayClassFields/RayClassOfFinitePrime.lean": {
+          "status": " M",
+          "sha256": "103751a98bce4acda08bfee8c5ec7cefb093abcbd609c2f7a02ed6dd33e0bf92"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/GlobalClassFields/ArithmeticRayClassFieldReciprocity.lean": {
+          "status": " M",
+          "sha256": "624ca2e50e192bb9c142e26be9570ee20b66733dfba2674b1a9705a89bbc2a16"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/GlobalClassFields/ArithmeticRayClassFieldReciprocityBase.lean": {
+          "status": "??",
+          "sha256": "de0fa61c04fd9ca0bfcf11128a2d6799f16a1340e16785a72564a3b814382419"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/GlobalClassFields/ArithmeticRayClassFieldReciprocityEvaluation.lean": {
+          "status": "??",
+          "sha256": "128510697e53a7593da8a181dd6c58890bfbea026fd8359f9b67a9d62d72caaa"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/GlobalClassFields/ArithmeticRayClassFieldReciprocityNormResidue.lean": {
+          "status": "??",
+          "sha256": "cb26de8f3fbabdabd9e3548beb89d8cc3723e165ed5533c5598b0fa4b76ad695"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/GlobalClassFields/HilbertClassFieldReciprocity/BigActual.lean": {
+          "status": " M",
+          "sha256": "624087ddb123528e04b447b605adab22e929a682eab1ae3feafa6bc2caaef4ce"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/GlobalClassFields/HilbertClassFieldReciprocity/BigActualData.lean": {
+          "status": "??",
+          "sha256": "d0693ad9038a8bc7a524d8ddd426adfdf7e5aa1809b8a86b7328fa043a6c38d0"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/GlobalClassFields/HilbertClassFieldReciprocity/BigActualEquiv.lean": {
+          "status": "??",
+          "sha256": "d605c3d0a9712b6d96bfb48405ae207bc69373fd2f389e3cd686f0955f696b50"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/IdealClassFieldTheory/RationalFiniteNormTransfer/Representatives.lean": {
+          "status": " M",
+          "sha256": "cd40e94b3ba0a66e6f2d422f7363b21c967e7a356b9d681554b1a97a67982df5"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/IdealClassFieldTheory/SmallHilbertPrincipalization.lean": {
+          "status": " M",
+          "sha256": "d29e73a63d15c03da9b81f0d4ad5b698712d44b74511e404812ca29a268cc91c"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/IdealClassFieldTheory/SmallHilbertPrincipalizationBase.lean": {
+          "status": "??",
+          "sha256": "548c319df6bd7c7e741df6a9ce0d08c0881b6c7c855c92ddc58698f02613858a"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/IdealClassFieldTheory/SmallHilbertPrincipalizationClassGroup.lean": {
+          "status": "??",
+          "sha256": "acef959d99fac6049a1dcb7d64f27f198aee49cb5649f5cf63790434a3adf641"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/IdealClassFieldTheory/SmallHilbertPrincipalizationIdele.lean": {
+          "status": "??",
+          "sha256": "57a84e3250081fc24b018aae7c56ed469fef1d3aa0ef6e6c8f334218d09051a4"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/IdealClassFieldTheory/SmallHilbertTowerRealization.lean": {
+          "status": " M",
+          "sha256": "3131c6d7be39cd59b31ea4c013508ffa435abb5e2db40a57835c0e5f00f349f4"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/IdealClassFieldTheory/SmallHilbertTowerRealizationBase.lean": {
+          "status": "??",
+          "sha256": "4481e2104dff732b3e069a3035a8cc3369a4982022eea3527a0069a5b9c6b32e"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/IdealClassFieldTheory/SmallHilbertTowerRealizationEmbedding.lean": {
+          "status": "??",
+          "sha256": "9da6deea00ffcc3f435e2a19db99178c8f3d4c33f0f90fa2c77a49d1da9b5341"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/IdealClassFieldTheory/SmallHilbertTowerRealizationNorm.lean": {
+          "status": "??",
+          "sha256": "fa9542fe5ee39aa35dbb072bdfb402572c8edada4049c89daef5ed261c40453d"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/IdealClassFieldTheory/SmallHilbertTowerRealizationSecond.lean": {
+          "status": "??",
+          "sha256": "9b5a0585eb4fd5e514e58e8af39e022f7d2438098c67f9bb115cdb20fc584d6b"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/AbstractFixedFieldGlobalNormResidue.lean": {
+          "status": " M",
+          "sha256": "b8c69d6f1c1a39b62a7d44367131dd59f9247df85e4a235bc3e47a959a9c5979"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/AbstractFixedFieldGlobalNormResidueEmbeddedReciprocity.lean": {
+          "status": "??",
+          "sha256": "896528bb112ddaa461c349524d00e42f18bfe7190d4c0c160637057b6ddb6c91"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/AbstractFixedFieldGlobalNormResidueEmbeddings.lean": {
+          "status": "??",
+          "sha256": "178cd02b1a097073bb2fa17262007fc738bd0070a75f180a42d460644b73bfb2"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/AbstractFixedFieldGlobalNormResidueFixedFields.lean": {
+          "status": "??",
+          "sha256": "4b4d4c30cea87dd6865ce69b9bc529b2d8b309094ddebc27b53b8751ba232334"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/AbstractFixedFieldGlobalNormResidueNormClasses.lean": {
+          "status": "??",
+          "sha256": "d0f452dfd19d2fe6f6df20775748c89e1412c63b263da827b4a5628a0a23679f"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/CyclotomicAbstractFixedFieldArtin.lean": {
+          "status": " M",
+          "sha256": "631749beb96da995d8e7155f4fa8f3d6398892003b4a9b2ff9addbaa97c517cd"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/CyclotomicAbstractFixedFieldArtinBase.lean": {
+          "status": "??",
+          "sha256": "76521d7ddbd7aa91f89e4af7a0bb6db60779f705a604412d9461bd970adad334"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/CyclotomicAbstractFixedFieldArtinComparison.lean": {
+          "status": "??",
+          "sha256": "3c54fbe7fabd0b2db6c8828399b0e65055710caac73ad5863faa4150f2000352"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/CyclotomicAbstractFixedFieldArtinCompositum.lean": {
+          "status": "??",
+          "sha256": "5f1bf1bb9532eee911a28c1d6a3fc280c189f6f9dc08ad600ecd6f42d397c9a3"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/CyclotomicAbstractFixedFieldArtinCoordinates.lean": {
+          "status": "??",
+          "sha256": "4585aefceb966455361a56945da955cdcb5fcf6e243e6d879de94a2b19532804"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/CyclotomicAbstractFixedFieldArtinFiniteLayer.lean": {
+          "status": "??",
+          "sha256": "466a77713dfe75168d4a39da4f4a8eb6ad730f3337d7229c922ddda139bed045"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/CyclotomicAbstractFixedFieldArtinFiniteRestriction.lean": {
+          "status": "??",
+          "sha256": "265931ad40100ab35bbbe24556e390f3ef8888c2daf7d058a34619963bdf8ce1"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/FiniteGaloisRealizationCore.lean": {
+          "status": " M",
+          "sha256": "8d0d9c24e775ac939210dc0ade424f24adb586f8195a98206dc686aef94bc7f7"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/GlobalHilbertSymbol/FinitePlaceFiniteSupport.lean": {
+          "status": " M",
+          "sha256": "2587334b08edcdfda0aa3f9182e2b8444bbd5174189e75e83a74792911618b25"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/GlobalNormResidueNaturality.lean": {
+          "status": " M",
+          "sha256": "2fd3d7e74c7aac7f3004ca5692a3bb383a5caae4395f09cb3211de1ac4b79087"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/GlobalNormResidueNaturalityAbelianValues.lean": {
+          "status": "??",
+          "sha256": "2d5a7d7c3050a0b275211aa7dccce98207b73612d7f9562ea3293ab26db28f59"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/GlobalNormResidueNaturalityEmbeddedValues.lean": {
+          "status": "??",
+          "sha256": "8c558ea1cdaaa5bfebdad81d159a31b72073a917726c3eae3477ae9871544ea1"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/GlobalNormResidueNaturalityExtensionValues.lean": {
+          "status": "??",
+          "sha256": "fab10cab1e9e03171ac50af6d84322dcb61612e6522ffe399f45286774b6a5b8"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/GlobalNormResidueNaturalityFixedBase.lean": {
+          "status": "??",
+          "sha256": "828128c0bf95984503ea8c73bb7c719e16e46f86c8c497300f4c787a1b0cd860"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/GlobalNormResidueNaturalityFixedComparison.lean": {
+          "status": "??",
+          "sha256": "00ace5ee6f68621d265d55b7d760ccb507acc2ece83425bb8d4fb61a5bbe3e0d"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/GlobalNormResidueNaturalityTowerBase.lean": {
+          "status": "??",
+          "sha256": "dc7dddb89209af915f96b0268aa967465523ed49e1d1579c3214c1a8d4c91d02"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/GlobalNormResidueNaturalityTowerNorm.lean": {
+          "status": "??",
+          "sha256": "3441a7d2cdf41f9dc3391c2798ae920e125428b6d1309550f760d6b0ce375628"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/GlobalNormResidueNaturalityTowerRestriction.lean": {
+          "status": "??",
+          "sha256": "5d27aa72917dcb9e04c08263c10c1b87ef45318b4b58a8a61b43d053c990846c"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/GlobalNormResidueNaturalityTransports.lean": {
+          "status": "??",
+          "sha256": "dbb8ca0aa61969b6fcc542bf73093a51e2077bcbb5c69cff1320038af8a863b9"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/IdeleClassDirectLimitAbstractFixedField.lean": {
+          "status": " M",
+          "sha256": "2d248bb98edaf3144355bafcfa4ade01c0059a9a344e4e429372065910d6893f"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/IdeleClassDirectLimitCore.lean": {
+          "status": " M",
+          "sha256": "38c7bd347f4d7ac17004fcd31ae98c39b9251eeea114aa74e42d45e6302c9a9f"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/LocalGlobalArtinCompatibility/FinitePadicAuxiliaryField.lean": {
+          "status": " M",
+          "sha256": "7b54519b3471ad4b3fe0d9f544255302bc52391e6d752505e6f58b1723a66432"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/LocalGlobalArtinCompatibility/FinitePadicAuxiliaryFieldAutomorphisms.lean": {
+          "status": "??",
+          "sha256": "d035253197eb44c3dad7b690c187c714ef4913e11a280f30b068090441759b69"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/LocalGlobalArtinCompatibility/FinitePadicAuxiliaryFieldBase.lean": {
+          "status": "??",
+          "sha256": "5482ad7264ac74e6587f4ec1fed8bbb5743a24f4d46c11a6bd1dde293d254e5a"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/LocalGlobalArtinCompatibility/FinitePadicAuxiliaryFieldExistence.lean": {
+          "status": "??",
+          "sha256": "3ac6f350dbd99f017d349edd4dfda58183e1edde0ef14ee3bda24c75ba4c4a32"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/LocalGlobalArtinCompatibility/FinitePadicAuxiliaryFieldFixedFields.lean": {
+          "status": "??",
+          "sha256": "10e3298e8fa553f9ffa8f730e71a9674f8a8fcb32e99bf348bb53a62d79a758b"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/LocalGlobalArtinCompatibility/FinitePadicAuxiliaryFieldNormRestriction.lean": {
+          "status": "??",
+          "sha256": "f91a60e6a804bebcc363c6599e9931a322166050a3ae967a8caff81a9a236823"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/PowerResidueReciprocityBase.lean": {
+          "status": "??",
+          "sha256": "637792d34cb6825af708e0659b48ecbd11e7f9e916bfeba7cbe1f9b902f040ad"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/PowerResidueReciprocityCorrection.lean": {
+          "status": "??",
+          "sha256": "5373bf60eeeb0427bd7a7f339795805bf0f648f72d6df34e7b31cab654579984"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/PowerResidueReciprocityGlobal.lean": {
+          "status": "??",
+          "sha256": "33b6982bbe947d6ee56e55f9ae69f0066e86d46821551c7aefb23f30713b3ed7"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/PowerResidueReciprocityLocalSymbols.lean": {
+          "status": "??",
+          "sha256": "65a559f64badc25711083b4557131370e0db5b8c086d08aaf4119b6b28b5a65a"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/RationalCyclotomicFinitePlaceArtin.lean": {
+          "status": " M",
+          "sha256": "3d9e46b5de55f2ade8fe77fbb70c2e8fe7fd2c8b6de7c5fde7227954fe1e854c"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/RationalCyclotomicFinitePlaceArtinAction.lean": {
+          "status": "??",
+          "sha256": "7b3f3ea251d10d442352e18096a87fd71d5f3b2b02f0c0954eecb1e3a4ba4b1f"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/RationalCyclotomicFinitePlaceArtinBase.lean": {
+          "status": "??",
+          "sha256": "e3a0d46495e181bf436f7c83623d0f786536a5b824a0fcbee91bf14389b74638"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/RationalCyclotomicFinitePlaceArtinPadic.lean": {
+          "status": "??",
+          "sha256": "73ef9ca31f5195745b4e7a08f7da8cbb42e4aec5d6cc54ed4ef01f2bbeaac107"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/RationalCyclotomicFinitePlaceArtinPrincipal.lean": {
+          "status": "??",
+          "sha256": "13257b29d6a64d0a9be80888297c80b2199719a4dbd3149f5af139d1abacbe86"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/RationalCyclotomicFinitePlaceArtinTower.lean": {
+          "status": "??",
+          "sha256": "238dd0893ee26cc460998d2dc009ed6748e79fa46f5d32f29f88ed786ea7ed43"
+        },
+        "Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/RationalCyclotomicFinitePlaceArtinTransport.lean": {
+          "status": "??",
+          "sha256": "feb5bc8702ca27d2dc84ba59ee0d05761af80a7b71e53514a49f3923a110c4eb"
+        },
+        "Lean4/ClassFieldTheory/LocalClassFieldTheory/Finite/LocalReciprocity/FiniteResidueFinrankTransfer.lean": {
+          "status": " M",
+          "sha256": "39497bb50ea173443fd56b62dd046e72a61b61fb9f287239fecb468abea4f1d7"
+        },
+        "Lean4/ClassFieldTheory/LocalClassFieldTheory/Finite/LocalReciprocity/FixedFieldNormResidueNaturality.lean": {
+          "status": " M",
+          "sha256": "97129d057516ca7190101c1af8329bf2679515a269fa578aee4a2800ad2d5073"
+        },
+        "Lean4/ClassFieldTheory/LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean": {
+          "status": " M",
+          "sha256": "746a9dc63dc27e28c59a1b5f59547ebf1de0db8535a1f7e7f8594cacd4182cd7"
+        },
+        "Lean4/ClassFieldTheory/LubinTate/Padic/CompletedChangedUniformizerFixedField.lean": {
+          "status": " M",
+          "sha256": "cff1c59c9a0fed99aa9e13340a40b22c274283780b72f9f520c9d18fcdaa28a0"
+        },
+        "Lean4/GaloisCohomology/Cyclic/Herbrand/HerbrandLowDegree/Basic.lean": {
+          "status": " M",
+          "sha256": "0ffbbd93794ccee9afdbf0882ed18f6c701b17cccbc6c8423b4b2552931d60cf"
+        },
+        "Lean4/ValuedFieldTheory/LocalField/Padic/UnitDecomposition.lean": {
+          "status": " M",
+          "sha256": "100bf92882689ddfef93238d574c66969e9db8339116337674760027e0f832cf"
+        },
+        "lakefile.toml": {
+          "status": " M",
+          "sha256": "9a70b3ef703796125f9ca2dfacdff2409d7048874fca4c1a05be7218a0eeef7f"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        }
+      }
+    },
+    "Cli": {
+      "rev": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+      "changed_files": {}
+    },
+    "LeanArchitect": {
+      "rev": "468e8f58fb4ad6e6ad672a08da6d0d0531e95a97",
+      "changed_files": {}
+    },
+    "LeanSearchClient": {
+      "rev": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+      "changed_files": {}
+    },
+    "MD4Lean": {
+      "rev": "31907cc18f48a95384f99cee5582c00fb39e0f67",
+      "changed_files": {}
+    },
+    "PrimeCert": {
+      "rev": "0803c2f6bd289c09704c7d352bb8fcf770cbb9b2",
+      "changed_files": {}
+    },
+    "PrimeNumberTheoremAnd": {
+      "rev": "c39a751132c88b6e8080b74c74023fd95b3d8be0",
+      "changed_files": {
+        "PrimeNumberTheoremAnd/Catalan.lean": {
+          "status": "??",
+          "sha256": "f802a93312fa749619c67b2fb65f5e76b2ccc3edba874a22260f4b21192ff044"
+        },
+        "PrimeNumberTheoremAnd/Catalan/Consequences.lean": {
+          "status": "??",
+          "sha256": "329ef6ec0409039d5bea829eafdb4990b7d514084480d171fde1d69b155244b9"
+        },
+        "PrimeNumberTheoremAnd/Catalan/OrdinaryZetaContinuation.lean": {
+          "status": "??",
+          "sha256": "a4cdb4c4da5e511e6fa195d2f6e6c7c64fd710b6922bf4c0c4860358b039ef76"
+        },
+        "PrimeNumberTheoremAnd/Catalan/OrdinaryZetaZeroFree.lean": {
+          "status": "??",
+          "sha256": "a7f2eb0f488ecb48488a9b3d7a68abd677d223e74474b3bba078cc8889ec0284"
+        },
+        "PrimeNumberTheoremAnd/Catalan/Wiener.lean": {
+          "status": "??",
+          "sha256": "02cb6784ac598b99db13f759cee46287db914c831c61146a9b03e04ff94bce27"
+        },
+        "PrimeNumberTheoremAnd/Catalan/WienerBounds.lean": {
+          "status": "??",
+          "sha256": "d3e4cca15d61fbc802fa82a937bfce2d4732b4193e27a65f121c79402572c95d"
+        },
+        "PrimeNumberTheoremAnd/Catalan/WienerFourier.lean": {
+          "status": "??",
+          "sha256": "6f02b85bf6ecec997fb6aa6605361a7749d4635b95cfdc71a8288ae2a5cb3b22"
+        },
+        "PrimeNumberTheoremAnd/Catalan/WienerLimits.lean": {
+          "status": "??",
+          "sha256": "1e41177cc9f85f99d80f4b6e98da594d46e9d7c59a5c6a90abc0c0ec2aed4f55"
+        },
+        "PrimeNumberTheoremAnd/Erdos970.lean": {
+          "status": "??",
+          "sha256": "768577401f1ddb0c2b3aa81713b362da71b59a7d8ff164583d39427d79845268"
+        },
+        "PrimeNumberTheoremAnd/Erdos970/Auxiliary.lean": {
+          "status": "??",
+          "sha256": "e22d13e51a1c5c9b6b7e8649469b95d81e54edd1afc126152061242e60423b5a"
+        },
+        "PrimeNumberTheoremAnd/Erdos970/Consequences.lean": {
+          "status": "??",
+          "sha256": "98ee935f8b00b09fa1535b448679444dbbcf621f496e0a46ff4bdadc02f7986e"
+        },
+        "PrimeNumberTheoremAnd/Erdos970/Defs.lean": {
+          "status": "??",
+          "sha256": "eee486ed4274d4b35446dc149f871ef7e5492d0c4b7ae5412b37b8f9b44b4975"
+        },
+        "PrimeNumberTheoremAnd/Erdos970/EulerMaclaurin.lean": {
+          "status": "??",
+          "sha256": "a7df60d3653cb8660b82aeae4d2aaa7145dc824ee643b4741e315bcc674ec4cc"
+        },
+        "PrimeNumberTheoremAnd/Erdos970/Fourier.lean": {
+          "status": "??",
+          "sha256": "a21d6432f41a3cada598dba1ad9ceae6a48819be7cb99b06de65ab15c7b66fda"
+        },
+        "PrimeNumberTheoremAnd/Erdos970/HadamardSupport.lean": {
+          "status": "??",
+          "sha256": "a0f61289b82b68afc3b06080bf01c94f4460f3c95d27fe447a0dde427960d2e4"
+        },
+        "PrimeNumberTheoremAnd/Erdos970/Mathlib/Algebra/Notation/Support.lean": {
+          "status": "??",
+          "sha256": "cae01d85a685b04574a3e7e973493583bdbde5d3fabd2b4dab07f88df49a00f1"
+        },
+        "PrimeNumberTheoremAnd/Erdos970/Mathlib/Analysis/Asymptotics/Asymptotics.lean": {
+          "status": "??",
+          "sha256": "ed6a6f94e8ffa4e044348a1c42962ebb929955c9082643139205ce369141d321"
+        },
+        "PrimeNumberTheoremAnd/Erdos970/Mathlib/Analysis/SpecialFunctions/Log/Basic.lean": {
+          "status": "??",
+          "sha256": "7a92a2aebfed9eaedaabdb4089cde4af4f85137d816790d68cc46b5cad56fbb1"
+        },
+        "PrimeNumberTheoremAnd/Erdos970/MellinCalculus.lean": {
+          "status": "??",
+          "sha256": "7930ab19123821aff6a6192cca50b43182282cb69484b0753bc7992735973912"
+        },
+        "PrimeNumberTheoremAnd/Erdos970/MertensClassical.lean": {
+          "status": "??",
+          "sha256": "37b0afe031bec4dea9fe77843b63ba2274c1718510c3e7b52678380bcbb9ae01"
+        },
+        "PrimeNumberTheoremAnd/Erdos970/Rectangle.lean": {
+          "status": "??",
+          "sha256": "c1ac1588f8aa36ca6cce8a224f03f9293d6aa86add4bcef856b6fbbb7d684a62"
+        },
+        "PrimeNumberTheoremAnd/Erdos970/ResidueCalcOnRectangles.lean": {
+          "status": "??",
+          "sha256": "85d3dbda748e0068a094261d833f20fa3e924867778ed0772b647bbd64ebf3a6"
+        },
+        "PrimeNumberTheoremAnd/Erdos970/SmoothExistence.lean": {
+          "status": "??",
+          "sha256": "358de0d82ac0575776c34dd6e66092f16580f8844f1843c6521e4e30a107a93b"
+        },
+        "PrimeNumberTheoremAnd/Erdos970/Sobolev.lean": {
+          "status": "??",
+          "sha256": "7eb6ec9ffffd0bfd8447e38b56dbeede8e7c5e2cefd71c0b47210c02d8223165"
+        },
+        "PrimeNumberTheoremAnd/Erdos970/Tactic/AdditiveCombination.lean": {
+          "status": "??",
+          "sha256": "80bc9e124e078093078d3d425e3099fcada4017ed590f09aae78873d0298eef9"
+        },
+        "PrimeNumberTheoremAnd/Erdos970/Wiener.lean": {
+          "status": "??",
+          "sha256": "f2fe424c422598a1ca2c63ac1035472115bfc749440c2a90d019ededf033c2fc"
+        },
+        "PrimeNumberTheoremAnd/Erdos970/ZetaBounds.lean": {
+          "status": "??",
+          "sha256": "9ef231a799661c1427f23283f97705934edcf3edfd9fdc931c9b517dea2cf676"
+        },
+        "PrimeNumberTheoremAnd/Erdos970/ZetaConj.lean": {
+          "status": "??",
+          "sha256": "a8fb9c968edce35203fd8af8202d958b9dc54e86303dfdddc149c3ad33b79397"
+        },
+        "PrimeNumberTheoremAnd/Fourier.lean": {
+          "status": " M",
+          "sha256": "4d32bf7900ceb3268a44857603eec12333ef605d0d3c966ee6b6261590e9134b"
+        },
+        "PrimeNumberTheoremAnd/IEANTN/Mertens.lean": {
+          "status": " M",
+          "sha256": "4a9ddd7da153e38aca60a9e3cfdb7a60b4644aab3a8b40655a1bd7b16ccd6641"
+        },
+        "PrimeNumberTheoremAnd/PerronFormula.lean": {
+          "status": " M",
+          "sha256": "a313abaf7da9b40872d8b9aeba1c731d3314b2010516d873f025213114c9ba30"
+        },
+        "PrimeNumberTheoremAnd/SiegelZeros/CartanBounds.lean": {
+          "status": "??",
+          "sha256": "914619b42f2d408d5a6dcb082a3a0bf40be7dc90664bd041335ae3cfe4ace11a"
+        },
+        "PrimeNumberTheoremAnd/SiegelZeros/Counting.lean": {
+          "status": "??",
+          "sha256": "8a4baf358e02792fc9353abf86a99f8e2981aca45e075b2b240abce6057c038b"
+        },
+        "PrimeNumberTheoremAnd/SiegelZeros/DivisorBasics.lean": {
+          "status": "??",
+          "sha256": "b876999e5337224b5680fa7f7da9769e2f4e48f30f40ee5d7f2d473aa17574b9"
+        },
+        "PrimeNumberTheoremAnd/SiegelZeros/DivisorLimits.lean": {
+          "status": "??",
+          "sha256": "1f6c1fde75de0b2ca22384db91dc0d4bd9199f81483293181191acee0b0f5a7f"
+        },
+        "PrimeNumberTheoremAnd/SiegelZeros/DivisorProducts.lean": {
+          "status": "??",
+          "sha256": "c588e788d6d7218b7faffb54c0770cf33503238529802cb8cba526e0dcca6d0c"
+        },
+        "PrimeNumberTheoremAnd/SiegelZeros/Exponential.lean": {
+          "status": "??",
+          "sha256": "fc5275b5bb345d4a9b496e2f6f69f3bd4674893727552031584de67dddcdf9c9"
+        },
+        "PrimeNumberTheoremAnd/SiegelZeros/Factorization.lean": {
+          "status": "??",
+          "sha256": "e4569bce8a761f4dca00d2fee525e58083729b7fa109a59cb35ba344cf83cdf8"
+        },
+        "PrimeNumberTheoremAnd/SiegelZeros/Growth.lean": {
+          "status": "??",
+          "sha256": "a5b0f5651308176e72d2166ea626ed1121c6575438582a4f3d962c69cc93a42b"
+        },
+        "PrimeNumberTheoremAnd/SiegelZeros/HadamardSupport.lean": {
+          "status": "??",
+          "sha256": "18cc872b37afa250e674a9069c3ff21872975cba4d6235bd613edfa9919ac720"
+        },
+        "PrimeNumberTheoremAnd/SiegelZeros/NOTICE.md": {
+          "status": "??",
+          "sha256": "e5694c7f17e7ae32b47caa40151160883f396df908fc0af8fc6038c92cec1833"
+        },
+        "PrimeNumberTheoremAnd/SiegelZeros/ProductBounds.lean": {
+          "status": "??",
+          "sha256": "969770fb4bb3cfe708fcf612a6f222645696a3d4a4193e0ea251ed04aae4b735"
+        },
+        "PrimeNumberTheoremAnd/SiegelZeros/Products.lean": {
+          "status": "??",
+          "sha256": "542f14e2a572a28b6b93ccbf6d046493b5692745ba31635728a2bd4271f0026a"
+        },
+        "PrimeNumberTheoremAnd/SiegelZeros/Summability.lean": {
+          "status": "??",
+          "sha256": "c9958f6fbf5c10738310fda29acd5716f38a69feb0d2ddaf4c9f32b724f55c30"
+        },
+        "PrimeNumberTheoremAnd/SmoothExistence.lean": {
+          "status": " M",
+          "sha256": "8f36ada60efb4e835f8f2eb92993b899311dd21607459497d58824d9bc034555"
+        },
+        "PrimeNumberTheoremAnd/Sobolev.lean": {
+          "status": " M",
+          "sha256": "a635e667b7a0228f8eb923f210c08598f61d91880855762540431abe3003f95e"
+        },
+        "PrimeNumberTheoremAnd/Wiener.lean": {
+          "status": " M",
+          "sha256": "20c2be97a648f6f6d190db5cb862efaf4b58de8dba66188b801e2bf625686902"
+        },
+        "PrimeNumberTheoremAnd/ZetaFive.lean": {
+          "status": "??",
+          "sha256": "ba8a0597a806e147e0d3c4f10be69a3299a456687624e7a87ce9604add508051"
+        },
+        "PrimeNumberTheoremAnd/ZetaFive/Consequences.lean": {
+          "status": "??",
+          "sha256": "710d46d025836a04fda90446bf9f5106f4a9cd74e1794b53b2433999114967c3"
+        },
+        "PrimeNumberTheoremAnd/ZetaFive/Fourier.lean": {
+          "status": "??",
+          "sha256": "3cd55283eee80e442445b7c40d17a64aad3202e4da9fa18f147e101d896015b7"
+        },
+        "PrimeNumberTheoremAnd/ZetaFive/SmoothExistence.lean": {
+          "status": "??",
+          "sha256": "a89bad992677d4b52da9a98641501e5b7b31f1adcddc288a03f565e2dc51791f"
+        },
+        "PrimeNumberTheoremAnd/ZetaFive/Sobolev.lean": {
+          "status": "??",
+          "sha256": "3f134aff16357219284ffd5ba6cb891d4a16382f0f7115ebac5fae8c77d7695e"
+        },
+        "PrimeNumberTheoremAnd/ZetaFive/Wiener.lean": {
+          "status": "??",
+          "sha256": "3c5de31f6b4df2072cacd77928c6fccff69a76493cc7ba5a8a76ea7bb97ecda0"
+        },
+        "lakefile.toml": {
+          "status": " M",
+          "sha256": "96aab01d7a49e28475e0c3f274ae6140c3dee4e42fc91c0828282fefbc6e1d53"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        }
+      }
+    },
+    "Qq": {
+      "rev": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+      "changed_files": {}
+    },
+    "SphereEversion": {
+      "rev": "9c53f91e2a281199163ecea04dc4976cb79e2076",
+      "changed_files": {
+        "lakefile.toml": {
+          "status": " M",
+          "sha256": "47bf68f27f3c2d6dfd2f9b19c1dec4a251819dace10048ec5c341df846f71f99"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        }
+      }
+    },
+    "StrongPNT": {
+      "rev": "2f5835c322314f55f1026ec2f139d704b7c45c69",
+      "changed_files": {
+        "StrongPNT/Erdos970.lean": {
+          "status": "??",
+          "sha256": "0c79127d448b6afd4136faabcf90cc7efe88b871b0fd5d8a5e11b6ac27a9fa9c"
+        },
+        "StrongPNT/Erdos970/PNT1_ComplexAnalysis.lean": {
+          "status": "??",
+          "sha256": "084bed65b3ddf503d70e4bca28529e65242564999477524d0e48ded209c358cc"
+        },
+        "StrongPNT/Erdos970/PNT2_LogDerivative.lean": {
+          "status": "??",
+          "sha256": "f44c8df573d3c3bc99b1920673a43a0c09089f102a5cb4a09443eebd086f3a0a"
+        },
+        "StrongPNT/Erdos970/PNT3_RiemannZeta.lean": {
+          "status": "??",
+          "sha256": "fb916e3b714f3812c6139b6d5c768194617ad1b68696ffb64a54600c4e1dfbdc"
+        },
+        "StrongPNT/Erdos970/PNT4_ZeroFreeRegion.lean": {
+          "status": "??",
+          "sha256": "d78468b958ee230032a3e69ba66703bf855feeef3053b2f9200d7c679c3c7e93"
+        },
+        "StrongPNT/Erdos970/PNT5_Strong.lean": {
+          "status": "??",
+          "sha256": "ad8793231c89ee13bf5dcf5263c42b184e31bfc38d696a2c22138a366f875386"
+        },
+        "StrongPNT/Erdos970/Z0.lean": {
+          "status": "??",
+          "sha256": "9590650aa50138c93dc7dcd7ee014c82a25c77bf410b3d99eea374449b11eb52"
+        },
+        "StrongPNT/Erdos970/ZetaZeroFree.lean": {
+          "status": "??",
+          "sha256": "07a7a93d1121bed8e2c111437ae0c1bf5e584dc3c956e8d1b0dccd1a9afa13c1"
+        },
+        "lakefile.toml": {
+          "status": " M",
+          "sha256": "ad8954df2ade7932de0987b0e4b5603c3237b793f99b13188bf5b7d1bfc84e20"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        }
+      }
+    },
+    "TauCeti": {
+      "rev": "3bed7e37f3c504a99e8c07e9f309540812a7aa90",
+      "changed_files": {}
+    },
+    "UnicodeBasic": {
+      "rev": "0e569d08b6443ce0908d356884c765397253e2f0",
+      "changed_files": {}
+    },
+    "Zeta3Irrational": {
+      "rev": "e8785315a01c8fbcddaa0fc03b3c8b29a61bc1f1",
+      "changed_files": {
+        "Zeta3Irrational.lean": {
+          "status": " M",
+          "sha256": "df7ac5aa562daa36cda9e9129aaf857520a5cfe9906f913d63ed2c4ab970a396"
+        },
+        "Zeta3Irrational/Basic.lean": {
+          "status": " M",
+          "sha256": "cf729a27f9a0ed3f7fa610d5fd519cf29fb9eef2cbe4e649b9d6f767ddabaff7"
+        },
+        "Zeta3Irrational/Bound.lean": {
+          "status": " M",
+          "sha256": "716a5d4e4661304e8fe609e67e76eec213bd45e3f4906537f39ceac94bad8e0b"
+        },
+        "Zeta3Irrational/Equality.lean": {
+          "status": " M",
+          "sha256": "b079f1fd28808e0d454b522bfac2253b4fc77c727799109b89add9cce3cbe902"
+        },
+        "Zeta3Irrational/Integral.lean": {
+          "status": " M",
+          "sha256": "056b1409074b7909a641f4a549a74ae4749d98bec7ba7807063c0ac55131c387"
+        },
+        "Zeta3Irrational/LegendrePoly.lean": {
+          "status": " M",
+          "sha256": "eed66353818f26a9606a00926ed0ee4e37282dfe22f33fe9ed6d9b354337c28f"
+        },
+        "Zeta3Irrational/LinearForm.lean": {
+          "status": " M",
+          "sha256": "9fcc12738e0e744de56fef69708cf7d2c4880e9604e873e944e1aaa0eb91dc61"
+        },
+        "Zeta3Irrational/PrimeCounting.lean": {
+          "status": "??",
+          "sha256": "ad879069d319331d725a926db2a54e5972bfbdf096f887c8471c58feb3898dcc"
+        },
+        "Zeta3Irrational/d.lean": {
+          "status": " M",
+          "sha256": "83e94eba7cfc0ddc644e694c88054221c194e8325fe2928b002f80ca8ebb3425"
+        },
+        "lakefile.lean": {
+          "status": " M",
+          "sha256": "0bf09adedbd19f67873c4dbd84c48dec1a16e88325529d0cc8cfcd296f8337f1"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        }
+      }
+    },
+    "aesop": {
+      "rev": "355695d523e41d0554926416cba2a2b3544fbbc9",
+      "changed_files": {}
+    },
+    "batteries": {
+      "rev": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+      "changed_files": {}
+    },
+    "belyi": {
+      "rev": "9ce4d3f793d3bc831f2fc7214b7dbad90ea012d8",
+      "changed_files": {
+        "Belyi/Converse/ConstantFamily.lean": {
+          "status": " M",
+          "sha256": "b09fc7544b44d4161546d6bcf6745d819e6882d8994d9afe2c5573c2dc40f2d7"
+        },
+        "Belyi/Converse/HomDescent.lean": {
+          "status": " M",
+          "sha256": "fcd51ed4cbecfbed2eb2fb47b524cd271bcea76f560d0ce043fc4d8079003339"
+        },
+        "Belyi/Converse/IsoDescent.lean": {
+          "status": " M",
+          "sha256": "e25b8b5af7da1514e60ad512818f011e0d17e92d223235f75c02d64c6c85de98"
+        },
+        "Belyi/Converse/Points.lean": {
+          "status": " M",
+          "sha256": "3a611be7db1504fe0d71c4f2c565af456583024a2655ed93e075523c2c288577"
+        },
+        "Belyi/Converse/Spread.lean": {
+          "status": " M",
+          "sha256": "1cd7946e1d0cbb9d07b89f329afdcc73502d14a270804218e9f51e2b981fb790"
+        },
+        "Belyi/Curve/Descent.lean": {
+          "status": " M",
+          "sha256": "192c361d91ca4b1c3630a82b009ee5716dbb2361769caea5d29776d13628f86a"
+        },
+        "Belyi/CurveField/KummerStep.lean": {
+          "status": " M",
+          "sha256": "7f297d13951905c6603cfa9890ae769edb7e689089df883e0f42e43c918d66cc"
+        },
+        "Belyi/CurveField/Point.lean": {
+          "status": " M",
+          "sha256": "156c2bb28d58e00844c09901926807ced79d878518b0f95d7df31be415a2e884"
+        },
+        "Belyi/P1/BaseChange.lean": {
+          "status": " M",
+          "sha256": "711b2e5d3f932f72f166761075b00ae550dbac2125e6bcffe2b43f31bcfc5e77"
+        },
+        "Belyi/P1/BaseChangeIso.lean": {
+          "status": " M",
+          "sha256": "1081d50a31b8114b0df2058c4d65fe795ea48b5bd6d364d181b20627e0bae003"
+        },
+        "Belyi/P1/PointsBaseChange.lean": {
+          "status": " M",
+          "sha256": "a42a0bc02583a17bbd4702a2ba7dfc8b5dba422476a4accdc2212dd3282eeff1"
+        },
+        "Belyi/P1/PolynomialMap.lean": {
+          "status": " M",
+          "sha256": "71c5ff1a2cb3eb0ec6aee1225a18a2c2fb78ef91da2659bafe2f023286dba959"
+        },
+        "lake-manifest.json": {
+          "status": " M",
+          "sha256": "ff08ec93262d68aab373a098621eb5fa40171d2747b7957d8188bafb9bf2f603"
+        },
+        "lakefile.toml": {
+          "status": " M",
+          "sha256": "c3951bce485b7edb5a6996e4f91317f59ded257114dd6c5503ce7528cd7128bd"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        }
+      }
+    },
+    "carleson": {
+      "rev": "306ae5b29300771aece1aa39f0a939183cc59486",
+      "changed_files": {
+        "Carleson/Calculations.lean": {
+          "status": " M",
+          "sha256": "37fa3f963a4e3989082ae130824faf7237af543cbedef6f801d5c030fe44558f"
+        },
+        "Carleson/Defs.lean": {
+          "status": " M",
+          "sha256": "f902b51bf02386a53a4f2a401c96cfdad12e9b2c456d68dace09dc77827b169c"
+        },
+        "Carleson/DoublingMeasure.lean": {
+          "status": " M",
+          "sha256": "93d08440547aff7856767f1fb49925d7edbd48a21051faf16586360e76db10fe"
+        },
+        "Carleson/LipschitzNorm.lean": {
+          "status": " M",
+          "sha256": "de6c0a5df1a902c62b8b7e1f3a1c95ce5d4a16e334672f468f5aafd68483bcf1"
+        },
+        "Carleson/ProofData.lean": {
+          "status": " M",
+          "sha256": "fd22f4291ca9c4dcf1f537ae5805e42f547ac1eb7b553bd693bb2c0155dae93f"
+        },
+        "Carleson/ToMathlib/Annulus.lean": {
+          "status": " M",
+          "sha256": "70e0571582d11f24d4d34ef6db9a8275db83f85db9cfa3d0cebd25e91cde13cd"
+        },
+        "Carleson/ToMathlib/BoundedFiniteSupport.lean": {
+          "status": " M",
+          "sha256": "872ee9532a77d6c5c9f1211572c801c08972cfe2dd7c64f55b6d7b15b7d96ba0"
+        },
+        "Carleson/ToMathlib/CoveredByBalls.lean": {
+          "status": " M",
+          "sha256": "85b001f55f58ecca21d848f65bd8cc24eb557f646ea3f7f33eef73693a4bd5cf"
+        },
+        "Carleson/ToMathlib/Data/ENNReal.lean": {
+          "status": " M",
+          "sha256": "78aa369542c0c48b2eaab82470d09fd97957ce4c6352331307fa316852c5d130"
+        },
+        "Carleson/ToMathlib/ENorm.lean": {
+          "status": " M",
+          "sha256": "55ca395f046ad7c01cb0de8a58cb1d52b67c23d147de354ab61914c7a2fb70f8"
+        },
+        "Carleson/ToMathlib/HardyLittlewood.lean": {
+          "status": " M",
+          "sha256": "cad61c9e08079070bff1bba12e23d10fc5d1d7e46cdc9ab5627a6e2443b429e8"
+        },
+        "Carleson/ToMathlib/Interval.lean": {
+          "status": " M",
+          "sha256": "f42c314a9a436d91f874b71238721698a6395e63409df9395c32496e079783ef"
+        },
+        "Carleson/ToMathlib/MeasureTheory/Integral/Average.lean": {
+          "status": " M",
+          "sha256": "3c6a7828053bc5e3fbac0ad8c5b687e506d778a5bb6b928dd059cc1362d8f342"
+        },
+        "Carleson/ToMathlib/MeasureTheory/Integral/IntegrableOn.lean": {
+          "status": " M",
+          "sha256": "f864fcffcf0712806fde41f06c21302a90375e7c71adf784bd84b0c53e17e2e2"
+        },
+        "Carleson/ToMathlib/MeasureTheory/Integral/Lebesgue.lean": {
+          "status": " M",
+          "sha256": "001fd399a54585dd1a05189ec362a0d74766e56b0848d9de13c1842e1dc136f0"
+        },
+        "Carleson/ToMathlib/MeasureTheory/Measure/IsDoubling.lean": {
+          "status": " M",
+          "sha256": "c677957f8f1f6783cd087993a109c68656620a4d8b0b2ae3139e5e05651e2ca4"
+        },
+        "Carleson/ToMathlib/MeasureTheory/Measure/NNReal.lean": {
+          "status": " M",
+          "sha256": "7fd4a6140631568e35be03de17f9028ca5347cf4f744ecf7eaf04ef1690d1429"
+        },
+        "Carleson/ToMathlib/Misc.lean": {
+          "status": " M",
+          "sha256": "562e2108b88a10352766d670bb6c7137db027e75dd6fddcf0b68b73188e53156"
+        },
+        "Carleson/ToMathlib/Order/ConditionallyCompleteLattice/Basic.lean": {
+          "status": " M",
+          "sha256": "11a8ecee721bc2114722db171b7d60eaaeabfe4f162aecaaeaf5d79ef4d843f6"
+        },
+        "Carleson/ToMathlib/Order/ConditionallyCompleteLattice/Indexed.lean": {
+          "status": " M",
+          "sha256": "a7198b87e1b3a4c5520a54c5803a8b7c1f8e3c5d8ba4c2248f8447f81ae7e687"
+        },
+        "Carleson/ToMathlib/RealInterpolation/InterpolatedExponents.lean": {
+          "status": " M",
+          "sha256": "3cf3e1f2e6a7a003a6f4cf18c7cd1d19d3327df6d0a81ee4501362dde86a262d"
+        },
+        "Carleson/ToMathlib/RealInterpolation/Main.lean": {
+          "status": " M",
+          "sha256": "573f60c203e718d2fc6764925e70c09436aec46b58a600fa6e6510e0890d1961"
+        },
+        "Carleson/ToMathlib/RealInterpolation/Minkowski.lean": {
+          "status": " M",
+          "sha256": "665fb5027149708cdc1ab35dd91a3dce39f59443d683e63c609c62378a85b0fb"
+        },
+        "Carleson/ToMathlib/RealInterpolation/Misc.lean": {
+          "status": " M",
+          "sha256": "3efeeef552ef0a7756b8f33c69aab0a6ae033b8185a77d3ab44634afce61ab37"
+        },
+        "Carleson/ToMathlib/WeakType.lean": {
+          "status": " M",
+          "sha256": "0ba874f8654cec5cb6e2f246f198b92bf80ccfdba9788e39518bc6765fa38450"
+        },
+        "Carleson/TwoSidedCarleson/Basic.lean": {
+          "status": " M",
+          "sha256": "0c4eb19f42dadbae8042520950e1ba6fc1b6821c19e57ee8f581489ef7928652"
+        },
+        "Carleson/TwoSidedCarleson/WeakCalderonZygmund.lean": {
+          "status": " M",
+          "sha256": "257c3ca76633f10d1052c7030cd6af639c7017e9b2f0c9452f7186829cdc3626"
+        },
+        "lakefile.toml": {
+          "status": " M",
+          "sha256": "b930a37389d5fd561e2b1316da66eeb627a4ae9113ad5174fa0be05e5419c1fa"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        }
+      }
+    },
+    "checkdecls": {
+      "rev": "3d425859e73fcfbef85b9638c2a91708ef4a22d4",
+      "changed_files": {}
+    },
+    "doc-gen4": {
+      "rev": "953c8992d174b4e56955e01e101d46668c68f2bb",
+      "changed_files": {}
+    },
+    "elliptic-curves": {
+      "rev": "bebec3fc9f2602e81c83e5236789572a541c85fb",
+      "changed_files": {
+        "EllipticCurves/FormalGroup/DividedDiffDiagonal.lean": {
+          "status": " M",
+          "sha256": "7b8613d6b10eb280a71e8e40dded647219d5ffee62eb4e63b2dc052761239d5f"
+        },
+        "EllipticCurves/FormalGroup/InvariantDifferentialInvariance.lean": {
+          "status": " M",
+          "sha256": "2b75a1bd3c48812c0dc2ada3a74573f1c59b35cc510593563f24c844842195a1"
+        },
+        "EllipticCurves/FormalGroup/LogAdditivity.lean": {
+          "status": " M",
+          "sha256": "a1f0ea545ecb02dde26aa8705db88898ab41f5acb5afba45384de13074768fa1"
+        },
+        "EllipticCurves/FormalGroup/Logarithm.lean": {
+          "status": " M",
+          "sha256": "136a6d3a26043ba792cbe7adc698659c1165f716dcb2bd54220877584869592c"
+        },
+        "EllipticCurves/FormalGroup/MvPowerSeriesCurry.lean": {
+          "status": " M",
+          "sha256": "eaa2e4e61c60287fb22c52ec0af02dc21948d9444691494d026eac3e36361f8e"
+        },
+        "EllipticCurves/FormalGroup/MvPowerSeriesPderiv.lean": {
+          "status": " M",
+          "sha256": "5cda47a737f07cadf07096823b0a15e08b9ecc87d937a7c5a11c76b62381035c"
+        },
+        "EllipticCurves/FormalGroup/VietaDifferential.lean": {
+          "status": " M",
+          "sha256": "f86cfd574001f2cb5c2b6df08937f0765ffe31ea235fe9685dbf38433915ea7f"
+        },
+        "EllipticCurves/FunctionField/CoordinateRingBaseChange.lean": {
+          "status": " M",
+          "sha256": "e93f3ebb1be928b5761bb2937be58f121ed97f87bb9b6353c0ffa1061d9833c8"
+        },
+        "EllipticCurves/FunctionField/CoordinateRingNormalAlgClosed.lean": {
+          "status": " M",
+          "sha256": "7f057b998a0246d6cd16c9ef720293c3a1531fcaf0980edec04bb26d518e3066"
+        },
+        "EllipticCurves/FunctionField/FunctionFieldGaloisDescent.lean": {
+          "status": " M",
+          "sha256": "ba25ac2505422b9c8ac6768de82b72460d694872e005050c23fd5f0d960427e0"
+        },
+        "EllipticCurves/FunctionField/LocalRingNormal.lean": {
+          "status": " M",
+          "sha256": "688897512efedc0f0f80e51167c25630b792e8ef8534180808e1fc6b00f36d67"
+        },
+        "EllipticCurves/FunctionField/PlaceDegreeComparison.lean": {
+          "status": " M",
+          "sha256": "4f87c8f7a31d8d38bd9b510c889331a02fd66870235793c5c6328d62408da836"
+        },
+        "EllipticCurves/FunctionField/PlaceOrder.lean": {
+          "status": " M",
+          "sha256": "96b755214eed6d1803b25961c322970c551c62d780c4a1419c48d2494c91d030"
+        },
+        "EllipticCurves/FunctionField/ProjectiveDivisor.lean": {
+          "status": " M",
+          "sha256": "3ea11f1c531d05a8cf9d428ebe88a28af5e997a9b0fd7f4c39e639e65bb6af5c"
+        },
+        "EllipticCurves/Reduction/FormalGroupTangent.lean": {
+          "status": " M",
+          "sha256": "72045355b043064fd2a2666be9afbd6f433641774b54116fe5872b7526ac11c1"
+        },
+        "EllipticCurves/TateModule/Continuity.lean": {
+          "status": " M",
+          "sha256": "8ef0127ab9806ab4a04881b1ec00e7d7be49fabb7b607ddb3b475d35cf6b0cd8"
+        },
+        "EllipticCurves/Torsion/NormEDSHomogeneous.lean": {
+          "status": " M",
+          "sha256": "a15ea08d687fa870b85a4ece5148c2e72219abaedb2310c80eee7bda0ee4c35f"
+        },
+        "EllipticCurves/Torsion/TwoTorsionSplittingField.lean": {
+          "status": " M",
+          "sha256": "26c571405808c411e2185315a08cd2cb93e1aa177835537c7394b0daf4cc29b4"
+        },
+        "EllipticCurves/Torsion/WardR1.lean": {
+          "status": " M",
+          "sha256": "8deeba26441cf65f739802099f0af183c8f3b2bca6519e08b505e711fb846d50"
+        },
+        "lake-manifest.json": {
+          "status": " M",
+          "sha256": "50b8d55c933384e15b0f61936bcb6c7d5a86685d27acb0e57f425039325a4cd3"
+        },
+        "lakefile.toml": {
+          "status": " M",
+          "sha256": "bf0ff9c969d62765cfe0854aaf6abd438c24fa642ac73abc57c5cf6190218538"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        }
+      }
+    },
+    "fixed-point-theorems": {
+      "rev": "770940ddf9878cf61952ed53d910b92bca841838",
+      "changed_files": {
+        "FixedPointTheorems/apply_cubical_sperner.lean": {
+          "status": " M",
+          "sha256": "0bd58f593de955e4842a44c7a8763f282977d797f3156cd15bfdc075b7f7dba9"
+        },
+        "FixedPointTheorems/brouwer.lean": {
+          "status": " M",
+          "sha256": "76c2ac83dc381fb6a7c257e4588ffab293fc54aa439dd2b2617326758af0b6c1"
+        },
+        "FixedPointTheorems/convex_homeos.lean": {
+          "status": " M",
+          "sha256": "a2741d03f5abd4b4aacc6feb341812e30f364e4308ace09fd3d4725012b2e97e"
+        },
+        "FixedPointTheorems/cubical_sperner.lean": {
+          "status": " M",
+          "sha256": "f95870d53f3d1d6ffb1e4a57cd74adbb56c5b00b6933294bba87c62d91b68fa1"
+        },
+        "FixedPointTheorems/cubical_sperner_prep.lean": {
+          "status": " M",
+          "sha256": "eee5a99f2efba8f83b906b9d547387ad43fa82f51031186d2c379ddeb9b50be6"
+        },
+        "lakefile.toml": {
+          "status": " M",
+          "sha256": "97a04bf98998e0809dc1d0c79845f0db69068bfc92fd938306dbe360afeb0a40"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        }
+      }
+    },
+    "formal-schemes": {
+      "rev": "51aa935079537bf4dc580751a6e70727fb23ca93",
+      "changed_files": {
+        "FormalSchemes/AdicCompletionLimit.lean": {
+          "status": " M",
+          "sha256": "1de6a7eacc5999f5f963042cf0cd7f19e223176af9ed226d3b0a5f58828c1309"
+        },
+        "FormalSchemes/FormalSpectrum.lean": {
+          "status": " M",
+          "sha256": "add6b2f4e83de683537582bc8fced3f604909ce4fb40d5b0389397114f9e0f1b"
+        },
+        "lake-manifest.json": {
+          "status": " M",
+          "sha256": "d2c1f19948c1bb2e372b53fba3d730203d083cd32dc027513a2c0a55916f8815"
+        },
+        "lakefile.toml": {
+          "status": " M",
+          "sha256": "75a09383f2aa67925b0946e85432eadab2be4d571d24ee3243b248e7847224db"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        }
+      }
+    },
+    "genl": {
+      "rev": "ea2846c877d1e16d8f0b911a5fed07f5ee69eaaf",
+      "changed_files": {
+        "lake-manifest.json": {
+          "status": " M",
+          "sha256": "829662e7c1a411fd88b39682bace1c3aba00ba21537842bb584cdb78b983ebbd"
+        },
+        "lakefile.toml": {
+          "status": " M",
+          "sha256": "da3168dbe23982b0da10dfaf3ad9702dbefa9a37776693758fd2946527a93780"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        }
+      }
+    },
+    "gromov": {
+      "rev": "8db79f13cf211b570e3116301d91379fbc01cf3e",
+      "changed_files": {
+        "Gromov/BoundedDoubling.lean": {
+          "status": " M",
+          "sha256": "41d5436402303490859091c2462ed8bb5c66f40915690f63970901cfeede8080"
+        },
+        "Gromov/Complexification.lean": {
+          "status": " M",
+          "sha256": "d6b572fa7f0c97434e176f404f1ffb54bb426e249ebf4d16d9d45ab50e405e8e"
+        },
+        "Gromov/Convolution.lean": {
+          "status": " M",
+          "sha256": "17fba976f25d7f4fef1a8a109f0cfdb137a36346cd5833145014335deca986db"
+        },
+        "Gromov/CutoffInequality.lean": {
+          "status": " M",
+          "sha256": "dbef45b8fa0fc6666dac21ddb5e3d34391c9d61551ca9f826dd64303fb704a7c"
+        },
+        "Gromov/Defs.lean": {
+          "status": " M",
+          "sha256": "6f3f3300eb610f64460237945ac3ce1f8be87f8df895eb7cc71436b3e519594e"
+        },
+        "Gromov/Defs/Convolution.lean": {
+          "status": " M",
+          "sha256": "f7f37965a133f48e014eed42d2084fe15d0fb82bfbfffc86ed610cc8f2c19ab6"
+        },
+        "Gromov/Defs/LipschitzH.lean": {
+          "status": " M",
+          "sha256": "0b81a3d763e78efa210c5c4fb3ffa2389369af729665a4781063062e009edda5"
+        },
+        "Gromov/Defs/Measure.lean": {
+          "status": " M",
+          "sha256": "a4a9004f5dd17bc8045b364b2a5733b64e0395dc74f26414aa3920ffcc02f4b1"
+        },
+        "Gromov/Defs/WordMetric.lean": {
+          "status": " M",
+          "sha256": "d12d1a9eb4c26ad53008649c38ede76daeba0c58c8266d58f16dbd48d24922f5"
+        },
+        "Gromov/FormalConjecturesCheck.lean": {
+          "status": " M",
+          "sha256": "7eaaf698951c7a4eb2d65a02d1aa2c019bc0e2c7074852f299e42188bc118d45"
+        },
+        "Gromov/Gromov.lean": {
+          "status": " M",
+          "sha256": "9fbe403611a59888d32a2078fe4805719312ae76acf75e85eea8466fc848702f"
+        },
+        "Gromov/GrowthZero.lean": {
+          "status": " M",
+          "sha256": "2722758db8f6db42508435bc7331b76abab17fbf5c9b7f6f061abb27cb829c38"
+        },
+        "Gromov/Harmonic.lean": {
+          "status": " M",
+          "sha256": "6751357a0049c426de84b3620e1d94a25077957b4ec65cfb959446a7795e3035"
+        },
+        "Gromov/Harmonic/CaseOne.lean": {
+          "status": " M",
+          "sha256": "1e3f097ebda291e61628bc72120cf920bda8d77bd651ed7e9db9094f31756941"
+        },
+        "Gromov/Harmonic/Convolution.lean": {
+          "status": " M",
+          "sha256": "89ff41c0bcfd63abc3f01d190ee4b0d38af4379abbaa9ee229b56cb00bfcdc8b"
+        },
+        "Gromov/Harmonic/LaplaceLinear.lean": {
+          "status": " M",
+          "sha256": "1d4d44fbfa8e1d56f3e9ef8d488d53577934a2a9debae0761c6683843669b7fd"
+        },
+        "Gromov/Harmonic/MuConv.lean": {
+          "status": " M",
+          "sha256": "3761653011739ff83a73ccfe13e12f42960fecc3220c3c448d70419b82f7cf59"
+        },
+        "Gromov/Harmonic/Proposition318.lean": {
+          "status": " M",
+          "sha256": "093be49febd4f04aeaefc744953228ef4e7629a7dffce1ed1279c9486a1971e8"
+        },
+        "Gromov/Harmonic/SelfAdjoint.lean": {
+          "status": " M",
+          "sha256": "001bcebc05d318c700dea2ef7e2d02f6a139b689ab72ff2697deb54d02bccf6e"
+        },
+        "Gromov/HarmonicR2.lean": {
+          "status": " M",
+          "sha256": "a7acc12cb6fca68c79e94949a5580b12c11ecefd9cf9f619bf1a9923b4bdad45"
+        },
+        "Gromov/Laplace.lean": {
+          "status": " M",
+          "sha256": "6f74317a19a7113ec35a60439f73758c9706e0eb4c81970844cd9665690f38ee"
+        },
+        "Gromov/Lemma326.lean": {
+          "status": " M",
+          "sha256": "7f4fc6788d02d6325f3521a304ae1facfa0d9264ef25e43595480f3384e43c36"
+        },
+        "Gromov/LipschitzNorm.lean": {
+          "status": " M",
+          "sha256": "db6b0af296932e6595613a597e51f5ee014747ef0573c860b1b08e04cdc45577"
+        },
+        "Gromov/MatrixSubsum.lean": {
+          "status": " M",
+          "sha256": "8a4cc8345c2acb4aa6f3aff0a98c9011a11586d6b04ae7a9ed692fea604e85f4"
+        },
+        "Gromov/MatrixSubsum/Subsums.lean": {
+          "status": " M",
+          "sha256": "efca6ff7bca305393c5d818246d7e2dccb478f33b8d21e07f3868453c5ee264d"
+        },
+        "Gromov/NilpotentFinite.lean": {
+          "status": " M",
+          "sha256": "a00241be8993d89eb12dc1fcc48a40dd0436a8362ceb7a4524282b079df73636"
+        },
+        "Gromov/Packing.lean": {
+          "status": " M",
+          "sha256": "c314f091417da211d176c14f3a6573cda90ea7438668be8dcd47e5b391b02f79"
+        },
+        "Gromov/Poincare.lean": {
+          "status": " M",
+          "sha256": "76a8dc2cf3704a0fe70d7a0710c30498b26a289a69c559cb6c89a1d37078293d"
+        },
+        "Gromov/PolynomialGrowth.lean": {
+          "status": "??",
+          "sha256": "a4116f9d906a0d078adc36ebc2eb8c39aec4a53e051c866660ffa0086e076850"
+        },
+        "Gromov/QuadraticForm.lean": {
+          "status": " M",
+          "sha256": "3ac05549a344dec6e680f8c6131ce8ac6d8659ded10c8e34853a1e5c8a6d7773"
+        },
+        "Gromov/Representation.lean": {
+          "status": " M",
+          "sha256": "9de3c0d812a57ea7b4bc3df38da0a7396edc81dae032b28e8029fd691f646e51"
+        },
+        "Gromov/RhoAbelian.lean": {
+          "status": " M",
+          "sha256": "d726fdea9989cee92604f676659f47ac3eaf32c7cc1034a54a500d01e36e3a19"
+        },
+        "Gromov/Theorem31Input.lean": {
+          "status": " M",
+          "sha256": "33954009d35fbaefd029d04ce2565983ab769e4d46a61e49ad2a1b2c6483b4f8"
+        },
+        "Gromov/Theorem323.lean": {
+          "status": " M",
+          "sha256": "9d5979e9113ee073db54bb6dc80b6c7d172c877b037a1fa156f9b98513a1f17a"
+        },
+        "Gromov/Theorem38.lean": {
+          "status": " M",
+          "sha256": "55a65ab0c5dd0134d4461078785d7a27631b2dc5a7c7f08603dcda28972d8bcc"
+        },
+        "Gromov/ThreeTwoGenerates.lean": {
+          "status": " M",
+          "sha256": "a105b4e100e07e5f577565a6dc032b6f8f1ab3b67dc035c78253e15c9e3f45b5"
+        },
+        "Gromov/ThreeTwoGrowth.lean": {
+          "status": " M",
+          "sha256": "5a2d2004339bbdddf8f01ded1b07e77425e07aac974cea8d1df1b270e12d1c8d"
+        },
+        "Gromov/ToMathlib/Analysis/Matrix/StarNormalEigen.lean": {
+          "status": " M",
+          "sha256": "081c55be763d3ecffa7f9247adbd99e656bf43d512ee99bf6b7f4f48b2b9392f"
+        },
+        "Gromov/ToMathlib/Analysis/Matrix/Unitary.lean": {
+          "status": " M",
+          "sha256": "ecc8dd803b2bc5766ab0c666b533ecaa6553ce503feb4622b7f7141a3c37fc2f"
+        },
+        "Gromov/ToMathlib/Data/List/Infix.lean": {
+          "status": " M",
+          "sha256": "a6212a07acba9f4e488fc45cff74cb57150df7cb74abd6aad9af3da94ca03c7a"
+        },
+        "Gromov/ToMathlib/GroupTheory/Closure.lean": {
+          "status": " M",
+          "sha256": "c09f43da975f8054f4b3595ac41e336493ad4e68ebc54320d328c5336a6e7d1a"
+        },
+        "Gromov/ToMathlib/LinearAlgebra/Matrix/Det.lean": {
+          "status": " M",
+          "sha256": "978d721dc9821fba64a7ee7b5dd8e2ccbb010e2f83bf5b7f10725ee61eca0faa"
+        },
+        "Gromov/ToMathlib/LinearAlgebra/Matrix/PosDef.lean": {
+          "status": " M",
+          "sha256": "48cd5f8038fa319c21894ece60c55d4efcf79636c7c036fb0f9a610ce470472d"
+        },
+        "Gromov/Unipotent/Commutator.lean": {
+          "status": " M",
+          "sha256": "2c3aa25bd9238b07fd9262e5509bed1afad2174f7094a5df3b3dc7c228c03a4f"
+        },
+        "Gromov/Unipotent/FG.lean": {
+          "status": " M",
+          "sha256": "7f51979ee0388271d817b2bb9f85be66999ad9f0c3b9de9e14bd08b0e8bb134f"
+        },
+        "Gromov/Unipotent/GammaN.lean": {
+          "status": " M",
+          "sha256": "3f746c52d45e3ae58fc4f764fcb7f9183d588f14a58e1ac7cc31faf166d7e9fd"
+        },
+        "Gromov/UnipotentGromov.lean": {
+          "status": " M",
+          "sha256": "35f50aa17a914c2dd13783de4dc117349e4ce392287d2c86656f33f27bc2ea71"
+        },
+        "Gromov/Unitary/Basic.lean": {
+          "status": " M",
+          "sha256": "d1b5fe2a6f11f38f6094701f4919538081c8eb4a8bdb745bf4f0b9cb87900a13"
+        },
+        "Gromov/Unitary/CentralTrivial.lean": {
+          "status": " M",
+          "sha256": "48fdeef212bef3071af8b347ca6b71ddc8b2d17a27524994fe871e07cedbdd4d"
+        },
+        "Gromov/Unitary/HnEps.lean": {
+          "status": " M",
+          "sha256": "231687f10f6a98eb0a681ee50d61a7db56fab5c0bbf443161ce0c2a8a5708cda"
+        },
+        "Gromov/Unitary/HnLowerBound.lean": {
+          "status": " M",
+          "sha256": "90a5ea8b32b9c3a0cbc5f14ffb9c04adf3e5d610d819176887178d95af35cbbc"
+        },
+        "Gromov/Unitary/Packing.lean": {
+          "status": " M",
+          "sha256": "e7a2394a8fde2c1bd583319558653965de1b59fa12079af19fed0b8e0d3f6d60"
+        },
+        "Gromov/Unitary/WeylTrick.lean": {
+          "status": " M",
+          "sha256": "b6fdadf9cb3ec9ad30fd3f88a7a8cd9264ee78bd30e15def827b529255e0d7bf"
+        },
+        "Gromov/Unitary/Words.lean": {
+          "status": " M",
+          "sha256": "476b78b5ebd90e7d5ea9fd3dabbd2dad2a84d6d5d9faa2267f07e6e8600724bc"
+        },
+        "Gromov/UnitaryGromov.lean": {
+          "status": " M",
+          "sha256": "a3b5d5eba3d000694fe010d667830003bb2fccab1c1b979debbd5377dd8c0f90"
+        },
+        "Gromov/VWrapper.lean": {
+          "status": " M",
+          "sha256": "32bf6dcd2e9c2ed1603770069ed5b052cbce745437cb377f5886412bbfece42d"
+        },
+        "Gromov/Vendor/Carleson/ToMathlib/Analysis/Convolution.lean": {
+          "status": " M",
+          "sha256": "0ad3ed9bfd17d5dd232b0775335eba9a36d1f04aa51fe0106fa674381c6e8cf3"
+        },
+        "Gromov/Vendor/Carleson/ToMathlib/MeasureTheory/Function/LpSeminorm/Basic.lean": {
+          "status": " M",
+          "sha256": "1dd5f8f8cb92e5825587b7c3ca0f7ecf5a8b3e1422cab513fd6d1da4b052109d"
+        },
+        "Gromov/Vendor/Carleson/ToMathlib/MeasureTheory/Integral/MeanInequalities.lean": {
+          "status": " M",
+          "sha256": "e6d392ec94354ee2ed1bba2d8f6963db362828e5f58e73edbbfdd4d05d3d8231"
+        },
+        "Gromov/Vendor/Carleson/ToMathlib/MeasureTheory/Measure/Haar/Unique.lean": {
+          "status": " M",
+          "sha256": "1ec77c6ad5d47bfc8989e9cb567718a90cdde009ae4a0e57c17241c7080307d5"
+        },
+        "lake-manifest.json": {
+          "status": " M",
+          "sha256": "dc402033372a64f057b5c771a8a00d9579c6d2a4b92c60c4f57c1f8741b8c5e3"
+        },
+        "lakefile.toml": {
+          "status": " M",
+          "sha256": "bb6e28b2664043de04b7f21e1904ce1cb79beb7a2f4a56901e9fecdc532c3413"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        }
+      }
+    },
+    "heights": {
+      "rev": "721496ca4c158e511d25d8ccf6bfe8503eda73c1",
+      "changed_files": {
+        "Heights/Absolute/Extension.lean": {
+          "status": " M",
+          "sha256": "34e4006bbb67cc06a9da6f37662149dc453cf1fe26d32ebe3dd5a92bdf4cbaa9"
+        },
+        "Heights/Curve/Integrality.lean": {
+          "status": " M",
+          "sha256": "d12b4cbea82a16584b669bc1894f1108081945f9ce0f3e8b68450334b504cf69"
+        },
+        "Heights/Different/NumberField.lean": {
+          "status": " M",
+          "sha256": "c0d9759f092b823b0e782e20c9c09b7e0f649812bd599945be4fd33ca47fec81"
+        },
+        "Heights/Different/SerreBound.lean": {
+          "status": " M",
+          "sha256": "fe33c5205e1bfdd65d255997295f85d14bb5623dd1796e8f997b0cf12a8fafd9"
+        },
+        "Heights/Different/SerreCore.lean": {
+          "status": " M",
+          "sha256": "0ec7e1fe14af3d45cea02923e8cb878599395140e5a8963256d0d92a5061f5d0"
+        },
+        "Heights/IdealFactorization.lean": {
+          "status": " M",
+          "sha256": "9785ff36455e08cd61c8f58d3d28587dd4536c9865d71fdff1ec6554b262a640"
+        },
+        "Heights/LatticePointMapTopology.lean": {
+          "status": " M",
+          "sha256": "13191e40a82c90bcbb5d081985ce76b79cca8c85c67190329702c0bb86e25a9a"
+        },
+        "Heights/ModularJ.lean": {
+          "status": " M",
+          "sha256": "f76705219c1e1f767ec99efebe8ed5ef10d69d1d1a8ca2a864051db43b2b7b89"
+        },
+        "Heights/PeriodPairScaling.lean": {
+          "status": " M",
+          "sha256": "527261cd0983f4c2e824c77c648202d297ef3bd61beaad18f2bed4365b7ddc45"
+        },
+        "Heights/VariableChangeAnalytic.lean": {
+          "status": " M",
+          "sha256": "c73f665f72a3614a4b375a49bec94003a102f22dbb6a75a0ed2c0247eb95ddd6"
+        },
+        "Heights/WeierstrassFiniteAnalytic.lean": {
+          "status": " M",
+          "sha256": "c62fab85cd5f2d2dfaf895f846cc480ffd1e00578c8a4fb22470687ad7183666"
+        },
+        "Heights/WeierstrassInfinityAnalytic.lean": {
+          "status": " M",
+          "sha256": "181c38be23ab0ebe83692203341e31b9342be01c803b86302d04a3a54b1688e3"
+        },
+        "Heights/WeierstrassPrincipalPart.lean": {
+          "status": " M",
+          "sha256": "0fe701ff64f2b60132af7407c2c9abd7a5c7a17b7cd663339dd153880193ae13"
+        },
+        "Heights/WeierstrassSurjectivity.lean": {
+          "status": " M",
+          "sha256": "6efcfd0b9e6bb264d4ddf1cb9ecd7658037f3909d59647102771277f8128e3f2"
+        },
+        "lake-manifest.json": {
+          "status": " M",
+          "sha256": "bd3822dc822ea25bcc0191c0515099a1742adf7ad9940209fbed72c9cf6a710d"
+        },
+        "lakefile.toml": {
+          "status": " M",
+          "sha256": "9706dd89979cee320832fb99bb279c2dbd94f1395f3f7e2cb8f9c5bf9695e65f"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        }
+      }
+    },
+    "importGraph": {
+      "rev": "e928b72544873815af278d38681b31c0293588e3",
+      "changed_files": {}
+    },
+    "iut": {
+      "rev": "d9465c111ec4073709f67e9fccec7e3eb374a816",
+      "changed_files": {
+        "Iut/Anabelian/Genuine/Homs.lean": {
+          "status": " M",
+          "sha256": "fdb9c1a3bfff8d8d0028ac13c58ab1b26b51dce58002860c2475de773f2910f8"
+        },
+        "Iut/Anabelian/Genuine/Punctured.lean": {
+          "status": " M",
+          "sha256": "b60705ec2eab8acf34bdded20fea95070b298f23a4a7deb321ab7663ab725c25"
+        },
+        "Iut/Anabelian/Model.lean": {
+          "status": " M",
+          "sha256": "fbca2cce11ce95605c42c6bf5862b00f29086249297435e263fe0812df9d9d8c"
+        },
+        "Iut/Anabelian/Torsion.lean": {
+          "status": " M",
+          "sha256": "bb1e7afd018ef7d71d47622f0788800ea6e8d31b92db0bc3e7a42be409544dcb"
+        },
+        "Iut/Concrete/LocalConstruct/ArchLogShell.lean": {
+          "status": " M",
+          "sha256": "03e4dd81744c7ece6693d3de44552acdc43facd9e7214c66b595e273824720a5"
+        },
+        "Iut/Concrete/LocalConstruct/Haar.lean": {
+          "status": " M",
+          "sha256": "eb90b9aa329e18180f06a6e660fc3d407a561f8b4daae81e15525511b4168ca2"
+        },
+        "Iut/Concrete/LocalConstruct/Integral.lean": {
+          "status": " M",
+          "sha256": "318aa79811862782639b14de509617bbf51308ef9a69f387b7986d6cb6495155"
+        },
+        "Iut/Concrete/LocalConstruct/LogShell.lean": {
+          "status": " M",
+          "sha256": "510eaf83a56bc7a6342e258c0578d139c9f7a5bdbf95f36bceee16fd01b933a9"
+        },
+        "Iut/Concrete/ModEllRepConstruct.lean": {
+          "status": " M",
+          "sha256": "7d1d0fe98158618748c38920656ae5e7896b623200214e9ed062d3c942d3ce06"
+        },
+        "Iut/Concrete/ModEllRepGalois.lean": {
+          "status": " M",
+          "sha256": "03523d7fb488bcbfa87aa19b63e672d13cdf009fd2e2d5c72f5b0159590cc3d6"
+        },
+        "Iut/Concrete/SL2Image.lean": {
+          "status": " M",
+          "sha256": "bd588bd360c1d93818e0724559def8e20838550e0353a375996d2d2ed2da3ebb"
+        },
+        "Iut/Cor312/ThetaData/PlacesOver.lean": {
+          "status": " M",
+          "sha256": "e7f358e5f704a2445ff081389c979119b48ea7f879959cf10ccd27e0c7394c78"
+        },
+        "Iut/Cor312/ThetaData/TateStructureTransport.lean": {
+          "status": " M",
+          "sha256": "2a95416ec060cfdeedb813b774550a595561f6fb09429285c105a42573f54c12"
+        },
+        "Iut/Torsion/EDS.lean": {
+          "status": " M",
+          "sha256": "c8f09fbd3829ea414209f074dd60cd06b977c75810f0d56cc1c93ee8e8e4095d"
+        },
+        "Iut/Tower/SerreBound.lean": {
+          "status": " M",
+          "sha256": "21fa95fba683cb0e297def02e743d1d81cf522ff74f5096c590e254dbdf39260"
+        },
+        "Iut/Tower/SerreCore.lean": {
+          "status": " M",
+          "sha256": "6c2ac3b5f182dfb7c5e3309849036275c50bf7c8655cda4a5dc60969a4dd04dc"
+        },
+        "Iut/Tripod/Basic.lean": {
+          "status": " M",
+          "sha256": "814c1007f87713c91ddea4a0742f3352e01d5c36961452dc3b510871868f01b8"
+        },
+        "Iut/Tripod/CyclicIsogeny.lean": {
+          "status": " M",
+          "sha256": "70347511da6574653c4c6fe23aee4cf92eb1cb8d17e0138e1a7410445aed0b0d"
+        },
+        "Iut/Tripod/CyclicLocal.lean": {
+          "status": " M",
+          "sha256": "edd16ad54a88548052e4b73e227b8123bc18beb69cf3983ef8741f86f60831d9"
+        },
+        "Iut/Tripod/CyclicTate.lean": {
+          "status": " M",
+          "sha256": "e42c60a9d911fb354fed397ef28a28be7fc479654cd3a45ebc008f8004f1db94"
+        },
+        "Iut/Tripod/CyclicTorsion.lean": {
+          "status": " M",
+          "sha256": "00ebfc224b100d956ae38039dcde3181f3562c7db9fa92f6274e86df820bb8bb"
+        },
+        "Iut/Tripod/TorsionDegree.lean": {
+          "status": " M",
+          "sha256": "16bc3524a020912b4e54dfd8ca26e93959241cb944b004daeb65bb403de28370"
+        },
+        "Iut/Tripod/TorsionNewton.lean": {
+          "status": " M",
+          "sha256": "f332e8fb9cd7ea9032e926a7aadfc02ffac17171ae70006acc02a727df0fccba"
+        },
+        "Iut/Tripod/TpdGalois.lean": {
+          "status": " M",
+          "sha256": "e07e9de71cbe7e8da0673d9c8d3557dedca4b25b4732915f856939399079f826"
+        },
+        "Iut/Tripod/TpdInertia.lean": {
+          "status": " M",
+          "sha256": "c814ae2e51c176991507205f70f621764997a224d1ec54e05d48785071388130"
+        },
+        "Iut/Tripod/TpdTorsionRep.lean": {
+          "status": " M",
+          "sha256": "5bd30d8b6792400b0303222326044aaddc4085728e3a96da3e65046a39e533f1"
+        },
+        "lake-manifest.json": {
+          "status": " M",
+          "sha256": "4e5c625098ebba81cfd8a6b11c29d35b8a0438c1278bfc0d93f01f762a1e7615"
+        },
+        "lakefile.toml": {
+          "status": " M",
+          "sha256": "1a8a2745f5ac3d5f46ab447fea6ffc9c442fa72105b38f330aa70adc8ac9bb6c"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        }
+      }
+    },
+    "leancert": {
+      "rev": "7f91b6eb3567437f6cfac03ed279706603ee22f4",
+      "changed_files": {}
+    },
+    "leansqlite": {
+      "rev": "f9cdb9eacb5c8b8ecc02ee9fd9e568d7d28c1416",
+      "changed_files": {}
+    },
+    "mathlib": {
+      "rev": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+      "changed_files": {}
+    },
+    "oka": {
+      "rev": "75dcdc3faadd10b986afb9283e89902bcdddecd4",
+      "changed_files": {
+        "Oka/Algebra/Category/ModuleCat/Presheaf/PullbackStalk.lean": {
+          "status": " M",
+          "sha256": "1a4f325d1f140cfe39aff53dd16f4e724da275ddf2d1da53cc408dc8e8f9ac27"
+        },
+        "Oka/Algebra/Category/ModuleCat/Presheaf/Submodule.lean": {
+          "status": " M",
+          "sha256": "2e8d1943252e12f65a2c6b04d122262347652071aa2e910baadff252b79866cb"
+        },
+        "Oka/Algebra/Category/ModuleCat/Sheaf/Annihilator.lean": {
+          "status": " M",
+          "sha256": "fb6fa8e26b81a602148240da49c931e0a7a97033ea0478357b02fc892697b55b"
+        },
+        "Oka/Algebra/Category/ModuleCat/Sheaf/Coherent/Equivalence.lean": {
+          "status": " M",
+          "sha256": "d5952041698520ffbb5614f372209b2479e81d707ee1ed5a4573c45a6625dabe"
+        },
+        "Oka/Algebra/Category/ModuleCat/Sheaf/Coherent/Presentation.lean": {
+          "status": " M",
+          "sha256": "042a1629e6911cf5af8e97a63a3996f003a48a837d70f5a737ae67b3134bf1fd"
+        },
+        "Oka/Algebra/Category/ModuleCat/Sheaf/PushforwardContinuous.lean": {
+          "status": " M",
+          "sha256": "0cd80abfad5ef480d00bf38b6a8dc2fe222dd856d8659af7e8fd624c25a3c28f"
+        },
+        "Oka/Algebra/Category/ModuleCat/Sheaf/Submodule.lean": {
+          "status": " M",
+          "sha256": "4e10b5b7469c47deeecadbbf7b76f0b71a8087383ec5fbd19633188f9cad1b1d"
+        },
+        "Oka/Algebra/Category/ModuleCat/Stalk.lean": {
+          "status": " M",
+          "sha256": "0051b57ecaabf630664ef9e4051fc42bdcfdca9c82b47fc68a74f78505919047"
+        },
+        "Oka/Algebra/Homology/DerivedCategory/Ext/MapNatTrans.lean": {
+          "status": " M",
+          "sha256": "8b99432f2e5902afed7e8f2ead29b71f5613b22ba8c34de6540d165709c9d324"
+        },
+        "Oka/Algebra/MvPolynomial/PDeriv.lean": {
+          "status": " M",
+          "sha256": "b8aba71b6bd30a9a684985b77e3d671f3c74bc93a0c931ab84bf550bb2b0a4e1"
+        },
+        "Oka/AlgebraicGeometry/AlgClosed/Basic.lean": {
+          "status": " M",
+          "sha256": "6e29823f767c58965bfbfd557c1c5a82cdbb30d840fdf894a072604350177ee1"
+        },
+        "Oka/AlgebraicGeometry/GraphClosure.lean": {
+          "status": " M",
+          "sha256": "948b4ee7353f1810bba29aafc8fb4efab871c7f0999d56c18c37ca5320b9e02e"
+        },
+        "Oka/AlgebraicGeometry/Modules/CocycleTwist.lean": {
+          "status": " M",
+          "sha256": "45b0398df1329e1578174d23e3992edd855d9e0396e04051ea87dcf936f0ee7f"
+        },
+        "Oka/AlgebraicGeometry/Modules/Coherent.lean": {
+          "status": " M",
+          "sha256": "af99464f978aa4fbccee5ead15bd92631fd1dde8ca801c7db87d349b3d937fe4"
+        },
+        "Oka/AlgebraicGeometry/ProjectiveSpace/BaseChange.lean": {
+          "status": " M",
+          "sha256": "cf7a017bbca11ad9be8da5c83cccdd42b82eb95d07e2bec8cd36d5212f94ae87"
+        },
+        "Oka/AlgebraicGeometry/Spec.lean": {
+          "status": " M",
+          "sha256": "bf17f00e3cf60adbc5e8339a765260ec95e703402b81a9ccb60ae5981c72f918"
+        },
+        "Oka/Analysis/Calculus/Implicit.lean": {
+          "status": " M",
+          "sha256": "2b3f75e0fa609c408ba8541ab830a8a05a43e6783b4eebfb5dbb828de3de2a7f"
+        },
+        "Oka/Analytic/DifferentiableTsum.lean": {
+          "status": " M",
+          "sha256": "b87fe0cf8111a0694d5420e752760368a0b483eee53ea6eba862aae9576c53b1"
+        },
+        "Oka/Analytic/HartogsRegular.lean": {
+          "status": " M",
+          "sha256": "b7b505ae6368bd9f956344ffc1ee6736c37702daa19127dcb6626d00d4f9e02f"
+        },
+        "Oka/Analytic/Laurent/Several.lean": {
+          "status": " M",
+          "sha256": "c7f543aa48bf9fb2dbfb854a4344feb5a2c002be09b0798074379aedbba58b75"
+        },
+        "Oka/Analytic/Puiseux.lean": {
+          "status": " M",
+          "sha256": "152151f8186b4dd3f847627e33f41f7f65c8dc2d674047ed6a2677ba21e288f1"
+        },
+        "Oka/AnalyticSpace/Continuity.lean": {
+          "status": " M",
+          "sha256": "d59d95d9626e31dcd5b1f9b2b629aa6ebe598b4730ae566dbd55555f3f46d0d4"
+        },
+        "Oka/AnalyticSpace/EmptyBase.lean": {
+          "status": " M",
+          "sha256": "296217346ea92a659ed3afd4f444501dccfa3142be127ca10e6916063ff3401e"
+        },
+        "Oka/AnalyticSpace/FundamentalGroup.lean": {
+          "status": " M",
+          "sha256": "0ce90caa04e8060de0a61a3da97407425c4252eb0a1b7369b82a85d74dd5684e"
+        },
+        "Oka/AnalyticSpace/GaloisCategory.lean": {
+          "status": " M",
+          "sha256": "dfef635b4be78a4671c15e9b56de7cd3c3f935281a3ae6e908db364ebb81fbc4"
+        },
+        "Oka/AnalyticSpace/HartogsExtension.lean": {
+          "status": " M",
+          "sha256": "cd01a3bcc84a1a56740c937804d24bd922b6cfebf079bb0be84a8b66284f390d"
+        },
+        "Oka/AnalyticSpace/MonicSplitting.lean": {
+          "status": " M",
+          "sha256": "cab9aefa7d72787e970200216ada69933e3c44e96489f29db252ca799f5b73fd"
+        },
+        "Oka/AnalyticSpace/MonoDirectSummand.lean": {
+          "status": " M",
+          "sha256": "fc9029928d9294c7bdb2f0721543607f685fcb70d76a89d28f60a8472c7a8399"
+        },
+        "Oka/AnalyticSpace/PushforwardStalkCoherent.lean": {
+          "status": " M",
+          "sha256": "a023a2abc5ba385490d7b6b2a600d52a4346b1256a3745defdfab0492dc89e96"
+        },
+        "Oka/AnalyticSpace/SeparatedFiniteEtale.lean": {
+          "status": " M",
+          "sha256": "6a02bd79a916547813c1eaf50e69b8f84d977fa5957784f4379523aabf86a601"
+        },
+        "Oka/AnalyticSpace/SeparatedFiniteEtaleLimits.lean": {
+          "status": " M",
+          "sha256": "3da07b073759806ca33d95ec63f58de666adf11e203dcdf2b58c12960a099cd7"
+        },
+        "Oka/Analytification/GAGA/CartanApprox.lean": {
+          "status": " M",
+          "sha256": "03b18c225716ced8bebee29376f4a266beed4b39ff428cbc5441841d5cc104c7"
+        },
+        "Oka/Analytification/GAGA/CechProjectiveAn.lean": {
+          "status": " M",
+          "sha256": "18a1421de563c79498f201fce01a671e594a1e3fde9f345de14b54f373bfc104"
+        },
+        "Oka/Analytification/GAGA/MittagLeffler.lean": {
+          "status": " M",
+          "sha256": "b2009234b9bb15e5e5a20dcdfe120c4baed828968b177a6f2033012689fa537e"
+        },
+        "Oka/Analytification/GAGA/Proper/CechProjectiveBox.lean": {
+          "status": " M",
+          "sha256": "34f50876f397a07948825d91b67a511449f4b3f5356fbd932b3c0c1557688261"
+        },
+        "Oka/Analytification/GAGA/Proper/GAGA3.lean": {
+          "status": " M",
+          "sha256": "f83482c60b75d81b76fa79f201111743ce6e6f40f7a710fd14ca0f0f787bc45a"
+        },
+        "Oka/Analytification/GAGA/Proper/RelativeBaseChangeTwist.lean": {
+          "status": " M",
+          "sha256": "ffd6e4013ebbdceeba5b7b2b3d5b1686e10c467f81adb999ef7402e0fbf3a076"
+        },
+        "Oka/Analytification/RET/ES/BoundedSections.lean": {
+          "status": " M",
+          "sha256": "b0657f1434c0437dd629af51361c0e4cece138a9a91d8f23bcf6ccd73be7bbd4"
+        },
+        "Oka/Analytification/RET/ES/BoundedSectionsHartogs.lean": {
+          "status": " M",
+          "sha256": "daa8b4b0609760b5da304f05a2a066263e5fc6b87dce23bb16a2f59a9ef24305"
+        },
+        "Oka/Analytification/RET/ES/CapExtension/ChartReverse.lean": {
+          "status": " M",
+          "sha256": "672c75b8f7ce0d4da69a23d6510f7470ff00fc6e1616dcb797d6c530324fecaf"
+        },
+        "Oka/Analytification/RET/ES/Codim2/BPointConfig.lean": {
+          "status": " M",
+          "sha256": "1bb7c23ba35c523bb50183787956f3c87149d28f3bf779caffb6f4227d9a3938"
+        },
+        "Oka/Analytification/RET/ES/Codim2/NormalCrossingsBasis.lean": {
+          "status": " M",
+          "sha256": "6c800a8211415e8ea889a4ddc3db4514823743b8b8e5bdbf825401e4c329e81c"
+        },
+        "Oka/Analytification/RET/ES/Codim2/PuiseuxCoord.lean": {
+          "status": " M",
+          "sha256": "62badd0692bb9076f7d493de2a0ec743567fcc0632c96d0201266c84c81182ac"
+        },
+        "Oka/Analytification/RET/ES/CurveEtale.lean": {
+          "status": " M",
+          "sha256": "4bae85708d1cebd94070d3811916bc19f7bac7f0a7632bfaf7e685f5d55398bd"
+        },
+        "Oka/Analytification/RET/ES/CurveSections.lean": {
+          "status": " M",
+          "sha256": "795432811c9571504723d149f45797cb350011ceece2d5e24570ace5c528bb8f"
+        },
+        "Oka/Analytification/RET/ES/CurveSetup.lean": {
+          "status": " M",
+          "sha256": "95ec55952789b41d36f434eace7d7b9b8de5d210d9373f56129caffa4cc49aa8"
+        },
+        "Oka/Analytification/RET/ES/FiniteCoherent.lean": {
+          "status": " M",
+          "sha256": "5c6179b6f4eaa2d1d7618d3a9b43f9fdf48e6b71b946b8429df4af9f50597851"
+        },
+        "Oka/Analytification/RET/ES/NormalToSmooth.lean": {
+          "status": " M",
+          "sha256": "bee274ff075c7e071ae9a9b1502997c6977469356347d738460961e81902b6ad"
+        },
+        "Oka/Analytification/RET/ES/Normalization.lean": {
+          "status": " M",
+          "sha256": "b3c93a4dd20585239bd781416bbe7d680a994a6a3c0993642f532c609f273272"
+        },
+        "Oka/Analytification/RET/ES/ReflexiveHull.lean": {
+          "status": " M",
+          "sha256": "f4743e61682f3e54c5783e64431075e3885d2a2a88932cba050a49622dcb5956"
+        },
+        "Oka/Analytification/RET/ES/SmoothLocus.lean": {
+          "status": " M",
+          "sha256": "ba6cf409dbad6ccb895653cf8671d1dab744b65861dff7e0417ad17c66043430"
+        },
+        "Oka/Analytification/RET/ES/SmoothSections.lean": {
+          "status": " M",
+          "sha256": "d4b4477035c297085cfef2889172247f7d695d4c304ff397895a71fd1dc92770"
+        },
+        "Oka/Analytification/RET/ES/SmoothSetup.lean": {
+          "status": " M",
+          "sha256": "03fb2a6f767aee56973af854259765e861f7d1cae9d86abc7116ce30f46c1904"
+        },
+        "Oka/CategoryTheory/GlueData.lean": {
+          "status": " M",
+          "sha256": "76b080fa426459dcb07bea1c1f9c03b3bce1f0a9375e9ee6d4f87daded6dab32"
+        },
+        "Oka/Geometry/RingedSpace/LocallyRingedSpace.lean": {
+          "status": " M",
+          "sha256": "243a66138c06e374bff037ad07ba61c59a5be34373d3493824c7d35def0ae181"
+        },
+        "Oka/Geometry/RingedSpace/LocallyRingedSpace/CoherentModuleOpenEmbedding.lean": {
+          "status": " M",
+          "sha256": "42b0f0c268ec6cf244bffde633cc0599e98a9cc2824059e1ea442a4af4ec45ba"
+        },
+        "Oka/Geometry/RingedSpace/LocallyRingedSpace/CoherentModuleSections.lean": {
+          "status": " M",
+          "sha256": "5c50be9f677c29b2ec7aa6f9cf227f4dbf19215b9ce710686f469bffc88086bb"
+        },
+        "Oka/Geometry/RingedSpace/LocallyRingedSpace/CoherentPushforwardClosedEmbedding.lean": {
+          "status": " M",
+          "sha256": "059b376f9ad1c7dd1d91ea522f1b65eb74e56fe8943388fb319ea8a02ce72426"
+        },
+        "Oka/Geometry/RingedSpace/LocallyRingedSpace/HomSheafCoherent.lean": {
+          "status": " M",
+          "sha256": "8df861294eff8714dde481647ae6b146b48e1e19865d30220127ec7923a95c29"
+        },
+        "Oka/Geometry/RingedSpace/LocallyRingedSpace/Modules.lean": {
+          "status": " M",
+          "sha256": "ac09cc8921fb6993c7bf8505ecf10ea1bbcab4774697e505425d828068dc378b"
+        },
+        "Oka/Geometry/RingedSpace/ZeroLocus.lean": {
+          "status": " M",
+          "sha256": "9ec50b78b847a10c68e85b97b022712b97cf658fdd5d29303c7ea29bf2c1c740"
+        },
+        "Oka/LocalOkaRing.lean": {
+          "status": " M",
+          "sha256": "913823687e1484ec404a8040e20c1a2cf68d46e3b0060a6b333765859d8794fd"
+        },
+        "Oka/Nullstellensatz/Germ.lean": {
+          "status": " M",
+          "sha256": "a7666963d73966edcab4569cd7d255dbf64a7fbb080b5ee7da83a0adf01ab348"
+        },
+        "Oka/OkaLemma.lean": {
+          "status": " M",
+          "sha256": "d7ad7fb6fa3fdcfd9eb48e0d6a2a1899864a2661a9356896a9e513867dbe4bc5"
+        },
+        "Oka/RingTheory/IntegralClosureEtale.lean": {
+          "status": " M",
+          "sha256": "fa871063c981fae529236d101b544f3f7d16bf9d0685c7be315381d8dac7fd3d"
+        },
+        "Oka/RingTheory/MilnorPatching.lean": {
+          "status": " M",
+          "sha256": "d8a10c9a750df6ef5b4ef972d285884d8ce1251149eaaa2eb7046f7adb6844d5"
+        },
+        "Oka/RingTheory/MvPolynomial/LaurentAway.lean": {
+          "status": " M",
+          "sha256": "b93b997de908c2e72fe6bbb2645bdd434e2103c257f459bb92c14dc3d9ad2f67"
+        },
+        "Oka/RingTheory/MvPolynomial/Localization.lean": {
+          "status": " M",
+          "sha256": "f96abccebe6e6761b4216a63c6413b6a4bd0bd26dcc8f45ef406e8cc1c1e4b2b"
+        },
+        "Oka/RingTheory/SmoothCodimOne.lean": {
+          "status": " M",
+          "sha256": "8139b5a6fd09af4435976f3a6cf8f5f0313e0a17cc29cc9dba10171fc7445e98"
+        },
+        "Oka/Topology/Sheaves/Cohomology/ClosedEmbedding.lean": {
+          "status": " M",
+          "sha256": "6de51ce25a58f6205055e9613c070d0eac5fd3b13f0b1093c886406cec5e2e64"
+        },
+        "Oka/Topology/Sheaves/Cohomology/MayerVietoris.lean": {
+          "status": " M",
+          "sha256": "a3ab7bdc2727b22c8eff1c6219dde8d4812a776f99993a1ead1359560bdb8eaa"
+        },
+        "Oka/Topology/Sheaves/Cohomology/MayerVietorisNatural.lean": {
+          "status": " M",
+          "sha256": "21a04dc45d90736a4ff7c162cf78083681ffcbadf1e2d5ecf526fdf82e5bb85c"
+        },
+        "Oka/Topology/Sheaves/Cohomology/PushforwardAcyclic.lean": {
+          "status": " M",
+          "sha256": "8126ef0717a30f41412b3baa73df77f5091777bcfc1b5333cfd7b289ea50c05e"
+        },
+        "Oka/Topology/Sheaves/QuotientPresheaf.lean": {
+          "status": " M",
+          "sha256": "acd7dfba82653ea65ba1494d50fb8732e0fce9eee51bcefa2f074e7563886519"
+        },
+        "Oka/Topology/Sheaves/Stalks.lean": {
+          "status": " M",
+          "sha256": "bf7da19e5a4fd835977a141b7b636bca9ce2aa81f80372384049b0de2e0e4426"
+        },
+        "Oka/Uniformization/CoveringLift.lean": {
+          "status": " M",
+          "sha256": "098251714ee7afc9a49423f2b6e8aebe4a596cf9dd5b09c4a38504dd4946e8c9"
+        },
+        "Oka/Uniformization/Depth.lean": {
+          "status": " M",
+          "sha256": "4e790bab4b98be2d1f80de54a0cc193098a7ef9566835e9ce9c0486033ee5e44"
+        },
+        "Oka/Uniformization/FEtTransitive.lean": {
+          "status": " M",
+          "sha256": "6db884cb1417f25333b2550ed9b3ad32b05ce9e9c2dab50f0f65ba5501064ba8"
+        },
+        "Oka/Uniformization/Integrality.lean": {
+          "status": " M",
+          "sha256": "9537f4aa9a5f83dc1e46405685a6dcacc9f78ed83a50d9e0912d7a5de2b2a9c9"
+        },
+        "Oka/Uniformization/PmDeck.lean": {
+          "status": " M",
+          "sha256": "0388b3107e5496c0eeb27807259cc41abe9c07e6b52df6920c5255ed135c9bf0"
+        },
+        "Oka/Uniformization/R3.lean": {
+          "status": " M",
+          "sha256": "4110430069c2e090530ffee7c8d1258175a70baece0265117247a30abafb7265"
+        },
+        "Oka/Uniformization/SL2Facts.lean": {
+          "status": " M",
+          "sha256": "228b9c872ed2b5c388b91f544a5ce758c1b3bd206a082bd3773f6efecfd90c3c"
+        },
+        "Oka/Uniformization/Uniqueness.lean": {
+          "status": " M",
+          "sha256": "a1a03be9667e93d709de4f6138e7e37b138c69eba3992e56e07db125485468a2"
+        },
+        "Oka/Weierstrass.lean": {
+          "status": " M",
+          "sha256": "ac073eec3ef89f7627ee16e02ba15df00ebbcde17cb05f1c93cf95c896c10fcf"
+        },
+        "lake-manifest.json": {
+          "status": " M",
+          "sha256": "595447613cfcf3dc7181424ab407fcf76c17a7318c9bd82d935d3b114a244120"
+        },
+        "lakefile.toml": {
+          "status": " M",
+          "sha256": "bd346105805f58b6b1965b0f5c7fcbc4788c8a1a399926922458f02fe0e4c94f"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        }
+      }
+    },
+    "orbicurve-cores": {
+      "rev": "61616dcd77fbe45c083a8ebfa7cc80728f86e841",
+      "changed_files": {
+        "OrbicurveCores/ArithTraces.lean": {
+          "status": " M",
+          "sha256": "98db26b70754f8ca8c9b65a3c43ef668eac998c000a46fb85b56779ebe0a73d8"
+        },
+        "OrbicurveCores/Core.lean": {
+          "status": " M",
+          "sha256": "b5cbb70b459241914257a3d41d47c3518d08d9a102695d795fc1182c55157d5d"
+        },
+        "OrbicurveCores/ForMathlib/ComplexEmbedding.lean": {
+          "status": " M",
+          "sha256": "c529e3458b88430ae0cc5388d182edaa14317570232303422eb4263051ae0c20"
+        },
+        "OrbicurveCores/Fuchsian/Commensurator.lean": {
+          "status": " M",
+          "sha256": "af7f39c11ae38d7cd468bf7fd1e219f93d8507589fe5bea71b5a8fef6c492a75"
+        },
+        "OrbicurveCores/Fuchsian/DenseSubgroup.lean": {
+          "status": " M",
+          "sha256": "0e264f83ad92bba2fc51e052ad85fabe085716228fa0f74a948bfca92b95008d"
+        },
+        "OrbicurveCores/M2/BoundaryMeasure.lean": {
+          "status": " M",
+          "sha256": "e9293059939e00cdb792eff1285c84ad5cc0680ace858de44f1fc47b059300c1"
+        },
+        "OrbicurveCores/M2/Final.lean": {
+          "status": " M",
+          "sha256": "027bf93c3ab0abdb9343db7b2d2b2dc608a058f97dcc012d89686e6983f69230"
+        },
+        "OrbicurveCores/M2/Furstenberg.lean": {
+          "status": " M",
+          "sha256": "88c553f263cd7c5aae7795e9b6ef6ca7d2ff2e3c3e340b1b85a835083d9b88ab"
+        },
+        "OrbicurveCores/M2/FurstenbergLimit.lean": {
+          "status": " M",
+          "sha256": "a2c060e4cab40d2cff704b8555865920456195106a2e5cc9a92980c059745e73"
+        },
+        "OrbicurveCores/M2/HopfCoords.lean": {
+          "status": " M",
+          "sha256": "620f76608eca4170b047b17e1464214baa68125632b2bb1b5b55c52791fc3822"
+        },
+        "OrbicurveCores/M2/Superrigid.lean": {
+          "status": " M",
+          "sha256": "ee8f3b177a7c373535ed11e2bc9f7f7d70a936555d5a5182792adabeeec4304b"
+        },
+        "OrbicurveCores/M2/TraceField.lean": {
+          "status": " M",
+          "sha256": "1cd7f1219c77304bef4814883644e9c6bcfa14701289540b0e6be21581e719c1"
+        },
+        "OrbicurveCores/S1/OrbLift.lean": {
+          "status": " M",
+          "sha256": "6e802a2c443832f8c95f54692861b1e54f98f3e2157d877fe7ea33b33b15fbaa"
+        },
+        "OrbicurveCores/S1/Rigidity/Lift.lean": {
+          "status": " M",
+          "sha256": "94d972b8495f88db04e498860206b8799c5d013ca4eff8e952f8b5cbac037f0e"
+        },
+        "OrbicurveCores/Sharpness.lean": {
+          "status": " M",
+          "sha256": "47ebcc084f9abf07e885c276cc407d826605a88eeb1f4aacea29ce57dd7d84e5"
+        },
+        "OrbicurveCores/Takeuchi.lean": {
+          "status": " M",
+          "sha256": "a79c73947ee6e2d1c414ce221fbbbdc1e0a8beb4d1ef2330b7de60666f7dfce6"
+        },
+        "OrbicurveCores/U2/Assembly.lean": {
+          "status": " M",
+          "sha256": "7eaf0def5708c67330b588db00a0ba5b0f0300854d2b5fb4dd12cd325b9293e4"
+        },
+        "OrbicurveCores/U2/CoreMap.lean": {
+          "status": " M",
+          "sha256": "9a4807a52984f6bdb98e3e2edddfb0d73152d5f26e4ad6dfbb2a01c743615aad"
+        },
+        "OrbicurveCores/U2/GaloisClosure.lean": {
+          "status": " M",
+          "sha256": "8d93b04c32d0c85ff3a969ff671d9421f64b7eb02764f1d0c857554585caa619"
+        },
+        "OrbicurveCores/U2/Noether.lean": {
+          "status": " M",
+          "sha256": "8a3373989b2eff67f9a13ba2f05e776c3a29d7a8e1c53f2650455f4cf45c67a5"
+        },
+        "OrbicurveCores/U2/R3.lean": {
+          "status": " M",
+          "sha256": "643ce958e478025a6dec2d1e13f432ce8c1e0bcab29961bf8d96559662c16038"
+        },
+        "OrbicurveCores/U2/Realize.lean": {
+          "status": " M",
+          "sha256": "c1d493b89619f6d0b96870185052ced391fa0eade4e344ee871ee0c0a77f1acf"
+        },
+        "OrbicurveCores/U2/TheoremG.lean": {
+          "status": " M",
+          "sha256": "2bae46df661a5d9069202bdcaa79e91ceca2ca05d4c48272a7c15b6acd0cd3f9"
+        },
+        "lake-manifest.json": {
+          "status": " M",
+          "sha256": "5137399271e127fa9f769bd001d2607653c2a9a5993f652ba82822f81ff23a24"
+        },
+        "lakefile.toml": {
+          "status": " M",
+          "sha256": "4a43a63bd96b5c4910621329d3f8e3c0b2e85c87b6a50326f8f34be6124f9b28"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        }
+      }
+    },
+    "pi1": {
+      "rev": "ca7def953193f861a462aa0831eec8f0a31ff69f",
+      "changed_files": {
+        "Pi1/FundamentalGroup/Galois.lean": {
+          "status": " M",
+          "sha256": "b3806ec62480d89ad8ca6864ceded3390f99818e6ed5f04cfaa440d2898fad3e"
+        },
+        "Pi1/Mathlib/RingTheory/Geometric.lean": {
+          "status": " M",
+          "sha256": "35ff57351c6a7f31492eaf080cd066e4a526147fe28e74168bf3ff3a28117bb0"
+        },
+        "Pi1/Mathlib/RingTheory/TensorProduct/Basic.lean": {
+          "status": " M",
+          "sha256": "d9c525fcb3207fb5b56641dd85405288378806a0b7877053ba0fe08f9b2a9803"
+        },
+        "Pi1/Orbicurve/BaseChange.lean": {
+          "status": " M",
+          "sha256": "6371412f4b62f31485b7d7ccd830bf4c15b4979823493aff5a76d8eae26843ec"
+        },
+        "Pi1/Orbicurve/CoreCriterion.lean": {
+          "status": " M",
+          "sha256": "43fe49b0b7ba568ef86aeebd0bd286928a767f634a398dfa75c8e8c49203f1c7"
+        },
+        "Pi1/Orbicurve/Descent.lean": {
+          "status": " M",
+          "sha256": "1ff6a30e5dacf798cc1f7a9d7f77c1e5d89b97a70e048043b6671264ea3d80cb"
+        },
+        "Pi1/Orbicurve/EllipticSubfield.lean": {
+          "status": " M",
+          "sha256": "15818a6a7d462af9d63b180245277d43ff35e454a4fec528a9197f21bcdc1abf"
+        },
+        "Pi1/Orbicurve/Embed.lean": {
+          "status": " M",
+          "sha256": "b42f63234cb006f66243833dbebabde1443f13bdc464dca4773b80ef875ffda5"
+        },
+        "Pi1/Orbicurve/HemiTY.lean": {
+          "status": " M",
+          "sha256": "1cc1935ceaa4b660085b012a239d11e92bd1eb39eef6377059c5c2c1f16efba7"
+        },
+        "Pi1/Orbicurve/Lefschetz.lean": {
+          "status": " M",
+          "sha256": "6790a0e4db69c63c2dd7d6927a561fc6a6ca2c9304d0fa10234792b52992b9d5"
+        },
+        "Pi1/Orbicurve/Morphisms.lean": {
+          "status": " M",
+          "sha256": "8ca449e1d5ce7824d86c6d0748cee5c79e72fc56a8d664590bfffed7e9faa117"
+        },
+        "Pi1/Orbicurve/Pullback.lean": {
+          "status": " M",
+          "sha256": "d31f9268f873a24cf12341cdd5b88a51b65a7fdb113102866673f04c2da9afe8"
+        },
+        "Pi1/Orbicurve/SubfieldGalois.lean": {
+          "status": " M",
+          "sha256": "9ccd09e70bc6d85a38dbb5989905cb88b7fd6f9de9dfded84534193bfe8b7ae9"
+        },
+        "Pi1/Orbicurve/ValuationInertia.lean": {
+          "status": " M",
+          "sha256": "12994432992a1a89c8b807c539335764c6ba0812c0997992727eefcd6a71f3fd"
+        },
+        "Pi1/RingTheory/FiniteEtale/Basic.lean": {
+          "status": " M",
+          "sha256": "1133095f6a482bebf07b6199323f4b7d3dfb7d81a50f6dfc461d0884239f73f1"
+        },
+        "Pi1/RingTheory/UnramifiedValuation.lean": {
+          "status": " M",
+          "sha256": "ac9670fe801a5d3bcc0cbb9ba87cebc55ec92efa50bc11bc1ef4f5122c3c3b1e"
+        },
+        "lake-manifest.json": {
+          "status": " M",
+          "sha256": "7dd0c0df47ed694a93a4d8590e75537426c3335bfcd1aa234e9b007f341ace88"
+        },
+        "lakefile.toml": {
+          "status": " M",
+          "sha256": "8ad1c78f096c2c19068d89329f2001319cdee7e089c3f0e24d3b6f2864a01b24"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        }
+      }
+    },
+    "plausible": {
+      "rev": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+      "changed_files": {}
+    },
+    "proofwidgets": {
+      "rev": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+      "changed_files": {}
+    },
+    "rellich-kondrachov": {
+      "rev": "70f85d4c1bf99c6e7d61e8be4daa6f3664d08d23",
+      "changed_files": {
+        "RellichKondrachov/Analysis/FunctionalSpaces/Sobolev/Euclidean/H1.lean": {
+          "status": " M",
+          "sha256": "58ebcc368094602f29b9ff956930bf37f38f9299fc8acec204cfa9c1b4ff94fc"
+        },
+        "RellichKondrachov/Analysis/FunctionalSpaces/Sobolev/Euclidean/L2Compactness/Approximation.lean": {
+          "status": " M",
+          "sha256": "ab8bdb450d98348b0296453ba5d75b8208f6c5ac37702a3c1255c6d67d9457dd"
+        },
+        "RellichKondrachov/Analysis/FunctionalSpaces/Sobolev/Euclidean/L2Compactness/ArzelaAscoli.lean": {
+          "status": " M",
+          "sha256": "bef72fc1a747e7cef82ed3d662176887dd133bca3489e71cf395a665ad5da492"
+        },
+        "RellichKondrachov/Analysis/FunctionalSpaces/Sobolev/Euclidean/L2Compactness/Compactness.lean": {
+          "status": " M",
+          "sha256": "2404e4a331186212aa7ce2f069a56c621cee6514c9e711ed5f3e61b52300341b"
+        },
+        "RellichKondrachov/Analysis/FunctionalSpaces/Sobolev/Euclidean/L2Compactness/FrechetKolmogorov.lean": {
+          "status": " M",
+          "sha256": "5ef1afc6a6142cd33e4d8f261ceda91df81ef08ba4b409b33daaf3fd5a3d9d07"
+        },
+        "RellichKondrachov/Analysis/FunctionalSpaces/Sobolev/Euclidean/L2Compactness/Kernels.lean": {
+          "status": " M",
+          "sha256": "ae7d26c575370d8414f8a873f45adbe21d123a2ef33da4b7c2dae3ddab272a79"
+        },
+        "RellichKondrachov/Analysis/FunctionalSpaces/Sobolev/Euclidean/L2Compactness/Smoothing.lean": {
+          "status": " M",
+          "sha256": "7a4539df7c96315d597940be033af0823c62be1f5c28cbff3d5ded047f1106e7"
+        },
+        "RellichKondrachov/Analysis/FunctionalSpaces/Sobolev/Euclidean/L2Compactness/Transfer.lean": {
+          "status": " M",
+          "sha256": "9e302cfdae869cb4ce5d8516749a4765c4e005a83572c210de64182632aacff2"
+        },
+        "RellichKondrachov/Analysis/FunctionalSpaces/Sobolev/Euclidean/L2Compactness/TranslationIntegral.lean": {
+          "status": " M",
+          "sha256": "4238889df823be7edadedb5943769077937bf390d2bfa614741de49d97bf8097"
+        },
+        "RellichKondrachov/Analysis/FunctionalSpaces/Sobolev/Euclidean/Rellich.lean": {
+          "status": " M",
+          "sha256": "82e17a8ce458d7f2df61fb5d4f545a0c2257b11dfa5254c72ba3c9caff51da4b"
+        },
+        "RellichKondrachov/Analysis/FunctionalSpaces/Sobolev/Euclidean/Translation.lean": {
+          "status": " M",
+          "sha256": "ffc94cb6b55811801735847c6678e83c19aee5f59bcf522cd113d1dadd9702e5"
+        },
+        "RellichKondrachov/Analysis/FunctionalSpaces/Sobolev/Euclidean/TranslationEstimate.lean": {
+          "status": " M",
+          "sha256": "1a53acd973c16616f86d5a8eadbae7132831b09d39ff0876d6635c5914208480"
+        },
+        "RellichKondrachov/Analysis/FunctionalSpaces/Sobolev/Euclidean/TranslationEstimateH1.lean": {
+          "status": " M",
+          "sha256": "1a525d749b4616a4ce6043587ad004603c4d799cfb5e989f1b0795bf76640165"
+        },
+        "RellichKondrachov/Analysis/FunctionalSpaces/Sobolev/Euclidean/TranslationEstimateL2.lean": {
+          "status": " M",
+          "sha256": "1701e17610f9d77f999c88e6d846c646b264ff5478556f6014d3b656b8ea9399"
+        },
+        "RellichKondrachov/MeasureTheory/Function/LpSpace/Restrict.lean": {
+          "status": " M",
+          "sha256": "481877b5f297a98b1c8e3d7b8efc1864d0c92f3b9f8ec43faf90f44112330f87"
+        }
+      }
+    },
+    "schoenflies-lean": {
+      "rev": "05a43d29cde026618777db3d4e4316204ccca237",
+      "changed_files": {
+        "Schoenflies/Accessible.lean": {
+          "status": " M",
+          "sha256": "69cfc2101fd6c62bce3ae27b3f287c76d0cbd7a35d801ee7fd6828a3c2d2076b"
+        },
+        "Schoenflies/ArcCollars.lean": {
+          "status": " M",
+          "sha256": "20286ff917268a0bb999023f4e09158f0627dba7f8948365e7840ee16fc24923"
+        },
+        "Schoenflies/ArcComplement.lean": {
+          "status": " M",
+          "sha256": "15e1ea89f9803aa174b6b48cdd1779b7781eba61b821764b10120e004af20716"
+        },
+        "Schoenflies/ArcComplementPrep.lean": {
+          "status": " M",
+          "sha256": "3737d3b53b87d12ed66ce6f46cbe4c09c93e8cdaa6eef484bb7eba376ad48476"
+        },
+        "Schoenflies/ArcMonotone.lean": {
+          "status": " M",
+          "sha256": "ad85bb50f89362515453c2ba3214fae514695825e32c70bc8468e9259bcedd1b"
+        },
+        "Schoenflies/BoundaryAnchors.lean": {
+          "status": " M",
+          "sha256": "f9c3f49fd4e1c2cfb1e8a3bdf53d9a0e0e08a458d2f3423c5b8b3253125ad3a9"
+        },
+        "Schoenflies/BoundaryContinuity2.lean": {
+          "status": " M",
+          "sha256": "b5a1aa37d7d05427644806326bf91acf473a6324ec6fcce9e53f127803e2718e"
+        },
+        "Schoenflies/BoundaryCycles.lean": {
+          "status": " M",
+          "sha256": "15de0db61be454dab23bbe24382d94bb431acd58a04fd4d84d16ca4fe09cd25f"
+        },
+        "Schoenflies/Bounded.lean": {
+          "status": " M",
+          "sha256": "38163ac451eb579bc3f9ae27cedecd56fd37fa5f5b70475ff8d4271f5bd18a81"
+        },
+        "Schoenflies/CommonSubdivision.lean": {
+          "status": " M",
+          "sha256": "abe1e640eabf29bedbc7e6625f6fa324c02b780b65c231da030b8f32d9c44286"
+        },
+        "Schoenflies/Concatenate.lean": {
+          "status": " M",
+          "sha256": "e7deae6f4270837c097ec96b23aad014911999ae365b9392e1513c6050d66093"
+        },
+        "Schoenflies/Direction.lean": {
+          "status": " M",
+          "sha256": "e595f86c5790252178f023855da6c6da9077b1580f71b51567576752f619921d"
+        },
+        "Schoenflies/Endgame.lean": {
+          "status": " M",
+          "sha256": "5f9884ef325e13c425ccbacfa397b568cf7618260722da63ff196fca13a17744"
+        },
+        "Schoenflies/FaceCyclesProof.lean": {
+          "status": " M",
+          "sha256": "5fd060bdf69585fe1c60dd377c3d458a3deb51cff436897f6638bc90ec4f69ea"
+        },
+        "Schoenflies/FiniteTransfer.lean": {
+          "status": " M",
+          "sha256": "1645b0cfc46156e643b15bafe7df5f796853ce823cfcb869e327245f2664107a"
+        },
+        "Schoenflies/FiniteTransferTarget.lean": {
+          "status": " M",
+          "sha256": "a058240e02e37688e1f92529cb4d99922ec8573867faf447948d7f47c94763ec"
+        },
+        "Schoenflies/FiniteTransferTargetMesh.lean": {
+          "status": " M",
+          "sha256": "b9c3f281c4782f0d98be7edb36fefeefcb8954c37b93e3974de744ae811615cc"
+        },
+        "Schoenflies/FreshDenseSelection.lean": {
+          "status": " M",
+          "sha256": "cd0d581b63eb7989c07e94d90cdc482339c0c1296ba7b041181f5b5b204c7c00"
+        },
+        "Schoenflies/GeneratedStructure.lean": {
+          "status": " M",
+          "sha256": "97fefee73eb425a9e5ecf093fd2ee56eef9d30dfbd486e854036d971386e5a9c"
+        },
+        "Schoenflies/Graph/Cycle.lean": {
+          "status": " M",
+          "sha256": "157a705238d9a22b9f551322521a277575eb1d1ec6a4d1825cb4b222bcfe3c5b"
+        },
+        "Schoenflies/Graph/Degree.lean": {
+          "status": " M",
+          "sha256": "28036deb6f8dd6b8ed98c0130243a7e8b08ce458ba64cc0c14066d4e5dff027e"
+        },
+        "Schoenflies/Graph/K33Land.lean": {
+          "status": " M",
+          "sha256": "5ec54729ab69fb93cb5f7b08e7d04c990431d7de4d3668290faae2c0c5958e9e"
+        },
+        "Schoenflies/Graph/OuterFace.lean": {
+          "status": " M",
+          "sha256": "cd33beca645aabb5273cef4c15ba60091a74c2e0aa46969f9b0e7314375d6687"
+        },
+        "Schoenflies/Graph/PathGraph.lean": {
+          "status": " M",
+          "sha256": "dbb24ba114406434206e47a53dd6827953018baface4bcba7633e268a967c33f"
+        },
+        "Schoenflies/Graph/Tree.lean": {
+          "status": " M",
+          "sha256": "5755a94c980a9c52387ef5ea3948437e3faf99eb29ea28fcc730b4963bb7003b"
+        },
+        "Schoenflies/GridAttach.lean": {
+          "status": " M",
+          "sha256": "6fb84a786f378b7f52d0bda5dd0373a7a172b6e66e3ff57acd8bc1cae2f555a7"
+        },
+        "Schoenflies/InitialPair.lean": {
+          "status": " M",
+          "sha256": "d3cda40f2f3426fbe272ed6e01988154fed9dccf59953b5741fd09a39967b852"
+        },
+        "Schoenflies/InitialPairFixed.lean": {
+          "status": " M",
+          "sha256": "6d20ea02407b968dbb11c731efe2834d219e360f94c4c5b196195b9c532bfeca"
+        },
+        "Schoenflies/Inversion.lean": {
+          "status": " M",
+          "sha256": "205c9099d6717dd6b12665b5d35c61f649420c2e7cce0f2fb6bc7187a3c09b30"
+        },
+        "Schoenflies/Jordan.lean": {
+          "status": " M",
+          "sha256": "d39827a51ea6341e1f2720d7be4bfa7cc15679f3b2817c98d9f5af6fb0d9846d"
+        },
+        "Schoenflies/LimitMap.lean": {
+          "status": " M",
+          "sha256": "c85bf049f93b3230e15079ef532dcfd4d9b35314885a7b03d5d26e496574b121"
+        },
+        "Schoenflies/LocallyPolygonal.lean": {
+          "status": " M",
+          "sha256": "3a0e3b0b88253ec76aac7be85ec78e3e154139d8a09f01a1d9060b4db491ba3c"
+        },
+        "Schoenflies/MatchedSplit.lean": {
+          "status": " M",
+          "sha256": "7744a225f5f65341775f631316d22be9f7836ff187c9f48541857936f26b3a5a"
+        },
+        "Schoenflies/ModelCurve.lean": {
+          "status": " M",
+          "sha256": "2f120090fcfb2222c75066e87a35d015a1115c0a80a726c84802cd8ebd66d4ff"
+        },
+        "Schoenflies/OuterChain.lean": {
+          "status": " M",
+          "sha256": "d995d5d1fb379cffdb26ffaa7945b2931d186558865254c73cfb122e587ff82a"
+        },
+        "Schoenflies/OverlayExtension.lean": {
+          "status": " M",
+          "sha256": "d9fd7ae8158575c8dd2d5311d1039568bfb9282fbc71f6e3c6c0c42aca5da83f"
+        },
+        "Schoenflies/OverlayGraph.lean": {
+          "status": " M",
+          "sha256": "9dac14d1cec11d71f98c72a1e2114bd8356773029b5088db08a4f5cc8a6e6047"
+        },
+        "Schoenflies/Parity.lean": {
+          "status": " M",
+          "sha256": "39f00629abc112fa50bc1a9428e6e2e9351e6f7f60fd762d4fbf0f06a28fef37"
+        },
+        "Schoenflies/ParitySplitting.lean": {
+          "status": " M",
+          "sha256": "8ee24432463b3268130836106872f2bd479b3bfbaaf47d12fdc4160f6a7ae3c6"
+        },
+        "Schoenflies/PolyArcRealize.lean": {
+          "status": " M",
+          "sha256": "1f51815db5a4f375ac6c4326aa981a7fa6a38f79495a135f42dfa70c9efb9370"
+        },
+        "Schoenflies/PolyLocal.lean": {
+          "status": " M",
+          "sha256": "24de7df075c339757c723f6dc983fc7c403c121472ff30b6f2bf6bd3f47249e7"
+        },
+        "Schoenflies/PrePolygonArc.lean": {
+          "status": " M",
+          "sha256": "8765d5f613e252e0d80b1663f8c1311ad1267a8fd79b969ff1e79753499e3250"
+        },
+        "Schoenflies/QuantitativeForwardStages.lean": {
+          "status": " M",
+          "sha256": "383a954b29d632d389668c17da493c43fd7cd61ea27b11435e64c3a872e034f0"
+        },
+        "Schoenflies/QuantitativeRecursion.lean": {
+          "status": " M",
+          "sha256": "124bdbaa81b7a7451a435dd6d85122591aa0b0d687e67b2c3218308353335dbd"
+        },
+        "Schoenflies/Realization.lean": {
+          "status": " M",
+          "sha256": "1b1f3ccf1f2edcb3ed74f6975becca5b4aa04b23ff72ee3bee90160321f0b378"
+        },
+        "Schoenflies/RealizeSplit.lean": {
+          "status": " M",
+          "sha256": "e228a67e1425bdd94cec028acdd4e11f7a71a237e4c7c3433f182ed0819ff2bd"
+        },
+        "Schoenflies/RealizeSubdiv.lean": {
+          "status": " M",
+          "sha256": "affcce0ee6914b5ae155b06e5ed27e89df2cdf1e869caf481151d6a3936213bf"
+        },
+        "Schoenflies/RefinementStars.lean": {
+          "status": " M",
+          "sha256": "11d89d08863cffebd8ee59b6af41dc54a5bf33ee61e9e6027feb187aa1d3a959"
+        },
+        "Schoenflies/SimpleArc.lean": {
+          "status": " M",
+          "sha256": "93e74e0c81addd4a1e6dac2acbe3a587da1eb641e95f8882825836d24eed399c"
+        },
+        "Schoenflies/SkeletonAccess.lean": {
+          "status": " M",
+          "sha256": "03976a6c35ebc9a05c3461e5b3dd611af5c30c9ee3779d9d4a17751c2a392c9b"
+        },
+        "Schoenflies/SkeletonLocal.lean": {
+          "status": " M",
+          "sha256": "f68c592d8b83a2658a65132791d365266767fb8635f8a363ea788209f9100340"
+        },
+        "Schoenflies/SkeletonSectors.lean": {
+          "status": " M",
+          "sha256": "cf10a27824a4cf56676ebb0901b30f7ed8b20c21b4915a9cea5be117c4672bd1"
+        },
+        "Schoenflies/SourceAttachment.lean": {
+          "status": " M",
+          "sha256": "75bc4bb78af208d54e43d2f3dae5ac0903212a6d99113eb64f2c3d4d7878daf2"
+        },
+        "Schoenflies/SourceJoining.lean": {
+          "status": " M",
+          "sha256": "e1a555dd046eb67db4a4e83f1d57875d4168c8d6f78aeed7c69276efa54e29c3"
+        },
+        "Schoenflies/SourceOverlay.lean": {
+          "status": " M",
+          "sha256": "05d31980cb74f0a29f53d36432b98bb4c67422180eeeff8e4c99c7dd91cd9350"
+        },
+        "Schoenflies/Square.lean": {
+          "status": " M",
+          "sha256": "451b6920e23f4b74cbe000f5b1f394711e138fa2a2dafd460ba5ccae1d93bc4c"
+        },
+        "Schoenflies/SquareCycle.lean": {
+          "status": " M",
+          "sha256": "ae4a099616a167ba2650bf297bb63e53938d68c0ed20db2a53fed871712ab5fa"
+        },
+        "Schoenflies/SquareMesh.lean": {
+          "status": " M",
+          "sha256": "5a50f661a2191baa5920049f197782cabefcc67047a6d2d217e42f345b80c245"
+        },
+        "Schoenflies/SquareMeshClosed.lean": {
+          "status": " M",
+          "sha256": "0adb5888053a76e90a342eb942788f138cbfd82945912fb3f2a9cb8b22fd925d"
+        },
+        "Schoenflies/SquareMeshConnected.lean": {
+          "status": " M",
+          "sha256": "5beea5a4cdb9a93064b76ce4eef0a40f7fd7602c2b8b74ff6db4b51484667894"
+        },
+        "Schoenflies/SquareMeshFixed.lean": {
+          "status": " M",
+          "sha256": "6dfb9a8cf325c68c4935d8c63310c58a7fd0fa1d1e32319b83e6e7e5ddfe46da"
+        },
+        "Schoenflies/SquareMover.lean": {
+          "status": " M",
+          "sha256": "5145e5a5579a77fb77b920e1aee7d94f0688fe4204719f3f0a9db92905b3e61f"
+        },
+        "Schoenflies/Strip.lean": {
+          "status": " M",
+          "sha256": "2816ff6bccb15fb001c4449259c42b01d39a876044b72f4f8ce6ddd96955c6a9"
+        },
+        "Schoenflies/StripLocal.lean": {
+          "status": " M",
+          "sha256": "c1d5dc48aa2dd1d5e996010e60b606ba3e14c6f48b0435ab95a5c65c2b0f52a7"
+        },
+        "Schoenflies/Subarc.lean": {
+          "status": " M",
+          "sha256": "92d5cb3e0fed0f493df96b68d5f3c19bd3393e31125ae7f15763aa63eec72630"
+        },
+        "Schoenflies/TargetOverlay.lean": {
+          "status": " M",
+          "sha256": "92403950ff693914b82ebc3c1f44784be596850f644f4e99300b002d1eb1b921"
+        },
+        "lakefile.toml": {
+          "status": " M",
+          "sha256": "982665643acbb98078ea7467d3822c611b507879b0442e8b24459a8fb8806c39"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        }
+      }
+    },
+    "tate-curves-theta": {
+      "rev": "ca6c2279d3cea0690cdb01328e727118d5485d68",
+      "changed_files": {
+        "lake-manifest.json": {
+          "status": " M",
+          "sha256": "4e28f251dfe5e03ff15f4f25747c74fb6c13ad7938efcfcf3844aaa90688fea5"
+        },
+        "lakefile.toml": {
+          "status": " M",
+          "sha256": "3260af57c90a9cbca4025fce21a410c19dc5b67deb6f42ea4210d94c913748de"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        }
+      }
+    },
+    "tempered-fundamental-groups": {
+      "rev": "2006651f52b70ea2fe3388238c7d9db14d21748f",
+      "changed_files": {
+        "TemperedFundamentalGroups/Models/Projective.lean": {
+          "status": " M",
+          "sha256": "8c9992382148d04f6d18e645bbd29fc593311b252aa4bff7d7bd1640988cc97e"
+        },
+        "TemperedFundamentalGroups/Models/Specialization.lean": {
+          "status": " M",
+          "sha256": "7a49c598584e3cf5c3dccddf053e173916743dbd25c2d76296edc27fa4eaacc3"
+        },
+        "TemperedFundamentalGroups/SemistableReduction/NodeNormal.lean": {
+          "status": " M",
+          "sha256": "926f0716918dac3cd0be378735728b13189cbcaef11621c27bba71de73da4ca9"
+        },
+        "lake-manifest.json": {
+          "status": " M",
+          "sha256": "20d68da72e10fa08ad20f9920deece876e72c703e0bfa1ab444320dac06bcebb"
+        },
+        "lakefile.toml": {
+          "status": " M",
+          "sha256": "92d5b7cd562d9b9775fa0864af94fa5442280ffe80f1059d9e81f70234111112"
+        },
+        "lean-toolchain": {
+          "status": " M",
+          "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+        }
+      }
+    }
+  }
+}

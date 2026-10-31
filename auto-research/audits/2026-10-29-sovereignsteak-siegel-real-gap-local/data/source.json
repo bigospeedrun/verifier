@@ -1,0 +1,16 @@
+{
+  "commit": "adc7f1241b42e322a6451854ab7e4b4c146bf78a",
+  "aggregate_algorithm": "SHA-256 of sorted Git-tracked path bytes, NUL, and each 32-byte SHA-256 file digest concatenated",
+  "tracked_files": 132851,
+  "tracked_bytes": 2181791366,
+  "aggregate_sha256": "20c041dae77692d8cf22c25bacdf6c17a317ec2a8be8046f891a37b9cf3ae46e",
+  "key_files_sha256": {
+    "lean/ComparatorChallenges/SiegelZeros.lean": "bedaac0248a641910f79a380d9702d82c6bfbbfd3760a69d27c72c5d8fb136ce",
+    "lean/OAI/NumberTheory/SiegelZeros/Conclusions/Theorem.lean": "e9444a0cbee391a4443ebddd3ccf0a70aa857e0122321421ec984e748f9098bf",
+    "lean/OAI/NumberTheory/SiegelZeros/Characters/DirichletRealZeroBoundProof.lean": "501409712b2a4c294ff820c5602f3f4185b2a62307688ebea94d0130510ed260",
+    "lean/docs/003.md": "41e52ed718260e6feb1db218f8e97287e703cb63c6f16e6c36f5563e6e2395ce",
+    "lean/lake-manifest.json": "cf6105a25d9dca2f166b241d9191bd12c7e13305890dc9c4d0952351cccc0794",
+    "lean/lakefile.lean": "4cca977ebece444b6c999d99755c1ad3c93119bafc127ea761f7f703c7279e74",
+    "lean/lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+  }
+}

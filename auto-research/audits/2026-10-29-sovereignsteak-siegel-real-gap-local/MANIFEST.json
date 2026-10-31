@@ -1,0 +1,15 @@
+{
+  "algorithm": "sha256",
+  "sha256": {
+    "NOTICE.md": "26337570b98b4e318e96e09f159ee0d1e782170cc62ec246e5eaf13e500eec2c",
+    "README.md": "3661fc8f63a307f5b431b3304eeeef153d1afacce9aafdee46cada0bf1ad7d9a",
+    "RESULT.json": "9d9943dfc4ca6f3a7e851f3b9b996c20b4f4d177a56a59542ac39bef6e61e284",
+    "code/Scope.lean": "8d7b8ed68cad1212223ddaefe6668ba3a3cc11897e19e4640b8888955117d4f0",
+    "data/dependency-overlay.json": "386e54ed0ea21d2a8732b97090e6fef87438b12f53d9b042c87d5d10d79f3686",
+    "data/site-record.json": "ac9a5324762a479c99dc8655dec25a447482f4ef44e1da5e7dc1af636a6a8558",
+    "data/source.json": "6bee3902d392321566078290fa19991ef411d1c66ff8d0e1fff708cb0df57f41",
+    "evidence/local-build.log": "e99df0fcd6dbd6bc24deee3f6930bef1058e1942c6699f43678dd7ee97cc7e8a",
+    "evidence/local-run.json": "63ddf69c005dcdee90d64db9ea8ca6c0c0257effcc01e417c701d60bb4333b3e",
+    "verify.py": "b0d5624526cb415d60957eb513e2f052ead197a55b6f069f3f5c5b031b40d553"
+  }
+}

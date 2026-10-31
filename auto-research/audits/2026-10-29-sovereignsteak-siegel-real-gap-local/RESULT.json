@@ -1,0 +1,12 @@
+{
+  "track": "audits",
+  "status": "audit",
+  "problem": "/other/quasi-riemann",
+  "bound": "There is a uniform c > 0 for primitive nonprincipal real Dirichlet characters with c <= (1-beta) log q for every real zero 0 < beta < 1 and q >= 3",
+  "evidence_before": "OpenAI source context",
+  "base_commit": "49533557838fde36981606aa2098374b09ea8649",
+  "reproduce": "python3.12 auto-research/audits/2026-10-29-sovereignsteak-siegel-real-gap-local/verify.py",
+  "scope": "Independent local Lean 4.34.1 build, exact uniform real-zero gap statement and axiom probes, and kernel replay of two capstones. This is separate from the site's ranked zero-free half-plane threshold.",
+  "models": ["Codex GPT-6"],
+  "predecessors": ["https://github.com/openai/math/tree/adc7f1241b42e322a6451854ab7e4b4c146bf78a"]
+}
