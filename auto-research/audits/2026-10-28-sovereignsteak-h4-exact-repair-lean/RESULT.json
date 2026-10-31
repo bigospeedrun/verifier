@@ -1,0 +1,12 @@
+{
+  "track": "audits",
+  "status": "audit",
+  "problem": "/other/ordered-matrix-removal",
+  "bound": "4x4 H4 host exact unrestricted repair distance",
+  "evidence_before": "Claimed",
+  "base_commit": "49533557838fde36981606aa2098374b09ea8649",
+  "reproduce": "python3.12 auto-research/audits/2026-10-28-sovereignsteak-h4-exact-repair-lean/verify.py",
+  "scope": "Independent Lean source rebuild and kernel/scope check of the pinned exact terminal-anchor repair theorem; the 4x4 result is a related claim, not the site's 3x3 leader.",
+  "models": ["Codex GPT-6 Astra"],
+  "predecessors": ["https://github.com/erebos-labs/ordered-matrix-removal-4x4/tree/0d43f182f2ee12e27419ac4d5e32fd2d9b68ab43"]
+}

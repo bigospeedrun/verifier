@@ -1,0 +1,21 @@
+{
+  "site_updated_at": "2026-10-28T15:17:45Z",
+  "path": "/other/ordered-matrix-removal",
+  "current": {
+    "bound": "3\\times 3\\text{ pattern }(9\\text{ cells})",
+    "exactValue": "9",
+    "conditions": "",
+    "evidence": "Claimed",
+    "authors": [
+      "Ryan Shea"
+    ],
+    "date": "2026-10-12",
+    "source": "https://github.com/shea256/ordered-binary-matrix-removal/blob/35f5784da66428f27e568ede22a9f1163403fa9a/README.md#L7-L44",
+    "proofScope": "Source inspection only; no independent rerun. OrderedRemoval.Crown.no_polynomial_removal_bound states that the fixed 3\u00d73 crown has no polynomial removal bound, for arbitrarily small distance parameters and arbitrarily large hosts, with arbitrary binary repairs. Lean uses a padded host; the exact copy count and the smaller written host are outside Lean."
+  },
+  "relevant_repo": {
+    "name": "erebos-labs/ordered-matrix-removal-4x4",
+    "url": "https://github.com/erebos-labs/ordered-matrix-removal-4x4",
+    "note": "The later repair-distance theorem concerns another quantity."
+  }
+}

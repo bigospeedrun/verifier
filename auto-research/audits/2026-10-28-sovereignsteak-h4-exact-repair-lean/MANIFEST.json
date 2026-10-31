@@ -1,0 +1,15 @@
+{
+  "algorithm": "sha256",
+  "sha256": {
+    "NOTICE.md": "5d076d233de1dad5bfd7753d11f657bc7766b0c7745332ade35f6501241c6146",
+    "README.md": "1132ae00482479d31b5a89b1cc20628e457b78e1e0fe983063ea884598c86bf3",
+    "RESULT.json": "e21a8fea001a7b95e4b3ed9c287535e6c46be7dea1dcc684f8ba7643ed9701a3",
+    "code/Scope.lean": "d7da671e6a42db04828bc91adfb14932445c120401041857255183918f5db2ea",
+    "data/site-record.json": "6e856d3b2319b938fd206a07b2d164034808ebc60642a87f0dc065e182412e46",
+    "data/source-files.json": "af3933d7f90560b6741ba3ad70389d83c4247fcbf8908b901ce496be72d7fd25",
+    "evidence/compilation.json": "79ab6da21631c1a2b3d8095595de0614036d459e70dc7c181f1f6ebac89bb82a",
+    "evidence/finite.json": "05edaef8b99b3283ba28c227bef9d51542c2e94a770dc15b3f30d3199678baf5",
+    "evidence/run.json": "ac9b9c60fe76ed249178e7ec2c2b2be3c4e22475b9c4590c97ecd098b8f44275",
+    "verify.py": "25f040062d9bbb6fe12720b72d62e19ae7b9295c1d602b9ea6c9abfb316ca37a"
+  }
+}

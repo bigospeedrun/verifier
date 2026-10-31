@@ -1,0 +1,59 @@
+{
+  "controls_passed": 117,
+  "literal_physical_h1_quadruples": 35960,
+  "depths": [
+    {
+      "h": 1,
+      "n": 32,
+      "blocks": 17,
+      "physical_edits": 4,
+      "column_quadruples": 2380,
+      "repair_free": true,
+      "anchor_three_row_prefix_impossible": true,
+      "original_column_quadruples_with_copies": 2,
+      "original_first_column_terminal": true,
+      "repair_block_sha256": "2136c40b31849d7cd3d97723010454ce158882122952856d5e24a026a7b91836",
+      "seconds": 3.2669
+    },
+    {
+      "h": 2,
+      "n": 120,
+      "blocks": 35,
+      "physical_edits": 16,
+      "column_quadruples": 52360,
+      "repair_free": true,
+      "anchor_three_row_prefix_impossible": true,
+      "original_column_quadruples_with_copies": 9,
+      "original_first_column_terminal": true,
+      "repair_block_sha256": "e58a7242529c5907891f18582f63230073875cc089a8911d1656a11d44b9c29a",
+      "seconds": 0.4344
+    },
+    {
+      "h": 3,
+      "n": 352,
+      "blocks": 59,
+      "physical_edits": 64,
+      "column_quadruples": 455126,
+      "repair_free": true,
+      "anchor_three_row_prefix_impossible": true,
+      "original_column_quadruples_with_copies": 38,
+      "original_first_column_terminal": true,
+      "repair_block_sha256": "c5b6a63b60bbee83da375b056e15cec909392620315f1e09cbe051159ec5059c",
+      "seconds": 4.0238
+    },
+    {
+      "h": 4,
+      "n": 928,
+      "blocks": 95,
+      "physical_edits": 256,
+      "column_quadruples": 3183545,
+      "repair_free": true,
+      "anchor_three_row_prefix_impossible": true,
+      "original_column_quadruples_with_copies": 156,
+      "original_first_column_terminal": true,
+      "repair_block_sha256": "35c0b81b41453fe6ff8337aa30ceb4f0461a5b059be710ffc8d7c9443ee161e2",
+      "seconds": 31.6006
+    }
+  ],
+  "limits": "Finite checks only; all-depth conclusion uses ordinary proof."
+}

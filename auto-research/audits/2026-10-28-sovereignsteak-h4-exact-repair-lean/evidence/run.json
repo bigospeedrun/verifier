@@ -1,0 +1,18 @@
+{
+  "base_commit": "49533557838fde36981606aa2098374b09ea8649",
+  "source_commit": "0d43f182f2ee12e27419ac4d5e32fd2d9b68ab43",
+  "source_files_checked": 153,
+  "mathlib_commit": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+  "lean_version": "Lean (version 4.34.1, x86_64-unknown-freebsd15.1, Release)",
+  "capstone": "OrderedMatrixRemoval4.Host.TerminalAnchorRepair.exact_minimum",
+  "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ],
+  "project_modules_compiled": 40,
+  "modules_kernel_replayed": 2,
+  "build_mode": "reused_local",
+  "scope_probe": "passed",
+  "build": "passed"
+}
