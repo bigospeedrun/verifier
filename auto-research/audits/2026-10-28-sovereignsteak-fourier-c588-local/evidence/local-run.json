@@ -1,0 +1,17 @@
+{
+  "source_commit": "0e61af6ce0ef712494c93c902baefa314ef7e23c",
+  "lean_version": "Lean (version 4.34.1, x86_64-unknown-freebsd15.1, Release)",
+  "source_files_checked": 1004,
+  "dependency_git_heads_checked": 9,
+  "theorems": [
+    "OAI.PowerSaving.transform_mainC588",
+    "OAI.PowerSaving.convolution_mainC588"
+  ],
+  "scope_probe": "passed",
+  "kernel_module_replayed": "Work.FourierC588.Main",
+  "build": "passed",
+  "build_mode": "existing_local_build",
+  "source_axiom_checks": 3,
+  "positive_comparator": "PASS",
+  "stronger_negative_control": "rejected"
+}

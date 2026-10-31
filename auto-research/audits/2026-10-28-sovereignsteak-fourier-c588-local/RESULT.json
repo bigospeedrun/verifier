@@ -1,0 +1,12 @@
+{
+  "track": "audits",
+  "status": "audit",
+  "problem": "/exact-dft",
+  "bound": "Exact DFT and convolution for every positive length in O(n (log n)^(1 - 12331685/10^10)) in the source's complex RAM model",
+  "evidence_before": "Lean Verified",
+  "base_commit": "49533557838fde36981606aa2098374b09ea8649",
+  "reproduce": "python3.12 auto-research/audits/2026-10-28-sovereignsteak-fourier-c588-local/verify.py",
+  "scope": "Independent local Lean 4.34.1 rebuild of the pinned Fourier C588 theorem, exact exponent and axiom probe, positive and negative statement comparison, and kernel replay. The site already labels this bound Lean Verified.",
+  "models": ["Codex GPT-6"],
+  "predecessors": ["https://github.com/shea256/fourier-transform-below-nlogn/tree/0e61af6ce0ef712494c93c902baefa314ef7e23c"]
+}

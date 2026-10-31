@@ -1,0 +1,17 @@
+{
+  "commit": "0e61af6ce0ef712494c93c902baefa314ef7e23c",
+  "aggregate_algorithm": "SHA-256 of sorted Git-tracked path bytes, NUL, and each 32-byte SHA-256 file digest concatenated",
+  "tracked_files": 1004,
+  "tracked_bytes": 36403134,
+  "aggregate_sha256": "edb48bc7b96531458d1a57ec2ac78294561b9c7a3520fe6d00e1efcd067631dd",
+  "key_files_sha256": {
+    "LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "README.md": "634729ffbc1d1fe5338bb3fb1f95fd698a444baff74356e2d941828065c49c64",
+    "lean/complex588/Work/FourierC588/Axioms.lean": "d28d260830f6e3f392d4c09edf75b42791e570a6476bb55e83c876017311abfd",
+    "lean/complex588/Work/FourierC588/Main.lean": "dec7af02f1b81380c89d4758924af8c63b12dce7990a037f386b22f0b6c47f99",
+    "lean/complex588/Work/FourierC588/UniformFourierChallenge.lean": "0bf486c0b53e926baf73c8623e2325aa01fd23dad9afa013d4a49a99afce6eb1",
+    "lean/complex588/lake-manifest.json": "3a7cabde26b0c210cb99f8ad8d523ff7969aea6bc949b6e009a20963802161fa",
+    "lean/complex588/lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+    "lean/complex588/scripts/build_and_check.sh": "5132e8cf697e44d01f39dc7eeec40382d80d136f365499619b1f0657e6a42c93"
+  }
+}
