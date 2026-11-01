@@ -45,7 +45,8 @@ Verified. To convert an existing proof repository, see
 The verifier runs up to nine public submissions and one maintainer test in parallel,
 with one queued public run per GitHub account. A run starts only if the bound matches or beats the best Lean Verified result on that board (a Claimed result does not block it);
 otherwise, the bot replies that the submission is listed as Claimed and closes it
-(it stays listed as Claimed; a better bound is a new submission).
+(it stays listed as Claimed; a better bound is a new submission). A bound worse than the classic bound of its board
+is not a race result: the bot replies, closes the issue, and it is not listed.
 The bot posts a receipt on the issue or PR. For PRs, a Lean pass causes an
 automatic merge. A real Lean or axiom failure, or a real nanoda rejection,
 causes an automatic close. A timeout, resource limit, or infrastructure failure

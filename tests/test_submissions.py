@@ -28,6 +28,13 @@ def issue(number=42, login='submitter', **kwargs):
             'user': {'login': login}, 'created_at': '2026-10-10T12:00:00Z', 'updated_at': '2026-10-10T12:00:00Z'}
 
 
+def setUpModule():
+    # The classic-bound gate reads the site (its tests: test_subset_sum.ClassicGateTests); these scans test the other gates.
+    gate = patch.object(s, 'worse_than_classic', return_value=None)
+    gate.start()
+    unittest.addModuleCleanup(gate.stop)
+
+
 class SubmissionTests(unittest.TestCase):
     def setUp(self):
         # The selector's derivation report never reads GitHub in these tests.

@@ -41,6 +41,16 @@ A lower-ranked bound or an already verified tie receives a bot reply and remains
 checks the board and unchanged issue body again immediately before compilation.
 If either changed, no Lean run starts and the result remains Claimed.
 
+Before the record gate, an issue whose bound is worse than the classic bound of
+its board gets one reply (marker `bos-classic-v1`) and closes as not planned. It
+gets no proof run, no derivation report and no row: it is not a race result
+(Lead, 2026-11-01, issue #94). The classic bound is the score of the
+`classical-baseline` row of the board, or the exact baseline of an Other bounds
+row, read from the site's main branch; a row with no finite baseline (Catalan)
+has no such gate. A tie with the classic bound is not worse. The PR route has
+no such gate: its problems (dft, 3sum, apsp) have a profile range whose end is
+the classic bound, so the form check already refuses a worse bound.
+
 Issue batches select at most nine public requests and one per authenticated login.
 Both routes share a trusted Git-ref lease that admits one batch at a time.
 The manual verifier uses the same lease. When it cannot get the lease, the

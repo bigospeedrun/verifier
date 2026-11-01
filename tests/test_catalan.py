@@ -19,6 +19,13 @@ def body(bound='590'):
             f'### Commit SHA\n\n{"a" * 40}\n\n### Bound\n\n{bound}\n')
 
 
+def setUpModule():
+    # The classic-bound gate reads the site (its tests: test_subset_sum.ClassicGateTests); these scans test the other gates.
+    gate = patch.object(s, 'worse_than_classic', return_value=None)
+    gate.start()
+    unittest.addModuleCleanup(gate.stop)
+
+
 class StatementTests(unittest.TestCase):
     def test_the_profile_pins_the_reviewed_statement(self):
         # Reviewed on 2026-10-26 (BOS Reviewer): Statement.lean sha256 9ba7370f, Lean v4.34.1 with the dft pins (Lead, 2026-10-26: the OAI library of the existing proofs is native there).

@@ -430,6 +430,31 @@ def current_record(problem, issue_url):
             'checked_at': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')}
 
 
+def classic_bound(problem):
+    """The classic bound of a board, read from the site like the record gate: the score of the classical-baseline
+    row of a Big O board, or the exact baseline of an Other bounds row. None when it has no finite value (Catalan)."""
+    if problem in OTHER:
+        rows = 'src/lib/other-bounds.json'
+        _, files = site_files([rows])
+        family = next(f for f in json.loads(files[rows])['families'] if f['slug'] == problem)
+        return exact_value(family['baseline'].get('exactValue'))
+    _, raw = site_snapshot(problem)
+    rows = [r for r in json.loads(raw)['records'] if r['id'] == 'classical-baseline']
+    if len(rows) != 1:
+        raise ValueError('No classical baseline on the board; refuse to guess')
+    return Fraction(rows[0]['score'])
+
+
+def worse_than_classic(submission):
+    """The classic bound when the bound is worse than it, else None (Lead, 2026-11-01, issue #94: a proof of a bound
+    worse than the classic algorithm is not a race result; it gets no run and no row). A tie is not worse."""
+    classic = classic_bound(submission['problem'])
+    if classic is None:
+        return None
+    bound = Fraction(submission['bound'])
+    return classic if (bound < classic if submission['problem'] == 'dft' else bound > classic) else None
+
+
 def qualifies_for_run(submission, record):
     candidate = (Fraction(submission['bound']), 0)
     current = (Fraction(record['score']), open_rank(submission['problem']) if record['score_relation'] == 'strict-upper-bound' else 0)
@@ -460,6 +485,21 @@ def board_line(problem):
 CLAIMED_TEXT = ('This submission is listed as Claimed; the bound does not qualify for a proof run. A run starts only for a '
                 'bound that matches or beats the best Lean Verified result on its board, and that bar only gets higher, so '
                 'this {item} now closes. It stays listed as Claimed. To submit a better bound, open a new {item}.')
+
+
+CLASSIC_TEXT = ('The bound {bound} is {side} the classic bound {classic} of this board, so it is not a race result. '
+                'No proof run starts, and it is not listed. This {item} now closes. To submit a better bound, open a new {item}.')
+
+
+def close_not_listed(number, digest, item, problem, bound, classic):
+    """One reply for a bound worse than the classic bound of its board, then close it as not planned. Its marker is
+    not the Claimed marker, so the site does not list it."""
+    marker = f'<!-- bos-classic-v1 {number} {digest} -->'
+    side = 'below' if problem == 'dft' else 'above'
+    text = CLASSIC_TEXT.format(bound=bound, side=side, classic=classic, item=item)
+    line = board_line(problem)
+    comment_once(number, marker + '\n' + text + ('\n\n' + line if line else ''), key=marker)
+    api(f'issues/{number}', {'state': 'closed', 'state_reason': 'not_planned'}, method='PATCH')
 
 
 def close_claimed(number, digest, item, problem=None):
@@ -735,6 +775,10 @@ def select_bounded():
                     request = issue_request(issue, submission)
                     digest = request['submission_sha256']
                     if lease.admitted(queue_lease.admission_key(request)):
+                        continue
+                    classic = worse_than_classic(submission)
+                    if classic is not None:
+                        close_not_listed(issue['number'], digest, 'issue', submission['problem'], submission['bound'], classic)
                         continue
                     record = current_record(submission['problem'], request['issue_url'])
                     qualifies = qualifies_for_run(submission, record)

@@ -28,6 +28,13 @@ def issue(number=60, **kwargs):
             'user': {'login': 'submitter'}, 'created_at': '2026-10-23T12:00:00Z', 'updated_at': '2026-10-23T12:00:00Z'}
 
 
+def setUpModule():
+    # The classic-bound gate reads the site (its tests: test_subset_sum.ClassicGateTests); these scans test the other gates.
+    gate = patch.object(s, 'worse_than_classic', return_value=None)
+    gate.start()
+    unittest.addModuleCleanup(gate.stop)
+
+
 class StatementTests(unittest.TestCase):
     def test_the_verifier_statement_is_the_reviewed_files_joined(self):
         # One self-contained challenge: staging Statement.lean's import would take Model.lean from the submitter.

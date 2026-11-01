@@ -184,3 +184,50 @@ class CatalanSmokeTests(unittest.TestCase):
         self.assertEqual(posts,['issues/48/comments'])
 
 if __name__=='__main__':unittest.main()
+
+class SubsetSumSmokeTests(unittest.TestCase):
+    """The Subset Sum smoke before that problem opens (Lead, 2026-11-01): darkhipo's proof, cloned from its own repository
+    (issue #94), on a maintainer test issue only, test_only, never imported, nothing posted, no record gate."""
+    def setUp(self):
+        tmp=tempfile.TemporaryDirectory();self.addCleanup(tmp.cleanup);self.tmp=Path(tmp.name)
+        old=Path.cwd();os.chdir(self.tmp);self.addCleanup(os.chdir,old)
+
+    def issue(self,labels=('test',),**fields):
+        from test_submissions import issue
+        problem,bound,repo,commit=smoke.SS_FIXTURE
+        item=issue(95,**{'problem':problem,'bound':bound,'commit':commit,**fields})
+        item['body']=item['body'].replace('https://github.com/example/proof',repo)
+        return dict(item,labels=[{'name':name} for name in labels])
+
+    def dispatch(self,item,actor='Submitter'):
+        event=self.tmp/'event.json';event.write_text(json.dumps({'inputs':{'smoke_route':'issue','smoke_number':'95'}}))
+        with patch.dict(os.environ,GITHUB_EVENT_NAME='workflow_dispatch',GITHUB_EVENT_PATH=str(event),BOS_SMOKE_DISPATCH='1',
+                        GITHUB_OUTPUT=str(self.tmp/'output'),GITHUB_ACTOR=actor),patch.object(s,'api',return_value=item):
+            self.assertTrue(smoke.dispatch(None))
+        return json.loads(Path('requests/95.json').read_text())
+
+    def test_fixture(self):
+        self.assertEqual(smoke.SS_FIXTURE,('subset-sum','3/4','https://github.com/darkhipo/subset-sum-mitm',
+                                           '6c0652068fe17f08ce0087e424a4a8b98bd2664b'))
+        self.assertIn('subset-sum',s.CLOSED)
+
+    def test_dispatch_selects_one_silent_issue_entry_while_subset_sum_is_closed(self):
+        selected=self.dispatch(self.issue())
+        self.assertEqual(smoke.fixture(selected['submission']),smoke.SS_FIXTURE)
+        self.assertEqual((selected['test_only'],selected['live_smoke'],selected['lease_kind']),(True,smoke.SS_TAG,'smoke'))
+        self.assertTrue(selected['record_gate']['test_only'])
+        self.assertTrue(smoke.active(selected));self.assertTrue(smoke.silent(selected))
+        self.assertEqual(selected['inputs']['challenge_file'],'challenges/subset-sum/Statement.lean')
+        self.assertIn('matrix='+s.canonical({'include':[{'issue_number':95,'login':'submitter','route':'issue'}]}),(self.tmp/'output').read_text())
+        for field,value in [('test_only',False),('live_smoke',smoke.CATALAN_TAG),('route','pull_request'),
+                            ('submission',dict(selected['submission'],bound='2/3'))]:
+            with self.subTest(field=field,value=value):
+                self.assertFalse(smoke.active(dict(selected,**{field:value})))
+
+    def test_only_a_maintainer_test_issue_with_the_fixture_form(self):
+        for item in [self.issue(labels=()),self.issue(bound='2/3'),self.issue(commit='b'*40)]:
+            with self.subTest(body=item['body'],labels=item['labels']),self.assertRaises(ValueError):
+                self.dispatch(item)
+        with self.assertRaises(ValueError):
+            self.dispatch(self.issue(),actor='someone-else')
+        self.assertFalse(Path('requests').exists())
