@@ -63,6 +63,28 @@ theorem Race.bound : BigOSpeedrun.AverageSensitivity.Bound ((p : ℚ) / q) := by
 `Bound C` states AS(sign p) ≤ C d √n for every real polynomial p of total degree at
 most d in n variables, 1 ≤ d ≤ n, with sign(0) = 1. A smaller C is better.
 
+## Subset Sum
+
+Issue route only. Use Lean `leanprover/lean4:v4.34.1` and the Mathlib pin in
+`profiles/lake-manifest.json` (the DFT pin). The trusted statement is
+`challenges/subset-sum/Statement.lean`, namespace `BigOSpeedrun.SubsetSum`. Copy it
+unchanged into your sources (for example `Submission/Statement.lean`) and, for an
+exponent `p/q`, export:
+
+```lean
+import Submission.Statement
+
+theorem Race.bound : BigOSpeedrun.SubsetSum.SolvedInTime ((p : Rat) / q) := by
+  -- Supply the proof.
+```
+
+`SolvedInTime α` states a randomized word-RAM algorithm that runs in time
+`O(2^(α n))` on every random outcome, for every polynomial bound on the input bit
+length, and is correct with probability at least 2/3. A smaller `α` is better. The
+classic bound is 1/2 (Horowitz and Sahni): a bound above 1/2 gets no proof run and
+is not listed. See [the statement README](../challenges/subset-sum/README.md) for the
+model.
+
 ## Catalan's constant
 
 Issue route only. Use Lean `leanprover/lean4:v4.34.1` and the Mathlib pin in
@@ -101,5 +123,5 @@ one appended theorem, in `challenges/integer-factoring-sqrtlog/Challenge.lean`, 
 `leanprover/lean4:v4.33.1`. See [its README](../challenges/integer-factoring-sqrtlog/README.md).
 There is no `Race.bound` target for other scores yet.
 
-Integer multiplication and Subset Sum have no trusted statement in this gate.
+Integer multiplication has no trusted statement in this gate.
 SSSP is outside the site submission scope.

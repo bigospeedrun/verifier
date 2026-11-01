@@ -95,7 +95,7 @@ class ClassicGateTests(unittest.TestCase):
             self.assertEqual(s.worse_than_classic({'problem': 'average-sensitivity', 'bound': '15/2'}), 7)
 
     def select(self, bound):
-        """One scan over an open issue, with Subset Sum open (as after its opening commit)."""
+        """One scan over an open Subset Sum issue."""
         import queue_lease
         import derivation
         from test_submissions import issue
@@ -111,7 +111,7 @@ class ClassicGateTests(unittest.TestCase):
             old = Path.cwd(); os.chdir(tmp)
             try:
                 with patch.dict(os.environ, GITHUB_OUTPUT=str(Path(tmp) / 'output')), patch.object(queue_lease, 'acquire', return_value=lease), \
-                     patch.object(s, 'CLOSED', set()), patch.object(s, 'api', side_effect=api), \
+                     patch.object(s, 'api', side_effect=api), \
                      patch.object(s, 'site_snapshot', return_value=('c' * 40, json.dumps(BOARD).encode())), \
                      patch.object(s, 'acknowledge'), patch.object(s, 'release'), \
                      patch.object(s, 'current_record', return_value=gate) as record, \
@@ -142,10 +142,17 @@ class ClassicGateTests(unittest.TestCase):
         self.assertFalse([c for c in calls if c[0] == 'issues/60/comments' and c[1] and 'bos-classic-v1' in c[1]['body']])
 
 
-class ClosedTests(unittest.TestCase):
-    def test_subset_sum_is_closed_until_its_smoke(self):
-        self.assertIn('subset-sum', s.CLOSED)
+class OpenTests(unittest.TestCase):
+    # Subset Sum opened on 2026-11-01 after its smoke (run 41353572059, issue #98) passed.
+    def test_subset_sum_is_open(self):
+        self.assertNotIn('subset-sum', s.CLOSED)
         self.assertEqual(s.board_line('subset-sum'), 'Subset Sum board: https://bigospeedrun.com/subset-sum')
+        form = (ROOT / '.github/ISSUE_TEMPLATE/lean-submission.yml').read_text()
+        self.assertIn('options: [dft, 3sum, apsp, average-sensitivity, catalan, subset-sum]', form)
+        # Issue route only: a PR folder names only dft, 3sum or apsp.
+        sub = s.parse_body(body())
+        with self.assertRaises(ValueError):
+            s.validate_submission(dict(sub, source_subdir='submissions/subset-sum/alice-proof'))
 
 
 if __name__ == '__main__':

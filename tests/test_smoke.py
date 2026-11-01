@@ -209,9 +209,8 @@ class SubsetSumSmokeTests(unittest.TestCase):
     def test_fixture(self):
         self.assertEqual(smoke.SS_FIXTURE,('subset-sum','3/4','https://github.com/darkhipo/subset-sum-mitm',
                                            '8b105f01848fc0e370abfa3a23ed5c3de463f321'))
-        self.assertIn('subset-sum',s.CLOSED)
 
-    def test_dispatch_selects_one_silent_issue_entry_while_subset_sum_is_closed(self):
+    def test_dispatch_selects_one_silent_issue_entry(self):
         selected=self.dispatch(self.issue())
         self.assertEqual(smoke.fixture(selected['submission']),smoke.SS_FIXTURE)
         self.assertEqual((selected['test_only'],selected['live_smoke'],selected['lease_kind']),(True,smoke.SS_TAG,'smoke'))

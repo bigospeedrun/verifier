@@ -1,4 +1,4 @@
-# Subset Sum: proposed trusted statement
+# Subset Sum: trusted statement
 
 `Statement.lean` defines `BigOSpeedrun.SubsetSum.SolvedInTime (α : Rat)` for
 [the Subset Sum board](https://bigospeedrun.com/subset-sum). The bound is the
@@ -12,9 +12,9 @@ theorem Race.bound : BigOSpeedrun.SubsetSum.SolvedInTime ((p : Rat) / q) := by
   -- Supply the proof.
 ```
 
-Public submissions for this problem are not enabled. This is a proposal for
-maintainer review, as [docs/new-statements.md](../../docs/new-statements.md)
-describes. No Subset Sum bound is claimed.
+Public submissions use the issue route ([docs/targets.md](../../docs/targets.md#subset-sum)).
+The statement was reviewed as [docs/new-statements.md](../../docs/new-statements.md)
+describes. No Subset Sum bound is claimed here.
 
 ## Model
 

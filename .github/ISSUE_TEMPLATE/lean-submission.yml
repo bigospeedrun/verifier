@@ -9,7 +9,7 @@ body:
     id: problem
     attributes:
       label: Problem
-      options: [dft, 3sum, apsp, average-sensitivity, catalan]
+      options: [dft, 3sum, apsp, average-sensitivity, catalan, subset-sum]
     validations:
       required: true
   - type: input

@@ -73,19 +73,42 @@ OTHER = {'average-sensitivity', 'catalan'}
 # A profile whose proof route is not open yet: selection skips it, and only the maintainer smoke runs
 # it (smoke.py). Opening is a reviewed change that removes the problem from this set. Average
 # sensitivity opened on 2026-10-23 after its smoke (run 39943626205, issue #48) passed. Catalan opened on
-# 2026-10-27 after its split-build smoke (run 40497685416, issue #68) passed. Subset Sum (2026-10-27) waits
-# for a proof on its profile to smoke with.
-CLOSED = {'subset-sum'}
+# 2026-10-27 after its split-build smoke (run 40497685416, issue #68) passed. Subset Sum opened on 2026-11-01
+# after its smoke (run 41353572059, issue #98, darkhipo's 3/4 proof) passed.
+CLOSED = set()
+
+
+def form_error(body):
+    """Why a body is not the issue form, in words that name only our own field names (never echo the body)."""
+    headings = re.findall(r'(?m)^### (.*)$', body)
+    for name in FORM_FIELDS:
+        if headings.count(name) == 0:
+            return f'the field "{name}" is missing'
+        if headings.count(name) > 1:
+            return f'the field "{name}" appears more than once'
+    if headings != FORM_FIELDS:
+        return 'the form has another heading, or its fields are not in the order ' + ', '.join(FORM_FIELDS)
+    if not body.startswith('### '):
+        return 'the form has text before the field "Problem"'
+    parts = re.split(r'(?m)^### .*$', body)[1:]
+    for name, part in zip(FORM_FIELDS, parts):
+        value = part.strip('\n')
+        if not value:
+            return f'the field "{name}" is empty'
+        if '\n' in value:
+            return f'the field "{name}" has more than one line'
+    return 'the form does not have one blank line between each heading and its value'
 
 
 def parse_body(body):
     """Exact GitHub issue form headings and one-line values; no prose or JSON."""
     if not isinstance(body, str) or len(body.encode('utf-8')) > 4096:
         raise ValueError('Expected the four structured issue form fields')
-    pattern = r'\A### Problem\n\n([^\n]+)\n\n### Repository URL\n\n([^\n]+)\n\n### Commit SHA\n\n([^\n]+)\n\n### Bound\n\n([^\n]+)\n?\Z'
+    # Blank lines after the last field are allowed (issue #94, 2026-11-01: an edited form ended with '\n\n').
+    pattern = r'\A### Problem\n\n([^\n]+)\n\n### Repository URL\n\n([^\n]+)\n\n### Commit SHA\n\n([^\n]+)\n\n### Bound\n\n([^\n]+)\n*\Z'
     match = re.fullmatch(pattern, body.replace('\r\n', '\n'))
     if not match:
-        raise ValueError('Unexpected, duplicate, missing, or multiline issue field')
+        raise ValueError(form_error(body.replace('\r\n', '\n')))
     problem, repo, commit, bound = match.groups()
     value = validate_submission({'schema_version': 1, 'problem': problem, 'repo_url': repo,
                                  'commit': commit, 'bound': bound, 'authors': []})

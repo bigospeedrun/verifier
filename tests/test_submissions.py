@@ -89,6 +89,28 @@ class SubmissionTests(unittest.TestCase):
                      body().replace('1/1000','1/0'), body().replace('dft','sssp'), body().replace('1'*40,'main')]:
             with self.subTest(text=text), self.assertRaises(ValueError): s.parse_body(text)
 
+    def test_blank_lines_after_the_last_field_are_allowed(self):
+        # Issue #94 (2026-11-01): an edited form ended with two line breaks and was refused.
+        for text in [body().rstrip('\n'), body(), body()+'\n', body()+'\n\n\n', body().replace('\n','\r\n')+'\r\n']:
+            with self.subTest(text=text):
+                self.assertEqual(s.parse_body(text), s.parse_body(body()))
+        for text in [body()+' ', body()+'\n \n', body()+'\nx']:
+            with self.subTest(text=text), self.assertRaises(ValueError): s.parse_body(text)
+
+    def test_a_form_error_names_the_field_and_never_quotes_the_body(self):
+        cases = [(body().replace('### Commit SHA\n\n'+'1'*40+'\n\n', ''), 'the field "Commit SHA" is missing'),
+                 (body()+'\n### Bound\n\n1\n', 'the field "Bound" appears more than once'),
+                 (body().replace('### Bound', '### Notes <b>evil</b>\n\nx\n\n### Bound'), 'the form has another heading, or its fields are not in the order Problem, Repository URL, Commit SHA, Bound'),
+                 ('Hello\n\n'+body(), 'the form has text before the field "Problem"'),
+                 (body().replace('dft\n', '\n'), 'the field "Problem" is empty'),
+                 (body().replace('https://github.com/example/proof', 'https://github.com/example/proof\n#eval evil'), 'the field "Repository URL" has more than one line'),
+                 (body().replace('### Problem\n\n', '### Problem\n'), 'the form does not have one blank line between each heading and its value')]
+        for text, reason in cases:
+            with self.subTest(reason=reason), self.assertRaises(ValueError) as error:
+                s.parse_body(text)
+            self.assertEqual(str(error.exception), reason)
+            self.assertNotIn('evil', str(error.exception))
+
     def test_raw_and_canonical_hashes(self):
         first=body(); second=body().replace('\n','\r\n')
         self.assertEqual(s.submission_hash(s.parse_body(first)),s.submission_hash(s.parse_body(second)))
