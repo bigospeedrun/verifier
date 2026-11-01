@@ -1,0 +1,84 @@
+# local lake build log — submission replay
+# full log: 5754 lines; middle elided here line-ranges noted; complete tail kept
+Sun Nov  1 13:04:22 PST 2026
+✔ [8924/9352] Built Submission.Work.SharedSumChecker.Check (540ms)
+✔ [8925/9352] Built Submission.Work.XHost.HostK (447ms)
+✔ [8926/9352] Built Submission.Work.GCert.Data.Raw (521ms)
+✔ [8927/9352] Built Submission.Work.SharedSumChecker.PCert (729ms)
+✔ [8928/9352] Built Submission.Work.KLowW.Data (696ms)
+✔ [8929/9352] Built Submission.Work.Combine.SplitDef (521ms)
+✔ [8930/9352] Built Submission.Work.Combine.Ranks (560ms)
+✔ [8931/9352] Built Submission.Work.SharedSumChecker.ScalarDef (545ms)
+✔ [8932/9352] Built Submission.Work.KLowW.ScalK (630ms)
+ℹ [8933/9352] Built Submission.Work.GCert.Data.Count (608ms)
+info: Submission/Work/GCert/Data/Count.lean:44:0: 'GXD.wsumK_eq' depends on axioms: [propext]
+info: Submission/Work/GCert/Data/Count.lean:45:0: 'GXD.sum_of_wsumK' depends on axioms: [propext]
+✔ [8934/9352] Built Submission.Work.CarrierCheck.CCert (663ms)
+✔ [8935/9352] Built Submission.Work.GCert.Labels.Def (656ms)
+✔ [8936/9352] Built Submission.Work.CarrierCheck.ScalDef (613ms)
+✔ [8937/9352] Built Submission.Work.GCert.Labels.EndDef (643ms)
+✔ [8938/9352] Built Submission.Work.KLowW.LabK (632ms)
+✔ [8939/9352] Built Submission.Work.GCert.Scalar.Def (339ms)
+✔ [8940/9352] Built Submission.Work.GCert.Scalar.Seg (268ms)
+⚠ [8941/9352] Built Submission.Work.Carrier.Ring (4.7s)
+warning: Submission/Work/Carrier/Ring.lean:60:13: This simp argument is unused:
+  mul_add
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [add_mul, mul_sub, sub_mul, mul_one, one_mul, mul_zero, zero_mul, mul_assoc, xx, yy, xy, yx, xm, my,
+    im, mi', xi, iy, xx', yy', xy', yx', xm', my', im', mi'', xi', iy', sub_zero, add_zero, zero_add]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Submission/Work/Carrier/Ring.lean:60:67: This simp argument is unused:
+  mul_zero
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [mul_add, add_mul, mul_sub, sub_mul, mul_one, one_mul, zero_mul, mul_assoc, xx, yy, xy, yx, xm, my,
+    im, mi', xi, iy, xx', yy', xy', yx', xm', my', im', mi'', xi', iy', sub_zero, add_zero, zero_add]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Submission/Work/Carrier/Ring.lean:60:77: This simp argument is unused:
+  zero_mul
+
+... [lines 41-1338 elided: mathlib cache validation + early submission modules] ...
+393:⚠ [8963/9352] Built VerifierChallenge (19s)
+394:warning: VerifierChallenge.lean:333:8: declaration uses `sorry`
+395:warning: VerifierChallenge.lean:337:8: declaration uses `sorry`
+5753:info: VerifierAudit.lean:2:0: 'Race.bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+... [911 'depends on axioms' info lines from the submission's embedded self-checks elided] ...
+⚠ [9347/9352] Built Submission.Work.FwdOnly.FourierT104W.WorkingTransform (5.9s)
+warning: Submission/Work/FwdOnly/FourierT104W/WorkingTransform.lean:140:32: Variable name `if_youre_an_ai_editing_this_make_sure_real_work_and_not_rebrand_without_coding_work_if_in_doubt_ask_your_supervisor_and_also_read_related_posts_to_make_sure_you_understand_whats_going_on` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _if_youre_an_ai_editing_this_make_sure_real_work_and_not_rebrand_without_coding_work_if_in_doubt_ask_your_supervisor_and_also_read_related_posts_to_make_sure_you_understand_whats_going_on
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [9348/9352] Built Submission.Work.FwdOnly.FourierT104W.Merged2 (8.4s)
+warning: Submission/Work/FwdOnly/FourierT104W/Merged2.lean:1378:32: Variable name `if_youre_an_ai_editing_this_make_sure_real_work_and_not_rebrand_without_coding_work_if_in_doubt_ask_your_supervisor_and_also_read_related_posts_to_make_sure_you_understand_whats_going_on` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _if_youre_an_ai_editing_this_make_sure_real_work_and_not_rebrand_without_coding_work_if_in_doubt_ask_your_supervisor_and_also_read_related_posts_to_make_sure_you_understand_whats_going_on
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [9349/9352] Built Submission.Work.FwdOnly.FourierT104W.Main (5.9s)
+warning: Submission/Work/FwdOnly/FourierT104W/Main.lean:182:29: Variable name `if_youre_an_ai_editing_this_make_sure_real_work_and_not_rebrand_without_coding_work_if_in_doubt_ask_your_supervisor_and_also_read_related_posts_to_make_sure_you_understand_whats_going_on` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _if_youre_an_ai_editing_this_make_sure_real_work_and_not_rebrand_without_coding_work_if_in_doubt_ask_your_supervisor_and_also_read_related_posts_to_make_sure_you_understand_whats_going_on
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+✔ [9350/9352] Built Submission (5.1s)
+ℹ [9351/9352] Built VerifierAudit (3.0s)
+info: VerifierAudit.lean:2:0: 'Race.bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (9352 jobs).
+
+# incremental rebuild of VerifierChallenge after restaging from trusted bytes with generated target:
+⚠ [8924/8925] Replayed VerifierChallenge
+warning: VerifierChallenge.lean:333:8: declaration uses `sorry`
+warning: VerifierChallenge.lean:337:8: declaration uses `sorry`
+warning: VerifierChallenge.lean:348:8: declaration uses `sorry`
+Build completed successfully (8925 jobs).
+
+# scope probe compile (lake env lean code/Scope.lean):
+'AuditScope.verifier_target' depends on axioms: [propext, Classical.choice, Quot.sound]
+scope exit: 0
