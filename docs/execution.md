@@ -215,7 +215,7 @@ Subset Sum opens only after this smoke passes (`submissions.CLOSED`). It runs
 the same way as the Catalan smoke, on one job (no split build). A maintainer
 opens a test issue with the form of `smoke.SS_FIXTURE`: problem `subset-sum`,
 repository URL `https://github.com/darkhipo/subset-sum-mitm`, commit
-`6c0652068fe17f08ce0087e424a4a8b98bd2664b`, bound `3/4`, and the label `test`.
+`8b105f01848fc0e370abfa3a23ed5c3de463f321`, bound `3/4`, and the label `test`.
 Then dispatch **Verify direct submissions** with `smoke_route: issue` and that
 issue number. The run clones the repository of the author (verifier issue
 #94); do not copy its files into a `bigospeedrun` repository, because it has

@@ -24,11 +24,11 @@ CATALAN_TAG = 'catalan-a3d4849-split-v1'
 # The Subset Sum smoke that must pass before that problem opens (Lead, 2026-11-01): darkhipo's public proof of the
 # bound 3/4 (verifier issue #94), cloned from its own repository as the issue source and never copied (it has no
 # license). Issue route only. 3/4 is above the classic bound 1/2, so this proof gives no row on the site. The pin is
-# 6c06520, not 5d6d38f of the issue: the same 24 source files, without 152 tracked .lake build files (the verifier
-# stages only the Lean sources of the source roots, so those files were never used; the clean tree is the fixture).
+# 8b105f0, not 5d6d38f of the issue: 6c06520 removed 152 tracked .lake build files (never staged), and 8b105f0 adds
+# 'set_option autoImplicit true' to 16 modules (the smoke of 6c06520, run 41345507330, failed on autoImplicit = false).
 SS_FIXTURE = ('subset-sum', '3/4', 'https://github.com/darkhipo/subset-sum-mitm',
-              '6c0652068fe17f08ce0087e424a4a8b98bd2664b')
-SS_TAG = 'subset-sum-6c06520-v1'
+              '8b105f01848fc0e370abfa3a23ed5c3de463f321')
+SS_TAG = 'subset-sum-8b105f0-v1'
 # Smokes that post nothing and run only on a maintainer test issue.
 SILENT = {CATALAN_TAG: CATALAN_FIXTURE, SS_TAG: SS_FIXTURE}
 
