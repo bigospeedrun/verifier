@@ -165,6 +165,10 @@ def corpus(reader, problem):
         raise NotComputed('invalid site commit')
     meta = reader.get(SITE, f'contents/data/direct-submissions.json?ref={site}')
     states = json.loads(reader.blob(SITE, meta['sha']))['final_states']
+    # A withdrawn submission is not a source (site data/direct-notes.json, 'withdrawn'; its folder stays in
+    # main). #43/#44/#46 were copies of #41, so #91 by #41's author read as closest to #43 (2026-11-01).
+    notes = reader.get(SITE, f'contents/data/direct-notes.json?ref={site}')
+    withdrawn = set(json.loads(reader.blob(SITE, notes['sha'])).get('withdrawn') or {})
     # An Other bounds row has no board file: its issue authors stay unknown (reported, never held).
     board = {'records': []} if problem in s.OTHER else json.loads(s.site_snapshot(problem)[1])
     authors = {}
@@ -177,7 +181,7 @@ def corpus(reader, problem):
     for state in states.values():
         sub = state.get('submission') or {}
         key = state.get('key')
-        if state.get('decision') != 'lean-verified' or sub.get('problem') != problem or not isinstance(key, str):
+        if state.get('decision') != 'lean-verified' or sub.get('problem') != problem or not isinstance(key, str) or key in withdrawn:
             continue
         source = (sub.get('repo_url'), sub.get('commit'), sub.get('source_subdir'))
         if source in seen:

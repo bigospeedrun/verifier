@@ -29,7 +29,7 @@ def blob(text):
 class FakeReader(d.Reader):
     """Serves one verified PR folder (earlier author) and one verified issue repository."""
 
-    def __init__(self, folder_files, issue_files=None, issue_login='someone', limit=d.CALLS, fail=()):
+    def __init__(self, folder_files, issue_files=None, issue_login='someone', limit=d.CALLS, fail=(), prs=None, withdrawn=None):
         super().__init__(limit)
         self.blobs, self.fail = {}, set(fail)
         tree = []
@@ -46,12 +46,19 @@ class FakeReader(d.Reader):
         states = {f'direct-pr-41:{"1" * 64}': {'key': 'direct-pr-41', 'decision': 'lean-verified', 'submission': {
             'problem': 'dft', 'repo_url': 'https://github.com/bigospeedrun/verifier', 'commit': 'a' * 40,
             'source_subdir': 'submissions/dft/halitziyakartal-v4'}}}
+        for key, folder in (prs or {}).items():  # More verified PR folders: {'direct-pr-43': 'ptweezy-copy'}.
+            states[f'{key}:{"3" * 64}'] = {'key': key, 'decision': 'lean-verified', 'submission': {
+                'problem': 'dft', 'repo_url': 'https://github.com/bigospeedrun/verifier', 'commit': 'a' * 40,
+                'source_subdir': f'submissions/dft/{folder}'}}
         if issue_files:
             states[f'direct-issue-19:{"2" * 64}'] = {'key': 'direct-issue-19', 'decision': 'lean-verified', 'submission': {
                 'problem': 'dft', 'repo_url': 'https://github.com/someone/proof', 'commit': 'b' * 40}}
         raw = json.dumps({'final_states': states}).encode()
         self.blobs[p.blob_sha(raw)] = raw
         self.site_blob = p.blob_sha(raw)
+        notes = json.dumps({'withdrawn': withdrawn or {}}).encode()
+        self.blobs[p.blob_sha(notes)] = notes
+        self.notes_blob = p.blob_sha(notes)
         self.board = json.dumps({'records': [{'id': 'direct-issue-19', 'authors': [{'name': issue_login}]}] if issue_login else []}).encode()
         self.issue_login = None  # Set by a test to name the issue's submitter when no board row does.
 
@@ -68,6 +75,8 @@ class FakeReader(d.Reader):
             return {'sha': SITE_SHA}
         if (repo, path) == (d.SITE, f'contents/data/direct-submissions.json?ref={SITE_SHA}'):
             return {'sha': self.site_blob}
+        if (repo, path) == (d.SITE, f'contents/data/direct-notes.json?ref={SITE_SHA}'):
+            return {'sha': self.notes_blob}
         if path == 'git/refs/heads/main':
             return {'object': {'sha': MAIN_SHA}}
         if path == f'git/trees/{MAIN_SHA}:submissions/dft?recursive=1':
@@ -134,6 +143,24 @@ class DerivationTests(unittest.TestCase):
         # The author's own earlier folder (login prefix) is never the match.
         own = run(earlier(), copy(**{'Submission.lean': EARLIER['Submission.lean'].replace('30103', '30201')}), login='HalitZiyaKARTAL', key='direct-pr-50')
         self.assertEqual((own['status'], own['hold']), ('no_match', False))
+
+    def test_a_withdrawn_copy_of_the_authors_own_work_is_not_a_source(self):
+        # 2026-11-01: #43 (ptweezy, withdrawn) is a copy of #41; a constants-only PR by #41's author must not
+        # be held as derived from #43. The folder stays in main; the site's withdrawn list leaves it out.
+        withdrawn_copy = copy(**{'Submission.lean': EARLIER['Submission.lean'].replace('30103', '30201')})
+        folders = {'halitziyakartal-v4': EARLIER, 'ptweezy-copy': withdrawn_copy}
+        mine = copy(**{'Submission.lean': EARLIER['Submission.lean'].replace('30103', '31278')})
+        def report(withdrawn):
+            reader = FakeReader(folders, prs={'direct-pr-43': 'ptweezy-copy'}, withdrawn=withdrawn)
+            return run(reader, mine, login='HalitZiyaKARTAL', key='direct-pr-91')
+        held = report({})  # Without the list, the copy is another author's closest source.
+        self.assertEqual((held['closest']['key'], held['constants_only'], held['hold']), ('direct-pr-43', True, True))
+        free = report({'direct-pr-43': 'Withdrawn by its submitter on 2026-10-23.'})
+        self.assertEqual((free['status'], free['hold']), ('no_match', False))
+        # Another author's constants-only copy of a withdrawn entry's base is still held through #41.
+        other = run(FakeReader(folders, prs={'direct-pr-43': 'ptweezy-copy'}, withdrawn={'direct-pr-43': 'x'}), mine,
+                    login='someone-else', key='direct-pr-92')
+        self.assertEqual((other['closest']['key'], other['hold']), ('direct-pr-41', True))
 
     def test_an_issue_source_with_an_unknown_author_reports_but_never_holds(self):
         constants = copy(**{'Submission.lean': EARLIER['Submission.lean'].replace('30103', '30201')})
