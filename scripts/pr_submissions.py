@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path, PurePosixPath
 import re
+import time
 import urllib.error
 import urllib.request
 import urllib.parse
@@ -637,7 +638,7 @@ def publish_pr(artifact_override=None, stage="final"):
                 raise ValueError('GitHub declined the merge')
             envelope['merge_commit'] = result['sha']
         except (urllib.error.HTTPError, ValueError):
-            current = api(f'pulls/{number}')
+            current = settled_pr(number, request['head_sha'])
             merge_commit = current.get('merge_commit_sha') or ''
             if current['head']['sha'] == request['head_sha'] and current.get('merged') is True and SHA.fullmatch(merge_commit):
                 # The verified head is merged: the other publisher watcher of this checkpoint merged it first
@@ -721,13 +722,30 @@ def hold_ping(number, route, digest, version, report):
                    f'{"PR" if kind == "pr" else "issue"}.', api, key=marker)
 
 
+# Two publisher runs can watch one verify run (workflow_run fires in_progress twice). On 2026-11-01 both published
+# #91's Lean checkpoint: one merged it, the other's merge was declined, and its read 1 s later did not yet show the
+# merge, so it labelled the merged PR for review and the site held it. A declined merge reads the PR again for a
+# short time before it counts as declined.
+MERGE_SETTLE_SECONDS = (3, 5, 10)
+
+
+def settled_pr(number, head_sha):
+    current = api(f'pulls/{number}')
+    for wait in MERGE_SETTLE_SECONDS:
+        if current.get('merged') is True or current['head']['sha'] != head_sha or current.get('state') != 'open':
+            break
+        time.sleep(wait)
+        current = api(f'pulls/{number}')
+    return current
+
+
 def label_review(number, run_key):
     """Label the PR and ping the maintainer once per verify run attempt (run_key is
     '<run id> <attempt>'). Every publisher watcher of a run can reach this; on 2026-10-21
     three watchers each posted the ping on PR #29."""
     add_review_label(number)
     marker = f'<!-- bos-review-ping {number} {run_key} -->'
-    s.comment_once(number, marker + '\n@nmamano This submission stays open because verification or publication needs review.', api, key=marker)
+    s.comment_once(number, marker + '\n@nmamano This submission needs review: its verification or publication did not end normally. The receipt and the run say why.', api, key=marker)
 
 
 if __name__ == '__main__':

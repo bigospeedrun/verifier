@@ -24,7 +24,9 @@ limits do not prevent this result; real rejection does. The bot comments a recei
 and merges a qualifying PR. It comments and closes a real Lean/axiom/nanoda failure.
 A timeout, resource limit, cancellation, setup failure, missing artifact, ambiguous
 outcome, or failed merge stays open with `verification-needs-review` and a
-maintainer mention. A new PR commit triggers a new check. The bot never bypasses
+maintainer mention. A declined merge is read again for a few seconds first: two publisher runs can watch
+one verify run, and when the other one merged the verified head, that is the merge, with no label or mention.
+A new PR commit triggers a new check. The bot never bypasses
 branch protection or retries a merge without the verified SHA.
 
 ## Security design

@@ -193,6 +193,7 @@ class PRTests(unittest.TestCase):
         run={'id':123,'run_attempt':1,'repository':{'full_name':s.REPOSITORY},'head_repository':{'full_name':s.REPOSITORY},'head_sha':'b'*40,'head_branch':'main','path':p.WORKFLOW,'event':'schedule','status':'completed','workflow_id':55,'conclusion':conclusion}
         run['event']=run_event
         pr_reads=0
+        pending_merge,self.sleeps=[],[]
         def api(path,data=None,method=None,raw=False):
             nonlocal pr_reads
             if data is not None:
@@ -206,6 +207,7 @@ class PRTests(unittest.TestCase):
                         pr.update(merged=True,merge_commit_sha='d'*40)
                         raise urllib.error.HTTPError(path,502,'Bad Gateway',None,None)
                     if merged_by_other=='moved':pr.update(merged=True,merge_commit_sha='d'*40);pr['head']['sha']='e'*40;return {'merged':False}
+                    if merged_by_other=='late':pending_merge.append(2);return {'merged':False}  # the other merge shows on the 2nd read
                     return {'merged':False}
                 return {'merged':True,'sha':'d'*40} if path.endswith('/merge') else {}
             if path=='actions/runs/123':return run
@@ -213,6 +215,9 @@ class PRTests(unittest.TestCase):
             if path=='actions/artifacts/99/zip':return buf.getvalue()
             if path=='pulls/7':
                 pr_reads+=1
+                if pending_merge:
+                    pending_merge[0]-=1
+                    if pending_merge[0]<=0:pending_merge.clear();pr.update(merged=True,state='closed',merge_commit_sha='d'*40)
                 if change_before_close and pr_reads>1:
                     pr['head']['sha']='e'*40
                 return pr
@@ -223,7 +228,7 @@ class PRTests(unittest.TestCase):
             old=Path.cwd();os.chdir(tmp)
             try:
                 event=Path('event.json');event.write_text(json.dumps({'workflow_run':{'id':123,'run_attempt':1}}))
-                with patch.dict(os.environ,GITHUB_EVENT_PATH=str(event),GITHUB_SHA='b'*40,GITHUB_RUN_ID='456',GITHUB_RUN_ATTEMPT=publisher_attempt),patch.object(p,'api',side_effect=api),patch.object(p,'inspect_pr',return_value=dict(request,head_sha=pr['head']['sha'])),patch.object(p,'validate_controller',side_effect=(unsafe if isinstance(unsafe,Exception) else p.LayoutError('protected workflow changed')) if unsafe else None):
+                with patch.dict(os.environ,GITHUB_EVENT_PATH=str(event),GITHUB_SHA='b'*40,GITHUB_RUN_ID='456',GITHUB_RUN_ATTEMPT=publisher_attempt),patch.object(p,'api',side_effect=api),patch.object(p.time,'sleep',side_effect=self.sleeps.append),patch.object(p,'inspect_pr',return_value=dict(request,head_sha=pr['head']['sha'])),patch.object(p,'validate_controller',side_effect=(unsafe if isinstance(unsafe,Exception) else p.LayoutError('protected workflow changed')) if unsafe else None):
                     artifact=api('actions/runs/123/artifacts?per_page=100')['artifacts'][0]
                     p.publish_pr(artifact,stage=stage)
                 published=Path('published/pr-submission-7'+suffix+'.json')
@@ -353,8 +358,16 @@ class PRTests(unittest.TestCase):
         result,calls=self.publish_fixture(merged_by_other='moved')
         self.assertEqual((result['disposition'],result['importable'],result['merge_commit']),('keep_open',False,None))
         self.assertIn('newer commit',result['reason'])
-        # Declined at the same head and not merged: review, with the label and the ping.
+        # 2026-11-01, #91: two publisher runs of one verify run; the other merge shows only on a later read.
+        for stage in ['lean','final']:
+            with self.subTest(stage=stage,case='late'):
+                result,calls=self.publish_fixture(stage=stage,merged_by_other='late')
+                self.assertEqual((result['disposition'],result['importable'],result['merge_commit']),('merge',True,'d'*40))
+                self.assertFalse(any('labels' in c[0] or '@nmamano' in str(c[1]) for c in calls))
+                self.assertEqual(self.sleeps,[3])
+        # Declined at the same head and not merged: review, with the label and the ping, after the short re-reads.
         result,calls=self.publish_fixture(merged_by_other='no')
+        self.assertEqual(self.sleeps,list(p.MERGE_SETTLE_SECONDS))
         self.assertEqual((result['disposition'],result['importable']),('keep_open',False))
         self.assertTrue(any(c[0].endswith('/labels') for c in calls))
         self.assertTrue(any('@nmamano' in str(c[1]) for c in calls))
@@ -447,6 +460,8 @@ class PRTests(unittest.TestCase):
             for _ in range(3):p.label_review(29,'39515983587 1')
             self.assertEqual(len(posts),1)
             self.assertIn('@nmamano',posts[0]);self.assertTrue(posts[0].startswith('<!-- bos-review-ping 29 39515983587 1 -->'))
+            # A ping can reach a merged PR (a nanoda block after a Lean merge): it never says the PR stays open.
+            self.assertNotIn('stays open',posts[0])
             # Another run attempt pings again.
             p.label_review(29,'39515983587 2')
             self.assertEqual(len(posts),2)
