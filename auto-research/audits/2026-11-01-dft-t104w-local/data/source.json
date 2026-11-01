@@ -1,0 +1,22 @@
+{
+  "repo": "https://github.com/HalitZiyaKARTAL/bigO-dft-verifier.git",
+  "commit": "524a8af8a277ca50c1237068c2b45430a03f547e",
+  "submission_dir": "submissions/dft/halitziyakartal-halitziyav5-pre-pi",
+  "submission_lean_files": 425,
+  "submission_lean_bytes": 8569508,
+  "largest_lean_file_bytes": 1073837,
+  "repo_tracked_files_at_sha": 6353,
+  "key_files_sha256": {
+    "Submission.lean": "a58e01fd0b34c257e57b59d4aea444f9babfed53955149d156a4cbff6df13d3f",
+    "manifest.json": "7bdbeff6d31405d1e720bb7ee27b70e42251edc4334c4c532fbfdeed55575baa",
+    "Submission/OAI/Computability/FourierTransform/RAM.lean": "3f8275fe14fd9e1a8c5da19bf4a62f206b0ac8223f3da39380ab21a45089564e",
+    "Submission/OAI/Computability/FourierTransform/Goal.lean": "8c8d7d6574ba76e68423c20d0f906a4bfb72bcbf2388428adf6e62ee5eee89c5",
+    "Submission/OAI/Computability/FourierCircuit/Core.lean": "08eddfdd51669e64adff17f021e27d5b874bede88334ae299f91c7f3c3b88acf",
+    "Submission/Work/FwdOnly/FourierT104W/Goal.lean": "a7a3c1e5dc6bd4aafddde7faa8c4df8b09df2b6f1b5fcf43c495482e5f2bb991",
+    "Submission/Work/FwdOnly/FourierT104W/Main.lean": "c1bb2b15882f11a1f36348f7e78ff0d9a3d86927a66c122efcec21c1114cf5c6"
+  },
+  "challenge_sha256": "c6f3783fb88eb4628417180a748c8a402d89a6d3778ed36111eeb9956a70f50f",
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "mathlib_rev": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+  "challenge_note": "challenge_sha256 is the trusted bytes from bigospeedrun/verifier main (LF); the fork's tracked copy is identical modulo CRLF"
+}

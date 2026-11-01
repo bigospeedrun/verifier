@@ -1,0 +1,27 @@
+{
+  "machine": "Apple M4 Max, 128 GB RAM, macOS 26.6.2",
+  "lean": "leanprover/lean4:v4.34.1 (elan toolchain)",
+  "lake": "/opt/homebrew/bin/lake",
+  "mathlib": "d13f23b723b8a846827a245b89c10fc7d3f11612 (restored from a warm local cache of the verifier's profiles/lake-manifest.json pins; traces validated by lake)",
+  "build_targets": [
+    "VerifierChallenge",
+    "VerifierAudit"
+  ],
+  "build_jobs_total_schedule": 9352,
+  "build_wall_seconds": 624,
+  "build_result": "exit 0, no errors; warnings only (unused variables, including the author's anti-rebrand canary variable names; 2 sorry warnings from the trusted challenge's own placeholder theorems; 1 sorry from the verifier-generated Race.bound target inside VerifierChallenge)",
+  "submission_modules_built_from_source": 427,
+  "axioms_Race_bound": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ],
+  "axioms_AuditScope_verifier_target": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ],
+  "scope_probe": "exit 0: verifier-generated target at 312780997/100000000000 discharged verbatim by Race.bound; DFTProgram = rfl-expansion of the full all-lengths exact-RAM body; statedSavingT104W = 312780997/10^11 < 727/232431",
+  "model_diff": "RAM section of trusted challenge vs Submission/OAI/Computability/FourierTransform/RAM.lean: identical after comment-stripping and whitespace normalization (5850 chars); all statement-chain declarations match per declaration",
+  "challenge_bytes": "staged from bigospeedrun/verifier main (sha256 3a646acd...); the fork's tracked copy is byte-identical modulo CRLF line endings"
+}
