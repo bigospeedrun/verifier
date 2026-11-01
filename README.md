@@ -51,6 +51,10 @@ automatic merge. A real Lean or axiom failure, or a real nanoda rejection,
 causes an automatic close. A timeout, resource limit, or infrastructure failure
 leaves the PR open with a review label and a maintainer mention. A below-record
 PR is closed and stays listed as Claimed. Scheduled checks pick up new PR commits.
+On an issue, a "Not verified" result gives its reason on the next line. A setup
+failure caused by the submission itself (for example, no `Submission.lean` at the
+root of the repository) closes the issue: fix it and open a new issue. Other setup
+failures can be temporary and stay open for review.
 
 Before merging, the bot checks that the PR adds only its own new submission
 folder and that its head is the verified commit. An unsafe diff is closed with a reason.

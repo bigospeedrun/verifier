@@ -400,6 +400,42 @@ class SubmissionTests(unittest.TestCase):
         self.assertIn('To submit a corrected proof, open a new issue. This issue now closes.',comment['body'])
         self.assertEqual(calls[1],('PATCH','issues/42',{'state':'closed','state_reason':'not_planned'}))
 
+    def test_a_not_verified_result_gives_its_reason_on_the_second_line_and_keeps_the_site_phrases(self):
+        # (g) The site parses the first line and the two NOT_FINAL phrases (bigospeedrun/site data/direct_refresh.py);
+        # keep them byte for byte. (d) The reason comes after the first line.
+        commit=self.live()['submission']['commit']
+        rejected=self.receipt();rejected['kernels']['lean']={'status':'rejected','reason':'lean_kernel_rejection'}
+        comment,_=self.status_report(rejected)
+        lines=comment['body'].split('\n')
+        self.assertRegex(lines[0],r'^<!-- bos-direct-v1 42 [0-9a-f]{64} [0-9a-f]{64} -->$')
+        self.assertEqual(lines[1],f'Not verified for source commit `{commit}`.')
+        self.assertEqual(lines[2],"Reason: Lean's kernel rejected the proof.")
+        self.assertEqual(lines[3],'')
+        self.assertIn('This result belongs to an older or closed submission. The current issue is not verified by this result.',s.Path(s.__file__).read_text())
+        self.assertIn('This submission remains Claimed; no proof run started.',s.Path(s.__file__).read_text())
+        comment,_=self.status_report(self.receipt(),gate={'status':'claimed_only','reason':'record_or_issue_changed','record_gate':{'score':'1/2000','score_relation':'attained'}})
+        self.assertIn('remains Claimed; no proof run started',comment['body'])
+        # A pass has no reason line.
+        comment,_=self.status_report(self.receipt())
+        self.assertNotIn('Reason:',comment['body'])
+
+    def test_a_deterministic_setup_failure_closes_and_a_temporary_one_stays_open(self):
+        # (e) verifier#89, 2026-10-30: a zip-only repository failed setup and stayed open with no reason.
+        missing={'schema_version':1,'status':'setup_failed','steps':[],'kernels':{},'error':'solution module is missing'}
+        comment,calls=self.status_report(missing)
+        self.assertEqual(comment['close'],'not_planned')
+        self.assertIn('Reason: the submission has no Submission.lean at the root of its source. The verifier reads Lean files only, not an archive.',comment['body'])
+        self.assertIn('To submit a corrected proof, open a new issue. This issue now closes.',comment['body'])
+        self.assertEqual(calls[1],('PATCH','issues/42',{'state':'closed','state_reason':'not_planned'}))
+        # Untrusted or unknown error text is never quoted, and a temporary failure stays open.
+        for error in ['clone failed: network', 'solution module is missing @everyone', None]:
+            receipt={'schema_version':1,'status':'setup_failed','steps':[],'kernels':{}}
+            if error:receipt['error']=error
+            comment,calls=self.status_report(receipt)
+            self.assertNotIn('close',comment);self.assertEqual(len(calls),1)
+            self.assertIn('Reason: the verifier setup failed before the proof check. This can be a temporary problem; a maintainer looks at it.',comment['body'])
+            self.assertNotIn('network',comment['body']);self.assertNotIn('@everyone',comment['body'])
+
     def test_ambiguous_result_stays_open(self):
         receipt=self.receipt();receipt['kernels']['lean']['status']='incomplete'
         comment,calls=self.status_report(receipt)

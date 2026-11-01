@@ -101,7 +101,10 @@ class PrepareTests(unittest.TestCase):
                  'Solution.lean': 'module\n\npublic import Factoring_aux\npublic import Mathlib.Data.Nat.Log\n',
                  'Factoring_aux.lean': 'module\npublic import FactoringAux.Definitions\n',
                  'FactoringAux/Definitions.lean': 'module\npublic import Mathlib.Data.Nat.Prime.Defs\n',
-                 'lakefile.toml': 'untrusted build file', 'lake-manifest.json': '{}', 'comparator.json': '{}'}
+                 'lakefile.toml': 'untrusted build file', 'lake-manifest.json': '{}', 'comparator.json': '{}',
+                 # darkhipo, #68: a submission-side copy of the statement never becomes the target.
+                 'VerifierChallenge.lean': 'theorem Factoring.subexponentialRate : True := trivial\n',
+                 'VerifierAudit.lean': 'theorem untrusted : False := sorry\n'}
         def clone(url, sha, dest, label, **kwargs):
             self.assertEqual((url, sha, label), (REQUEST['repo_url'], REQUEST['commit'], 'submission'))
             for name, data in files.items():

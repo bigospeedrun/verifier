@@ -77,3 +77,52 @@ def compile_error_comment(receipt):
     text = ' '.join(str(lean.get('diagnostic', 'Lean compilation failed')).split())[:500]
     text = html.escape(text).replace('@', '&#64;').replace('`', '&#96;').replace('[', '&#91;').replace(']', '&#93;')
     return '\n\nCompile error:\n\n> ' + text
+
+
+# Prepare errors that come from the submission itself (scripts/verifier.py): the same source fails the same way
+# on every run, so its issue closes and the author opens a new one (verifier#89, 2026-10-30: a zip-only
+# repository was left open as setup_failed with no reason). Any other setup failure can be temporary: it stays open.
+SETUP_ERRORS = {
+    'solution module is missing': 'the submission has no Submission.lean at the root of its source. The verifier reads Lean files only, not an archive',
+    'unclosed block comment in source': 'a Lean file of the submission has a block comment that is not closed',
+    'cyclic submission imports': 'the Lean files of the submission import each other in a cycle',
+    'unsupported import header': 'a Lean file of the submission has an import header that the verifier does not accept',
+    'submission imports a reserved verifier module': 'the submission imports a module name that the verifier reserves (VerifierChallenge or VerifierAudit)',
+    'build order has an unmet local dependency': 'a Lean file of the submission imports a submission module that is not in it',
+    'only regular Lean source files with ordinary module names are admitted': 'a Lean file of the submission is not a regular file or has no ordinary module name',
+    'individual Lean source exceeds 20 MB': 'a Lean file of the submission is larger than 20 MB',
+    'Lean source input exceeds 150 MB': 'the Lean source of the submission is larger than 150 MB in total',
+}
+
+KERNEL_REASONS = {
+    'lean_compile_error': 'Lean did not compile the proof',
+    'lean_kernel_rejection': "Lean's kernel rejected the proof",
+    'statement_mismatch': "the proof's theorem statement does not match the challenge",
+    'out_of_memory': 'the Lean check ran out of memory',
+    'timeout': 'the Lean check ran out of time',
+    'disk_limit': 'the Lean check reached its disk limit',
+}
+
+VERDICT_REASONS = {
+    'statement_or_request_mismatch': 'the receipt does not match the request or the trusted statement',
+    'axiom_audit_incomplete': 'the axiom audit did not complete',
+    'theorem_axiom_mismatch': 'the axiom audit does not match the theorems',
+}
+
+
+def deterministic_setup_failure(receipt):
+    return receipt.get('status') == 'setup_failed' and receipt.get('error') in SETUP_ERRORS
+
+
+def reason_line(receipt, reason):
+    """One line that says why a result is Not verified, from fixed text only: a receipt can hold untrusted text."""
+    if receipt.get('status') == 'setup_failed':
+        text = SETUP_ERRORS.get(receipt.get('error'), 'the verifier setup failed before the proof check. This can be a temporary problem; a maintainer looks at it')
+    elif receipt.get('status') == 'timeout':
+        text = 'the proof check ran out of time'
+    else:
+        text = KERNEL_REASONS.get(receipt.get('kernels', {}).get('lean', {}).get('reason')) or VERDICT_REASONS.get(reason)
+        if text is None:
+            code = reason if isinstance(reason, str) and re.fullmatch(r'[a-z_]{1,60}', reason) else 'unknown'
+            text = f'verifier code {code}'
+    return f'Reason: {text}.'

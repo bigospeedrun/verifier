@@ -13,7 +13,7 @@ import urllib.error
 from http.client import IncompleteRead
 import time
 from datetime import datetime, timezone
-from verdicts import admission, compile_error_comment
+from verdicts import admission, compile_error_comment, deterministic_setup_failure, reason_line
 
 ROOT = Path(__file__).resolve().parents[1]
 REPOSITORY = 'bigospeedrun/verifier'
@@ -918,7 +918,12 @@ def report():
     if result['test_only']:
         status = 'TEST ONLY: ' + ('proof checks passed' if result['verification_status'] == 'passed' else status)
     body = marker_for(selected['issue_number'], selected['submission_sha256'], selected['issue_body_sha256']) + '\n'
-    body += f"{status} for source commit `{selected['submission']['commit']}`.\n\n"
+    # The site reads this first line and the two NOT_FINAL phrases below (bigospeedrun/site data/direct_refresh.py):
+    # keep them byte for byte. A Not verified result says why on the next line.
+    body += f"{status} for source commit `{selected['submission']['commit']}`.\n"
+    if result['verification_status'] == 'not_verified':
+        body += reason_line(receipt, result['reason']) + '\n'
+    body += '\n'
     body += f"[Receipt and logs]({result['receipt_url']}) · [Workflow run]({run_url})\n\n"
     body += compile_error_comment(receipt)
     if stale:
@@ -941,7 +946,7 @@ def report():
         elif result['status'] == 'passed':
             close = 'completed'
             body += '\n\nTo submit a stronger bound, open a new issue. This issue now closes.'
-        elif result['status'] == 'blocked' or rejected:
+        elif result['status'] == 'blocked' or rejected or deterministic_setup_failure(receipt):
             close = 'not_planned'
             body += '\n\nTo submit a corrected proof, open a new issue. This issue now closes.'
     if not stale and not result['test_only']:
