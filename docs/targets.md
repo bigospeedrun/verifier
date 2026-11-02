@@ -81,8 +81,10 @@ theorem Race.bound : BigOSpeedrun.SubsetSum.SolvedInTime ((p : Rat) / q) := by
 `SolvedInTime α` states a randomized word-RAM algorithm that runs in time
 `O(2^(α n))` on every random outcome, for every polynomial bound on the input bit
 length, and is correct with probability at least 2/3. A smaller `α` is better. The
-classic bound is 1/2 (Horowitz and Sahni): a bound above 1/2 gets no proof run and
-is not listed. See [the statement README](../challenges/subset-sum/README.md) for the
+classic Horowitz-Sahni bound `O*(2^(n/2))` has a polynomial factor, so it is a strict
+frontier at 1/2 that no proof under this statement attains; a proof above 1/2 runs and
+is listed while it matches or beats the best Lean Verified bound on the board. Only a
+Lean Verified row may be above the classic bound: a Claimed row above 1/2 is not listed. See [the statement README](../challenges/subset-sum/README.md) for the
 model.
 
 ## Catalan's constant

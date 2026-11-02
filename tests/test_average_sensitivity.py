@@ -28,13 +28,6 @@ def issue(number=60, **kwargs):
             'user': {'login': 'submitter'}, 'created_at': '2026-10-23T12:00:00Z', 'updated_at': '2026-10-23T12:00:00Z'}
 
 
-def setUpModule():
-    # The classic-bound gate reads the site (its tests: test_subset_sum.ClassicGateTests); these scans test the other gates.
-    gate = patch.object(s, 'worse_than_classic', return_value=None)
-    gate.start()
-    unittest.addModuleCleanup(gate.stop)
-
-
 class StatementTests(unittest.TestCase):
     def test_the_verifier_statement_is_the_reviewed_files_joined(self):
         # One self-contained challenge: staging Statement.lean's import would take Model.lean from the submitter.
@@ -71,10 +64,10 @@ class OtherRecordTests(unittest.TestCase):
         with patch.object(s, 'site_files', return_value=('c' * 40, files)):
             return s.current_record('average-sensitivity', issue_url)
 
-    def test_the_baseline_gates_until_a_lean_verified_claim_exists(self):
+    def test_the_profile_range_gates_until_a_lean_verified_claim_exists(self):
         claimed = {'handle': 'canghaimeng', 'value': '399/125', 'evidence': 'claimed', 'url': 'x'}
         record = self.gate([claimed])
-        self.assertEqual((record['score'], record['leader_ids'], record['any_lean_verified_at_bound']), ('8', ['baseline'], False))
+        self.assertEqual((record['score'], record['leader_ids'], record['any_lean_verified_at_bound']), ('8', ['profile-range'], False))
         self.assertEqual(record['problem_id'], 'other/average-sensitivity')
 
     def test_the_best_lean_verified_claim_of_any_source_gates(self):

@@ -14,13 +14,6 @@ import queue_lease as q
 import submissions as s
 
 
-def setUpModule():
-    # The classic-bound gate reads the site (its tests: test_subset_sum.ClassicGateTests); these scans test the other gates.
-    gate = patch.object(s, 'worse_than_classic', return_value=None)
-    gate.start()
-    unittest.addModuleCleanup(gate.stop)
-
-
 class QueueSecurityTests(unittest.TestCase):
     def setUp(self):
         import derivation

@@ -33,9 +33,8 @@ row), it is the coefficient C in AS(f) ≤ C d √n; smaller is better, and only
 issue route takes it. For Catalan's constant (an Other bounds row), it is an upper
 bound μ on the irrationality exponent of G; smaller is better, and only the issue
 route takes it. The ranges are 0 ≤ s ≤ 1, 0 ≤ r ≤ 2 for 3SUM, 0 ≤ r ≤ 3 for
-APSP, 0 ≤ α ≤ 1/2 for Subset Sum, 0 ≤ C ≤ 8 for average sensitivity, and
-0 ≤ μ ≤ 100000000 for Catalan. For Subset Sum the form also takes 1/2 < α ≤ 1, but such
-a bound is worse than the classic 1/2 and is not a race result (see below).
+APSP, 0 ≤ α ≤ 1 for Subset Sum, 0 ≤ C ≤ 8 for average sensitivity, and
+0 ≤ μ ≤ 100000000 for Catalan.
 
 A Catalan proof is large, so it runs in two jobs: a build job, then the check job
 ([split build](docs/execution.md#split-build-for-large-proofs)). This has three
@@ -46,10 +45,11 @@ Verified. To convert an existing proof repository, see
 [the Catalan section of the problem guide](docs/targets.md#catalans-constant).
 
 The verifier runs up to nine public submissions and one maintainer test in parallel,
-with one queued public run per GitHub account. A run starts only if the bound matches or beats the best Lean Verified result on that board (a Claimed result does not block it);
-otherwise, the bot replies that the submission is listed as Claimed and closes it
-(it stays listed as Claimed; a better bound is a new submission). A bound worse than the classic bound of its board
-is not a race result: the bot replies, closes the issue, and it is not listed.
+with one queued public run per GitHub account. A run starts only if the bound matches or beats the best Lean Verified result on that board (a Claimed result does not block it).
+While a board has no Lean Verified result, every bound in its range runs, even one worse than the classic bound:
+the best Lean Verified bound is listed as a stepping stone. Only a Lean Verified result may be worse than the classic bound;
+a Claimed one there is not listed. A bound that does not qualify gets a bot reply, and the issue or PR closes
+(it stays listed as Claimed unless it is worse than the classic bound; a better bound is a new submission).
 The bot posts a receipt on the issue or PR. For PRs, a Lean pass causes an
 automatic merge. A real Lean or axiom failure, or a real nanoda rejection,
 causes an automatic close. A timeout, resource limit, or infrastructure failure

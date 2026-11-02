@@ -27,29 +27,25 @@ order. It excludes the candidate issue itself, classical-baseline, and rows with
 `record_metadata[id].reproduction_of`. Of the other rows it keeps only the Lean
 Verified ones: metadata `site_tier: verified`, `rerun_status.state: passed`, and a
 nonempty `receipt_path` (Nil ruling 2026-10-20). A Claimed or Human Verified row,
-even a better one, never blocks a proof run. With no Lean Verified row, the
-classical baseline is the gate. With neither, selection stops instead of guessing.
+even a better one, never blocks a proof run. With no Lean Verified row, every
+bound in the profile range runs: the gate is the end of the range (the profile
+maximum; 0 on dft), with leader `profile-range` (Nil ruling 2026-11-02, issue #94:
+the best Lean Verified bound is listed even when it is worse than the classical
+baseline, as a stepping stone). Only a Lean Verified row may be worse than the
+classical baseline: a Claimed row there is not listed (Lead, 2026-11-02). An Other
+bounds row works the same way.
 The receipt records the board commit, data hash, leader IDs, verified-tie evidence, score, relation, and
 observation time.
 
 A bound that matches or beats the best Lean Verified row gets a proof job. A tie
-with a Lean Verified leader is skipped; a tie with the classical baseline runs. The snapshot records all `leader_ids`
+with a Lean Verified leader is skipped; the end of the range runs while no Lean Verified row exists. The snapshot records all `leader_ids`
 and `any_lean_verified_at_bound`. A passing equal-bound proof creates its own
 row; it never changes credit or evidence on another author’s row. An attained saving at the same
 value as a strict frontier compares according to the site's score relation.
-A lower-ranked bound or an already verified tie receives a bot reply and remains Claimed. The verifier
+A lower-ranked bound or an already verified tie receives a bot reply and remains Claimed
+(not listed when it is worse than the classical baseline). The verifier
 checks the board and unchanged issue body again immediately before compilation.
 If either changed, no Lean run starts and the result remains Claimed.
-
-Before the record gate, an issue whose bound is worse than the classic bound of
-its board gets one reply (marker `bos-classic-v1`) and closes as not planned. It
-gets no proof run, no derivation report and no row: it is not a race result
-(Lead, 2026-11-01, issue #94). The classic bound is the score of the
-`classical-baseline` row of the board, or the exact baseline of an Other bounds
-row, read from the site's main branch; a row with no finite baseline (Catalan)
-has no such gate. A tie with the classic bound is not worse. The PR route has
-no such gate: its problems (dft, 3sum, apsp) have a profile range whose end is
-the classic bound, so the form check already refuses a worse bound.
 
 Issue batches select at most nine public requests and one per authenticated login.
 Both routes share a trusted Git-ref lease that admits one batch at a time.
@@ -147,7 +143,7 @@ It contains `direct-submission.json`, schema version 1:
   final workflow conclusion from GitHub API metadata and keeps it separate.
 - `receipt`: full verifier receipt, with separate kernel outcomes, axiom sets,
   theorem results, source/tool hashes, resource measurements, and finish time.
-- `record_gate`: the snapshot of the best Lean Verified row (or the classical baseline) used for the admission-to-run check.
+- `record_gate`: the snapshot of the best Lean Verified row (or the end of the profile range) used for the admission-to-run check.
 
 The importer independently binds repository, approved verifier revision, workflow
 `.github/workflows/submissions.yml` and its reusable `submission-check.yml`, run,

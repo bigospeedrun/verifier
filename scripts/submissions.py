@@ -381,9 +381,18 @@ def exact_value(text):
     return Fraction(text)
 
 
+def range_end(problem):
+    """The weakest bound of a problem's profile range: the gate while its board has no Lean Verified row (Nil ruling
+    2026-11-02, issue #94: the best Lean Verified bound is listed even when it is worse than the classic bound, as a
+    stepping stone). The profile maximum, or 0 on dft, where a higher saving is better."""
+    if problem == 'dft':
+        return Fraction(0)
+    return Fraction(json.loads((ROOT / 'profiles/direct.json').read_text())[problem]['maximum'])
+
+
 def other_record(problem, issue_url):
     """The gate of an Other bounds row: its best Lean Verified claim (hand-listed, prove2.me or a direct
-    submission), else the row's exact baseline. A lower coefficient is better on these rows."""
+    submission), else the end of the profile range. A lower coefficient is better on these rows."""
     rows, direct, prove2me = 'src/lib/other-bounds.json', 'data/direct-other.json', 'data/prove2me.json'
     sha, files = site_files([rows, direct, prove2me])
     family = next(f for f in json.loads(files[rows])['families'] if f['slug'] == problem)
@@ -400,14 +409,8 @@ def other_record(problem, issue_url):
         best = min(v for v, _ in verified)
         leaders, any_lean = sorted(str(h) for v, h in verified if v == best), True
     else:
-        baseline = family['baseline'].get('exactValue')
-        best = exact_value(baseline)
-        if best is None and baseline == '+\\infty':
-            # No finite baseline (Catalan): every bound in the profile's range beats it, so the range's top gates.
-            best = Fraction(json.loads((ROOT / 'profiles/direct.json').read_text())[problem]['maximum'])
-        if best is None:
-            raise ValueError('No Lean Verified claim or exact baseline; refuse to guess')
-        leaders, any_lean = ['baseline'], False
+        # No Lean Verified claim: every bound in the profile's range runs (Nil ruling 2026-11-02).
+        best, leaders, any_lean = range_end(problem), ['profile-range'], False
     raw = b''.join(files[p] or b'' for p in [rows, direct, prove2me])
     return {'schema_version': 1, 'score': str(best), 'score_relation': 'attained', 'leader_ids': leaders,
             'any_lean_verified_at_bound': any_lean, 'problem_id': MODEL_IDS[problem], 'site_commit': sha,
@@ -419,8 +422,9 @@ def current_record(problem, issue_url):
     """Read the board from a resolved immutable site commit, never the issue repo.
 
     The gate is the best Lean Verified row of the board (Nil ruling 2026-10-20): a Claimed
-    or Human Verified row never blocks a proof run. With no Lean Verified row, the classical
-    baseline is the gate, so a bound must at least match it."""
+    or Human Verified row never blocks a proof run. With no Lean Verified row, every bound in the
+    profile range runs (Nil ruling 2026-11-02, issue #94): the classical baseline of Subset Sum (1/2)
+    is a strict frontier that no proof under the statement attains, so a first proof is above it."""
     if problem in OTHER:
         return other_record(problem, issue_url)
     sha, raw = site_snapshot(problem)
@@ -436,9 +440,11 @@ def current_record(problem, issue_url):
                and not data['record_metadata'].get(r['id'], {}).get('reproduction_of')
                and lean_verified(r)]
     if not records:
-        records = [r for r in data['records'] if r['id'] == 'classical-baseline']
-    if not records:
-        raise ValueError('No Lean Verified record or baseline; refuse to guess')
+        return {'schema_version': 1, 'score': str(range_end(problem)), 'score_relation': 'attained',
+                'leader_ids': ['profile-range'], 'any_lean_verified_at_bound': False,
+                'problem_id': data['problem_id'], 'site_commit': sha,
+                'data_sha256': hashlib.sha256(raw).hexdigest(),
+                'checked_at': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')}
     # Mirrors the site comparison (site data/direct_import.py open_rank): exact score
     # first, and an open endpoint is weaker than an attained value at the same score.
     key = lambda r: (Fraction(r['score']), open_rank(problem) if r.get('score_relation') == 'strict-upper-bound' else 0)
@@ -451,31 +457,6 @@ def current_record(problem, issue_url):
             'problem_id': data['problem_id'], 'site_commit': sha,
             'data_sha256': hashlib.sha256(raw).hexdigest(),
             'checked_at': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')}
-
-
-def classic_bound(problem):
-    """The classic bound of a board, read from the site like the record gate: the score of the classical-baseline
-    row of a Big O board, or the exact baseline of an Other bounds row. None when it has no finite value (Catalan)."""
-    if problem in OTHER:
-        rows = 'src/lib/other-bounds.json'
-        _, files = site_files([rows])
-        family = next(f for f in json.loads(files[rows])['families'] if f['slug'] == problem)
-        return exact_value(family['baseline'].get('exactValue'))
-    _, raw = site_snapshot(problem)
-    rows = [r for r in json.loads(raw)['records'] if r['id'] == 'classical-baseline']
-    if len(rows) != 1:
-        raise ValueError('No classical baseline on the board; refuse to guess')
-    return Fraction(rows[0]['score'])
-
-
-def worse_than_classic(submission):
-    """The classic bound when the bound is worse than it, else None (Lead, 2026-11-01, issue #94: a proof of a bound
-    worse than the classic algorithm is not a race result; it gets no run and no row). A tie is not worse."""
-    classic = classic_bound(submission['problem'])
-    if classic is None:
-        return None
-    bound = Fraction(submission['bound'])
-    return classic if (bound < classic if submission['problem'] == 'dft' else bound > classic) else None
 
 
 def qualifies_for_run(submission, record):
@@ -505,24 +486,10 @@ def board_line(problem):
     return f'{name} board: https://bigospeedrun.com/{path}'
 
 
-CLAIMED_TEXT = ('This submission is listed as Claimed; the bound does not qualify for a proof run. A run starts only for a '
-                'bound that matches or beats the best Lean Verified result on its board, and that bar only gets higher, so '
-                'this {item} now closes. It stays listed as Claimed. To submit a better bound, open a new {item}.')
-
-
-CLASSIC_TEXT = ('The bound {bound} is {side} the classic bound {classic} of this board, so it is not a race result. '
-                'No proof run starts, and it is not listed. This {item} now closes. To submit a better bound, open a new {item}.')
-
-
-def close_not_listed(number, digest, item, problem, bound, classic):
-    """One reply for a bound worse than the classic bound of its board, then close it as not planned. Its marker is
-    not the Claimed marker, so the site does not list it."""
-    marker = f'<!-- bos-classic-v1 {number} {digest} -->'
-    side = 'below' if problem == 'dft' else 'above'
-    text = CLASSIC_TEXT.format(bound=bound, side=side, classic=classic, item=item)
-    line = board_line(problem)
-    comment_once(number, marker + '\n' + text + ('\n\n' + line if line else ''), key=marker)
-    api(f'issues/{number}', {'state': 'closed', 'state_reason': 'not_planned'}, method='PATCH')
+CLAIMED_TEXT = ('This submission does not qualify for a proof run. A run starts only for a bound that matches or beats '
+                'the best Lean Verified result on its board, and that bar only gets higher, so this {item} now closes. It '
+                'stays listed as Claimed, unless its bound is worse than the classic bound of the board: there, only Lean '
+                'Verified results are listed. To submit a better bound, open a new {item}.')
 
 
 def close_claimed(number, digest, item, problem=None):
@@ -798,10 +765,6 @@ def select_bounded():
                     request = issue_request(issue, submission)
                     digest = request['submission_sha256']
                     if lease.admitted(queue_lease.admission_key(request)):
-                        continue
-                    classic = worse_than_classic(submission)
-                    if classic is not None:
-                        close_not_listed(issue['number'], digest, 'issue', submission['problem'], submission['bound'], classic)
                         continue
                     record = current_record(submission['problem'], request['issue_url'])
                     qualifies = qualifies_for_run(submission, record)

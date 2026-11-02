@@ -28,13 +28,6 @@ def issue(number=42, login='submitter', **kwargs):
             'user': {'login': login}, 'created_at': '2026-10-10T12:00:00Z', 'updated_at': '2026-10-10T12:00:00Z'}
 
 
-def setUpModule():
-    # The classic-bound gate reads the site (its tests: test_subset_sum.ClassicGateTests); these scans test the other gates.
-    gate = patch.object(s, 'worse_than_classic', return_value=None)
-    gate.start()
-    unittest.addModuleCleanup(gate.stop)
-
-
 class SubmissionTests(unittest.TestCase):
     def setUp(self):
         # The selector's derivation report never reads GitHub in these tests.
@@ -242,19 +235,20 @@ class SubmissionTests(unittest.TestCase):
         record = self.gate('dft', data)
         self.assertEqual((record['leader_ids'], record['any_lean_verified_at_bound']), (['a'], True))
         self.assertFalse(s.qualifies_for_run(self.selected()['submission'], record))
-        # Without a receipt (site_tier verified alone) the row is not Lean Verified: the baseline gates.
+        # Without a receipt (site_tier verified alone) the row is not Lean Verified: the profile range gates.
         data = self.board('dft', [('a', '1/1000'), ('classical-baseline', '1/2000')])
         data['record_metadata']['a']['site_tier'] = 'verified'
         record = self.gate('dft', data)
-        self.assertEqual((record['leader_ids'], record['any_lean_verified_at_bound']), (['classical-baseline'], False))
+        self.assertEqual((record['score'], record['leader_ids'], record['any_lean_verified_at_bound']), ('0', ['profile-range'], False))
         self.assertTrue(s.qualifies_for_run(self.selected()['submission'], record))
 
-    def test_a_board_without_lean_verified_rows_gates_on_the_baseline_or_refuses(self):
-        record = self.gate('apsp', self.board('apsp', [('claimed', '2999/1000'), ('classical-baseline', '3')]))
-        self.assertEqual((record['score'], record['leader_ids'], record['any_lean_verified_at_bound']), ('3', ['classical-baseline'], False))
-        self.assertTrue(s.qualifies_for_run(s.parse_body(body('apsp', '3')), record))  # a tie with the baseline runs
-        with self.assertRaisesRegex(ValueError, 'refuse to guess'):
-            self.gate('apsp', self.board('apsp', [('claimed', '2999/1000')]))
+    def test_a_board_without_lean_verified_rows_runs_every_bound_in_the_profile_range(self):
+        # Nil ruling 2026-11-02 (issue #94): the best Lean Verified bound is listed even above the classical
+        # baseline, so with no Lean Verified row the gate is the end of the profile range, not the baseline.
+        for rows in [[('claimed', '2999/1000'), ('classical-baseline', '3')], [('claimed', '2999/1000')]]:
+            record = self.gate('apsp', self.board('apsp', rows))
+            self.assertEqual((record['score'], record['leader_ids'], record['any_lean_verified_at_bound']), ('3', ['profile-range'], False))
+            self.assertTrue(s.qualifies_for_run(s.parse_body(body('apsp', '3')), record))  # the end of the range runs
 
     def test_preflight_stops_when_record_advances(self):
         selected = self.selected(); selected['test_only'] = False

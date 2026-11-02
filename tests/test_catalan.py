@@ -19,13 +19,6 @@ def body(bound='590'):
             f'### Commit SHA\n\n{"a" * 40}\n\n### Bound\n\n{bound}\n')
 
 
-def setUpModule():
-    # The classic-bound gate reads the site (its tests: test_subset_sum.ClassicGateTests); these scans test the other gates.
-    gate = patch.object(s, 'worse_than_classic', return_value=None)
-    gate.start()
-    unittest.addModuleCleanup(gate.stop)
-
-
 class StatementTests(unittest.TestCase):
     def test_the_profile_pins_the_reviewed_statement(self):
         # Reviewed on 2026-10-26 (BOS Reviewer): Statement.lean sha256 9ba7370f, Lean v4.34.1 with the dft pins (Lead, 2026-10-26: the OAI library of the existing proofs is native there).
@@ -57,9 +50,9 @@ class GateTests(unittest.TestCase):
         with patch.object(s, 'site_files', return_value=('c' * 40, files)):
             return s.current_record('catalan', 'https://github.com/bigospeedrun/verifier/issues/90')
 
-    def test_the_infinite_baseline_gates_at_the_top_of_the_range(self):
+    def test_the_top_of_the_range_gates_until_a_lean_verified_claim_exists(self):
         record = self.gate([{'handle': 'slitsey', 'value': '590', 'evidence': 'claimed', 'url': 'x'}])
-        self.assertEqual((record['score'], record['leader_ids'], record['any_lean_verified_at_bound']), ('100000000', ['baseline'], False))
+        self.assertEqual((record['score'], record['leader_ids'], record['any_lean_verified_at_bound']), ('100000000', ['profile-range'], False))
         self.assertEqual(record['problem_id'], 'other/catalan')
         self.assertTrue(s.qualifies_for_run({'problem': 'catalan', 'bound': '100000000'}, record))
         self.assertTrue(s.qualifies_for_run({'problem': 'catalan', 'bound': '590'}, record))

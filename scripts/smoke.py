@@ -23,7 +23,7 @@ CATALAN_FIXTURE = ('catalan', '1091', 'https://github.com/bigospeedrun/verifier-
 CATALAN_TAG = 'catalan-a3d4849-split-v1'
 # The Subset Sum smoke that must pass before that problem opens (Lead, 2026-11-01): darkhipo's public proof of the
 # bound 3/4 (verifier issue #94), cloned from its own repository as the issue source and never copied (it has no
-# license). Issue route only. 3/4 is above the classic bound 1/2, so this proof gives no row on the site. The pin is
+# license). Issue route only. The smoke is test_only, so it gives no row on the site. The pin is
 # 8b105f0, not 5d6d38f of the issue: 6c06520 removed 152 tracked .lake build files (never staged), and 8b105f0 adds
 # 'set_option autoImplicit true' to 16 modules (the smoke of 6c06520, run 41345507330, failed on autoImplicit = false).
 SS_FIXTURE = ('subset-sum', '3/4', 'https://github.com/darkhipo/subset-sum-mitm',
