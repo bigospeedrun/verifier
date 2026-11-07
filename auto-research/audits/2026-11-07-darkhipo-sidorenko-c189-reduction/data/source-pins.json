@@ -1,0 +1,14 @@
+{
+  "algorithm": "sha256",
+  "commit": "5ca68cb81cfcd7f1b32102b93e186b2b51d5e2f8",
+  "repository": "https://github.com/rohanarun/sidorenko-template-refinements",
+  "files": {
+    "README.md": "757402f8f49f6c4d1188dce6732b10b5f463dc25417213efb3f99774fd5f3f94",
+    "proof.tex": "0989900c4b8a4e2f04a4cde2e81b2e5112d94b1e540a1cad697449987a545ee6",
+    "sequential-refinement.md": "c81bd9d6914cb58632d192bab6090c4675bfbe58857d9da3291097e1b87bf696",
+    "experiments/original-baseline.json": "7d3695e7bf600345e138cf7cfecbb488305dcb9b6a5ddc16433891d519f51bd8",
+    "experiments/sequential-expected.json": "b627cbe6541c3f95ed54c1cca533437b4a0a94d474103c7262547c2c98291634",
+    "audit_sequential.py": "5c4f93405a2933e370355bd86aa3346a47b7502fc19bdd223a38114d10afd59e"
+  },
+  "note": "Pins are of the source files this audit read. The task runner that consumes this package does not fetch them; they are recorded so a reader can re-derive every quoted sentence and constant against the exact bytes audited."
+}

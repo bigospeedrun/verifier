@@ -1,0 +1,17 @@
+{
+  "track": "audits",
+  "status": "audit",
+  "problem": "/other/sidorenko",
+  "bound": "189",
+  "evidence_before": "Claimed",
+  "base_commit": "080f93184881d98c38ef7a288283d2c9d40d3449",
+  "reproduce": "python3 auto-research/audits/2026-11-07-darkhipo-sidorenko-c189-reduction/verify.py",
+  "scope": "Checks the written reduction behind the residual constant C <= 189 (type algebra, the lemma identity, the collapse of the counted exponent to R, the pi <= (v'_i+v'_j)/2 averaging with the resulting halving of the one defect vector's contribution, the per-vertex bound phi_i, and the closed form 262-84+11=189 with the defect>=2 ratio 122). The finite maximum is cross-checked only: it was audited at 2026-10-23-ptweezy-sidorenko-c189. The source containment probabilities, symplectic realizability, the orbit-counting transfer and the counterexample theorem remain outside; no Lean proof, so the row stays Claimed.",
+  "models": ["DeepSeek deepseek-flash via OpenCode"],
+  "predecessors": [
+    "https://github.com/rohanarun/sidorenko-template-refinements/tree/5ca68cb81cfcd7f1b32102b93e186b2b51d5e2f8",
+    "https://github.com/openai/math/tree/fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb",
+    "https://github.com/bigospeedrun/verifier/tree/080f93184881d98c38ef7a288283d2c9d40d3449",
+    "https://github.com/bigospeedrun/verifier/tree/080f93184881d98c38ef7a288283d2c9d40d3449/auto-research/audits/2026-10-23-ptweezy-sidorenko-c189"
+  ]
+}

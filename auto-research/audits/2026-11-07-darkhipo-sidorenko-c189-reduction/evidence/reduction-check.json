@@ -1,0 +1,133 @@
+{
+  "input_complex": {
+    "points": 13,
+    "faces": 22,
+    "pairs": 33,
+    "every_pair_in_exactly_two_faces": true,
+    "euler_characteristic": 2,
+    "distinct_faces": true
+  },
+  "type_algebra": {
+    "per_type_defect_contribution": {
+      "(0, 0, 0)": 0,
+      "(0, 0, 1)": 1,
+      "(0, 1, 0)": 1,
+      "(0, 1, 1)": 2,
+      "(1, 1, 1)": 0
+    },
+    "per_type_ok": true,
+    "d1_multisets_are_one_local_only_vector_plus_ordinary": true,
+    "d1_multisets_enumerated": 42
+  },
+  "identity_and_collapse": {
+    "identity_holds_on_all_profiles": true,
+    "collapse_to_stated_form_holds": true,
+    "profiles_tested": 60
+  },
+  "pi_bound_and_halving": {
+    "pi_bound_holds": true,
+    "halving_step_holds": true,
+    "trials": 4000
+  },
+  "phi_concavity": {
+    "phi_peak_is_d(2d-1)": true,
+    "peak_attainment_examples": {
+      "2": [
+        3,
+        4
+      ],
+      "3": [
+        5,
+        6
+      ],
+      "4": [
+        7,
+        8
+      ],
+      "6": [
+        11,
+        12
+      ]
+    }
+  },
+  "allowed_graph": {
+    "pairs": 28,
+    "degrees": [
+      3,
+      6,
+      3,
+      6,
+      4,
+      2,
+      4,
+      4,
+      4,
+      6,
+      4,
+      6,
+      4
+    ],
+    "connected": true,
+    "sum_degrees": 56,
+    "sum_deg_sq": 262,
+    "sum_deg_2deg_minus_1": 468,
+    "base_remainder": 178,
+    "pair_excess": 23,
+    "closed_form": 189,
+    "closed_form_expanded": "262 - 3*28 + floor(23/2)"
+  },
+  "finite_maximum_crosscheck": {
+    "note": "already audited at 2026-10-23-ptweezy-sidorenko-c189; recomputed once here",
+    "supports_with_pairs": 5468,
+    "relaxed_defect_one_strata": 55173,
+    "maximum": 189,
+    "maximizer_count": 7,
+    "agrees_with_closed_form": true
+  },
+  "defect_two_ratio": {
+    "max_ratio": "122",
+    "witness": {
+      "d": 2,
+      "n1": 0,
+      "n2": 1,
+      "k": 55
+    },
+    "below_189": true
+  },
+  "negative_controls": {
+    "flipped_cut_bit_changes_allowed_graph": true,
+    "flipped_cut_bit_changes_maximum": true,
+    "flipped_maximum": 148,
+    "unhalved_defect_term_would_give": 201,
+    "unhalved_differs_from_claim": true,
+    "duplicate_face_rejected": true,
+    "monotone_in_k": true
+  },
+  "claim_match": {
+    "C": {
+      "claim": 189,
+      "computed": 189,
+      "match": true
+    },
+    "defect_two_ratio": {
+      "claim": 122,
+      "computed": 122,
+      "match": true
+    },
+    "allowed_pairs": {
+      "claim": 28,
+      "computed": 28,
+      "match": true
+    },
+    "base_remainder": {
+      "claim": 178,
+      "computed": 178,
+      "match": true
+    },
+    "pair_excess": {
+      "claim": 23,
+      "computed": 23,
+      "match": true
+    }
+  }
+}
