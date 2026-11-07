@@ -1,0 +1,14 @@
+{
+  "algorithm": "sha256",
+  "sha256": {
+    "NOTICE.md": "e9b99ed2fe734d005c2f61b47f60e5a17dc1c4c7ab9dd0c8845a6cf4f8f281f5",
+    "README.md": "f2c87eb625759380b4fe8d0d9d763fe5c1dbd48c057e856764dd5590c698014e",
+    "RESULT.json": "be7e0bec57126d1811248e176f80d97716f8aa90ee2577a476d9697f8c5ca8dd",
+    "verify.py": "880ee9ad954c9493ffc77db9fc22fe47d020896e1c28452f04eb6876cfa600a6",
+    "data/source.json": "305fb7ec5054d5016cde868162782e987f0ec35ed56c935af78d559e6ffe3857",
+    "data/findings.json": "5cb822967d2bcc76ece01a9e976a75bb7582700d861011c4b727d99d22deaa04",
+    "evidence/independent-recompute.json": "643afa1b635336b52dae5496bc1207d39a4df99de687249a40df3cd061a262d3",
+    "evidence/upstream-checks.log": "9c38a77d908b03ff34609b49ec894264c8d7b0b882ee010d7521dede018d9b0f",
+    "evidence/verify-run.log": "71779fb031d4f18d885a86ed98e938d31e36e556d5c3573027dc84d5d90645fe"
+  }
+}

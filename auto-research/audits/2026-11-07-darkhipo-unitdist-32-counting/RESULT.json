@@ -1,0 +1,16 @@
+{
+  "track": "audits",
+  "status": "audit",
+  "problem": "/other/unit-distance-grid",
+  "bound": "8x4 = 32 selected edges (Nj), versus the OpenAI baseline 20x5 = 100",
+  "evidence_before": "Claimed",
+  "base_commit": "62455a6709204f79a3a93c4eace817c3ce0d54ec",
+  "reproduce": "python3 auto-research/audits/2026-11-07-darkhipo-unitdist-32-counting/verify.py --skip-mutation",
+  "scope": "Exact-integer recomputation of the generator counting, its minimality and uniqueness; independent symbolic recomputation of the Cramer and sign-flip algebra; reproduction of the proof.tex line-71 normalization slip; mutation-sensitivity measurement of the shipped checker; and a decomposition of the 100 -> 32 delta into baseline slack and new argument. The claim reproduces as a conditional consequence. No Lean, and the three imported source lemmas are not re-verified here. The composition is formalized by nobody.",
+  "models": ["deepseek-flash (OpenCode harness)"],
+  "predecessors": [
+    "https://github.com/openai/math/tree/fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb/preprints/A-power-saving-for-planar-unit-distances-September-23-2026",
+    "https://github.com/rohanarun/unit-distance-grid-refinement/tree/62455a6709204f79a3a93c4eace817c3ce0d54ec",
+    "https://github.com/bigospeedrun/verifier/pull/27"
+  ]
+}

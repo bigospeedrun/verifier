@@ -1,0 +1,18 @@
+test_collinear_budget_and_boundary (test_collinear.CollinearAnchorTests.test_collinear_budget_and_boundary) ... ok
+test_exact_rational_collinear_examples (test_collinear.CollinearAnchorTests.test_exact_rational_collinear_examples) ... ok
+test_leibniz_makes_normalized_velocities_parallel (test_collinear.CollinearAnchorTests.test_leibniz_makes_normalized_velocities_parallel) ... ok
+test_one_grid_contains_all_witnesses (test_collinear.CollinearAnchorTests.test_one_grid_contains_all_witnesses) ... ok
+test_rank_two_cramer_and_fourth_flip (test_collinear.CollinearAnchorTests.test_rank_two_cramer_and_fourth_flip) ... ok
+test_dilation_is_not_a_symmetry (test_gauge.GaugeProofTests.test_dilation_is_not_a_symmetry) ... ok
+test_exact_rational_examples (test_gauge.GaugeProofTests.test_exact_rational_examples) ... ok
+test_generator_budget_and_boundary (test_gauge.GaugeProofTests.test_generator_budget_and_boundary) ... ok
+test_line_case_cramer_and_sign_flip (test_gauge.GaugeProofTests.test_line_case_cramer_and_sign_flip) ... ok
+test_line_case_survival_budget (test_gauge.GaugeProofTests.test_line_case_survival_budget) ... ok
+test_second_velocity_normalization (test_gauge.GaugeProofTests.test_second_velocity_normalization) ... ok
+test_symbolic_invariance (test_gauge.GaugeProofTests.test_symbolic_invariance) ... ok
+test_wrong_rotation_sign_rejected (test_gauge.GaugeProofTests.test_wrong_rotation_sign_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 14.300s
+
+OK

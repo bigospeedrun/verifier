@@ -1,0 +1,40 @@
+{
+  "audited_artifact": {
+    "repo": "rohanarun/unit-distance-grid-refinement",
+    "commit": "62455a6709204f79a3a93c4eace817c3ce0d54ec",
+    "commit_date": "2026-10-10T08:41:25-04:00",
+    "commit_subject": "Merge pull request #2 from rohanarun/refine/scaling-and-collinear-anchors",
+    "repo_head_at_audit": "4e7b3af",
+    "head_vs_cited_diff": "auto-research.md and auto-research/README.md only; proof.tex, README.md and tests/ are byte-identical between 62455a6 and 4e7b3af",
+    "files_read": ["README.md", "proof.tex", "run_checks.py", "tests/test_gauge.py", "tests/test_collinear.py", "source-manifest.json", "progress/progress.json"]
+  },
+  "baseline_source": {
+    "repo": "openai/math",
+    "commit": "fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb",
+    "file": "preprints/A-power-saving-for-planar-unit-distances-September-23-2026/build/sections/07-algebra.tex",
+    "sha256": "5e821f1eee20b854c7d72f35088a69c6f9b77c3e1d303b68c12c26a9256b2555",
+    "sha256_verified": true,
+    "matches_repo_manifest": true,
+    "load_bearing_lines": {
+      "N_j_choice": "line 314: Take N=20 and j=5 in alg:generic-grid",
+      "cost_bound": "lines 403-411: right velocities and scalars consist of at most 3j elements; contradicts N>3j",
+      "cramer": "uses rows l=1,2,3 in the unknowns H_x,H_y,A",
+      "sign_change": "flips R_4 only",
+      "private_valuations": "stated for every l in {1,...,j}",
+      "generic_grid_lemma": "stated for every fixed N,j>=1"
+    }
+  },
+  "board_row_checked": {
+    "path": "/other/unit-distance-grid",
+    "ranked_quantity": "N j (selected edges in the final algebraic-grid step)",
+    "baseline": "Nj <= 100 (20x5)",
+    "current": "Nj <= 32 (8x4), evidence Claimed, author Rohan Arun, date 2026-10-09",
+    "note": "board baseline.source points at The-weak-pinned-planar-distance-theorem-September-23-2026/paper.pdf (seven section files at adc7f124); none of them contains a complete-grid / N=20 step"
+  },
+  "prior_independent_work": {
+    "pull_request": "bigospeedrun/verifier#27 (merged), user fringewidth",
+    "package": "auto-research/formalization/2026-10-20-fringewidth-unit-distance-grid",
+    "covers": "21 Lean theorems, Lean 4.34.1 / Mathlib d13f23b7, standard axioms only; the source's generic-grid, private-valuation and Kummer lemmas are hypotheses there",
+    "this_audit_does_not_repeat": "no Lean. This audit recomputes the counting and the algebra in exact arithmetic with an independent implementation, measures the checker's mutation sensitivity, and quantifies the baseline delta."
+  }
+}

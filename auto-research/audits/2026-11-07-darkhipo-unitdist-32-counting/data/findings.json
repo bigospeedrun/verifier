@@ -1,0 +1,56 @@
+{
+  "verdict": "claim reproduces, conditional",
+  "verdict_detail": "8x4 = 32 follows from the source's own imported lemmas; the counting is minimal and unique at (N,j) = (8,4); the linear algebra is exactly right. The framing that all of 100 -> 32 is new mathematics does not hold, and two board fields need correcting.",
+  "evidence_level_recommendation": "Claimed (unchanged). The algebraic steps are Lean-verified third-party (verifier PR #27); the composition is formalized by nobody.",
+  "record_annotations_needed": [
+    {
+      "field": "current.conditions",
+      "current_value": "",
+      "recommended": "Conditional on OpenAI's generic-grid, private-valuation and Kummer lemmas. Author supplies no Lean proof of the composition; verifier PR #27 formalizes the algebraic steps with those three lemmas as hypotheses.",
+      "why": "The row's statement field carries the caveat; the ranked table shows a bare 32."
+    },
+    {
+      "field": "baseline.source",
+      "current_value": "openai/math @ adc7f124 .../The-weak-pinned-planar-distance-theorem-September-23-2026/paper.pdf",
+      "recommended": "openai/math @ fd4aeeb .../A-power-saving-for-planar-unit-distances-September-23-2026/build/sections/07-algebra.tex",
+      "why": "All seven section files of the cited weak-pinned preprint at adc7f124 contain no complete-grid or Nj step. The 20x5 selection is 07-algebra.tex line 314 of the sibling preprint."
+    },
+    {
+      "field": "baseline.note (new)",
+      "recommended": "100 is the source's published choice, not its optimum: its own rule N>3j permits 16x5 = 80, and its sign change already uses four anchors, permitting 13x4 = 52.",
+      "why": "A reader comparing 100 against 32 is comparing against a number the source never optimized."
+    }
+  ],
+  "key_numbers": {
+    "published_baseline_20x5": 100,
+    "source_rule_tight_N_16x5": 80,
+    "source_rule_at_j4_13x4": 52,
+    "refinement_rule_at_j5_11x5": 55,
+    "claimed_8x4": 32,
+    "common_line_4x3": 12,
+    "one_locus_a_line_6x4": 24,
+    "cost_general": "3j-5 = 7 at j=4",
+    "cost_collinear": "2j-3 = 5 at j=4",
+    "minimum_unique_at": {"N": 8, "j": 4, "edges": 32},
+    "boundary": "N=7 gives margin 0 for both d1=1 and d1=2; N=8 gives margin 1"
+  },
+  "delta_attribution": {
+    "100->80": "baseline slack in N (source needed only N>15)",
+    "80->52": "baseline slack in j (Cramer uses three rows, the flip uses R4, private valuations hold for every l<=j, generic-grid lemma holds for every N,j>=1)",
+    "52->32": "new mathematics: the five-dimensional gauge group removes exactly five generators, 3j -> 3j-5"
+  },
+  "findings": [
+    {"code": "F1", "severity": "medium", "class": "scope honesty", "text": "Board row conditions is an empty string while the source is explicitly conditional on three imported lemmas."},
+    {"code": "F2", "severity": "low", "class": "citation", "text": "Board baseline.source cites a preprint that contains no complete-grid or Nj step."},
+    {"code": "E1", "severity": "medium", "class": "checker coverage", "text": "The shipped 13-test checker never reads proof.tex or README.md: rewriting the published bound to 6x4 = 24 passes all 13 tests. The value 32 is asserted as assertEqual(8*anchors,32), a tautology given anchors=4."},
+    {"code": "E2", "severity": "low", "class": "checker coverage", "text": "test_one_grid_contains_all_witnesses is integer comparisons that restate the table rather than check it."},
+    {"code": "C", "severity": "info", "class": "documentation defect, bound unaffected", "text": "proof.tex line 71 asserts U1~ = 0 after setting T = U1; the written form gives -omega J r_1. Correct choice is T = U1 - omega J r_1. Bound unchanged: T enters only U1~, and U2-U1 is translation invariant. Reproduced with an exact-rational counterexample."},
+    {"code": "M", "severity": "info", "class": "checker measurement", "text": "Mutation arm: five numeric/algebraic mutations are caught; flipping the wrong radical makes sympy spin past a 75s budget (not a clean catch); the published-bound prose mutation is uncaught."}
+  ],
+  "not_established": [
+    "No Lean of the composition; PR #27 formalizes the algebra with the source lemmas as hypotheses.",
+    "The source's asymptotic machinery (generic-grid extraction, negligible-height passage, private valuations, Kummer) is taken as given, exactly as the row states.",
+    "No literature-priority claim.",
+    "Arm D's algebra holds symbolic p against three random exact-rational anchor sets, not fully symbolic anchors."
+  ]
+}

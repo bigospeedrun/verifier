@@ -1,0 +1,238 @@
+{
+  "artifact": "rohanarun/unit-distance-grid-refinement@62455a6",
+  "board_row": "/other/unit-distance-grid",
+  "arm_A_counting": {
+    "ok": true,
+    "table": [
+      {
+        "j": 3,
+        "cost_general": 4,
+        "min_N_general": 5,
+        "edges_general": 15,
+        "cost_collinear": 3,
+        "min_N_collinear": 4,
+        "edges_collinear": 12
+      },
+      {
+        "j": 4,
+        "cost_general": 7,
+        "min_N_general": 8,
+        "edges_general": 32,
+        "cost_collinear": 5,
+        "min_N_collinear": 6,
+        "edges_collinear": 24
+      },
+      {
+        "j": 5,
+        "cost_general": 10,
+        "min_N_general": 11,
+        "edges_general": 55,
+        "cost_collinear": 7,
+        "min_N_collinear": 8,
+        "edges_collinear": 40
+      },
+      {
+        "j": 6,
+        "cost_general": 13,
+        "min_N_general": 14,
+        "edges_general": 84,
+        "cost_collinear": 9,
+        "min_N_collinear": 10,
+        "edges_collinear": 60
+      },
+      {
+        "j": 7,
+        "cost_general": 16,
+        "min_N_general": 17,
+        "edges_general": 119,
+        "cost_collinear": 11,
+        "min_N_collinear": 12,
+        "edges_collinear": 84
+      },
+      {
+        "j": 8,
+        "cost_general": 19,
+        "min_N_general": 20,
+        "edges_general": 160,
+        "cost_collinear": 13,
+        "min_N_collinear": 14,
+        "edges_collinear": 112
+      },
+      {
+        "j": 9,
+        "cost_general": 22,
+        "min_N_general": 23,
+        "edges_general": 207,
+        "cost_collinear": 15,
+        "min_N_collinear": 16,
+        "edges_collinear": 144
+      },
+      {
+        "j": 10,
+        "cost_general": 25,
+        "min_N_general": 26,
+        "edges_general": 260,
+        "cost_collinear": 17,
+        "min_N_collinear": 18,
+        "edges_collinear": 180
+      },
+      {
+        "j": 11,
+        "cost_general": 28,
+        "min_N_general": 29,
+        "edges_general": 319,
+        "cost_collinear": 19,
+        "min_N_collinear": 20,
+        "edges_collinear": 220
+      },
+      {
+        "j": 12,
+        "cost_general": 31,
+        "min_N_general": 32,
+        "edges_general": 384,
+        "cost_collinear": 21,
+        "min_N_collinear": 22,
+        "edges_collinear": 264
+      }
+    ],
+    "minimum_rank_two": {
+      "edges": 32,
+      "j": 4,
+      "N": 8
+    },
+    "minimum_common_line": {
+      "edges": 12,
+      "j": 3,
+      "N": 4
+    },
+    "brute_force_minimum": {
+      "edges": 32,
+      "j": 4,
+      "N": 8
+    },
+    "N8_min_N_for_j4": 8,
+    "boundary_margins_N7_N8": {
+      "7": [
+        0,
+        0
+      ],
+      "8": [
+        1,
+        1
+      ]
+    }
+  },
+  "arm_B_delta": {
+    "ok": true,
+    "stages": {
+      "published_20x5": 100,
+      "source_count_tight_N_16x5": 80,
+      "source_count_j4_13x4": 52,
+      "refinement_count_j5_11x5": 55,
+      "refinement_count_j4_8x4": 32
+    },
+    "source_rule": "N > 3j (07-algebra.tex eq:dimension-accounting)",
+    "refined_rule": "N > 3j-5 (proof.tex eq:cost)",
+    "attribution": {
+      "100->80": "baseline slack: source chose N=20 where its own rule needs 16",
+      "80->52": "baseline slack: source's own sign change uses R_4 and Cramer uses 3 rows, so j=4 already suffices",
+      "52->32": "new mathematics: gauge normalization removes 5 generators (3j -> 3j-5)"
+    }
+  },
+  "arm_C_slip": {
+    "ok": true,
+    "written_normalization_U1_equals": "-w J r_1  (not 0)",
+    "written_slip_reproduced": true,
+    "concrete_counterexample": {
+      "omega": "3/2",
+      "r_1": [
+        1,
+        2
+      ],
+      "U1": [
+        0,
+        0
+      ],
+      "result": [
+        "3*ry/2",
+        "-3*rx/2"
+      ]
+    },
+    "corrected_T": "U_1 - w J r_1",
+    "corrected_gives_zero": true,
+    "bound_affected": false,
+    "why": "T changes only U~_1; the rotation/parallel step uses U_2-U_1, which is translation invariant, so the generator count 3j-5 and the bound 32 stand."
+  },
+  "arm_D_algebra": {
+    "ok": true,
+    "runs": [
+      {
+        "exact_minor_coefficients": true,
+        "determinant_linear_in_R": true,
+        "coefficient_ratios": {
+          "1": "-4",
+          "2": "4",
+          "3": "-4"
+        },
+        "solution_free_of_R4": true,
+        "flip_identity": true,
+        "j3_leaves_R3_in_solution": true
+      },
+      {
+        "exact_minor_coefficients": true,
+        "determinant_linear_in_R": true,
+        "coefficient_ratios": {
+          "1": "-4",
+          "2": "4",
+          "3": "-4"
+        },
+        "solution_free_of_R4": true,
+        "flip_identity": true,
+        "j3_leaves_R3_in_solution": true
+      },
+      {
+        "exact_minor_coefficients": true,
+        "determinant_linear_in_R": true,
+        "coefficient_ratios": {
+          "1": "-4",
+          "2": "4",
+          "3": "-4"
+        },
+        "solution_free_of_R4": true,
+        "flip_identity": true,
+        "j3_leaves_R3_in_solution": true
+      }
+    ],
+    "coefficients_exactly_four_times_minors": true,
+    "solution_independent_of_R4": true,
+    "flip_identity_2R4(A-Ap4)": true,
+    "j3_blocks_the_flip": true,
+    "collinear_velocities_parallel_to_v": true,
+    "note": "coeff(R_l) = -+4 * two-by-two minor, recovered with its exact sign (the shipped test compares squares only)"
+  },
+  "arm_E_mutations": {
+    "skipped": true
+  },
+  "arm_F_scope": {
+    "ok": true,
+    "readme_conditional": true,
+    "readme_no_headline_exponent": true,
+    "readme_no_lean_claim": true,
+    "row_conditions_empty": true,
+    "row_evidence": "Claimed",
+    "row_statement_carries_hypotheses": true
+  },
+  "findings": [
+    {
+      "code": "F1",
+      "severity": "medium",
+      "text": "board row conditions is an empty string while the source is explicitly conditional on three imported lemmas; the row's statement field carries the caveat instead of conditions."
+    },
+    {
+      "code": "F2",
+      "severity": "low",
+      "text": "board baseline.source points at The-weak-pinned-planar-distance-theorem preprint (7 section files, adc7f124); the 20x5 selection lives in A-power-saving-for-planar-unit-distances \u00a77 at fd4aeeb. The baseline PDF does not contain the ranked quantity."
+    }
+  ],
+  "verdict": "claim reproduces"
+}
