@@ -1,0 +1,142 @@
+### run 1: self-contained (published certificate values embedded at the pin) ###
+
+== A. exponent chain (exact Fractions) ==
+s0 = 1-1/1300 = 1299/1300
+u0 = 1300/1301 = 1300/1301
+z  = (s0+u0)/2 = 3379999/3382600  ~ 0.99923106486134927
+d  = 1-z       = 2601/3382600  ~ 0.00076893513865074203
+t  = z+d^3     = 38673890304413527801/38703650883976000000  ~ 0.99923106531599082
+g  = 1/(2-t)   = 38703650883976000000/38733411463538472199  ~ 0.99923165612224762
+kappa = 1-g    = 29760579562472199/38733411463538472199  ~ 0.00076834387775234281
+
+A1  u0-z = 1/3382600  == 1/3382600                 [PASS]
+A2  d = 2601/3382600; d^3 < 1300^-3 since 2601*1300 = 3381300 < 3382600  [PASS]
+A3  1300^-3 = 4.551661e-10  <  1/3382600 = 2.956306e-07        [PASS]
+A4  t < u0 : slack/d^3 = 650.2 corrective units    [PASS]
+A5  g < 1/(2-u0) = 1301/1302 = 1301/1302          [PASS]
+A6  kappa = 7.6834387775e-04 > 1/1302 = 7.6804915515e-04  -> claim is conservative  [PASS]
+    unused margin: kappa/(1/1302) - 1 = 0.0384%
+    at THIS parameter, kappa = 7.6834387775e-04 < 1/1301 = 7.6863950807e-04, so 1/1301
+    would be false as written; 1301/1302 is the tight integer rung.
+A7  t < g (a fixed ell with t<ell<g exists); equivalent to (1-t)^2 > 0        [PASS]
+
+A8  at the true moment threshold s0 = 1-1/1299 (see part C):
+    kappa = 7.6893468375e-04  ~ 1/1300.50  > 1/1301
+    so a stronger row kappa = 1/1301 IS supportable by changing one
+    digit; the published 1/1302 is conservative ~ one unit. [PASS]
+
+== B. finite strict-rank-moment certificate, recomputed ==
+profile totals: sum paid[r]*r = 165080, sum target[r]*r = 165200
+B1/B2 profile totals match the printed invoice          [PASS]
+B3 strict moment: target_lower - paid_upper = 48274644696285 > 0    [PASS]
+B4  per-rank interval rows reproduce exactly (10 rows)     [PASS]
+B5  paid_upper=46549475589303981235 target_lower=46549523863948677520 den=10133099161583616 gap=48274644696285 reproduce exactly
+    -> every published certificate number is reproduced      [PASS]
+B7  true (120-digit) relative margin = +1.037297e-06 > 0          [PASS]
+
+== C. rank-moment threshold (the origin of the constant 1300) ==
+strict moment  sum target[r] r^s  >  sum paid[r] r^s  at s = 1-1/N
+   N= 1297  s=1-1/1297   gap = -1.057614e-01  FAILS
+   N= 1298  s=1-1/1298   gap = -1.334129e-02  FAILS
+   N= 1299  s=1-1/1299   gap = +7.893671e-02  holds
+   N= 1300  s=1-1/1300   gap = +1.710729e-01  holds
+   N= 1301  s=1-1/1301   gap = +2.630677e-01  holds
+C1  true threshold N* = 1299  (the inequality fails at N* = 1298)   [PASS]
+    the paper's 1300 is therefore a rank count taken at/just above
+    its own threshold, not a free parameter.
+
+== D. Euclidean exchange balance law ==
+paper: exchanges above threshold a cost O(V L a^{t-1}); last short
+       field costs O(V a); choose a = ceil(L^{1/(2-t)}).
+D2  L*a^{t-1} with a=L^{1/(2-t)} -> L^38703650883976000000/38733411463538472199 ; : a -> L^38703650883976000000/38733411463538472199       [PASS]
+D3  perturbing the exponent upward is strictly worse          [PASS]
+    -> g = 1/(2-t) is the exact minimiser; the step is proved,
+       and the direction (smaller is stronger) is respected.
+
+== E. comparison with the same author's 2^-38 row ==
+this row : kappa = 1/1302      = 7.680491551459e-04 ; log exponent = 0.999231950844854
+prior row: kappa = 1/274877906944 = 3.637978807092e-12 ; log exponent = 0.999999999996362
+E1/E2 kappa ratio = 2.1112e+08 ; smaller log exponent = cheaper = stronger  [PASS]
+E3  2^38 = 274877906944 matches the board's shown exact value [PASS]
+    both rows: same author, same repo, same machine model,
+    same outer balance law g = 1/(2-t); only the interchange
+    exponent t changes (t = 1-2^-36 there, t = z+d^3 here).
+    -> the improvement is apples-to-apples, but it is also NOT
+       independent corroboration: one author, one lineage.
+
+== summary ==
+checks run: 31 ; failures: 0
+RESULT: PASS - exponent chain exact, certificates reproduced
+EXIT=0
+
+### run 2: --expected-dir against the author's file at the pin ###
+
+== A. exponent chain (exact Fractions) ==
+s0 = 1-1/1300 = 1299/1300
+u0 = 1300/1301 = 1300/1301
+z  = (s0+u0)/2 = 3379999/3382600  ~ 0.99923106486134927
+d  = 1-z       = 2601/3382600  ~ 0.00076893513865074203
+t  = z+d^3     = 38673890304413527801/38703650883976000000  ~ 0.99923106531599082
+g  = 1/(2-t)   = 38703650883976000000/38733411463538472199  ~ 0.99923165612224762
+kappa = 1-g    = 29760579562472199/38733411463538472199  ~ 0.00076834387775234281
+
+A1  u0-z = 1/3382600  == 1/3382600                 [PASS]
+A2  d = 2601/3382600; d^3 < 1300^-3 since 2601*1300 = 3381300 < 3382600  [PASS]
+A3  1300^-3 = 4.551661e-10  <  1/3382600 = 2.956306e-07        [PASS]
+A4  t < u0 : slack/d^3 = 650.2 corrective units    [PASS]
+A5  g < 1/(2-u0) = 1301/1302 = 1301/1302          [PASS]
+A6  kappa = 7.6834387775e-04 > 1/1302 = 7.6804915515e-04  -> claim is conservative  [PASS]
+    unused margin: kappa/(1/1302) - 1 = 0.0384%
+    at THIS parameter, kappa = 7.6834387775e-04 < 1/1301 = 7.6863950807e-04, so 1/1301
+    would be false as written; 1301/1302 is the tight integer rung.
+A7  t < g (a fixed ell with t<ell<g exists); equivalent to (1-t)^2 > 0        [PASS]
+
+A8  at the true moment threshold s0 = 1-1/1299 (see part C):
+    kappa = 7.6893468375e-04  ~ 1/1300.50  > 1/1301
+    so a stronger row kappa = 1/1301 IS supportable by changing one
+    digit; the published 1/1302 is conservative ~ one unit. [PASS]
+
+== B. finite strict-rank-moment certificate, recomputed ==
+profile totals: sum paid[r]*r = 165080, sum target[r]*r = 165200
+B1/B2 profile totals match the printed invoice          [PASS]
+B3 strict moment: target_lower - paid_upper = 48274644696285 > 0    [PASS]
+B4  per-rank interval rows reproduce exactly (10 rows)     [PASS]
+B5  paid_upper=46549475589303981235 target_lower=46549523863948677520 den=10133099161583616 gap=48274644696285 reproduce exactly
+    -> every published certificate number is reproduced      [PASS]
+B6  the author's own file, not just its transcription, agrees  [PASS]
+B7  true (120-digit) relative margin = +1.037297e-06 > 0          [PASS]
+
+== C. rank-moment threshold (the origin of the constant 1300) ==
+strict moment  sum target[r] r^s  >  sum paid[r] r^s  at s = 1-1/N
+   N= 1297  s=1-1/1297   gap = -1.057614e-01  FAILS
+   N= 1298  s=1-1/1298   gap = -1.334129e-02  FAILS
+   N= 1299  s=1-1/1299   gap = +7.893671e-02  holds
+   N= 1300  s=1-1/1300   gap = +1.710729e-01  holds
+   N= 1301  s=1-1/1301   gap = +2.630677e-01  holds
+C1  true threshold N* = 1299  (the inequality fails at N* = 1298)   [PASS]
+    the paper's 1300 is therefore a rank count taken at/just above
+    its own threshold, not a free parameter.
+
+== D. Euclidean exchange balance law ==
+paper: exchanges above threshold a cost O(V L a^{t-1}); last short
+       field costs O(V a); choose a = ceil(L^{1/(2-t)}).
+D2  L*a^{t-1} with a=L^{1/(2-t)} -> L^38703650883976000000/38733411463538472199 ; : a -> L^38703650883976000000/38733411463538472199       [PASS]
+D3  perturbing the exponent upward is strictly worse          [PASS]
+    -> g = 1/(2-t) is the exact minimiser; the step is proved,
+       and the direction (smaller is stronger) is respected.
+
+== E. comparison with the same author's 2^-38 row ==
+this row : kappa = 1/1302      = 7.680491551459e-04 ; log exponent = 0.999231950844854
+prior row: kappa = 1/274877906944 = 3.637978807092e-12 ; log exponent = 0.999999999996362
+E1/E2 kappa ratio = 2.1112e+08 ; smaller log exponent = cheaper = stronger  [PASS]
+E3  2^38 = 274877906944 matches the board's shown exact value [PASS]
+    both rows: same author, same repo, same machine model,
+    same outer balance law g = 1/(2-t); only the interchange
+    exponent t changes (t = 1-2^-36 there, t = z+d^3 here).
+    -> the improvement is apples-to-apples, but it is also NOT
+       independent corroboration: one author, one lineage.
+
+== summary ==
+checks run: 36 ; failures: 0
+RESULT: PASS - exponent chain exact, certificates reproduced
+EXIT=0

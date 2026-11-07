@@ -1,0 +1,45 @@
+STRICT RANK MOMENT  sum target[r] r^s  >  sum paid[r] r^s   at  s = 1 - 1/N
+profiles are the paper's normalized per-cover-row invoice (checks/probes/finite_certificate.cpp)
+  paid[r]   for r=1..7 : [27445, 10400, 2200, 4340, 7760, 8120, 765]
+  target[r] for r in   : {8: 18910, 22: 240, 36: 240}
+  sum paid[r]*r = 165080   sum target[r]*r = 165200
+
+       N  s = 1 - 1/N             gap (120 digits)    verdict
+       1  0.000000000000          -4.1640000000e+04   FAILS
+     100  0.990000000000          -1.4155230827e+03   FAILS
+     500  0.998000000000          -1.9095733993e+02   FAILS
+    1000  0.999000000000          -3.5721502282e+01   FAILS
+    1200  0.999166666667          -9.8016821893e+00   FAILS
+    1290  0.999224806202          -7.5670946970e-01   FAILS
+    1295  0.999227799228          -2.9102935131e-01   FAILS
+    1296  0.999228395062          -1.9832399334e-01   FAILS
+    1297  0.999228989977          -1.0576141675e-01   FAILS
+    1298  0.999229583975          -1.3341291940e-02   FAILS
+    1299  0.999230177059          +7.8936709676e-02   holds
+    1300  0.999230769231          +1.7107291568e-01   holds
+    1301  0.999231360492          +2.6306765266e-01   holds
+    1310  0.999236641221          +1.0847075711e+00   holds
+    1500  0.999333333333          +1.6131634907e+01   holds
+    2000  0.999500000000          +4.2078455338e+01   holds
+   10000  0.999900000000          +1.0440595589e+02   holds
+
+threshold N* = 1299   (gap(N*) = +7.8936709676e-02 > 0 ; gap(N*-1) = -1.3341291940e-02 < 0)
+
+Reading: the paper uses s0 = 1 - 1/1300. The moment inequality first holds at N* = 1299,
+so 1300 is a rank count taken just above its own threshold -- which is why the
+constant 1301/1302 is computed rather than chosen.
+
+Two statements must be kept apart, and both were checked exactly:
+
+  (a) at the paper's own s0 = 1-1/1300 the chain gives kappa = 7.6834387775e-4, which is
+      LESS than 1/1301 = 7.6863950807e-4 -- so a claim of kappa = 1/1301 would be false
+      AS WRITTEN, and 1301/1302 is the tight integer rung at that parameter;
+
+  (b) at the true threshold s0 = 1-1/1299 the SAME chain gives
+      kappa = 29646335589512201/38555076544413512201 = 7.6893468375e-4 ~ 1/1300.5, which
+      is GREATER than 1/1301 -- so a stronger kappa = 1/1301 row is supportable by
+      changing one digit, using the certificate already shipped.
+
+Net: the published row is correct and conservative by about one unit of the
+denominator. It understates, it does not inflate. No row change is recommended on
+the strength of this note.

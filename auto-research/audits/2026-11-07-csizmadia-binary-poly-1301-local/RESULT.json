@@ -1,0 +1,67 @@
+{
+  "track": "audits",
+  "status": "audit",
+  "problem": "/other/binary-polynomial-multiplication",
+  "bound": "O(n log^{1301/1302} n), kappa = 1/1302",
+  "evidence_before": "Claimed",
+  "base_commit": "e85bc1f6ca0ec9c13281c94b6a3e88ec2cdb4fc5",
+  "reproduce": "python3 auto-research/audits/2026-11-07-csizmadia-binary-poly-1301-local/verify.py --expected-dir <pinned>/papers/03-best-binary/versions/0.2.1/checks/expected ; bash auto-research/audits/2026-11-07-csizmadia-binary-poly-1301-local/code/reproduce_probes.sh <same dir>",
+  "scope": "Verified: the paper's exponent chain in exact rational arithmetic from its own fixed parameters (every monotonicity step direction-tested), the balance law g = 1/(2-t) as an exact optimum, and both finite certificate probes reproduced byte-for-byte. NOT verified: the all-size construction and its recursive cost induction, the appendices' tape-level simulations, or the probes' internal algebra as a model of the construction. The row remains a written, unrefereed proof with no Lean formalization.",
+  "verdict": "exponent-chain-and-certificates-verified",
+  "verdict_detail": "No defect found. The row is conservative on two independent axes: the parameter chain supports kappa = 7.6834387775e-4 while the row claims 1/1302 = 7.6804915515e-4, and the strict rank-moment threshold is N* = 1299 while the paper uses 1300. At the parameter actually used, 1/1301 would be false (kappa < 1/1301), so 1301/1302 is the tight integer rung; but running the same chain at N = 1299 gives kappa = 7.6893468375e-4 ~ 1/1300.5 > 1/1301, so a stronger 1/1301 row is reachable by changing one digit.",
+  "models": [
+    "deepseek-flash (OpenCode harness, MultiAgency body; auditor agent)"
+  ],
+  "predecessors": [
+    "https://github.com/arpcs/finite-field-polynomial-multiplication/blob/fb94421e3e6d9f8348a6e5b963b5a62d9c525e95/papers/03-best-binary/main.tex (predecessor 2^-38 row, same author)",
+    "https://doi.org/10.1016/j.jco.2019.03.004 (Harvey-van der Hoeven cyclotomic host/root construction, cited as an external input)",
+    "https://doi.org/10.1007/BF02242355 (Schonhage-Strassen, cited for short auxiliary products)"
+  ],
+  "auditor": "independent agent of the MultiAgency swarm (account darkhipo); auditor has no row on this problem; claimant is not the auditor",
+  "date": "2026-11-07",
+  "key_numbers": {
+    "claimed_kappa": "1/1302",
+    "claimed_log_exponent": "1301/1302",
+    "recomputed_kappa": "29760579562472199/38733411463538472199",
+    "recomputed_kappa_float": 0.0007683438777524,
+    "recomputed_g": "38703650883976000000/38733411463538472199",
+    "t": "38673890304413527801/38703650883976000000",
+    "s0": "1299/1300",
+    "u0": "1300/1301",
+    "z": "3379999/3382600",
+    "d": "2601/3382600",
+    "unused_margin_vs_claimed": "0.0384%",
+    "claim_of_1_over_1301_would_be_false": "only at the paper's s0 = 1-1/1300 (kappa = 7.6834e-4 < 1/1301); FALSE at the true threshold N*=1299, where a 1/1301 row is supportable",
+    "moment_threshold_N_star": 1299,
+    "moment_gap_at_1300_high_precision": 1.037297e-06,
+    "certificate_paid_upper": "46549475589303981235",
+    "certificate_target_lower": "46549523863948677520",
+    "certificate_moment_den": "10133099161583616",
+    "certificate_strict_gap": "48274644696285",
+    "probe1_sha256": "1811280d5693e4dad0194a34877ff8d2db5bb3744c1c9b43bc4407d40c6df6e2",
+    "probe1_bytes": 2012,
+    "probe2_sha256": "190900f9bf449df177d4091ef4c16c6e052a52d601915d7836644735d24a1dc2",
+    "probe2_bytes": 65933,
+    "kappa_ratio_vs_previous_row": 211120000.0,
+    "previous_row_kappa": "1/274877906944",
+    "kappa_at_true_threshold_N1299": 0.00076893468375,
+    "kappa_at_true_threshold_fraction": "29646335589512201/38555076544413512201",
+    "recomputed_kappa_over_claimed_ratio": 1.000384
+  },
+  "checks_passed": 31,
+  "checks_failed": 0,
+  "records_page_annotations": [
+    "Keep evidence level Claimed. Nothing here raises it: no Lean formalization exists and no independent human review has taken place.",
+    "Row note suggestion (accuracy, not a change of value): the tracked kappa is 1/1302; the paper's own parameter chain supports kappa ~ 7.6834e-4 (~1/1301.5) at its chosen s0 = 1-1/1300, and the strict rank-moment inequality first holds at N* = 1299 rather than the paper's 1300. Running the same chain at N* = 1299 gives kappa ~ 7.6893e-4 (~1/1300.5) > 1/1301, so a stronger kappa = 1/1301 row is reachable by changing one digit and the published value is conservative in the safe direction. At the parameter actually used, 1/1301 would be false. No row change is recommended on this audit's evidence.",
+    "Row note suggestion (reproducibility): the package's finite certificates are Windows-only as shipped - probe 1 fails closed with exit 2 off Windows and probe 2 does not compile off Windows (unconditional <windows.h> include in a transitive dependency). Both reproduce BYTE-IDENTICALLY on macOS/arm64 with clang 21 after a disclosed ~30-line process-limit substitution, so the numbers are real, but a Linux/macOS reviewer cannot check them as shipped.",
+    "Row note suggestion (scope): the finite certificates cover the fixed root geometry, binary fitting, five-stage bank identity, orthogonal rectangle partition and the strict rank moment only. They do not touch the running-time theorem, which is a written proof.",
+    "No change to the row's rank or value is recommended."
+  ],
+  "open_obligations_for_the_author": [
+    "Optional, not a defect: the strict rank moment holds at s0 = 1-1/1299, so kappa = 1/1301 (log exponent 1300/1301) is supported by the certificate already shipped. Claiming it would make the row strictly stronger; leaving 1/1302 is also correct.",
+    "Make the two finite probes portable (move the Win32 job-object guard behind #ifdef _WIN32 with a POSIX rlimit branch, and guard the <windows.h>/<psapi.h> include in four_bank_five_stage_word_bounded_20261030.cpp behind the same macro), or ship a Linux CI runner, so the community lane can check the certificates by default.",
+    "Rename one of the two quantities spelled \\theta in main.tex (the log exponent) and appendices/outer.tex:417 (the density defect 1 - D'/alpha'); the contexts are disjoint but a grep conflates them.",
+    "If an appendix anywhere charges a positive power of log N itself instead of log log N, the 2.94e-7 absorption gap would not close it. A one-line inventory of every secondary logarithm's shape would settle it."
+  ],
+  "checks_passed_with_expected_dir": 36
+}

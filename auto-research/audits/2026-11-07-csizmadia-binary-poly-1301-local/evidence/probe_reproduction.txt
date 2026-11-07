@@ -1,0 +1,22 @@
+paper dir : /Volumes/Substrate-1/bigo/f2poly/papers/03-best-binary/versions/0.2.1
+compiler  : Apple clang version 21.0.0 (clang-2100.1.1.101)
+work dir  : /var/folders/jh/3bjc126d36g068dyhtyxf6lw0000gn/T/tmp.UGBh4ZD3Zv
+
+--- A. as shipped: probe 1 refuses to run off Windows ---
+compile: OK (clang, -Werror)
+run     : exit=2  stderr=REFUSED: required job unavailable
+
+--- B. as shipped: probe 2 does not compile off Windows ---
+compile : exit=1
+frozen_rectangles.cpp:6:41: error: use of undeclared identifier 'ExitProcess'
+./../four_bank_five_stage_word_bounded_20261030.cpp:5:10: fatal error: 'windows.h' file not found
+
+--- C. with the two disclosed POSIX substitutions: both reproduce ---
+finite_certificate   exit=0 wall=0.39s bytes=2012/2012 BYTE_IDENTICAL
+                     sha256(got)=1811280d5693e4dad0194a34877ff8d2db5bb3744c1c9b43bc4407d40c6df6e2
+frozen_rectangles    exit=0 wall=0.40s bytes=65933/65933 BYTE_IDENTICAL
+                     sha256(got)=190900f9bf449df177d4091ef4c16c6e052a52d601915d7836644735d24a1dc2
+
+BOTH PROBES REPRODUCED BYTE-IDENTICALLY
+(the author's published expected outputs are not fabricated: a different
+ compiler on a different OS regenerates them exactly)

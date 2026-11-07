@@ -1,0 +1,19 @@
+{
+  "algorithm": "sha256",
+  "sha256": {
+    "NOTICE.md": "deda799369a0c5b3c1b470e7e7878b1fb69f15354615d4c3aef20c04d14e5c7f",
+    "README.md": "43f3fa0ee3bed2a7052567ba71da343443d3220ce8377f8073a137dcc396b55f",
+    "RESULT.json": "ca1ed74e88b9eff6735be1f3ccab5e7fadbd4c17f09a19de14f9e761e27a8f89",
+    "code/reproduce_probes.sh": "25e3e8ad3792d1018be872e2d4eee9926e8a191a2b93e85ee9c0f144f11332e6",
+    "code/windows-guard-posix/README.md": "2a9695258ba6761becf0d7983e9371e177b654672d836ab97a4e28e0a3d8dffc",
+    "code/windows-guard-posix/bounded_chirp_process_limits.hpp": "13b2f22a1ef4d1ef5e073103e557aeaf699d5509367e02ca0efff3b77db86d71",
+    "code/windows-guard-posix/psapi.h": "b3adf106d95b8934f690943f2921308b90be5b766c4c8ba250c792de56400201",
+    "code/windows-guard-posix/windows.h": "5b5b8aa8248c36df00bfa099993abd9f320a6e5e8adec86f7d16408af7b4ac12",
+    "evidence/board_statement.txt": "605515ea855703e5823d385f10f814486ce4784d50971f068d21107ce58ff87d",
+    "evidence/moment_threshold.txt": "ab735d4c6a432390b09d5090c25d26d7047576b42718ad129ca6c8858060017e",
+    "evidence/pin.txt": "9f913b3a258e91796e28c02a67042027dc3f156ccdd2aeaa0ff2cadac64ac94e",
+    "evidence/probe_reproduction.txt": "55342255f9c264b2a6aea655f10d742fe633fe42fa06a60679e70ae0a5401f5a",
+    "evidence/verify_output.txt": "83ed58ef1bb716aa38e2b1b710d110f5555c5b70f0b6d648985529a30fab2b9d",
+    "verify.py": "285e5e5660bd75af34e75f583b0f0469b558d01713e3ab38246b0e28652b7781"
+  }
+}

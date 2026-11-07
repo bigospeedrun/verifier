@@ -1,0 +1,49 @@
+PINS AND SOURCE HASHES
+
+Board row audited
+  site : https://bigospeedrun.com/other/binary-polynomial-multiplication
+  row  : O(n log^{1301/1302} n)  [Claimed]
+  author: Arpad Csizmadia (arpcs)
+  date : Nov 1 2026, 7:52 PM PT
+  site data read on: 2026-11-07 (site says data updated Nov 7, 8:17 AM PT)
+
+Source repository
+  https://github.com/arpcs/finite-field-polynomial-multiplication
+
+Audited commit (pin)
+  e85bc1f6ca0ec9c13281c94b6a3e88ec2cdb4fc5
+  "Add binary polynomial multiplication preprint v0.2.1"
+  authored 2026-11-02 04:52:41 +0100  ==  2026-11-01 19:52 PDT
+  This timestamp is the board row's "Nov 1, 7:52 PM PT" to the minute, so the
+  row is pinned to this commit. Upstream has moved since: HEAD of main at audit
+  time was d95b709a1e6408f68f3d907bd6177db5753aa6c7 (2026-11-02), which touches
+  papers/01-general and a source snapshot, not papers/03-best-binary.
+
+Predecessor row audited for comparison (the 2^-38 row)
+  fb94421e3e6d9f8348a6e5b963b5a62d9c525e95
+  papers/03-best-binary/main.tex, line 976: "With epsilon=2^{-36} ..."
+
+File hashes at the pin (sha256, from `git show <pin>:<path>`)
+  011f1197d240581e510f23b72ae468434de7e32c7bcad18e9a161f277a9bd2a8  papers/03-best-binary/versions/0.2.1/main.tex
+  38a52af41f363673acc24bce2d1b0c19207bea28012604832e2df63f3cdfdac5  papers/03-best-binary/versions/0.2.1/paper.pdf
+  3606612bfb5ddbe7a3af4339ce9f0bedc33c283556818f4621f1496d25f489e2  papers/03-best-binary/versions/0.2.1/CLAIM.json
+  98e395a373ea9f5915f538b7d0c4bc1b1c6d51912728a9e05cbcfd41ab653714  papers/03-best-binary/versions/0.2.1/COST_LEDGER.txt
+  106100ba8a7400058262138a236c69e42a8b0201a6864661d564c4b240373518  papers/03-best-binary/versions/0.2.1/checks/probes/finite_certificate.cpp
+  1c63e57712ebdbd09086a2e15b2c9ce30dbf6d21a9ede7d464e41b43402dcb59  papers/03-best-binary/versions/0.2.1/checks/expected/finite_certificate.json
+  6035a33feae49e4888c351c7722fd2f1b3ca3ade2b1c0e84837aca06cbc9e8f6  papers/03-best-binary/versions/0.2.1/checks/expected/frozen_rectangles.json
+
+Package self-consistency check
+  CLAIM.json declares paper.pdf sha256
+    38A52AF41F363673ACC24BCE2D1B0C19207BEA28012604832E2DF63F3CDFDAC5
+  and the file at the pin hashes to exactly that value (case-insensitive).
+  The declared artifact and the shipped artifact are the same bytes.
+
+Exponent statement locations in the pinned tree
+  main.tex:27    abstract
+  main.tex:118   Theorem 1 (thm:main)
+  main.tex:184   the strict rank-moment inequality at s0 = 1-1/1300
+  main.tex:288   "aggregate rectangles ... cost O(V L^g), g = 1/(2-t)"
+  main.tex:338   "take a = ceil(L^{1/(2-t)})"   <- the balance that makes g
+  main.tex:477-483  the fixed-parameter chain that yields 1301/1302
+  COST_LEDGER.txt lines 3-8  the same parameters restated
+  CLAIM.json     "kappa_exact": "1/1302", "logarithmic_exponent_exact": "1301/1302"

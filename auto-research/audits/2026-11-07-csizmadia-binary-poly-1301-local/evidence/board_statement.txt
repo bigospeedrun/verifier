@@ -1,0 +1,92 @@
+BOARD STATEMENT vs PAPER'S OWN CLAIM.json  (the model-comparison object)
+
+1. WHAT THE BOARD BOUNDS (site text, read 2026-11-07)
+
+  Problem  Polynomial multiplication over F2
+  Input    two polynomials over F2, each given as its n coefficient bits
+  Output   the 2n-1 coefficient bits of their product in F2[x]
+  Note     "Coefficients add without carries, so this is a different problem
+            from integer multiplication."
+  Machine  "The machine is a deterministic Turing machine with a fixed number
+            of tapes and a fixed alphabet. Its running time counts every step,
+            including reading the input and writing the output."
+  Quantity "The quantity is kappa in a worst-case running time of
+            O(n log^{1-kappa} n). A higher kappa is better."
+  Baseline O(n log n 4^{log* n}) (Harvey-van der Hoeven 2019)
+  Caveat   "Harvey and van der Hoeven (2022) reach O(n log n) only if an
+            unproved hypothesis on primes in arithmetic progressions holds."
+
+  So the tracked quantity is a log-exponent kappa of a Turing-machine running
+  time -- NOT bilinear complexity, NOT algebraic complexity, NOT a circuit
+  size. Any audit of this row must stay inside that model.
+
+2. WHAT THE ROW SAYS (site row 1, "Exact value and conditions")
+
+  Rank 1   Bound O(n log^{1301/1302} n)   exact value shown 1/1302
+  Author   Arpad Csizmadia        Date Nov 1, 7:52 PM PT
+  Scope    "A written proof for all input sizes (Theorem 1 of the paired-phase
+            paper, version 0.2.1), prepared with substantial AI assistance
+            (OpenAI Codex), that the author has not had reviewed by other
+            people. No Lean proof is supplied. The finite certificates cover
+            only parts of the construction, not the running-time theorem.
+            The problem and the machine are those of our statement
+            (CLAIM.json of the paper)."
+  Row 2    O(n log^{1-2^-38} n), 1/274877906944, same author, Oct 30
+
+3. WHAT THE PAPER CLAIMS ABOUT ITSELF (CLAIM.json at the pin)
+
+  problem.field            "F2"
+  problem.product          "ordinary univariate polynomial product"
+  problem.input            "two ascending coefficient-bit lists of length n"
+  problem.output           "all 2n-1 ascending product coefficient bits,
+                            including zeros"
+  problem.randomization    "none"
+  problem.uniformity       "one deterministic machine for every n; constants
+                            and cutoff independent of n"
+  problem.model            "fixed finite alphabet and fixed finite number of
+                            one-dimensional sequential tapes"
+  problem.cost             "worst-case machine transitions, including
+                            input/output, setup, arithmetic, conversions, tape
+                            movement and workspace cleanup"
+  bound.kappa_exact        "1/1302"
+  bound.logarithmic_exponent_exact  "1301/1302"
+  bound.comparison_direction        "higher kappa is stronger"
+  evidence.independent_human_review                false
+  evidence.end_to_end_formal_proof_supplied        false
+  evidence.asymptotic_theorem_certified_by_finite_tests  false
+  evidence.finite_certificates_scope  "fixed root geometry, binary fitting,
+      five-stage bank identity, orthogonal rectangle partition and strict rank
+      moment only"
+  ai_assistance.substantial  true, harness "OpenAI Codex"
+
+4. VERDICT ON THE MODEL COMPARISON
+
+  Field-by-field, the two descriptions are the same problem, the same machine
+  and the same cost measure: deterministic, one machine for every n, fixed
+  finite alphabet, fixed finite number of one-dimensional tapes, every
+  transition counted including input and output, all 2n-1 coefficients
+  emitted, kappa = 1 - (log exponent), higher kappa stronger.
+
+  Two places where a row could silently weaken have been checked and do not:
+
+  (a) Output convention.  The board wants all 2n-1 bits.  Theorem 1 returns
+      "the first 2n-1 returned cyclic coefficients [which] are exactly the
+      ordinary product", with zeros emitted (CLAIM.json output says
+      "including zeros").  main.tex:110-116 also charges input copying, head
+      returns and erasure.  No hidden output convention.
+
+  (b) Machine weakening.  O(n log^{1-kappa} n) is a Turing-machine statement,
+      so a bit-cost bound on a word-RAM with an unbounded word would not
+      transfer.  The paper states the fixed-alphabet/fixed-tape constraint in
+      the theorem itself (main.tex:100-105) and its cost ledger charges tape
+      movement per bit (COST_LEDGER.txt "All masks remain present", 
+      "Every private crop occurs at its proved completed boundary").  The
+      bound is stated on the board's machine, and the paper's own CLAIM.json
+      asserts the identity.  This audit did not re-derive the tape-movement
+      simulation; see README "Honest limits".
+
+  Note on direction of the two rows.  Larger kappa is better, so
+  1301/1302 (exponent of log = 0.9992319...) is strictly stronger than
+  1-2^-38 (exponent 0.99999999999636...).  The improvement is
+  1/1302 / 2^-38 = 2.1112e8 in kappa.  It is NOT a different problem and NOT
+  a different machine.
