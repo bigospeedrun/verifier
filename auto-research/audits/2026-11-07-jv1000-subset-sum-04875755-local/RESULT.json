@@ -1,0 +1,79 @@
+{
+  "audit": "2026-11-07-jv1000-subset-sum-04875755-local",
+  "board": "https://bigospeedrun.com/subset-sum",
+  "row": {
+    "board_id": "subset-sum",
+    "value": "O(2^(0.4875755 n))",
+    "exact_score": "975151/2000000",
+    "status": "Claimed",
+    "claimant": "Jennifer Voitle (jv1000)",
+    "repo": "https://github.com/jv1000/subset-sum",
+    "pin": "6026da70f13d677b630cb1afd8fb10ee7a7f6010",
+    "claim_shape": "Conditional on the non-numerical lemmas of the OpenAI subset-sum preprint and of Base's written proof: uniform randomized word-RAM algorithm, halts on every execution, correct with probability >= 2/3, O(2^(T' n)) word operations per input for every fixed T' > T = 0.4875754036 and b <= n^c"
+  },
+  "verdict": "verified-with-conditions",
+  "verdict_scope": "The numerics are independently verified: (1) exact-as-instructed reproduction of all 33 certified margins with python-flint arb (all_pass true, T_ball 0.4875754036, matches paper SS8 value for value); (2) perturbation arms show the checker detects corrupted parameters (rc[0]+1e-3, tau0-1e-6, tau0-1e-5, gamma+1e-5 all fail) with a benign control (tau0+1e-9 passes) and a verified-genuinely-feasible near-miss (tau0-1e-7); (3) a from-scratch stdlib-decimal recomputation of all 33 margins at prec 60 agrees to 18 significant digits, log2M1/log2M2 inside the certified arb balls; (4) the in-repo mpmath-iv implementation stores the same 20 digits; (5) doubled resolution N_in=512 unchanged at 20 digits. Conditions: the claim remains conditional on the OpenAI + Base non-numerical lemmas (not re-derived here, same dependency structure as the 0.487676 and 0.4876723 rows); no Lean proof; not peer reviewed - all consistent with the row's Claimed level.",
+  "checks": {
+    "reproduction_as_instructed": {
+      "pass": true,
+      "command": "python3 -I certify_base.py candidate_base.json",
+      "environment": "python-flint 0.9.0, python3 -I",
+      "result": "exit 0, ~2.8 s, all_pass true, 33/33 margins positive; tightest B3 8.12458704e-7, M1 1.3154487e-6, C4 1.31567e-6, M2 1.49404e-6",
+      "evidence": "evidence/repro_run1.json"
+    },
+    "perturbation_failure_detection": {
+      "pass": true,
+      "arms": {
+        "rc0_plus_1e-3": "M1 margin -1.42e-5 (detected, moment path)",
+        "tau0_minus_1e-6": "C5, eps0, M1, M2 negative (detected)",
+        "tau0_minus_1e-5": "7 conditions negative (detected)",
+        "gamma_plus_1e-5": "C1, eps0 negative (detected, scalar path)",
+        "tau0_plus_1e-9": "passes (benign control; not a constant rejector)",
+        "tau0_minus_1e-7": "passes, verified genuinely feasible (M1 margin 1.32e-6, d(log2M1)/d(tau0) = p ~= 8.46, first failure near -1.55e-7)"
+      },
+      "note": "failure sets match analytically predicted sensitivities in all arms",
+      "evidence": "evidence/perturb/"
+    },
+    "independent_recomputation": {
+      "pass": true,
+      "implementation": "verify.py: stdlib decimal only, prec 60, pi via Machin, trig via Taylor; zero code shared with certify_base.py",
+      "headline": "all 33 margins reproduce to 18 significant digits (worst rel. diff 0.0)",
+      "moments": {
+        "log2M1": "0.5162683258512851504377 (arb ball +/-2.24e-21)",
+        "log2M2": "0.5162681472646696863911 (arb ball +/-1.17e-21)",
+        "q0": "0.370835089416291 exact; U*, W* match"
+      },
+      "doubled_resolution": "N_in=512: log2M1/log2M2 unchanged at 20 digits, as paper SS8 claims",
+      "evidence": "evidence/independent_recompute.txt"
+    },
+    "second_inrepo_implementation": {
+      "pass": true,
+      "implementation": "astra_round8/interval_core.py (mpmath iv, dps 50, own FFT, 'no supplied numerical code used')",
+      "headline": "moments_base_4096.json log2_M1 lower bound 0.51626832585128515043776... - same 20 digits; three independent computations agree (flint arb / mpmath iv / decimal)"
+    },
+    "provenance": {
+      "pass": true,
+      "manifest": "sha256sum -c MANIFEST_5.sha256 -> 465/465 OK at pinned HEAD",
+      "pins": "candidate_base.json and certify_base.py unchanged since MANIFEST_2/3; .ots OpenTimestamps sidecars present (attestations not verified against the calendar)"
+    },
+    "scope_vs_board_model": {
+      "pass": true,
+      "model": "OpenAI word-RAM model (success >= 2/3, b <= n^c, constant depends on c) + halting on every execution; per-random-outcome bound inherited from the OpenAI word-RAM accounting lemma, already listed among the row's unverified inherited lemmas",
+      "arithmetic": "T = tau0 + 20*eps = 0.4875752036 + 2e-7 = 0.4875754036 (paper l.403); 20e slack backed by certified B3 (8.12e-7 < 1.5e-6); 0.4875755 > T so the row value is valid",
+      "conditionality": "Theorem 1 assumes only OpenAI + Base non-numerical lemmas - same structure as the 0.487676 and 0.4876723 rows; huge-constant disclosure (Proposition P cutoff n > 1e8) present",
+      "claim_level": "no Lean proof, not peer reviewed - consistent with Claimed"
+    },
+    "hardcoded_literals": {
+      "pass": true,
+      "note": "certifier reads only raw parameters from JSON; floating_margins/floating_T display fields never read; T computed not literal; reference constants only in comparison outputs; rho_f/rho_c script literals match JSON-declared rules (minor hardening suggestion: auto-check rule drift); certifier defaults N_in=256, c=32, beta=0.1, sigma=0.3 load-bearing and exercised correctly by the quoted command"
+    }
+  },
+  "conditions_for_board": [],
+  "row_corrections": [],
+  "lineage_notes": [
+    "algorithm is Base's (A. Kapila, PROOF_0.4877, commit 44c34961) with one asymmetric filter (16 cosine + 16 sine terms per density) at new parameters",
+    "conditional premises identical in kind to the listed 0.487676 (Wharton) and 0.4876723 (Bills) rows; T is 9.689e-5 below Bills 0.4876723",
+    "paper's other certified points (0.4894616 inside the original OpenAI construction; Theorem 3's 0.4873407528 pending open statement [S]) out of audit scope and not part of this row"
+  ],
+  "auditor": "MultiAgency agent (darkhipo), independent - no subset-sum line of the auditor's own, no contribution to the audited repo (auditor's only prior contact with the challenge is trusted-statement PR #88, board infrastructure)"
+}

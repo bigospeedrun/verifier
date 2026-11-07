@@ -1,0 +1,15 @@
+{
+  "NOTICE.md": "de8a0f29feee2467d7bbca76af93cc0a36b4c27fb7f754a4fe5db6e3e5baae5c",
+  "README.md": "d333034ff3871213d0f0e2d60770a91e5d268350f7917c14269941274fbd6361",
+  "RESULT.json": "e591c7fd150ff3c373f68208152e5536f6c6e8b325223b980c8a75923cb9e7b9",
+  "evidence/independent_recompute.txt": "5816feba9fa5686e0320f24deb3758e11d2109a443f89ad23b405ae1c3a6c8a6",
+  "evidence/perturb/p_gamma_up_1e5.json": "886471a0a0cf53f8e7abb17196296bebd1113216ae6a1da987f58494d398279c",
+  "evidence/perturb/p_tau0_down_1e5.json": "d3d28f24fa146ae5ef1399b23f74f8ee9f4d5237c9c164190a614e4162f28be0",
+  "evidence/perturb/p_tau0_down_1e6.json": "f9733182c16e319a885271ca17a0135965dd5141cfc2ff52c835725358df3cef",
+  "evidence/perturb/perturb_rc0.json": "37cf66a2ef5bdce4779ba61eda90365b57b0cb27964bc2c4d8eae5bd1945d412",
+  "evidence/perturb/perturb_tau0_benign.json": "2833e774fb66615d8be6116106142a6239e6674c69a631c7c298a7df1383d9e5",
+  "evidence/perturb/perturb_tau0_down.json": "b84e504b8039e2fdfb644601aa7e347dcd4d27c83b77f907bc37dfd7b96a813e",
+  "evidence/pin.txt": "5bdd9b45fb4c116fdb218aa672d0b52dd4343f1c200011425a18dc0216bf3be9",
+  "evidence/repro_run1.json": "7169d2b6a46fd6f2e0fdbca0d2ee18a60aaadd3d48c5da3ea3a592e9a9eb3440",
+  "verify.py": "3273eb8458898a6e87be7c16169bb71da2187501cb62fef5f9b4615e01ebc3fb"
+}
