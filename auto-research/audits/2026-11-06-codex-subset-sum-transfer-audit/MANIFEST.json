@@ -1,0 +1,15 @@
+{
+  "algorithm": "sha256",
+  "sha256": {
+    ".gitattributes": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da",
+    "code/audit_math.py": "f64e5acc8e35be20339c22315af38296ecab7e4e0943a567becffd5bfd116951",
+    "data/inputs.json": "7b261629fb726acd6408dac2337dd01fc04694b3375e929a8e95f7e57e111ae0",
+    "evidence/expected.json": "5a2d093fa1862a2b1a579aee8cd0ff3f20afb430e48693f098f5f0729b6964f5",
+    "MATHEMATICS.md": "15b1fa3dda4160fce0ef5117eae83ff0bd8121507442d6361ff2e5259a58a93d",
+    "NOTICE.md": "742e0183495eeab77f180659e05c74cbfabe3aa92aebdfe857a71a661acc8571",
+    "README.md": "2ab95b5ff74846ea1ded470ee1ea97cc19f70e1d48e77b2995e7c17224c54489",
+    "RESULT.json": "f871d5ccc42a6184923d8938ff69f980eac2d766e8a20a7e6791d221102e5a9c",
+    "SESSION.md": "e98a1baeee3e40ada7f85e81390a1986c1319fc717a47b1ddaec752e2a84012e",
+    "verify.py": "2baf1d088a43cc5767dd0b7f835b0ca15329bdc4c045bd6393804248d87542b4"
+  }
+}

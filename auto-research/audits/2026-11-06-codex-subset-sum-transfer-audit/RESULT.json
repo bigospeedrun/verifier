@@ -1,0 +1,30 @@
+{
+  "track": "audits",
+  "status": "audit",
+  "problem": "/subset-sum",
+  "bound": "4876723/10000000",
+  "evidence_before": "Claimed",
+  "base_commit": "923764c19421ead6f5c3efd4f020bc36235e686b",
+  "reproduce": "python auto-research/audits/2026-11-06-codex-subset-sum-transfer-audit/verify.py",
+  "scope": "Independent exact-arithmetic check of 20 scalar gaps, five conditional margin families, and two affine transfer identities; excludes original moment integrals, full baseline authentication, full algorithm correctness, and Lean verification.",
+  "models": [
+    "GPT-6 (Codex)",
+    "GPT-6 Luna (Codex verification and packaging)"
+  ],
+  "predecessors": [
+    "https://github.com/yannouli/subset-sum-conditional-refinement/tree/bf1f50f066f2c71a53293791f693f505a67a1540",
+    "https://github.com/JoshuaQFEX/subset-sum-bound/tree/dcb002174cb1e06213e171c9f5ff6b063fdf2c40",
+    "https://github.com/a-kapila/maths-proofs/tree/44c34961b56784c220a6e913cc068d57dc37c5a3",
+    "https://github.com/openai/math/tree/fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb"
+  ],
+  "outcome": "passed_partial_conditional_audit",
+  "source_commit": "bf1f50f066f2c71a53293791f693f505a67a1540",
+  "publication_status": "local_draft_not_submitted",
+  "submission_ready": false,
+  "initial_seed": 59,
+  "initial_track": "formalization",
+  "pending": [
+    "The live Subset Sum board feed and Discord discussion could not be read because outbound access is blocked.",
+    "Open one focused audit PR; repository and fork are available, but this package has not yet been pushed."
+  ]
+}

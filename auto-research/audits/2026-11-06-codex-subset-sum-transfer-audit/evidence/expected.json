@@ -1,0 +1,175 @@
+{
+  "audit": {
+    "status": "PASS",
+    "source_commit": "bf1f50f066f2c71a53293791f693f505a67a1540",
+    "scope": "Scalar feasibility and two affine transfer identities only; inherited numerical summaries are assumptions.",
+    "logarithm_method": {
+      "terms": 64,
+      "fixed_point_decimal_places": 45,
+      "report_decimal_places": 24
+    },
+    "alias_gap_count": 20,
+    "alias_gap_enclosures": {
+      "entropy_small": {
+        "lower": "0.000000000999999987694900",
+        "upper": "0.000000000999999987694901"
+      },
+      "left_list": {
+        "lower": "0.000000004006576696752970",
+        "upper": "0.000000004006576696752971"
+      },
+      "right_list": {
+        "lower": "0.000000004006576710466190",
+        "upper": "0.000000004006576710466191"
+      },
+      "combined_list": {
+        "lower": "0.000000004006576840108241",
+        "upper": "0.000000004006576840108242"
+      },
+      "half_block": {
+        "lower": "0.000000007013153543355271",
+        "upper": "0.000000007013153543355272"
+      },
+      "l_cost": {
+        "lower": "0.003897048309371000000000",
+        "upper": "0.003897048309371000000000"
+      },
+      "r_cost": {
+        "lower": "0.446883154596922600000000",
+        "upper": "0.446883154596922600000000"
+      },
+      "positive_r": {
+        "lower": "0.040789125403077400000000",
+        "upper": "0.040789125403077400000000"
+      },
+      "mask_fits_l": {
+        "lower": "0.016087758823729294956004",
+        "upper": "0.016087758823729294956005"
+      },
+      "prime_coverage": {
+        "lower": "0.139359845633559138622346",
+        "upper": "0.139359845633559138622347"
+      },
+      "mu_cost": {
+        "lower": "0.012236637093706400000000",
+        "upper": "0.012236637093706400000000"
+      },
+      "sorting_cost": {
+        "lower": "0.434555434595922600000000",
+        "upper": "0.434555434595922600000000"
+      },
+      "small_prime_cost": {
+        "lower": "0.461068313841026144766904",
+        "upper": "0.461068313841026144766905"
+      },
+      "large_prime_cost": {
+        "lower": "0.229605440805038000000000",
+        "upper": "0.229605440805038000000000"
+      },
+      "mask_fits_half": {
+        "lower": "0.032312527133100294956004",
+        "upper": "0.032312527133100294956005"
+      },
+      "entropy_size": {
+        "lower": "0.855395361127626612707589",
+        "upper": "0.855395361127626612707590"
+      },
+      "entropy_order": {
+        "lower": "0.931556190572353070187792",
+        "upper": "0.931556190572353070187793"
+      },
+      "guard_delta": {
+        "lower": "0.069679922815779569311173",
+        "upper": "0.069679922815779569311174"
+      },
+      "bad_half_block": {
+        "lower": "0.057352202815779569311173",
+        "upper": "0.057352202815779569311174"
+      },
+      "deficiency_limit": {
+        "lower": "0.000672279999000000000000",
+        "upper": "0.000672279999000000000000"
+      }
+    },
+    "smallest_alias_gap": "entropy_small",
+    "reserved_alias_margin": "1/10000000000",
+    "unspent_alias_margin": {
+      "lower": "0.000000000098000000000000",
+      "upper": "0.000000000098000000000000"
+    },
+    "conditional_moment_family_count": 5,
+    "conditional_moment_margins": {
+      "low_other": {
+        "lower": "0.000000135967911121103700",
+        "upper": "0.000000135967911121103701"
+      },
+      "low_filter3": {
+        "lower": "0.000949320934578010800000",
+        "upper": "0.000949320934578010800000"
+      },
+      "first_bands": {
+        "lower": "0.000001938766308706758835",
+        "upper": "0.000001938766308706758836"
+      },
+      "middle_bands": {
+        "lower": "3.850505415235526639734013",
+        "upper": "3.850505415235526639734014"
+      },
+      "tail": {
+        "lower": "11.444343309306167987937950",
+        "upper": "11.444343309306167987937951"
+      }
+    },
+    "smallest_moment_family": "low_other",
+    "moment_slack_above_finite_reservation": {
+      "lower": "0.000000035967911121103700",
+      "upper": "0.000000035967911121103701"
+    },
+    "mean_square_error_exponent_lower_bound": "24367/250000000000",
+    "internal_work_exponent": "24383614001/50000000000",
+    "advertised_exponent_gap": "999/50000000000",
+    "transfer": {
+      "delta": "7115349597481/250000000000000",
+      "Gamma": "114802720402519/250000000000000",
+      "q": "114802720402519/114812500000000",
+      "K": "273493439550889/11480272040251900000",
+      "lambda0": "-1739106361635027/2500000000000000000",
+      "lambda1": "21208595756852789283/91842176322015200000000",
+      "affine_identities_checked": 2,
+      "zero_lower_multiplier": true,
+      "bounded_region_upper_endpoints": [
+        "114802720402519/250000000000000",
+        "1837/3200",
+        "1837/2500",
+        "1837/2000",
+        "23881/20000",
+        "12859/8000",
+        "1837/800",
+        "1837/500",
+        "5511/800"
+      ],
+      "partition": "[0,e0], (e0,e1], ..., (e7,e8], (e8,infinity)"
+    }
+  },
+  "regression_checks": {
+    "rejected_mutations": [
+      "advertised_exponent_gap",
+      "finite_moment.low_other",
+      "alias.entropy_small",
+      "rounding_error",
+      "alias.guard_delta",
+      "alias.left_list",
+      "domain.a",
+      "boundary.zero_lower_multiplier",
+      "boundary.low_dominates",
+      "boundary.band_dominates",
+      "identity.band_cancellation",
+      "boundary.source_partition"
+    ],
+    "rejected_mutation_count": 12,
+    "exact_power_of_two_cases": 17,
+    "decimal_log_spot_checks": 5,
+    "zero_denominator_rejected": true,
+    "decimal_spot_check_scope": "Secondary diagnostic only; not the rigorous log enclosure argument."
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "source_repository": "https://github.com/yannouli/subset-sum-conditional-refinement",
+  "source_commit": "bf1f50f066f2c71a53293791f693f505a67a1540",
+  "parameters": {
+    "tau": "0.48767228",
+    "eta": "0.516133678389924",
+    "a": "0.008148495127574004",
+    "mu": "0.4754356429062936",
+    "gamma": "0.06005543072330252",
+    "l": "0.483775231690629",
+    "epsilon": "0.000000000001",
+    "zeta": "0.000000000001",
+    "input_guard_coefficient": "1000000000000",
+    "alias_margin": "0.0000000001",
+    "finite_moment_margin": "0.0000001",
+    "target_exponent": "0.4876723"
+  },
+  "inherited_constants": {
+    "eta_b": "0.51613",
+    "delta_b": "0.02844",
+    "gamma_b": "0.45925",
+    "ordinary_low_z0_max": "10.6428",
+    "first_band_z0_max": "8.4537",
+    "multiplier_sum_max": "418.36",
+    "score_bound": "256",
+    "low_moment_margin": "0.00025",
+    "first_moment_margin": "0.00025",
+    "middle_moment_margin": "4",
+    "tail_moment_margin": "17"
+  },
+  "filter3": {
+    "low_multipliers": ["17.211", "27.1977", "8.3302", "3.0053"],
+    "low_comparisons": [5, 16],
+    "band_multipliers": ["7.7547", "0", "0", "4.2699", "2.2635", "0.461", "3.4032"],
+    "band_comparisons": [5, 8, 16, 35]
+  },
+  "old_upper_boundary_factors": ["1", "1.25", "1.6", "2", "2.6", "3.5", "5", "8", "15"],
+  "scope": "Manual transcription of scalar data and two certificates from the pinned paper; not a byte-authenticated download or a recheck of the full Kapila baseline."
+}
