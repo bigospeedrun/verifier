@@ -50,6 +50,14 @@ Decisions a reviewer should check:
 - **Time.** `HaltsWith` asks for a trace of `machine.step` of exactly `time` steps that ends
   in the state `Sum.inl answer`. A halted machine has no next step, so `time` is the full
   running time. The verdict is the halting state; no output tape is read.
+- **One verdict per run.** `PrimitiveMachine.step` returns `none` on every state
+  `Sum.inl _` (the first case of `step` in `SubexponentialSATDefinitions.lean`), and
+  `Trace.cons` needs `step a = some b`. Thus a trace cannot continue from a `Sum.inl` state:
+  such a state can only be the last configuration of a trace. `step` is a function, so each
+  input has one run, and this run reaches at most one `Sum.inl` state. A machine cannot show
+  `Sum.inl true` and then `Sum.inl false` and let `∃ time answer` pick the correct one. For
+  this reason the statement needs no separate halting condition and the smokes need no
+  "visit both verdicts" mutation.
 - **Range.** The controller must accept only reduced rationals `p/q` with `q > 0` and
   `0 ≤ p/q ≤ 100` (the board maximum). `α = 0` is exhaustive search: the bound
   `2^(n · (log₂(n + 2))^ε)` is at least `2^n`. A larger `α` is not known to be false (that
