@@ -1,0 +1,21 @@
+3-SAT statement for Big O Speedrun
+
+SubexponentialSATDefinitions.lean
+  Copyright OpenAI. Licensed under the Apache License, Version 2.0 (LICENSE).
+  Source: https://github.com/openai/math
+  Commit: 7ef5c0cc5ca4b0e072b7a050fca09ab24bc6fa3a
+  Path:   lean/ComparatorChallenges/SubexponentialSAT.lean, lines 1 to 128
+  Lines 1 to 128 copied byte for byte, without modification. The rest of that
+  file (OpenAI's runtime definitions and their theorem exact_count_and_sat,
+  stated with sorry) is not copied.
+
+Statement.lean
+  New parameterized adapter for https://bigospeedrun.com/3sat.
+  Licensed under the Apache License, Version 2.0 (LICENSE).
+  Prepared with assistance from Claude (Anthropic). It does not modify the
+  OpenAI definitions, and OpenAI did not author the parameterization.
+
+VerifierStatement.lean
+  The one self-contained file that the verifier uses as the trusted statement:
+  SubexponentialSATDefinitions.lean byte for byte, followed by Statement.lean
+  without its import line. Licensed under the Apache License, Version 2.0.

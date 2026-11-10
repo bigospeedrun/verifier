@@ -1,0 +1,22 @@
+{
+  "source_repository": "https://github.com/openai/math",
+  "commit": "7ef5c0cc5ca4b0e072b7a050fca09ab24bc6fa3a",
+  "files": [
+    {
+      "original_path": "lean/ComparatorChallenges/SubexponentialSAT.lean",
+      "original_git_blob": "a8d5ff3a3e80323675b1f2d1ea611560b783e9ca",
+      "original_sha256": "4183b2057cff350d66848215ff7167196dfc20e1891b598fdddea59077a76685",
+      "original_bytes": 7833,
+      "lines": "1-128",
+      "path": "SubexponentialSATDefinitions.lean",
+      "git_blob": "8da173d935823eda7c328bfd13b1c8b478d910e2",
+      "sha256": "da1e9102666c1592a74e70570b8358a1bb90804695fc7154d44411ad628cee6c",
+      "bytes": 3884
+    }
+  ],
+  "authors": "OpenAI",
+  "license": "Apache-2.0",
+  "modified": false,
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "mathlib": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+}
