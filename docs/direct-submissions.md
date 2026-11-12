@@ -143,6 +143,11 @@ It contains `direct-submission.json`, schema version 1:
   final workflow conclusion from GitHub API metadata and keeps it separate.
 - `receipt`: full verifier receipt, with separate kernel outcomes, axiom sets,
   theorem results, source/tool hashes, resource measurements, and finish time.
+  Its own `status` uses the same rule as the verdict (`admission()` in
+  `scripts/verdicts.py`), with `status_reason`; only `setup_failed` and a `timeout`
+  that the rule does not pass stay as they are. `check_summary` gives the outcome of
+  each check (Lean kernel, axiom audit, nanoda) with its reason, for example
+  `nanoda: incomplete (out_of_memory)` (verifier#194).
 - `record_gate`: the snapshot of the best Lean Verified row (or the end of the profile range) used for the admission-to-run check.
 
 The importer independently binds repository, approved verifier revision, workflow

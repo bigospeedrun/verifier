@@ -16,7 +16,7 @@ import threading
 import time
 import urllib.parse
 from datetime import datetime, timezone
-from verdicts import kernel_outcome
+from verdicts import admission, kernel_outcome
 
 ROOT = Path(__file__).resolve().parents[1]
 ART = ROOT / 'artifacts'
@@ -952,6 +952,27 @@ def verify_nanoda():
     save(data)
 
 
+def receipt_status(data):
+    """The receipt's status comes from the verdict's own rule (verdicts.admission), so the receipt and the result say the
+    same: before, a run whose advisory nanoda check did not finish said not_verified here and Lean Verified in the result
+    (verifier#194, reported by darkhipo). blocked (a rejection or an unpermitted axiom) stays apart from not_verified.
+    A setup failure keeps its status, and so does a timeout that the rule does not pass: the result comment and the
+    site importer read both. check_summary gives each check's own outcome, with its reason."""
+    checks = dict(data.get('kernels', {}))
+    if 'axiom_audit' in data:
+        checks = {'lean': checks.pop('lean', {}), 'axiom_audit': data['axiom_audit'], **checks}
+    data['check_summary'] = {name: str(c.get('status', 'not_started')) + (f" ({c['reason']})" if c.get('reason') else '')
+                             for name, c in checks.items() if isinstance(c, dict)}
+    data.pop('status_reason', None)
+    names = data.get('theorem_names') or []
+    if data.get('status') == 'setup_failed' or not names:
+        return
+    status, reason = admission(data, names)
+    if data.get('status') == 'timeout' and status != 'passed':
+        return
+    data['status'], data['status_reason'] = status, reason
+
+
 def finalize():
     ART.mkdir(exist_ok=True)
     if not (ART / 'receipt.json').exists():
@@ -964,7 +985,8 @@ def finalize():
             data.setdefault('kernels', {})['nanoda'] = {'status': 'pending', 'reason': 'advisory_queued'}
     data['finished_unix'] = time.time()
     data['checked_at'] = datetime.fromtimestamp(data['finished_unix'], timezone.utc).isoformat().replace('+00:00', 'Z')
-    if data.get('status') not in ['passed', 'not_verified', 'timeout']:
+    # blocked and pending_review come from an earlier finalize (the split run's Lean stage).
+    if data.get('status') not in ['passed', 'not_verified', 'blocked', 'pending_review', 'timeout']:
         data['status'] = 'setup_failed'
     data['total_wall_seconds'] = round(data['finished_unix'] - data.get('started_unix', data['finished_unix']), 3)
     data['theorems'] = {name: {
@@ -972,9 +994,12 @@ def finalize():
         'nanoda_kernel': data.get('kernels', {}).get('nanoda', {}).get('status', 'not_started'),
         'reported_axioms': data.get('axiom_audit', {}).get('reported_axioms', {}).get(name),
         'timing_group': 'shared theorem closure'} for name in data.get('theorem_names', [])}
+    receipt_status(data)
     data['artifact_sha256'] = {p.name: digest(p) for p in ART.iterdir() if p.is_file() and p.name != 'receipt.json'}
     save(data)
     summary = [f'# Verifier result: {data["status"]}', '',
+               *([f'Reason: `{data["status_reason"]}`', ''] if data.get('status_reason') else []),
+               *[f'- {name}: {outcome}' for name, outcome in data.get('check_summary', {}).items()], '',
                f'Commit: `{data.get("request", {}).get("commit", "unknown")}`',
                f'Challenge: `{data.get("request", {}).get("challenge_file", "unknown")}`', '',
                '| Kernel | Result | Seconds | Sampled peak GiB |', '|---|---|---:|---:|']

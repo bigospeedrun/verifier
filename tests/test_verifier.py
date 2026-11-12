@@ -2,9 +2,12 @@ import importlib.util
 import json
 from pathlib import Path
 import tempfile
+import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+# verifier.py imports verdicts from scripts/, as when it runs there; the test then also runs alone.
+sys.path.insert(0, str(ROOT / 'scripts'))
 spec = importlib.util.spec_from_file_location('verifier', ROOT / 'scripts/verifier.py')
 v = importlib.util.module_from_spec(spec); spec.loader.exec_module(v)
 
@@ -67,6 +70,49 @@ class ChainTests(unittest.TestCase):
         for files, target in [({'A': 'import B\n', 'B': 'import A\n'}, 'A'),
                               ({'A': 'import VerifierChallenge\n'}, 'A')]:
             with self.assertRaises(ValueError): v.plan_sources(self.stage(files), target)
+
+
+class ReceiptStatusTests(unittest.TestCase):
+    """verifier#194 (darkhipo): the receipt's status is the verdict's own rule, with each check's outcome apart."""
+    NAME = 'BigOSpeedrun.Catalan.bound'
+
+    def receipt(self, status='not_verified', lean='passed', nanoda=None, axioms=('propext',), stage='final'):
+        nanoda = nanoda or {'status': 'incomplete', 'reason': 'out_of_memory'}
+        data = {'status': status, 'theorem_names': [self.NAME], 'verification_stage': stage,
+                'kernels': {'lean': {'status': lean, 'reason': 'comparator_acceptance'}, 'nanoda': nanoda},
+                'axiom_audit': {'status': 'passed', 'reported_axioms': {self.NAME: list(axioms)}}}
+        data['theorems'] = {self.NAME: {'lean_kernel': lean, 'nanoda_kernel': nanoda['status'], 'reported_axioms': list(axioms)}}
+        return data
+
+    def test_nanoda_out_of_memory_matches_the_verdict(self):
+        # Run 43148643813 (#187): Lean and the audit passed, nanoda was OOM-killed; the receipt said not_verified.
+        data = self.receipt(); v.receipt_status(data)
+        self.assertEqual((data['status'], data['status_reason']), ('passed', 'lean_and_axiom_passed_nanoda_incomplete'))
+        self.assertEqual(data['check_summary'], {'lean': 'passed (comparator_acceptance)', 'axiom_audit': 'passed',
+                                                 'nanoda': 'incomplete (out_of_memory)'})
+
+    def test_lean_checkpoint_passes_with_nanoda_queued(self):
+        data = self.receipt(nanoda={'status': 'pending', 'reason': 'advisory_queued'}, stage='lean'); v.receipt_status(data)
+        self.assertEqual((data['status'], data['status_reason']), ('passed', 'lean_and_axiom_passed_nanoda_pending'))
+
+    def test_blocked_is_not_not_verified(self):
+        data = self.receipt(axioms=('sorryAx',)); v.receipt_status(data)
+        self.assertEqual((data['status'], data['status_reason']), ('blocked', 'unpermitted_axiom'))
+        data = self.receipt(nanoda={'status': 'rejected'}); v.receipt_status(data)
+        self.assertEqual(data['status'], 'blocked')
+
+    def test_failed_lean_check_stays_not_verified(self):
+        data = self.receipt(status='passed', lean='rejected'); v.receipt_status(data)
+        self.assertEqual((data['status'], data['status_reason']), ('not_verified', 'lean_not_passed'))
+
+    def test_setup_failure_and_timeout_keep_their_status(self):
+        data = self.receipt(status='setup_failed'); v.receipt_status(data)
+        self.assertEqual(data['status'], 'setup_failed'); self.assertNotIn('status_reason', data)
+        data = self.receipt(status='timeout', lean='incomplete'); v.receipt_status(data)
+        self.assertEqual(data['status'], 'timeout'); self.assertNotIn('status_reason', data)
+        # A total deadline that only stopped the advisory nanoda check is the verdict's pass.
+        data = self.receipt(status='timeout', nanoda={'status': 'incomplete', 'reason': 'total_deadline'}); v.receipt_status(data)
+        self.assertEqual(data['status'], 'passed')
 
 
 if __name__ == '__main__': unittest.main()
