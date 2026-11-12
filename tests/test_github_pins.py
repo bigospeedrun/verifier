@@ -27,6 +27,7 @@ class Base(unittest.TestCase):
             p = patch.object(v, target, value); p.start(); self.addCleanup(p.stop)
         # These pins are for a one-job run; the split lean stage's swap has its own test.
         p = patch.dict(os.environ); p.start(); self.addCleanup(p.stop); os.environ.pop('BOS_SPLIT', None)
+        self.active = set()  # Swap files that `swapon --show` lists, for run_verify.
         profile = json.loads((ROOT / 'profiles/direct.json').read_text())['dft']
         (self.work / 'control').mkdir(parents=True); (self.work / 'tools').mkdir()
         v.write_json(self.work / 'control/request.json', {'request': {'lean_toolchain': 'leanprover/lean4:v4.34.1'},
@@ -79,6 +80,7 @@ class VerifyPinTests(Base):
 
         with patch.object(v.subprocess, 'Popen', side_effect=popen), patch.object(v.subprocess, 'run', side_effect=run), \
              patch.object(v, 'command', side_effect=lambda args, label, *a, **k: commands.append((label, [str(x) for x in args]))), \
+             patch.object(v, 'active_swaps', return_value=set()), \
              patch.object(v.time, 'time', return_value=1000.0), patch.object(v.shutil, 'disk_usage', return_value=Mock(free=100 * 1024**3)):
             v.verify(['lean', 'audit', 'nanoda'])
         W, uid, gid = str(self.work), str(os.getuid()), str(os.getgid())
@@ -125,13 +127,33 @@ class VerifyPinTests(Base):
                          ['kernel-swap-allocate', 'kernel-swap-permissions', 'kernel-swap-format', 'kernel-swap-enable'])
         self.assertEqual(v.receipt()['kernels']['lean']['swap_limit_bytes'], 16 * 1024**3)
         self.assertTrue((self.work / 'bos-kernel.swap').exists())
-        # A later stage of the same job reuses the file, also when /mnt has room now.
+        # A later stage of the same job reuses the active file, also when /mnt has room now.
         (v.SWAP_DIR).mkdir()
         _, calls = self.run_verify(['nanoda'], [(ACCEPT, 'success')])
         self.assertFalse([c for c in calls if isinstance(c, str) and c.startswith('kernel-swap')])
-        (self.work / 'bos-kernel.swap').unlink()
-        self.run_verify(['nanoda'], [(ACCEPT, 'success')])
+        # A file that swapon does not list (an attempt stopped before swapon) is made again, on /mnt now.
+        self.active.clear()
+        _, calls = self.run_verify(['nanoda'], [(ACCEPT, 'success')])
+        self.assertEqual([c for c in calls if isinstance(c, str) and c.startswith('kernel-swap')],
+                         ['kernel-swap-remove', 'kernel-swap-allocate', 'kernel-swap-permissions', 'kernel-swap-format',
+                          'kernel-swap-enable'])
+        self.assertFalse((self.work / 'bos-kernel.swap').exists())
         self.assertTrue((v.SWAP_DIR / 'bos-kernel.swap').exists())
+
+    def test_without_swap_disk_the_split_lean_check_runs_without_swap_and_nanoda_stops(self):
+        os.environ['BOS_SPLIT'] = 'true'
+        with patch.object(v.shutil, 'disk_usage', return_value=Mock(free=5 * 1024**3)), \
+             patch.object(v.subprocess, 'Popen', side_effect=lambda args, stdout=None, **k: (stdout.write(ACCEPT), stdout.flush(),
+                          Mock(poll=Mock(return_value=0), wait=Mock(return_value=0)))[2]), \
+             patch.object(v.subprocess, 'run', return_value=Mock(stdout='success\n', returncode=0)), \
+             patch.object(v, 'command'), patch.object(v, 'active_swaps', return_value=set()), \
+             patch.object(v.time, 'time', return_value=1000.0), patch('builtins.print') as printed:
+            v.verify(['lean'])
+            printed.assert_any_call('kernel swap: not enough disk, lean runs without swap', flush=True)
+            self.assertEqual(v.receipt()['kernels']['lean']['swap_limit_bytes'], 0)
+            self.assertEqual(v.receipt()['kernels']['lean']['status'], 'passed')
+            with self.assertRaises(v.NoSwapDisk):
+                v.verify(['nanoda'])
 
     def run_verify(self, kernels, outputs):
         """v.verify() with one (log text, systemd result) per launch; returns (unit, Lake workers) per launch and the systemctl calls."""
@@ -153,10 +175,14 @@ class VerifyPinTests(Base):
             calls.append(label)
             if label == 'kernel-swap-allocate':
                 Path(args[-1]).touch()
+            if label == 'kernel-swap-enable':
+                self.active.add(str(args[-1]))
+            if label == 'kernel-swap-remove':
+                Path(args[-1]).unlink()
 
         calls = []
         with patch.object(v.subprocess, 'Popen', side_effect=popen), patch.object(v.subprocess, 'run', side_effect=run), \
-             patch.object(v, 'command', side_effect=command), \
+             patch.object(v, 'command', side_effect=command), patch.object(v, 'active_swaps', side_effect=lambda: set(self.active)), \
              patch.object(v.time, 'time', return_value=1000.0), patch.object(v.shutil, 'disk_usage', return_value=Mock(free=100 * 1024**3)):
             v.verify(kernels)
         return launched, calls
@@ -200,7 +226,7 @@ class VerifyPinTests(Base):
         self.assertEqual(launched, [('bos-verifier-nanoda', '1')])
         # Swap is made once per job, also when the check starts again.
         data = v.receipt(); data['lake_workers'] = 2; v.save(data)
-        (self.work / 'bos-kernel.swap').unlink()
+        (self.work / 'bos-kernel.swap').unlink(); self.active.clear()  # A new job: no swap yet.
         launched, calls = self.run_verify(['nanoda'], [(building, 'oom-kill'), (ACCEPT, 'success')])
         self.assertEqual(launched, [('bos-verifier-nanoda', '2'), ('bos-verifier-nanoda', '1')])
         self.assertEqual([c for c in calls if isinstance(c, str) and c.startswith('kernel-swap')],

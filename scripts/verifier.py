@@ -563,15 +563,31 @@ def kernel_swap_limit(kernel):
     return 0
 
 
+class NoSwapDisk(RuntimeError):
+    pass
+
+
+def active_swaps():
+    """The swap files and devices the kernel uses now (`swapon --show`)."""
+    out = subprocess.run(['/usr/sbin/swapon', '--show=NAME', '--noheadings', '--raw'], capture_output=True, text=True, check=False)
+    return {line.strip() for line in out.stdout.splitlines() if line.strip()}
+
+
 def prepare_kernel_swap():
     # Swap lets idle pages leave RAM on the standard hosted runner. The file is outside every submission mount and
     # exists only on the VM: /mnt when it has room, else the work disk.
-    if any((folder / 'bos-kernel.swap').exists() for folder in [SWAP_DIR, WORK]):
-        return  # An earlier attempt or stage of this job made it.
+    active = active_swaps()
+    for folder in [SWAP_DIR, WORK]:
+        swap = folder / 'bos-kernel.swap'
+        if str(swap) in active:
+            return  # An earlier attempt or stage of this job made it.
+        if swap.exists():
+            # An earlier attempt stopped between fallocate and swapon: make the file again.
+            command(['sudo', 'rm', '-f', '--', swap], 'kernel-swap-remove')
     folder = SWAP_DIR if SWAP_DIR.is_dir() and shutil.disk_usage(SWAP_DIR).free >= 20 * 1024**3 else WORK
     swap = folder / 'bos-kernel.swap'
     if shutil.disk_usage(folder).free < 20 * 1024**3:
-        raise RuntimeError('kernel swap needs at least 20 GiB free disk')
+        raise NoSwapDisk('kernel swap needs at least 20 GiB free disk')
     command(['sudo', 'fallocate', '-l', '16G', swap], 'kernel-swap-allocate')
     command(['sudo', 'chmod', '600', swap], 'kernel-swap-permissions')
     command(['sudo', 'mkswap', swap], 'kernel-swap-format')
@@ -606,7 +622,14 @@ def launch_github(kernel, command_args, deadline, log_mode='w'):
     """One systemd-run unit per stage with its own caps; returns exit code, unit result, guard stop, start, usage."""
     swap_limit = kernel_swap_limit(kernel)
     if swap_limit:
-        prepare_kernel_swap()
+        try:
+            prepare_kernel_swap()
+        except NoSwapDisk:
+            if kernel != 'lean':
+                raise
+            # The split Lean check ran without swap before 9ea7a5a; a small proof does not need it.
+            print('kernel swap: not enough disk, lean runs without swap', flush=True)
+            swap_limit = 0
     unit = 'bos-verifier-' + kernel
     remaining = max(1, int(deadline - time.time()))
     args = ['sudo', 'systemd-run', '--wait', '--pipe', '--unit=' + unit,
