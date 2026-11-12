@@ -33,5 +33,19 @@ class ToolPinTests(unittest.TestCase):
             self.assertTrue(all(v.SHA.fullmatch(pins[k]) for k in ['comparator', 'lean4export', 'landrun', 'nanoda']), name)
 
 
+    def test_lean4export_patches_match_their_pins(self):
+        """profiles/tools.json patches lean4export 076e8e5 with PR #52 (print) and PR #60 (parse); docs/execution.md,
+        Patched lean4export. Drop them when upstream merges both and the pin moves past them."""
+        pins = json.loads((v.ROOT / 'profiles/tools.json').read_text())
+        self.assertEqual(pins['lean4export'], '076e8e57707e813375e8f9da8bf989799ace9680')
+        self.assertEqual([x['file'] for x in pins['lean4export_patches']],
+                         ['patches/lean4export-pr52-natlit-print.patch', 'patches/lean4export-natlit-parse.patch'])
+        for item in pins['lean4export_patches']:
+            self.assertEqual(v.digest(v.ROOT / item['file']), item['sha256'], item['file'])
+        for name in ['profiles/anthropic-tools.json', 'profiles/tools-v4.35.0.json', 'profiles/tools-v4.33.0-rc2.json']:
+            self.assertNotIn('lean4export_patches', json.loads((v.ROOT / name).read_text()), name)
+        self.assertTrue((v.ROOT / 'tests/lean/NatTest.lean').is_file())
+
+
 if __name__ == '__main__':
     unittest.main()

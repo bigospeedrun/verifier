@@ -385,6 +385,28 @@ def prepare():
     data = receipt(); data['status'] = 'prepared'; data['source_file_count'] = len(hashes); save(data)
 
 
+def apply_exporter_patches(pins, exporter):
+    """The reviewed lean4export patches of this tool file, in order (docs/execution.md, Patched lean4export). Each
+    patch file must match its pinned sha256; `git apply --check` first, so a patch that does not fit stops setup."""
+    for item in pins.get('lean4export_patches', []):
+        patch = ROOT / item['file']
+        if patch.parent != ROOT / 'patches' or digest(patch) != item['sha256']:
+            raise ValueError(f'lean4export patch checksum mismatch: {item["file"]}')
+        command(['git', '-C', exporter, 'apply', '--check', patch], 'tool-exporter-patch-check-' + patch.stem)
+        command(['git', '-C', exporter, 'apply', patch], 'tool-exporter-patch-' + patch.stem)
+
+
+def exporter_self_test(exporter, folder, lean, env):
+    """tests/lean/NatTest.lean in a copy of the patched exporter source: the patched natVal print and parse must
+    give the same results as Lean's own, and stay fast on a 1.9 M-digit value. Runs before any submission code."""
+    shutil.copytree(exporter, folder, ignore=shutil.ignore_patterns('.lake', '.git'))
+    shutil.copyfile(ROOT / 'tests/lean/NatTest.lean', folder / 'NatTest.lean')
+    with (folder / 'lakefile.toml').open('a') as f:
+        f.write('\n[[lean_exe]]\nname = "nattest"\nroot = "NatTest"\n')
+    command([lean / 'lake', 'build', 'nattest'], 'build-nattest', folder, env)
+    command([folder / '.lake/build/bin/nattest'], 'nattest', folder, env)
+
+
 def setup():
     profile = json.loads((WORK / 'control/request.json').read_text())['profile']
     pins = json.loads((ROOT / profile.get('tools_file', 'profiles/tools.json')).read_text())
@@ -415,9 +437,12 @@ def setup():
     exporter = tools / 'comparator/.lake/packages/lean4export'
     exporter.parent.mkdir(parents=True)
     clone('https://github.com/leanprover/lean4export.git', pins['lean4export'], exporter, 'tool-exporter')
+    apply_exporter_patches(pins, exporter)
     for folder in [tools / 'comparator', exporter]:
         (folder / 'lean-toolchain').write_text(request['lean_toolchain'] + '\n')
     command([lean / 'lake', 'build', 'lean4export', 'comparator'], 'build-comparator', tools / 'comparator', env)
+    if pins.get('lean4export_patches'):
+        exporter_self_test(exporter, tools / 'nattest', lean, env)
     clone('https://github.com/ammkrn/nanoda_lib.git', pins['nanoda'], tools / 'nanoda', 'tool-nanoda')
     command(['cargo', 'build', '--release', '--locked', '-j', '2'], 'build-nanoda', tools / 'nanoda', env)
     clone('https://github.com/Zouuup/landrun.git', pins['landrun'], tools / 'landrun', 'tool-landrun')
@@ -524,19 +549,33 @@ def build_unfinished(text):
     return len(re.findall(r'^VERIFIER source chain \d+: exit=0 seconds=', text, re.M)) < len(targets)
 
 
-def prepare_nanoda_swap():
-    # Comparator retains its parsed proof while its external kernel runs.
-    # Swap lets those idle pages leave RAM on the standard hosted runner.
-    # This file is outside every submission mount and exists only on the VM.
-    swap = WORK / 'nanoda.swap'
-    if swap.exists():
-        return  # An earlier attempt of this stage made it.
-    if shutil.disk_usage(WORK).free < 20 * 1024**3:
-        raise RuntimeError('nanoda swap needs at least 20 GiB free disk')
-    command(['sudo', 'fallocate', '-l', '16G', swap], 'nanoda-swap-allocate')
-    command(['sudo', 'chmod', '600', swap], 'nanoda-swap-permissions')
-    command(['sudo', 'mkswap', swap], 'nanoda-swap-format')
-    command(['sudo', 'swapon', swap], 'nanoda-swap-enable')
+SWAP_BYTES = 16 * 1024**3
+SWAP_DIR = Path('/mnt')  # The runner's spare disk; tests point it elsewhere.
+
+
+def kernel_swap_limit(kernel):
+    """MemorySwapMax of a check unit. nanoda: Comparator retains its parsed proof while the external kernel runs.
+    lean, in a split run only: the build is done in job 1, and the builtin replay of one large declaration can pass
+    the 14G cap (task b1457f08, verifier#187: one declaration took RSS to 11.6 GB, unit peak 13.2 GB, 0.3 GB swap).
+    Builds keep no swap, so an oom-kill during a build still restarts it with fewer Lake workers."""
+    if kernel == 'nanoda' or (kernel == 'lean' and os.environ.get('BOS_SPLIT') == 'true'):
+        return SWAP_BYTES
+    return 0
+
+
+def prepare_kernel_swap():
+    # Swap lets idle pages leave RAM on the standard hosted runner. The file is outside every submission mount and
+    # exists only on the VM: /mnt when it has room, else the work disk.
+    if any((folder / 'bos-kernel.swap').exists() for folder in [SWAP_DIR, WORK]):
+        return  # An earlier attempt or stage of this job made it.
+    folder = SWAP_DIR if SWAP_DIR.is_dir() and shutil.disk_usage(SWAP_DIR).free >= 20 * 1024**3 else WORK
+    swap = folder / 'bos-kernel.swap'
+    if shutil.disk_usage(folder).free < 20 * 1024**3:
+        raise RuntimeError('kernel swap needs at least 20 GiB free disk')
+    command(['sudo', 'fallocate', '-l', '16G', swap], 'kernel-swap-allocate')
+    command(['sudo', 'chmod', '600', swap], 'kernel-swap-permissions')
+    command(['sudo', 'mkswap', swap], 'kernel-swap-format')
+    command(['sudo', 'swapon', swap], 'kernel-swap-enable')
 
 
 def sandbox_preflight():
@@ -565,9 +604,9 @@ print('Network/process namespaces, credential visibility, and read-only mounts p
 
 def launch_github(kernel, command_args, deadline, log_mode='w'):
     """One systemd-run unit per stage with its own caps; returns exit code, unit result, guard stop, start, usage."""
-    if kernel == 'nanoda':
-        prepare_nanoda_swap()
-    swap_limit = 16 * 1024**3 if kernel == 'nanoda' else 0
+    swap_limit = kernel_swap_limit(kernel)
+    if swap_limit:
+        prepare_kernel_swap()
     unit = 'bos-verifier-' + kernel
     remaining = max(1, int(deadline - time.time()))
     args = ['sudo', 'systemd-run', '--wait', '--pipe', '--unit=' + unit,
@@ -869,7 +908,7 @@ def unpack():
                 out.flush(); os.fchmod(fd, 0o644); os.utime(fd, ns=(ns, ns))
         for folder, ns in reversed(dirs):
             os.utime(folder, ns=(ns, ns), follow_symlinks=False)
-    path.unlink()  # Disk space for the checks and the nanoda swap.
+    path.unlink()  # Disk space for the checks and the kernel swap.
     data = receipt()
     data['unpack'] = {'sha256': expected, 'members': len(checked), 'files': sum(not m.isdir() for m, _ in checked), 'bytes': total}
     save(data)

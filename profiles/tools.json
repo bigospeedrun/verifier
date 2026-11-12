@@ -4,5 +4,15 @@
   "landrun": "811cfff51ceaf3d9843708aa6d22e9b84ccac8b4",
   "nanoda": "8de7e0c4ed3052745a7f8725164efd9e76d84c56",
   "elan_version": "v4.2.4",
-  "elan_tar_sha256": "42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63"
+  "elan_tar_sha256": "42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63",
+  "lean4export_patches": [
+    {
+      "file": "patches/lean4export-pr52-natlit-print.patch",
+      "sha256": "dbcb657d2c0e4bdd7c396d750d55031bff54cb21e82aef8a6f6318ae3b4b76c2"
+    },
+    {
+      "file": "patches/lean4export-natlit-parse.patch",
+      "sha256": "10eb8ba02b8ea82c7a5e9fce3021eb1f80c5095dbc2343fd908eb78ae7ecdcb9"
+    }
+  ]
 }

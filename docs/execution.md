@@ -24,6 +24,27 @@ The dispatch defaults pin Chafik Boukhalfa's (`chafreaky`) [PR #2](https://githu
 head `837dc3130adc79f7b7ab4ddd56c15576bbd766b0`, observed 2026-10-10.
 A new challenge or toolchain requires a reviewed repository change.
 
+## Patched lean4export
+
+`profiles/tools.json` pins lean4export `076e8e5` plus two patches, each pinned by sha256 in
+`lean4export_patches` and applied in order with `git apply --check` first:
+
+- `patches/lean4export-pr52-natlit-print.patch`: [lean4export PR #52](https://github.com/leanprover/lean4export/pull/52)
+  by lordwilsonDev as is (upstream head `21deacbe`). `Nat.repr` prints a natural number one digit at a time,
+  which is quadratic; the PR prints by divide and conquer, byte for byte the same output.
+- `patches/lean4export-natlit-parse.patch`: [lean4export PR #60](https://github.com/leanprover/lean4export/pull/60),
+  the parse side of #52 (our PR). Comparator parses the export with `String.toNat?`, also quadratic;
+  `parseDecNat?` gives the same result on every string.
+
+Why: verifier#187 has natVal literals of 1.9 M digits. Without the patches, its export did not end in 5 h 14 min
+(about 810 s per literal); with them, the export took 19-28 min and the full Lean check passed in 3 h 13 min
+(task b1457f08, Measurements 1b-1d, 2026-11-11/12). After `build-comparator`, setup builds
+`tests/lean/NatTest.lean` against a copy of the patched source and runs it (`nattest`): both functions must equal
+Lean's own on edge cases, values next to powers of ten and random digit strings, and a 1.9 M-digit value must
+print and parse in at most 60 s each. A failure stops setup before any submission code. Other tool files keep
+unpatched lean4export. When upstream merges both PRs, move the pin past them and delete the patches, the
+`lean4export_patches` entry and the self-test.
+
 ## What the workflow checks
 
 1. Fetch the pinned submission without running its scripts or Lake file.
@@ -73,10 +94,13 @@ It is an operation-count theorem, not a bit-complexity claim.
   outputs are removed inside the sandbox before each Comparator call so an
   earlier submission build cannot replace the statement used for comparison.
 - One workflow runs at a time. New modules compile in dependency order using
-  four Lean threads, nice 10, a 4-CPU quota and a 14 GiB RAM cgroup maximum. Builds and the first Lean
-  check have no swap. The nanoda phase gets 16 GiB of swap on the disposable VM
-  because Comparator retains its parsed proof while the external kernel runs.
-  The swap file is outside the submission mounts; receipts record sampled swap
+  four Lean threads, nice 10, a 4-CPU quota and a 14 GiB RAM cgroup maximum. Builds and the Lean
+  check of a one-job run have no swap, so an oom-kill during a build still restarts it with fewer Lake
+  workers. The nanoda phase, and the Lean check of a split run (its build is done in job 1), get 16 GiB of
+  swap on the disposable VM: Comparator retains its parsed proof while the external kernel runs, and the
+  builtin replay of one large declaration can pass the 14 GiB cap (verifier#187: one declaration took
+  Comparator to 11.6 GB, unit peak 13.2 GB, 0.3 GB swap used). The swap file is on the runner's /mnt disk
+  when it has room, else on the work disk, outside the submission mounts; receipts record sampled swap
   use separately. This uses the standard free public runner.
   There is no soft memory limit that would force prolonged reclaim.
 - The job timeout is **350 minutes**. Verification stops at a 320-minute total

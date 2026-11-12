@@ -23,8 +23,10 @@ class Base(unittest.TestCase):
     def setUp(self):
         tmp = tempfile.TemporaryDirectory(); self.addCleanup(tmp.cleanup)
         self.work, self.art = Path(tmp.name) / 'bos-verifier', Path(tmp.name) / 'artifacts'
-        for target, value in [('WORK', self.work), ('ART', self.art)]:
+        for target, value in [('WORK', self.work), ('ART', self.art), ('SWAP_DIR', Path(tmp.name) / 'mnt')]:
             p = patch.object(v, target, value); p.start(); self.addCleanup(p.stop)
+        # These pins are for a one-job run; the split lean stage's swap has its own test.
+        p = patch.dict(os.environ); p.start(); self.addCleanup(p.stop); os.environ.pop('BOS_SPLIT', None)
         profile = json.loads((ROOT / 'profiles/direct.json').read_text())['dft']
         (self.work / 'control').mkdir(parents=True); (self.work / 'tools').mkdir()
         v.write_json(self.work / 'control/request.json', {'request': {'lean_toolchain': 'leanprover/lean4:v4.34.1'},
@@ -80,14 +82,14 @@ class VerifyPinTests(Base):
              patch.object(v.time, 'time', return_value=1000.0), patch.object(v.shutil, 'disk_usage', return_value=Mock(free=100 * 1024**3)):
             v.verify(['lean', 'audit', 'nanoda'])
         W, uid, gid = str(self.work), str(os.getuid()), str(os.getgid())
-        swap = str(self.work / 'nanoda.swap')
-        self.assertEqual([c[0] for c in commands], ['sandbox-preflight', 'nanoda-swap-allocate', 'nanoda-swap-permissions',
-                                                    'nanoda-swap-format', 'nanoda-swap-enable'])
+        swap = str(self.work / 'bos-kernel.swap')
+        self.assertEqual([c[0] for c in commands], ['sandbox-preflight', 'kernel-swap-allocate', 'kernel-swap-permissions',
+                                                    'kernel-swap-format', 'kernel-swap-enable'])
         self.assertEqual(commands[0][1][:len(self.sandbox()) + 2], self.sandbox() + ['/usr/bin/python3', '-c'])
-        self.assertEqual(commands[1:], [('nanoda-swap-allocate', ['sudo', 'fallocate', '-l', '16G', swap]),
-                                        ('nanoda-swap-permissions', ['sudo', 'chmod', '600', swap]),
-                                        ('nanoda-swap-format', ['sudo', 'mkswap', swap]),
-                                        ('nanoda-swap-enable', ['sudo', 'swapon', swap])])
+        self.assertEqual(commands[1:], [('kernel-swap-allocate', ['sudo', 'fallocate', '-l', '16G', swap]),
+                                        ('kernel-swap-permissions', ['sudo', 'chmod', '600', swap]),
+                                        ('kernel-swap-format', ['sudo', 'mkswap', swap]),
+                                        ('kernel-swap-enable', ['sudo', 'swapon', swap])])
         for args, kernel, swap_limit in zip(launched, ['lean', 'audit', 'nanoda'], ['0', '0', str(16 * 1024**3)]):
             self.assertEqual(args, ['sudo', 'systemd-run', '--wait', '--pipe', '--unit=bos-verifier-' + kernel,
                                     '--uid=' + uid, '--gid=' + gid,
@@ -111,6 +113,26 @@ class VerifyPinTests(Base):
         self.assertEqual((self.work / 'control/lake-workers.txt').read_text(), '4\n')
         self.assertEqual(data['axiom_audit']['status'], 'invalid_output')  # The fixture log prints no axioms.
 
+    def test_the_lean_stage_of_a_split_run_gets_the_kernel_swap(self):
+        os.environ['BOS_SPLIT'] = 'true'
+        self.assertEqual([v.kernel_swap_limit(k) for k in ['lean', 'audit', 'nanoda']], [16 * 1024**3, 0, 16 * 1024**3])
+        os.environ['BOS_SPLIT'] = 'false'
+        self.assertEqual([v.kernel_swap_limit(k) for k in ['lean', 'audit', 'nanoda']], [0, 0, 16 * 1024**3])
+        os.environ['BOS_SPLIT'] = 'true'
+        launched, calls = self.run_verify(['lean', 'audit', 'nanoda'], [(ACCEPT, 'success'), ('', 'success'), (ACCEPT, 'success')])
+        # One swap file for the job, made before the lean stage; /mnt is used when it has room.
+        self.assertEqual([c for c in calls if isinstance(c, str) and c.startswith('kernel-swap')],
+                         ['kernel-swap-allocate', 'kernel-swap-permissions', 'kernel-swap-format', 'kernel-swap-enable'])
+        self.assertEqual(v.receipt()['kernels']['lean']['swap_limit_bytes'], 16 * 1024**3)
+        self.assertTrue((self.work / 'bos-kernel.swap').exists())
+        # A later stage of the same job reuses the file, also when /mnt has room now.
+        (v.SWAP_DIR).mkdir()
+        _, calls = self.run_verify(['nanoda'], [(ACCEPT, 'success')])
+        self.assertFalse([c for c in calls if isinstance(c, str) and c.startswith('kernel-swap')])
+        (self.work / 'bos-kernel.swap').unlink()
+        self.run_verify(['nanoda'], [(ACCEPT, 'success')])
+        self.assertTrue((v.SWAP_DIR / 'bos-kernel.swap').exists())
+
     def run_verify(self, kernels, outputs):
         """v.verify() with one (log text, systemd result) per launch; returns (unit, Lake workers) per launch and the systemctl calls."""
         launched, runs, outputs = [], [], list(outputs)
@@ -129,7 +151,7 @@ class VerifyPinTests(Base):
 
         def command(args, label, *a, **k):
             calls.append(label)
-            if label == 'nanoda-swap-allocate':
+            if label == 'kernel-swap-allocate':
                 Path(args[-1]).touch()
 
         calls = []
@@ -178,11 +200,11 @@ class VerifyPinTests(Base):
         self.assertEqual(launched, [('bos-verifier-nanoda', '1')])
         # Swap is made once per job, also when the check starts again.
         data = v.receipt(); data['lake_workers'] = 2; v.save(data)
-        (self.work / 'nanoda.swap').unlink()
+        (self.work / 'bos-kernel.swap').unlink()
         launched, calls = self.run_verify(['nanoda'], [(building, 'oom-kill'), (ACCEPT, 'success')])
         self.assertEqual(launched, [('bos-verifier-nanoda', '2'), ('bos-verifier-nanoda', '1')])
-        self.assertEqual([c for c in calls if isinstance(c, str) and c.startswith('nanoda-swap')],
-                         ['nanoda-swap-allocate', 'nanoda-swap-permissions', 'nanoda-swap-format', 'nanoda-swap-enable'])
+        self.assertEqual([c for c in calls if isinstance(c, str) and c.startswith('kernel-swap')],
+                         ['kernel-swap-allocate', 'kernel-swap-permissions', 'kernel-swap-format', 'kernel-swap-enable'])
 
     def test_a_bad_count_from_the_build_record_starts_at_4(self):
         for value in [None, 0, 5, '2', True, 2.0]:
@@ -217,7 +239,8 @@ class SetupPinTests(Base):
         lean = self.work / 'tools/elan/toolchains' / TC / 'bin'
         lean.mkdir(parents=True); (lean / 'lean').write_text('')
         with patch.object(v, 'command', side_effect=command), patch.object(v, 'clone', side_effect=clone), \
-             patch.object(v, 'digest', side_effect=lambda p: pins['elan_tar_sha256'] if p.name == 'elan.tar.gz' else 'h'):
+             patch.object(v, 'digest', side_effect=lambda p: pins['elan_tar_sha256'] if p.name == 'elan.tar.gz' else
+                          {ROOT / x['file']: x['sha256'] for x in pins['lean4export_patches']}.get(p, 'h')):
             v.setup()
         W, T, L = str(self.work), str(self.work / 'tools'), str(lean)
         env = {'ELAN_HOME': f'{T}/elan', 'LEAN_NUM_THREADS': '4'}
@@ -235,7 +258,12 @@ class SetupPinTests(Base):
             ('lean-install', [f'{T}/elan/bin/elan', 'toolchain', 'install', 'leanprover/lean4:v4.34.1'], None, dict(env, PATH0=os.environ['PATH'].split(':')[0])),
             ('clone', 'https://github.com/leanprover/comparator.git', pins['comparator'], f'{T}/comparator', 'tool-comparator'),
             ('clone', 'https://github.com/leanprover/lean4export.git', pins['lean4export'], f'{T}/comparator/.lake/packages/lean4export', 'tool-exporter'),
+            *[step for name in ['lean4export-pr52-natlit-print', 'lean4export-natlit-parse'] for step in [
+                ('tool-exporter-patch-check-' + name, ['git', '-C', f'{T}/comparator/.lake/packages/lean4export', 'apply', '--check', str(ROOT / f'patches/{name}.patch')], None, {}),
+                ('tool-exporter-patch-' + name, ['git', '-C', f'{T}/comparator/.lake/packages/lean4export', 'apply', str(ROOT / f'patches/{name}.patch')], None, {})]],
             ('build-comparator', [f'{L}/lake', 'build', 'lean4export', 'comparator'], f'{T}/comparator', built),
+            ('build-nattest', [f'{L}/lake', 'build', 'nattest'], f'{T}/nattest', built),
+            ('nattest', [f'{T}/nattest/.lake/build/bin/nattest'], f'{T}/nattest', built),
             ('clone', 'https://github.com/ammkrn/nanoda_lib.git', pins['nanoda'], f'{T}/nanoda', 'tool-nanoda'),
             ('build-nanoda', ['cargo', 'build', '--release', '--locked', '-j', '2'], f'{T}/nanoda', built),
             ('clone', 'https://github.com/Zouuup/landrun.git', pins['landrun'], f'{T}/landrun', 'tool-landrun'),
