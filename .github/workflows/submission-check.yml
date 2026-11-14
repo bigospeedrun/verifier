@@ -12,6 +12,10 @@ on:
         required: false
         type: boolean
         default: false
+      chain:
+        required: false
+        type: boolean
+        default: false
 permissions: {}
 jobs:
   build:
@@ -71,7 +75,8 @@ jobs:
   verify:
     needs: build
     # build is skipped when not split. A status function lets this job run then; unpack refuses a failed build.
-    if: ${{ !cancelled() && inputs.route == 'issue' }}
+    # A chain profile runs the chain jobs below instead.
+    if: ${{ !cancelled() && inputs.route == 'issue' && !inputs.chain }}
     runs-on: ubuntu-latest
     timeout-minutes: 350
     permissions:
@@ -203,6 +208,629 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: pr-verification-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 90
+  # Check chain (runner github-chain, docs/execution.md, scripts/chain.py): build1..build4, export, check1..check4
+  # and final, a fixed graph. Each job starts only when the one before it says next (a trusted output); each
+  # pinned hand-over is a sha256 that the producing job wrote as an output. The final job writes the one receipt
+  # that the report job reads.
+  chain_build1:
+    if: inputs.chain && inputs.route == 'issue'
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    permissions:
+      contents: read
+      issues: read
+    env:
+      BOS_REQUEST_PATH: request/request.json
+      ISSUE_NUMBER: ${{ inputs.issue_number }}
+      BOS_SPLIT: 'true'
+      BOS_CHAIN_LEG: build1
+    outputs:
+      proceed: ${{ steps.gate.outputs.proceed }}
+      build_sha256: ${{ steps.pack.outputs.build_sha256 }}
+      done: ${{ steps.leg.outputs.done }}
+      next: ${{ steps.leg.outputs.next }}
+      chain_started: ${{ steps.leg.outputs.chain_started }}
+      leg_sha256: ${{ steps.leg.outputs.leg_sha256 }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: direct-requests-${{ github.run_id }}-${{ github.run_attempt }}
+          path: requests
+      - run: python3 scripts/submissions.py materialize
+      - id: gate
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/submissions.py preflight
+      # The tests run without the job's BOS_SPLIT (see the build job).
+      - env:
+          BOS_SPLIT: ''
+        if: steps.gate.outputs.proceed == 'true'
+        run: python3 -m unittest discover -s tests -v
+      - id: prepare
+        if: steps.gate.outputs.proceed == 'true'
+        run: python3 scripts/verifier.py prepare
+      - timeout-minutes: 45
+        if: steps.gate.outputs.proceed == 'true'
+        run: python3 scripts/verifier.py setup
+      - if: steps.gate.outputs.proceed == 'true'
+        run: python3 scripts/verifier.py build
+      # Also after a failed build step: pack keeps what exists. Never upload the raw folder.
+      - id: pack
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        run: python3 scripts/verifier.py pack
+      - if: ${{ !cancelled() && steps.pack.outcome == 'success' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: chain-pack-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}-build1
+          path: build-artifact/
+          if-no-files-found: error
+          retention-days: 2
+      - id: leg
+        if: always()
+        run: python3 scripts/chain.py leg
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: chain-leg-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}-build1
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 90
+  chain_build2:
+    needs: chain_build1
+    if: ${{ !cancelled() && needs.chain_build1.outputs.next == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    permissions:
+      contents: read
+      issues: read
+    env:
+      BOS_REQUEST_PATH: request/request.json
+      ISSUE_NUMBER: ${{ inputs.issue_number }}
+      BOS_SPLIT: 'true'
+      BOS_CHAIN_LEG: build2
+      BOS_CHAIN_STARTED: ${{ needs.chain_build1.outputs.chain_started }}
+    outputs:
+      build_sha256: ${{ steps.pack.outputs.build_sha256 }}
+      done: ${{ steps.leg.outputs.done }}
+      next: ${{ steps.leg.outputs.next }}
+      chain_started: ${{ steps.leg.outputs.chain_started }}
+      leg_sha256: ${{ steps.leg.outputs.leg_sha256 }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: direct-requests-${{ github.run_id }}-${{ github.run_attempt }}
+          path: requests
+      - run: python3 scripts/submissions.py materialize
+      # The tests run without the job's BOS_SPLIT (see the build job).
+      - env:
+          BOS_SPLIT: ''
+        run: python3 -m unittest discover -s tests -v
+      - id: prepare
+        run: python3 scripts/verifier.py prepare
+      - timeout-minutes: 45
+        run: python3 scripts/verifier.py setup
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: chain-pack-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}-build1
+          path: build-artifact
+      - id: unpack
+        env:
+          BOS_BUILD_RESULT: ${{ needs.chain_build1.result }}
+          BOS_BUILD_SHA256: ${{ needs.chain_build1.outputs.build_sha256 }}
+        run: python3 scripts/verifier.py unpack
+      - run: python3 scripts/verifier.py build
+      # Also after a failed build step: pack keeps what exists. Never upload the raw folder.
+      - id: pack
+        if: ${{ !cancelled() && steps.unpack.outcome == 'success' }}
+        run: python3 scripts/verifier.py pack
+      - if: ${{ !cancelled() && steps.pack.outcome == 'success' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: chain-pack-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}-build2
+          path: build-artifact/
+          if-no-files-found: error
+          retention-days: 2
+      - id: leg
+        if: always()
+        run: python3 scripts/chain.py leg
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: chain-leg-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}-build2
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 90
+  chain_build3:
+    needs: chain_build2
+    if: ${{ !cancelled() && needs.chain_build2.outputs.next == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    permissions:
+      contents: read
+      issues: read
+    env:
+      BOS_REQUEST_PATH: request/request.json
+      ISSUE_NUMBER: ${{ inputs.issue_number }}
+      BOS_SPLIT: 'true'
+      BOS_CHAIN_LEG: build3
+      BOS_CHAIN_STARTED: ${{ needs.chain_build2.outputs.chain_started }}
+    outputs:
+      build_sha256: ${{ steps.pack.outputs.build_sha256 }}
+      done: ${{ steps.leg.outputs.done }}
+      next: ${{ steps.leg.outputs.next }}
+      chain_started: ${{ steps.leg.outputs.chain_started }}
+      leg_sha256: ${{ steps.leg.outputs.leg_sha256 }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: direct-requests-${{ github.run_id }}-${{ github.run_attempt }}
+          path: requests
+      - run: python3 scripts/submissions.py materialize
+      # The tests run without the job's BOS_SPLIT (see the build job).
+      - env:
+          BOS_SPLIT: ''
+        run: python3 -m unittest discover -s tests -v
+      - id: prepare
+        run: python3 scripts/verifier.py prepare
+      - timeout-minutes: 45
+        run: python3 scripts/verifier.py setup
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: chain-pack-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}-build2
+          path: build-artifact
+      - id: unpack
+        env:
+          BOS_BUILD_RESULT: ${{ needs.chain_build2.result }}
+          BOS_BUILD_SHA256: ${{ needs.chain_build2.outputs.build_sha256 }}
+        run: python3 scripts/verifier.py unpack
+      - run: python3 scripts/verifier.py build
+      # Also after a failed build step: pack keeps what exists. Never upload the raw folder.
+      - id: pack
+        if: ${{ !cancelled() && steps.unpack.outcome == 'success' }}
+        run: python3 scripts/verifier.py pack
+      - if: ${{ !cancelled() && steps.pack.outcome == 'success' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: chain-pack-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}-build3
+          path: build-artifact/
+          if-no-files-found: error
+          retention-days: 2
+      - id: leg
+        if: always()
+        run: python3 scripts/chain.py leg
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: chain-leg-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}-build3
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 90
+  chain_build4:
+    needs: chain_build3
+    if: ${{ !cancelled() && needs.chain_build3.outputs.next == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    permissions:
+      contents: read
+      issues: read
+    env:
+      BOS_REQUEST_PATH: request/request.json
+      ISSUE_NUMBER: ${{ inputs.issue_number }}
+      BOS_SPLIT: 'true'
+      BOS_CHAIN_LEG: build4
+      BOS_CHAIN_STARTED: ${{ needs.chain_build3.outputs.chain_started }}
+    outputs:
+      build_sha256: ${{ steps.pack.outputs.build_sha256 }}
+      done: ${{ steps.leg.outputs.done }}
+      next: ${{ steps.leg.outputs.next }}
+      chain_started: ${{ steps.leg.outputs.chain_started }}
+      leg_sha256: ${{ steps.leg.outputs.leg_sha256 }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: direct-requests-${{ github.run_id }}-${{ github.run_attempt }}
+          path: requests
+      - run: python3 scripts/submissions.py materialize
+      # The tests run without the job's BOS_SPLIT (see the build job).
+      - env:
+          BOS_SPLIT: ''
+        run: python3 -m unittest discover -s tests -v
+      - id: prepare
+        run: python3 scripts/verifier.py prepare
+      - timeout-minutes: 45
+        run: python3 scripts/verifier.py setup
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: chain-pack-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}-build3
+          path: build-artifact
+      - id: unpack
+        env:
+          BOS_BUILD_RESULT: ${{ needs.chain_build3.result }}
+          BOS_BUILD_SHA256: ${{ needs.chain_build3.outputs.build_sha256 }}
+        run: python3 scripts/verifier.py unpack
+      - run: python3 scripts/verifier.py build
+      # Also after a failed build step: pack keeps what exists. Never upload the raw folder.
+      - id: pack
+        if: ${{ !cancelled() && steps.unpack.outcome == 'success' }}
+        run: python3 scripts/verifier.py pack
+      - if: ${{ !cancelled() && steps.pack.outcome == 'success' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: chain-pack-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}-build4
+          path: build-artifact/
+          if-no-files-found: error
+          retention-days: 2
+      - id: leg
+        if: always()
+        run: python3 scripts/chain.py leg
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: chain-leg-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}-build4
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 90
+  chain_export:
+    needs: [chain_build1, chain_build2, chain_build3, chain_build4]
+    if: ${{ !cancelled() && inputs.chain && inputs.route == 'issue' && (needs.chain_build1.outputs.done == 'true' || needs.chain_build2.outputs.done == 'true' || needs.chain_build3.outputs.done == 'true' || needs.chain_build4.outputs.done == 'true') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    permissions:
+      contents: read
+      issues: read
+    env:
+      BOS_REQUEST_PATH: request/request.json
+      ISSUE_NUMBER: ${{ inputs.issue_number }}
+      BOS_SPLIT: 'true'
+      BOS_CHAIN_LEG: export
+      BOS_CHAIN_STARTED: ${{ needs.chain_build1.outputs.chain_started }}
+    outputs:
+      check_from: ${{ steps.leg.outputs.check_from }}
+      hash_from: ${{ steps.leg.outputs.hash_from }}
+      export_sha256: ${{ steps.leg.outputs.export_sha256 }}
+      challenge_sha256: ${{ steps.leg.outputs.challenge_sha256 }}
+      next: ${{ steps.leg.outputs.next }}
+      chain_started: ${{ steps.leg.outputs.chain_started }}
+      leg_sha256: ${{ steps.leg.outputs.leg_sha256 }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: direct-requests-${{ github.run_id }}-${{ github.run_attempt }}
+          path: requests
+      - run: python3 scripts/submissions.py materialize
+      - id: gate
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BOS_BUILD_PROCEED: ${{ needs.chain_build1.outputs.proceed }}
+        run: python3 scripts/submissions.py preflight
+      # The tests run without the job's BOS_SPLIT (see the build job).
+      - env:
+          BOS_SPLIT: ''
+        if: steps.gate.outputs.proceed == 'true'
+        run: python3 -m unittest discover -s tests -v
+      - id: prepare
+        if: steps.gate.outputs.proceed == 'true'
+        run: python3 scripts/verifier.py prepare
+      - timeout-minutes: 45
+        if: steps.gate.outputs.proceed == 'true'
+        run: python3 scripts/verifier.py setup
+      - id: pick
+        if: steps.gate.outputs.proceed == 'true'
+        env:
+          BOS_CHAIN_NEEDS: ${{ toJSON(needs) }}
+        run: python3 scripts/chain.py pick
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        if: steps.gate.outputs.proceed == 'true'
+        with:
+          name: chain-pack-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}-${{ steps.pick.outputs.leg }}
+          path: build-artifact
+      - env:
+          BOS_BUILD_RESULT: ${{ steps.pick.outputs.result }}
+          BOS_BUILD_SHA256: ${{ steps.pick.outputs.build_sha256 }}
+        if: steps.gate.outputs.proceed == 'true'
+        run: python3 scripts/verifier.py unpack
+      - id: export
+        if: steps.gate.outputs.proceed == 'true'
+        run: python3 scripts/chain.py export
+      - if: ${{ !cancelled() && steps.export.outcome == 'success' && hashFiles('export-artifact/solution.export.zst') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: chain-export-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}
+          path: export-artifact/
+          if-no-files-found: error
+          retention-days: 2
+      - id: leg
+        if: always()
+        run: python3 scripts/chain.py leg
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: chain-leg-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}-export
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 90
+  chain_check1:
+    needs: chain_export
+    if: ${{ !cancelled() && needs.chain_export.outputs.next == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    permissions:
+      contents: read
+      issues: read
+    env:
+      BOS_REQUEST_PATH: request/request.json
+      ISSUE_NUMBER: ${{ inputs.issue_number }}
+      BOS_SPLIT: 'true'
+      BOS_CHAIN_LEG: check1
+      BOS_CHAIN_STARTED: ${{ needs.chain_export.outputs.chain_started }}
+      BOS_CHECK_FROM: ${{ needs.chain_export.outputs.check_from }}
+      BOS_HASH_FROM: ${{ needs.chain_export.outputs.hash_from }}
+      BOS_EXPORT_SHA256: ${{ needs.chain_export.outputs.export_sha256 }}
+      BOS_CHALLENGE_SHA256: ${{ needs.chain_export.outputs.challenge_sha256 }}
+    outputs:
+      check_from: ${{ steps.leg.outputs.check_from }}
+      hash_from: ${{ steps.leg.outputs.hash_from }}
+      next: ${{ steps.leg.outputs.next }}
+      chain_started: ${{ steps.leg.outputs.chain_started }}
+      leg_sha256: ${{ steps.leg.outputs.leg_sha256 }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: direct-requests-${{ github.run_id }}-${{ github.run_attempt }}
+          path: requests
+      - run: python3 scripts/submissions.py materialize
+      # The tests run without the job's BOS_SPLIT (see the build job).
+      - env:
+          BOS_SPLIT: ''
+        run: python3 -m unittest discover -s tests -v
+      - id: prepare
+        run: python3 scripts/verifier.py prepare
+      - timeout-minutes: 45
+        run: python3 scripts/verifier.py setup
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: chain-export-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}
+          path: export-artifact
+      - run: python3 scripts/chain.py check
+      - id: leg
+        if: always()
+        run: python3 scripts/chain.py leg
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: chain-leg-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}-check1
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 90
+  chain_check2:
+    needs: [chain_export, chain_check1]
+    if: ${{ !cancelled() && needs.chain_check1.outputs.next == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    permissions:
+      contents: read
+      issues: read
+    env:
+      BOS_REQUEST_PATH: request/request.json
+      ISSUE_NUMBER: ${{ inputs.issue_number }}
+      BOS_SPLIT: 'true'
+      BOS_CHAIN_LEG: check2
+      BOS_CHAIN_STARTED: ${{ needs.chain_check1.outputs.chain_started }}
+      BOS_CHECK_FROM: ${{ needs.chain_check1.outputs.check_from }}
+      BOS_HASH_FROM: ${{ needs.chain_check1.outputs.hash_from }}
+      BOS_EXPORT_SHA256: ${{ needs.chain_export.outputs.export_sha256 }}
+      BOS_CHALLENGE_SHA256: ${{ needs.chain_export.outputs.challenge_sha256 }}
+    outputs:
+      check_from: ${{ steps.leg.outputs.check_from }}
+      hash_from: ${{ steps.leg.outputs.hash_from }}
+      next: ${{ steps.leg.outputs.next }}
+      chain_started: ${{ steps.leg.outputs.chain_started }}
+      leg_sha256: ${{ steps.leg.outputs.leg_sha256 }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: direct-requests-${{ github.run_id }}-${{ github.run_attempt }}
+          path: requests
+      - run: python3 scripts/submissions.py materialize
+      # The tests run without the job's BOS_SPLIT (see the build job).
+      - env:
+          BOS_SPLIT: ''
+        run: python3 -m unittest discover -s tests -v
+      - id: prepare
+        run: python3 scripts/verifier.py prepare
+      - timeout-minutes: 45
+        run: python3 scripts/verifier.py setup
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: chain-export-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}
+          path: export-artifact
+      - run: python3 scripts/chain.py check
+      - id: leg
+        if: always()
+        run: python3 scripts/chain.py leg
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: chain-leg-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}-check2
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 90
+  chain_check3:
+    needs: [chain_export, chain_check2]
+    if: ${{ !cancelled() && needs.chain_check2.outputs.next == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    permissions:
+      contents: read
+      issues: read
+    env:
+      BOS_REQUEST_PATH: request/request.json
+      ISSUE_NUMBER: ${{ inputs.issue_number }}
+      BOS_SPLIT: 'true'
+      BOS_CHAIN_LEG: check3
+      BOS_CHAIN_STARTED: ${{ needs.chain_check2.outputs.chain_started }}
+      BOS_CHECK_FROM: ${{ needs.chain_check2.outputs.check_from }}
+      BOS_HASH_FROM: ${{ needs.chain_check2.outputs.hash_from }}
+      BOS_EXPORT_SHA256: ${{ needs.chain_export.outputs.export_sha256 }}
+      BOS_CHALLENGE_SHA256: ${{ needs.chain_export.outputs.challenge_sha256 }}
+    outputs:
+      check_from: ${{ steps.leg.outputs.check_from }}
+      hash_from: ${{ steps.leg.outputs.hash_from }}
+      next: ${{ steps.leg.outputs.next }}
+      chain_started: ${{ steps.leg.outputs.chain_started }}
+      leg_sha256: ${{ steps.leg.outputs.leg_sha256 }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: direct-requests-${{ github.run_id }}-${{ github.run_attempt }}
+          path: requests
+      - run: python3 scripts/submissions.py materialize
+      # The tests run without the job's BOS_SPLIT (see the build job).
+      - env:
+          BOS_SPLIT: ''
+        run: python3 -m unittest discover -s tests -v
+      - id: prepare
+        run: python3 scripts/verifier.py prepare
+      - timeout-minutes: 45
+        run: python3 scripts/verifier.py setup
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: chain-export-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}
+          path: export-artifact
+      - run: python3 scripts/chain.py check
+      - id: leg
+        if: always()
+        run: python3 scripts/chain.py leg
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: chain-leg-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}-check3
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 90
+  chain_check4:
+    needs: [chain_export, chain_check3]
+    if: ${{ !cancelled() && needs.chain_check3.outputs.next == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    permissions:
+      contents: read
+      issues: read
+    env:
+      BOS_REQUEST_PATH: request/request.json
+      ISSUE_NUMBER: ${{ inputs.issue_number }}
+      BOS_SPLIT: 'true'
+      BOS_CHAIN_LEG: check4
+      BOS_CHAIN_STARTED: ${{ needs.chain_check3.outputs.chain_started }}
+      BOS_CHECK_FROM: ${{ needs.chain_check3.outputs.check_from }}
+      BOS_HASH_FROM: ${{ needs.chain_check3.outputs.hash_from }}
+      BOS_EXPORT_SHA256: ${{ needs.chain_export.outputs.export_sha256 }}
+      BOS_CHALLENGE_SHA256: ${{ needs.chain_export.outputs.challenge_sha256 }}
+    outputs:
+      check_from: ${{ steps.leg.outputs.check_from }}
+      hash_from: ${{ steps.leg.outputs.hash_from }}
+      next: ${{ steps.leg.outputs.next }}
+      chain_started: ${{ steps.leg.outputs.chain_started }}
+      leg_sha256: ${{ steps.leg.outputs.leg_sha256 }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: direct-requests-${{ github.run_id }}-${{ github.run_attempt }}
+          path: requests
+      - run: python3 scripts/submissions.py materialize
+      # The tests run without the job's BOS_SPLIT (see the build job).
+      - env:
+          BOS_SPLIT: ''
+        run: python3 -m unittest discover -s tests -v
+      - id: prepare
+        run: python3 scripts/verifier.py prepare
+      - timeout-minutes: 45
+        run: python3 scripts/verifier.py setup
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: chain-export-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}
+          path: export-artifact
+      - run: python3 scripts/chain.py check
+      - id: leg
+        if: always()
+        run: python3 scripts/chain.py leg
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: chain-leg-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}-check4
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 90
+  chain_final:
+    needs: [chain_build1, chain_build2, chain_build3, chain_build4, chain_export, chain_check1, chain_check2, chain_check3, chain_check4]
+    if: ${{ always() && inputs.chain && inputs.route == 'issue' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    env:
+      ISSUE_NUMBER: ${{ inputs.issue_number }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      # Each chain job's artifact in its own folder; chain.py final reads each receipt by the job's leg_sha256.
+      - continue-on-error: true
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: chain-leg-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}-*
+          path: chain-legs
+      - env:
+          BOS_CHAIN_NEEDS: ${{ toJSON(needs) }}
+        run: python3 scripts/chain.py final
+      - if: always()
+        env:
+          BOS_RECEIPT_STAGE: final
+        run: python3 scripts/verifier.py finalize
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: verifier-receipt-and-logs-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}
           path: artifacts/
           if-no-files-found: error
           retention-days: 90

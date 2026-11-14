@@ -9,6 +9,10 @@ def kernel_outcome(kernel, code, output, systemd_result='', guard_stop=None):
     required = ['Lean default kernel accepts the solution', 'Your solution is okay!']
     if kernel == 'nanoda':
         required += ['nanoda kernel accepts the solution']
+    if kernel == 'export':
+        # A chain's export unit (chain.py): Comparator built and exported both modules; it ran no comparison and no
+        # kernel. Its failures read like those of the Lean check.
+        required = ['BOS export: wrote']
     if code == 0 and all(line.lower() in output.lower() for line in required):
         return {'status': 'passed', 'reason': 'comparator_acceptance'}
     # Resource evidence comes from the host service manager, never proof output.
@@ -19,7 +23,7 @@ def kernel_outcome(kernel, code, output, systemd_result='', guard_stop=None):
     # A nonzero Lean build with a located elaboration/parser diagnostic is a
     # source failure. Host resource evidence above always takes precedence.
     diagnostics = re.findall(r"^error: ((?!(?:VerifierChallenge|VerifierAudit)\.lean:)[A-Za-z_][A-Za-z0-9_]*(?:/[A-Za-z_][A-Za-z0-9_]*)*\.lean:\d+:\d+: (?:Type mismatch|Application type mismatch|unsolved goals|Unknown identifier|Unknown constant|unknown identifier|unknown constant|unexpected token|unexpected end of input|Tactic|tactic|failed to synthesize|failed to compile definition|Invalid field)[^\n]*)", output, re.M)
-    if kernel == 'lean' and code != 0 and 'error: build failed' in output and diagnostics:
+    if kernel in ['lean', 'export'] and code != 0 and 'error: build failed' in output and diagnostics:
         return {'status': 'rejected', 'reason': 'lean_compile_error',
                 'diagnostic': diagnostics[0][:500]}
     if kernel == 'nanoda' and code != 0 and 'Nanoda kernel rejected the solution' in output and 'assertion failed: self.def_eq(u, v)' in output:
@@ -63,7 +67,8 @@ def admission(receipt, names):
         return 'passed', 'lean_and_axiom_passed_nanoda_pending'
     if nanoda.get('status') == 'passed':
         return 'passed', 'lean_and_axiom_passed'
-    if nanoda.get('status') == 'incomplete' and nanoda.get('reason') in ['out_of_memory', 'timeout', 'disk_limit', 'total_deadline']:
+    # not_run_chain: a chain (runner github-chain) runs no nanoda pass (chain.py); the Lead's design keeps nanoda advisory.
+    if nanoda.get('status') == 'incomplete' and nanoda.get('reason') in ['out_of_memory', 'timeout', 'disk_limit', 'total_deadline', 'not_run_chain']:
         return 'passed', 'lean_and_axiom_passed_nanoda_incomplete'
     return 'pending_review', 'nanoda_ambiguous'
 
@@ -109,6 +114,9 @@ KERNEL_REASONS = {
     'out_of_memory': 'the Lean check ran out of memory',
     'timeout': 'the Lean check ran out of time',
     'disk_limit': 'the Lean check reached its disk limit',
+    'build_chain_cap': 'the Lean build did not finish within the job and hour limits of the check chain',
+    'check_chain_cap': 'the kernel check did not finish within the job and hour limits of the check chain',
+    'chain_coverage': 'the segments of the kernel check do not cover the proof once, in order',
 }
 
 VERDICT_REASONS = {

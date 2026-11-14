@@ -10,15 +10,26 @@ phase = sys.argv[2]
 request = json.loads((work / 'control/request.json').read_text())
 stage = work / 'stage'
 lean = work / 'tools/elan/toolchains' / request['request']['lean_toolchain'].replace('/', '--').replace(':', '---') / 'bin/lake'
+comparator = work / 'tools/comparator/.lake/build/bin/comparator'
+if phase == 'check':
+    # A segment of a chain's kernel check (chain.py): Comparator on export files only. No Lake, no build, no
+    # submission code; the trusted controller wrote the arguments.
+    args = json.loads((work / 'control/check-args.json').read_text())
+    if not isinstance(args, list) or not args or args[0] != '--bos-check' or not all(isinstance(a, str) for a in args):
+        raise ValueError('invalid check arguments')
+    os.execve(str(comparator), [str(comparator), *args], dict(os.environ, LEAN_NUM_THREADS='4'))
 if phase.endswith('-exec'):
     # `lake env` prepends its toolchain bin to PATH. Restore the reviewed
     # adapter only after Lake has supplied LEAN_PATH and other package paths.
     kernel = phase.removesuffix('-exec')
-    if kernel not in ['lean', 'nanoda']:
+    if kernel not in ['lean', 'nanoda', 'export']:
         raise ValueError('invalid kernel phase')
     env = dict(os.environ, LEAN_NUM_THREADS='4')
     env['PATH'] = str(work / 'control/bin') + ':' + env['PATH']
-    comparator = work / 'tools/comparator/.lake/build/bin/comparator'
+    if kernel == 'export':
+        # A chain's export (chain.py): the builds and exports of a normal check, written to two files in /tmp.
+        os.execve(str(comparator), [str(comparator), '--bos-export', str(work / 'control/lean.json'),
+                                    '/tmp/challenge.export', '/tmp/solution.export'], env)
     os.execve(str(comparator), [str(comparator), str(work / f'control/{kernel}.json')], env)
 # Every phase but the build runs Lean with 4 threads. Set it before the branches, so that the
 # audit has it too (verifier#188: 195060b2 set it only in the else branch, and the audit's

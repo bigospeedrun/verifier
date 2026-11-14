@@ -181,7 +181,7 @@ def chain_targets(profile, chains, split):
     # Split run (BOS_SPLIT, the issue jobs of a split profile): job 1 built the solution, so the shim makes one Lake call
     # (docs/execution.md). A PR or maintainer run of a split profile has no build job and keeps the chains.
     if split:
-        if profile.get('runner') != 'github-split':
+        if profile.get('runner') not in ['github-split', 'github-chain']:
             raise ValueError('a split run needs a split profile')
         return profile['solution_module'] + '\n'
     return ''.join(chain[-1] + '\n' for chain in chains)
@@ -542,7 +542,9 @@ def toolchain_dir():
     return WORK / 'tools/elan/toolchains' / request['lean_toolchain'].replace('/', '--').replace(':', '---')
 
 
-def sandbox_args(config_write=False):
+def sandbox_args(config_write=False, scratch=None):
+    """scratch: the folder that the sandbox sees as /tmp (default WORK/scratch). A segmented check gets a new empty one
+    (chain.py), so that nothing an earlier unit of the job left there reaches it."""
     tools, stage, control = WORK / 'tools', WORK / 'stage', WORK / 'control'
     lean = toolchain_dir()
     args = ['/usr/bin/bwrap', '--unshare-all', '--die-with-parent', '--new-session',
@@ -553,7 +555,7 @@ def sandbox_args(config_write=False):
             '--bind', str(stage / '.lake/build'), str(stage / '.lake/build'),
             '--ro-bind', str(WORK / 'cache/.lake/packages'), str(stage / '.lake/packages'),
             '--ro-bind', str(tools), str(tools), '--ro-bind', str(control), str(control),
-            '--bind', str(WORK / 'scratch'), '/tmp', '--chdir', str(stage), '--clearenv']
+            '--bind', str(scratch or WORK / 'scratch'), '/tmp', '--chdir', str(stage), '--clearenv']
     if config_write:
         args += ['--bind', str(stage / '.lake/config'), str(stage / '.lake/config')]
     if Path('/etc/alternatives/which').exists():
@@ -614,6 +616,9 @@ def kernel_swap_limit(kernel):
     the 14G cap (task b1457f08, verifier#187: one declaration took RSS to 11.6 GB, unit peak 13.2 GB, 0.3 GB swap).
     Builds keep no swap, so an oom-kill during a build still restarts it with fewer Lake workers."""
     if kernel == 'nanoda' or (kernel == 'lean' and os.environ.get('BOS_SPLIT') == 'true'):
+        return SWAP_BYTES
+    # A chain (chain.py): the export unit holds the whole export in memory, and a check unit replays it.
+    if kernel in ['export', 'check']:
         return SWAP_BYTES
     return 0
 
@@ -680,7 +685,7 @@ def launch_github(kernel, command_args, deadline, log_mode='w'):
         try:
             prepare_kernel_swap()
         except NoSwapDisk:
-            if kernel != 'lean':
+            if kernel not in ['lean', 'export', 'check']:
                 raise
             # The split Lean check ran without swap before 9ea7a5a; a small proof does not need it.
             print('kernel swap: not enough disk, lean runs without swap', flush=True)

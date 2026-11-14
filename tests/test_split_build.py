@@ -515,7 +515,9 @@ class WorkflowTests(unittest.TestCase):
 
     def test_build_job(self):
         jobs = self.load('submission-check.yml')['jobs']
-        self.assertEqual(list(jobs), ['build', 'verify', 'pr_verify'])
+        # The check chain's jobs follow (tests/test_chain.py).
+        self.assertEqual(list(jobs)[:3], ['build', 'verify', 'pr_verify'])
+        self.assertTrue(all(name.startswith('chain_') for name in list(jobs)[3:]))
         build, verify = jobs['build'], jobs['verify']
         self.assertEqual(build['if'], "inputs.split && inputs.route == 'issue'")
         self.assertEqual(build['permissions'], {'contents': 'read', 'issues': 'read'})
@@ -542,7 +544,7 @@ class WorkflowTests(unittest.TestCase):
         verify = jobs['verify']
         self.assertEqual(verify['needs'], 'build')
         # A skipped build skips its dependents unless a status function is used. Not always(): a cancel stops the run.
-        self.assertEqual(verify['if'], "${{ !cancelled() && inputs.route == 'issue' }}")
+        self.assertEqual(verify['if'], "${{ !cancelled() && inputs.route == 'issue' && !inputs.chain }}")
         steps = verify['steps']
         runs = [step.get('run') or step['uses'].split('@')[0] for step in steps]
         at = runs.index('python3 scripts/verifier.py setup')

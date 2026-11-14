@@ -287,7 +287,9 @@ def body_hash(body):
 
 # Where a profile's proof check runs. 'github-split': two hosted jobs, a build job and a check job
 # (submission-check.yml, docs/execution.md). The selection gives its matrix entry split: true.
-RUNNERS = {'github', 'github-split'}
+# 'github-chain': a check chain of up to four build jobs, an export job, up to four check jobs and a final job
+# (scripts/chain.py, docs/execution.md, Check chain). Its matrix entry has chain: true.
+RUNNERS = {'github', 'github-split', 'github-chain'}
 
 
 def selected_profile(submission):
@@ -308,6 +310,8 @@ def matrix_entry(number, login, route, submission):
     entry = {'issue_number': number, 'login': login, 'route': route}
     if route == 'issue' and runner(submission) == 'github-split':
         entry['split'] = True
+    if route == 'issue' and runner(submission) == 'github-chain':
+        entry['chain'] = True
     return entry
 
 

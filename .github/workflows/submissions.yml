@@ -65,6 +65,7 @@ jobs:
       issue_number: ${{ matrix.issue_number }}
       route: ${{ matrix.route }}
       split: ${{ matrix.split == true }}
+      chain: ${{ matrix.chain == true }}
   # The verdict of each issue, after every check leg ended (verifier#190 follow-up, 2026-11-10): run 42648121034 checked
   # #187 and #190 in one matrix, and GitHub never created the report job of #190 inside the reusable workflow (no error;
   # the run ended failure). A plain matrix job here, outside the reusable workflow, depends on the whole check matrix.

@@ -361,6 +361,75 @@ lists public `ubuntu-latest` as **4 vCPU, 16 GB RAM and 14 GB SSD**, checked
 2026-10-10. These are the documented standard-runner specifications; receipts
 record the run's measured usage. A proof can exceed those resources.
 
+## Check chain for proofs that need more than one job
+
+A profile with `"runner": "github-chain"` runs as a chain of hosted jobs in one workflow
+run (task b1457f08): `build1`..`build4`, `export`, `check1`..`check4` and `final`
+(`.github/workflows/submission-check.yml`, `scripts/chain.py`). No profile uses it yet.
+It is for proofs whose build, or whose kernel check, does not fit one 350-minute job
+(verifier#182: about 14 h of single-stream build left; the OpenAI 3-SAT proof: 3,091
+modules, 23 GB of build output). Every job is a standard free `ubuntu-latest` runner with
+read-only permissions, the 14 GiB unit cap and its own 335-minute deadline from its own
+`prepare`. Each job runs its own `prepare` and `setup` (about 5 minutes) before any
+submission file is built or loaded, so no tool comes from a job where submission code ran.
+
+- **Build jobs.** `build1` gates like a split run's build job. Each later build job
+  restores the pack of the job before it (`unpack`, the pin is that job's `build_sha256`
+  output), continues the Lake build from the Lake worker count of the last attempt before it,
+  and packs again. Lake keeps each finished module, so a job loses at most the modules
+  that were in progress at its deadline. A job starts the next one only when its build
+  reached the deadline (or the deadline cut the out-of-memory back-off), it made a new
+  pack, and the caps allow it.
+- **Export job.** It gates again (as a split run's check job), restores the pack of the
+  build job that says `done` (`chain.py pick`: the build jobs that ran are `build1`..`buildK`
+  in order, and only the last one is done), and runs Comparator `--bos-export` in the
+  sandbox: the same challenge build and export, then the solution build (Lake finds it up to
+  date) and export, written to two files. No comparison and no kernel runs in that unit.
+  Then the axiom audit runs as usual. The controller moves both files out of the sandbox
+  `/tmp`, compresses them (`zstd -3`) and uploads them; the sha256 of each compressed file
+  is a job output.
+- **Segments.** The export job and each check job run one segment of the kernel check:
+  Comparator `--bos-check` (patches/comparator-segmented-check.patch, in
+  `profiles/tools-chain.json`) in a new unit with a new empty `/tmp`. No Lake, no build and
+  no submission code runs in it. The segment at 0 parses both files and runs Comparator's
+  statement and axiom checks (`compareAt`, `checkAxioms`) first, so the bytes that it
+  compares are the bytes that every segment replays. The replay is a copy of Lean
+  v4.34.1's `Kernel.Environment.replay` (src/Lean/Replay.lean) with an index for each
+  `addDecl` call in the fixed walk order. A segment adds the declarations before its start
+  with `addDeclWithoutChecking`, sends each later one to `addDeclCore` (the full kernel
+  check), and stops between two declarations at its deadline, after at least one check. The
+  kernel adds an inductive type or the quotient in full in both cases (src/kernel/environment.cpp,
+  `environment::add`). The segment that ends the walk runs the postponed constructor and
+  recursor checks and Comparator's quotient post-check. A running hash of the added names
+  links the segments. Each segment writes one JSON receipt.
+- **Why the result is the same as one replay.** A full replay checks declaration *i*
+  against the environment of declarations 0..*i*−1. A chain checks declaration *i* in exactly
+  one segment, against declarations 0..*i*−1 added from the same export bytes (one sha256)
+  in the same order, and each of those was checked in an earlier segment of the same chain.
+  `setup` tests this before any submission code (`--bos-selftest`): on an export of about 630
+  constants of Lean's `Init`, Lean's own `replay` and the segmented replay with one segment
+  and with segments of 7, 23 and 97 declarations accept the export as it is and reject three
+  tampered copies (a theorem with another theorem's proof, a definition with an ill-typed
+  value, a constructor with a wrong field count), at the same declaration. It also tests a
+  deadline stop after one declaration and its continuation.
+- **Final job.** It reads each chain job's receipt by the `leg_sha256` that the job wrote
+  as an output, and accepts the kernel check only when the segments, in job order, all
+  replay the export with the export job's sha256, each starts where the one before it
+  stopped and with its hash, the first one ran the statement checks, and the last one ended
+  the walk with the postponed and quotient checks. Any gap, overlap or mismatch gives
+  `incomplete` (`chain_coverage`), never `passed`. It writes one receipt with the provenance
+  of the chain (`chain.legs`; darkhipo's merged-receipt idea from PR #191) and uploads it
+  under the normal receipt name, so the report job does not change.
+- **Caps.** The profile's `chain` object: `max_build_jobs` and `max_check_jobs` (1 to 4,
+  default 1) and `max_hours` (at most 30, from the start of `build1`). The queue lease has no
+  time expiry, so a chain holds the queue for all its time. A chain that reaches a cap ends
+  `incomplete` (`build_chain_cap`, `check_chain_cap`), never rejected.
+- **nanoda.** A chain runs no nanoda pass. On #187 it needed more than 26 GB. The receipt
+  says `nanoda: incomplete (not_run_chain)`, which the verdict rule treats like its other
+  incomplete reasons (advisory).
+- **Re-runs.** The queue lease belongs to one run attempt (`queue_lease.assert_owner`), so a
+  failed chain is run again as a whole, never as one job.
+
 ## Trust and credit
 
 OpenAI wrote the exact RAM formalization and all-length DFT reduction at
