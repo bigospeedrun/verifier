@@ -195,8 +195,14 @@ class Base(unittest.TestCase):
         run.assert_called_once_with(['systemctl', 'is-active', 'bos-verifier-build'], capture_output=True, text=True, check=False)
         return v.receipt()['pack']
 
+    def packed_file(self):
+        return self.out / v.BUILD_PACK
+
+    def tar_bytes(self):
+        return subprocess.run(['zstd', '-d', '-q', '-c', '--', str(self.packed_file())], capture_output=True, check=True).stdout
+
     def unpack(self, sha=None, result='success'):
-        sha = sha if sha is not None else hashlib.sha256((self.out / 'build.tar').read_bytes()).hexdigest()
+        sha = sha if sha is not None else hashlib.sha256(self.packed_file().read_bytes()).hexdigest()
         def command(args, label, *a, **k):
             self.assertEqual(os.listdir(self.build), [])  # Before any restored file exists.
             (self.art / (label + '.log')).write_text('/w/.lake/packages/mathlib/.lake/build/lib/lean:/w/stage/.lake/build/lib/lean\n')
@@ -230,7 +236,7 @@ class PackTests(Base):
         os.link(self.build / 'lib/lean/Submission.olean', self.build / 'lib/lean/Submission/Hard.olean')
         os.mkfifo(self.build / 'ir/Submission/fifo')
         record = self.pack()
-        with tarfile.open(self.out / 'build.tar') as tar:
+        with tarfile.open(fileobj=io.BytesIO(self.tar_bytes())) as tar:
             members = tar.getmembers()
         names = [m.name for m in members]
         self.assertEqual(names, ['ir/Submission', 'ir/Submission/OAI', 'ir/Submission/OAI/A.c', 'lib/lean/Submission',
@@ -245,7 +251,9 @@ class PackTests(Base):
                                                    'lib/lean/Submission/OAI/Link.olean', 'lib/lean/VerifierChallenge.olean',
                                                    'lib/lean/libc.so.6', 'lib/libSubmission.a', 'lib/libleanshared.so'])
         self.assertEqual((record['members'], record['files'], record['bytes'], record['skipped_count']), (6, 2, 3001, 11))
-        sha = hashlib.sha256((self.out / 'build.tar').read_bytes()).hexdigest()
+        self.assertEqual(record['compressed_bytes'], self.packed_file().stat().st_size)
+        self.assertFalse((self.out / 'build.tar').exists())
+        sha = hashlib.sha256(self.packed_file().read_bytes()).hexdigest()
         self.assertEqual(record['sha256'], sha)
         self.assertEqual(self.output.read_text(), 'build_sha256=' + sha + '\n')
         self.assertEqual(json.loads((self.out / 'build.json').read_text()), {'build': {'exit_code': 0}, 'pack': record})
@@ -263,11 +271,13 @@ class PackTests(Base):
         for state in ['active', 'activating', 'deactivating', '']:
             with self.subTest(state=state), self.assertRaises(RuntimeError):
                 self.pack(state)
-        self.assertFalse((self.out / 'build.tar').exists())
-        for name, value in [('BUILD_MAX_MEMBERS', 2), ('BUILD_MAX_BYTES', 19)]:
+        self.assertFalse(self.packed_file().exists())
+        # The raw cap counts the member sizes; the compressed cap the file. A refused pack leaves no file.
+        size = len(subprocess.run(v.ZSTD_PACK, input=b'', capture_output=True, check=True).stdout)
+        for name, value in [('BUILD_MAX_MEMBERS', 2), ('BUILD_MAX_RAW_BYTES', 19), ('BUILD_MAX_BYTES', size)]:
             with self.subTest(cap=name), patch.object(v, name, value), self.assertRaises(RuntimeError):
                 self.pack()
-        self.assertFalse((self.out / 'build.tar').exists())
+            self.assertFalse(self.packed_file().exists())
         self.assertEqual(self.pack()['bytes'], 20)
 
     def test_pack_refuses_a_symlinked_build_folder(self):
@@ -304,6 +314,7 @@ class UnpackTests(Base):
         self.assertEqual(data['unpack'], {'sha256': data['pack']['sha256'], 'members': 7, 'files': 3, 'bytes': 3005})
         self.assertEqual(data['build'], {'exit_code': 0})
         self.assertFalse((self.out / 'build.tar').exists())
+        self.assertFalse(self.packed_file().exists())
         # LEAN_PATH record: our Lake config only, in the sandbox, before Comparator.
         lake = str(self.work / 'tools/elan/toolchains/leanprover--lean4---v4.34.1/bin/lake')
         command.assert_called_once_with(v.sandbox_args() + [lake, 'env', 'printenv', 'LEAN_PATH'], 'lean-path')
@@ -311,7 +322,7 @@ class UnpackTests(Base):
 
     def test_fail_closed_before_any_write(self):
         self.packed()
-        sha = hashlib.sha256((self.out / 'build.tar').read_bytes()).hexdigest()
+        sha = hashlib.sha256(self.packed_file().read_bytes()).hexdigest()
         for kwargs in [dict(result='failure'), dict(result='cancelled'), dict(result=''), dict(sha=''), dict(sha=sha.upper()),
                        dict(sha=sha[:63]), dict(sha=sha + '0'), dict(sha='0' * 64)]:
             with self.subTest(**kwargs), self.assertRaises((RuntimeError, ValueError)):
@@ -324,7 +335,7 @@ class UnpackTests(Base):
         with self.assertRaises(RuntimeError):
             self.unpack(sha=sha, result='failure')
         self.assertFalse((self.art / 'build.log').exists())
-        (self.out / 'build.tar').unlink()
+        self.packed_file().unlink()
         with self.assertRaises(ValueError):
             self.unpack(sha=sha)
         self.assertEqual(os.listdir(self.build), [])
@@ -352,11 +363,13 @@ class UnpackTests(Base):
             self.unpack()
 
     def write_tar(self, members):
-        """members: (TarInfo, data) pairs. Our pack's headers unless a test changes them."""
+        """members: (TarInfo, data) pairs. Our pack's headers unless a test changes them. Compressed as pack does."""
         self.out.mkdir(exist_ok=True)
-        with tarfile.open(self.out / 'build.tar', 'w', format=tarfile.PAX_FORMAT) as tar:
+        raw = io.BytesIO()
+        with tarfile.open(fileobj=raw, mode='w', format=tarfile.PAX_FORMAT) as tar:
             for info, data in members:
                 tar.addfile(info, io.BytesIO(data) if data is not None else None)
+        self.packed_file().write_bytes(subprocess.run(v.ZSTD_PACK, input=raw.getvalue(), capture_output=True, check=True).stdout)
 
     def info(self, name, kind=tarfile.REGTYPE, data=b'x', **pax):
         info = tarfile.TarInfo(name); info.type = kind; info.mtime = 1
@@ -400,10 +413,28 @@ class UnpackTests(Base):
     def test_caps(self):
         members = [self.info('lib/lean/Submission', tarfile.DIRTYPE), self.info('lib/lean/Submission/A.olean', data=b'a' * 10)]
         self.write_tar(members)
-        for name, value in [('BUILD_MAX_MEMBERS', 1), ('BUILD_MAX_BYTES', 9)]:
+        size = self.packed_file().stat().st_size
+        for name, value in [('BUILD_MAX_MEMBERS', 1), ('BUILD_MAX_RAW_BYTES', 9), ('BUILD_MAX_BYTES', size - 1)]:
+            self.write_tar(members)  # A refused archive is used up: unpack removes the pack after its decompression.
             with self.subTest(cap=name), patch.object(v, name, value), self.assertRaises(ValueError):
                 self.unpack()
             self.assertEqual(os.listdir(self.build), [])
+            self.assertFalse((self.out / 'build.tar').exists())
+
+    def test_a_decompression_bomb_stops_at_the_raw_cap(self):
+        # 64 MiB of zeros compress to a few KiB; the stream stops long before the disk fills.
+        bomb = subprocess.run(v.ZSTD_PACK, input=bytes(64 * 1024**2), capture_output=True, check=True).stdout
+        self.out.mkdir(exist_ok=True); self.packed_file().write_bytes(bomb)
+        with patch.object(v, 'BUILD_MAX_RAW_BYTES', 1024**2), patch.object(v, 'BUILD_MAX_MEMBERS', 10), \
+                self.assertRaises(ValueError):
+            self.unpack()
+        self.assertFalse((self.out / 'build.tar').exists())
+        self.assertEqual(os.listdir(self.build), [])
+        # Not zstd at all.
+        self.packed_file().write_bytes(b'not a zstd frame')
+        with self.assertRaises(ValueError):
+            self.unpack()
+        self.assertFalse((self.out / 'build.tar').exists())
 
     def test_unpack_never_uses_extractall(self):
         source = (ROOT / 'scripts/verifier.py').read_text()

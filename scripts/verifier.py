@@ -733,8 +733,17 @@ def verify(kernels=None):
 # Split build (docs/execution.md). Job 1 stops its build in time to pack and upload.
 BUILD_PACK_SECONDS = 15 * 60
 BUILD_ARTIFACT = ROOT / 'build-artifact'
+# The pack is a tar stream compressed with zstd -3 (Lead, 2026-11-11, task b1457f08: ir/ travels in the pack, and the
+# generated C compresses about 36x). BUILD_MAX_BYTES caps the compressed file (the artifact). BUILD_MAX_RAW_BYTES caps
+# the sum of the member sizes, in pack and again in unpack, and the decompressed stream, so that a decompression bomb
+# cannot fill the runner disk. The 3-SAT build is about 23 GB raw (20 GB of it ir/).
+BUILD_PACK = 'build.tar.zst'
 BUILD_MAX_BYTES = 8 * 1024**3
+BUILD_MAX_RAW_BYTES = 40 * 1024**3
 BUILD_MAX_MEMBERS = 200_000
+# Tar headers and padding: at most three 512-byte blocks per member (pax header, header, last data block), and the end.
+TAR_OVERHEAD_PER_MEMBER = 3 * 512
+ZSTD_PACK = ['zstd', '-3', '-T4', '-q', '-c']
 # Folders that hold the allowed paths. They are walked, but they are not members.
 BUILD_PREFIXES = {'lib', 'lib/lean', 'ir'}
 # Roots that would shadow the toolchain's own modules (docs/execution.md, LEAN_PATH order).
@@ -805,8 +814,9 @@ def build():
 
 
 def pack():
-    """Split job 1, rule S2: trusted code writes a deterministic tar of the allowed build files after the build unit has ended.
-    It never follows a symlink. The sha256 goes to the job output; job 2 checks it."""
+    """Split job 1, rule S2: trusted code writes a deterministic tar of the allowed build files after the build unit has ended,
+    compressed with zstd (BUILD_PACK). It never follows a symlink. The sha256 of the compressed file goes to the job output;
+    job 2 checks it."""
     state = subprocess.run(['systemctl', 'is-active', 'bos-verifier-build'], capture_output=True, text=True, check=False).stdout.strip()
     if state not in ['inactive', 'failed']:
         raise RuntimeError('build unit is not stopped: ' + (state or 'unknown'))
@@ -838,9 +848,40 @@ def pack():
             else:
                 skipped.append(rel)
         dirs[:] = [d for d in dirs if d in keep]
-        if len(members) > BUILD_MAX_MEMBERS or total > BUILD_MAX_BYTES:
+        if len(members) > BUILD_MAX_MEMBERS or total > BUILD_MAX_RAW_BYTES:
             raise RuntimeError('build files exceed the pack caps')
-    with tarfile.open(BUILD_ARTIFACT / 'build.tar', 'w', format=tarfile.PAX_FORMAT) as tar:
+    target = BUILD_ARTIFACT / BUILD_PACK
+    try:
+        with target.open('wb') as out:
+            zstd = subprocess.Popen(ZSTD_PACK, stdin=subprocess.PIPE, stdout=out)
+            try:
+                write_pack(zstd.stdin, base, members)
+            finally:
+                zstd.stdin.close()
+                code = zstd.wait()
+        if code:
+            raise RuntimeError(f'zstd failed with exit {code}')
+        if target.stat().st_size > BUILD_MAX_BYTES:
+            raise RuntimeError('the compressed pack exceeds BUILD_MAX_BYTES')
+    except BaseException:
+        target.unlink(missing_ok=True)
+        raise
+    sha = digest(target)
+    data = receipt()
+    data['pack'] = {'sha256': sha, 'members': len(members), 'files': sum(not stat.S_ISDIR(m[1].st_mode) for m in members),
+                    'bytes': total, 'compressed_bytes': target.stat().st_size,
+                    'skipped_count': len(skipped), 'skipped_first': sorted(skipped)[:20]}
+    save(data)
+    write_json(BUILD_ARTIFACT / 'build.json', {'build': data.get('build'), 'pack': data['pack']})
+    if os.environ.get('GITHUB_OUTPUT'):
+        with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+            out.write('build_sha256=' + sha + '\n')
+    print(f"pack: {len(members)} members, {total} bytes, {target.stat().st_size} compressed, {len(skipped)} skipped, sha256 {sha}", flush=True)
+
+
+def write_pack(stream, base, members):
+    """The tar stream of pack(): fixed owner, modes and order, the real mtime to the nanosecond."""
+    with tarfile.open(fileobj=stream, mode='w|', format=tarfile.PAX_FORMAT) as tar:
         for rel, st in sorted(members, key=lambda m: m[0]):
             info = tarfile.TarInfo(rel)
             info.uid = info.gid = 0
@@ -859,16 +900,29 @@ def pack():
                 if not stat.S_ISREG(now.st_mode) or (now.st_dev, now.st_ino, now.st_size) != (st.st_dev, st.st_ino, st.st_size):
                     raise RuntimeError('build file changed while packing')
                 tar.addfile(info, f)
-    sha = digest(BUILD_ARTIFACT / 'build.tar')
-    data = receipt()
-    data['pack'] = {'sha256': sha, 'members': len(members), 'files': sum(not stat.S_ISDIR(m[1].st_mode) for m in members),
-                    'bytes': total, 'skipped_count': len(skipped), 'skipped_first': sorted(skipped)[:20]}
-    save(data)
-    write_json(BUILD_ARTIFACT / 'build.json', {'build': data.get('build'), 'pack': data['pack']})
-    if os.environ.get('GITHUB_OUTPUT'):
-        with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
-            out.write('build_sha256=' + sha + '\n')
-    print(f"pack: {len(members)} members, {total} bytes, {len(skipped)} skipped, sha256 {sha}", flush=True)
+
+
+def decompress(source, target, limit):
+    """zstd -d of a pinned file into a new file, stopped when the output passes `limit` bytes (a decompression bomb)."""
+    total = 0
+    try:
+        with target.open('xb') as out, subprocess.Popen(['zstd', '-d', '-q', '-c', '--', str(source)],
+                                                        stdout=subprocess.PIPE) as zstd:
+            try:
+                for block in iter(lambda: zstd.stdout.read(1024 * 1024), b''):
+                    total += len(block)
+                    if total > limit:
+                        raise ValueError('a pinned artifact decompresses to more than its size cap')
+                    out.write(block)
+            except BaseException:
+                zstd.kill()
+                raise
+        if zstd.returncode:
+            raise ValueError('a pinned artifact does not decompress')
+    except BaseException:
+        target.unlink(missing_ok=True)
+        raise
+    return total
 
 
 def unpack():
@@ -889,8 +943,8 @@ def unpack():
     expected = os.environ.get('BOS_BUILD_SHA256', '')
     if not re.fullmatch('[0-9a-f]{64}', expected):
         raise ValueError('BOS_BUILD_SHA256 must be 64 lowercase hex digits')
-    path = BUILD_ARTIFACT / 'build.tar'
-    if path.is_symlink() or not path.is_file() or digest(path) != expected:
+    packed = BUILD_ARTIFACT / BUILD_PACK
+    if packed.is_symlink() or not packed.is_file() or packed.stat().st_size > BUILD_MAX_BYTES or digest(packed) != expected:
         raise ValueError('build artifact is missing or its sha256 does not match')
     roots = build_roots(json.loads((WORK / 'control/request.json').read_text())['profile'])
     # Also refuse a root that names a module folder or file of the toolchain itself (fails if the folder is missing).
@@ -905,33 +959,38 @@ def unpack():
     command(sandbox_args() + [str(toolchain_dir() / 'bin/lake'), 'env', 'printenv', 'LEAN_PATH'], 'lean-path')
     lines = (ART / 'lean-path.log').read_text(errors='replace').split()
     data = receipt(); data['lean_path'] = lines[-1].split(':') if lines else []; save(data)
-    with tarfile.open(path, 'r:') as tar:
-        checked, names, total = [], set(), 0
-        for m in tar:
-            mtime = re.fullmatch(r'([0-9]{1,12})\.([0-9]{9})', m.pax_headers.get('mtime', ''))
-            if (m.type not in [tarfile.REGTYPE, tarfile.DIRTYPE] or set(m.pax_headers) - {'mtime', 'path'} or not mtime
-                    or m.name in names or not build_allowed(m.name, m.isdir(), roots) or (m.isdir() and m.size)):
-                raise ValueError('build artifact has a member outside the allow-list')
-            names.add(m.name)
-            total += m.size
-            checked.append((m, int(mtime[1]) * 10**9 + int(mtime[2])))
-            if len(checked) > BUILD_MAX_MEMBERS or total > BUILD_MAX_BYTES:
-                raise ValueError('build artifact exceeds the pack caps')
-        for prefix in sorted(BUILD_PREFIXES):
-            os.mkdir(base / prefix, 0o755)
-        dirs = []
-        for m, ns in checked:
-            if m.isdir():
-                os.mkdir(base / m.name, 0o755); os.chmod(base / m.name, 0o755)
-                dirs.append((base / m.name, ns))
-                continue
-            fd = os.open(base / m.name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_CLOEXEC, 0o644)
-            with os.fdopen(fd, 'wb') as out, tar.extractfile(m) as src:
-                shutil.copyfileobj(src, out, 1024 * 1024)
-                out.flush(); os.fchmod(fd, 0o644); os.utime(fd, ns=(ns, ns))
-        for folder, ns in reversed(dirs):
-            os.utime(folder, ns=(ns, ns), follow_symlinks=False)
-    path.unlink()  # Disk space for the checks and the kernel swap.
+    path = BUILD_ARTIFACT / 'build.tar'
+    decompress(packed, path, BUILD_MAX_RAW_BYTES + BUILD_MAX_MEMBERS * TAR_OVERHEAD_PER_MEMBER + 20 * 512)
+    packed.unlink()  # Disk space: the raw tar and the restored files exist at the same time below.
+    try:
+        with tarfile.open(path, 'r:') as tar:
+            checked, names, total = [], set(), 0
+            for m in tar:
+                mtime = re.fullmatch(r'([0-9]{1,12})\.([0-9]{9})', m.pax_headers.get('mtime', ''))
+                if (m.type not in [tarfile.REGTYPE, tarfile.DIRTYPE] or set(m.pax_headers) - {'mtime', 'path'} or not mtime
+                        or m.name in names or not build_allowed(m.name, m.isdir(), roots) or (m.isdir() and m.size)):
+                    raise ValueError('build artifact has a member outside the allow-list')
+                names.add(m.name)
+                total += m.size
+                checked.append((m, int(mtime[1]) * 10**9 + int(mtime[2])))
+                if len(checked) > BUILD_MAX_MEMBERS or total > BUILD_MAX_RAW_BYTES:
+                    raise ValueError('build artifact exceeds the pack caps')
+            for prefix in sorted(BUILD_PREFIXES):
+                os.mkdir(base / prefix, 0o755)
+            dirs = []
+            for m, ns in checked:
+                if m.isdir():
+                    os.mkdir(base / m.name, 0o755); os.chmod(base / m.name, 0o755)
+                    dirs.append((base / m.name, ns))
+                    continue
+                fd = os.open(base / m.name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_CLOEXEC, 0o644)
+                with os.fdopen(fd, 'wb') as out, tar.extractfile(m) as src:
+                    shutil.copyfileobj(src, out, 1024 * 1024)
+                    out.flush(); os.fchmod(fd, 0o644); os.utime(fd, ns=(ns, ns))
+            for folder, ns in reversed(dirs):
+                os.utime(folder, ns=(ns, ns), follow_symlinks=False)
+    finally:
+        path.unlink(missing_ok=True)  # Disk space for the checks and the kernel swap; also after a refusal.
     data = receipt()
     data['unpack'] = {'sha256': expected, 'members': len(checked), 'files': sum(not m.isdir() for m, _ in checked), 'bytes': total}
     save(data)

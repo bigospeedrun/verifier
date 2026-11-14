@@ -147,10 +147,12 @@ build job and never splits: a 3SUM PR runs as one job, as before, and keeps the 
    walks `.lake/build` with `lstat` and never follows a symlink. It keeps only
    the allow-list below (regular files with one link, and directories) and
    records the count and the first 20 names of the other paths. It refuses more
-   than 8 GiB or 200,000 members. It writes a sorted tar with fixed owners and
-   modes and the real mtimes, to the nanosecond. The job uploads that tar, never
-   the raw folder, as `verifier-build-<run>-<attempt>-<issue>` (1 day). Its
-   sha256 is the job output `build_sha256`. That hash covers only `build.tar`.
+   than 40 GiB of file bytes (`BUILD_MAX_RAW_BYTES`) or 200,000 members. It writes a sorted tar with fixed owners and
+   modes and the real mtimes, to the nanosecond, as a stream into `zstd -3 -T4`
+   (`build.tar.zst`; Lead, 2026-11-11: `ir/` travels in the pack, and the generated C
+   compresses about 36 times). It refuses a compressed file over 8 GiB (`BUILD_MAX_BYTES`).
+   The job uploads that file, never the raw folder, as `verifier-build-<run>-<attempt>-<issue>` (1 day). Its
+   sha256 is the job output `build_sha256`. That hash covers only `build.tar.zst`.
    `build.json` and `build.log` are data from a trusted step of the same run
    (only that run's jobs can upload to it), and they go to the receipt as data only.
 3. Job `verify` has `needs: build`. Its gate also stops (claimed only) when
@@ -158,8 +160,9 @@ build job and never splits: a 3SUM PR runs as one job, as before, and keeps the 
    GitHub skips a job whose needed job was skipped unless a status function is
    used. So a run without split works as before. After `setup`, a split run
    downloads the tar and runs `verifier.py unpack` (trusted, rule S1). The build
-   job must have succeeded, and `BOS_BUILD_SHA256` must equal the sha256 of the
-   tar. Unpack checks every member before it writes a file. Only regular files
+   job must have succeeded, the file must be at most 8 GiB, and `BOS_BUILD_SHA256` must equal its
+   sha256. Unpack then decompresses it to a tar on the work disk and stops when the output passes
+   the raw cap plus the tar headers (a decompression bomb cannot fill the disk). It checks every member before it writes a file. Only regular files
    and directories with relative UTF-8 names in the allow-list are permitted.
    One other member refuses the whole archive. A source root may not have the
    name of an entry in the toolchain's `lib/lean`. Unpack writes into the empty
