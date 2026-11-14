@@ -9,10 +9,10 @@ def kernel_outcome(kernel, code, output, systemd_result='', guard_stop=None):
     required = ['Lean default kernel accepts the solution', 'Your solution is okay!']
     if kernel == 'nanoda':
         required += ['nanoda kernel accepts the solution']
-    if kernel == 'export':
-        # A chain's export unit (chain.py): Comparator built and exported both modules; it ran no comparison and no
-        # kernel. Its failures read like those of the Lean check.
-        required = ['BOS export: wrote']
+    if kernel in ['challenge', 'export']:
+        # A chain's export units (chain.py): Comparator built and exported the challenge, or the solution; it ran no
+        # comparison and no kernel. Their failures read like those of the Lean check.
+        required = ['BOS export: wrote ' + ('challenge' if kernel == 'challenge' else 'solution')]
     if code == 0 and all(line.lower() in output.lower() for line in required):
         return {'status': 'passed', 'reason': 'comparator_acceptance'}
     # Resource evidence comes from the host service manager, never proof output.
@@ -23,7 +23,7 @@ def kernel_outcome(kernel, code, output, systemd_result='', guard_stop=None):
     # A nonzero Lean build with a located elaboration/parser diagnostic is a
     # source failure. Host resource evidence above always takes precedence.
     diagnostics = re.findall(r"^error: ((?!(?:VerifierChallenge|VerifierAudit)\.lean:)[A-Za-z_][A-Za-z0-9_]*(?:/[A-Za-z_][A-Za-z0-9_]*)*\.lean:\d+:\d+: (?:Type mismatch|Application type mismatch|unsolved goals|Unknown identifier|Unknown constant|unknown identifier|unknown constant|unexpected token|unexpected end of input|Tactic|tactic|failed to synthesize|failed to compile definition|Invalid field)[^\n]*)", output, re.M)
-    if kernel in ['lean', 'export'] and code != 0 and 'error: build failed' in output and diagnostics:
+    if kernel in ['lean', 'challenge', 'export'] and code != 0 and 'error: build failed' in output and diagnostics:
         return {'status': 'rejected', 'reason': 'lean_compile_error',
                 'diagnostic': diagnostics[0][:500]}
     if kernel == 'nanoda' and code != 0 and 'Nanoda kernel rejected the solution' in output and 'assertion failed: self.def_eq(u, v)' in output:

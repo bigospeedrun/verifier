@@ -382,7 +382,7 @@ index 0000000..ffb9299
 +
 +end Comparator.SegmentCheck
 diff --git a/Main.lean b/Main.lean
-index 8560511..76f152b 100644
+index 8560511..4943de5 100644
 --- a/Main.lean
 +++ b/Main.lean
 @@ -5,6 +5,7 @@ Authors: Henrik Böving
@@ -393,28 +393,32 @@ index 8560511..76f152b 100644
  import Export.Parse
  
  namespace Comparator
-@@ -317,6 +318,36 @@ def compareIt : M Unit := do
+@@ -317,6 +318,40 @@ def compareIt : M Unit := do
  
    IO.println "Your solution is okay!"
  
-+/-- Big O Speedrun patch (task b1457f08): the first step of a segmented check. The same builds and
-+exports as `compareIt`, written to two files; no comparison and no kernel here. `--bos-check` then
-+compares the two files and replays the solution file, so the bytes that it compares are the bytes
-+that it checks. -/
-+def exportIt (challengeOut solutionOut : System.FilePath) : M Unit := do
-+  let exportTargets := (← builtinTargets) ++ (← getTheoremNames) ++ (← getLegalAxioms)
++/-- Big O Speedrun patch (task b1457f08): the export steps of a segmented check. The same builds and
++exports as `compareIt`, one module per call, written to a file; no comparison and no kernel here. The
++verifier runs the challenge step in its own unit before any submission build file is on the machine,
++and moves the file out of reach before the solution step. `--bos-check` then compares the two files
++and replays the solution file, so the bytes that it compares are the bytes that it checks. -/
++def exportTargets : M (Array Lean.Name) := do
++  return (← builtinTargets) ++ (← getTheoremNames) ++ (← getLegalAxioms)
 +    ++ (← primitiveTargets) ++ (← getDefinitionNames)
 +
++def exportChallenge (out : System.FilePath) : M Unit := do
 +  let challengeModule ← getChallengeModule
 +  safeLakeBuild challengeModule
-+  let challengeExport ← safeExport challengeModule exportTargets
-+  IO.FS.writeFile challengeOut challengeExport
++  let challengeExport ← safeExport challengeModule (← exportTargets)
++  IO.FS.writeFile out challengeExport
++  IO.println s!"BOS export: wrote challenge {challengeExport.utf8ByteSize} bytes"
 +
++def exportSolution (out : System.FilePath) : M Unit := do
 +  let solutionModule ← getSolutionModule
 +  safeLakeBuild solutionModule
-+  let solutionExport ← safeExport solutionModule exportTargets
-+  IO.FS.writeFile solutionOut solutionExport
-+  IO.println s!"BOS export: wrote {challengeExport.utf8ByteSize} and {solutionExport.utf8ByteSize} bytes"
++  let solutionExport ← safeExport solutionModule (← exportTargets)
++  IO.FS.writeFile out solutionExport
++  IO.println s!"BOS export: wrote solution {solutionExport.utf8ByteSize} bytes"
 +
 +/-- The statement and axiom checks of `verifyMatch`, on export files. Returns the parsed solution. -/
 +def compareFiles (challengePath solutionPath : System.FilePath) : M Export.ExportedEnv := do
@@ -430,7 +434,7 @@ index 8560511..76f152b 100644
  structure Config where
    challenge_module : String
    solution_module : String
-@@ -366,9 +397,29 @@ def M.run (x : M α) (cfg : Config) : IO α := do
+@@ -366,9 +401,31 @@ def M.run (x : M α) (cfg : Config) : IO α := do
  
  end Comparator
  
@@ -445,8 +449,10 @@ index 8560511..76f152b 100644
  def main (args : List String) : IO Unit := do
 +  -- Big O Speedrun patch (task b1457f08): the modes of a segmented check (Comparator/SegmentCheck.lean).
 +  match args with
-+  | ["--bos-export", configPath, challengeOut, solutionOut] =>
-+    Comparator.M.run (Comparator.exportIt challengeOut solutionOut) (← readConfig configPath)
++  | ["--bos-export-challenge", configPath, out] =>
++    Comparator.M.run (Comparator.exportChallenge out) (← readConfig configPath)
++  | ["--bos-export-solution", configPath, out] =>
++    Comparator.M.run (Comparator.exportSolution out) (← readConfig configPath)
 +  | ["--bos-check", configPath, solutionPath, challengePath, receiptPath, checkFrom, budgetMs, stopAt] =>
 +    let config ← readConfig configPath
 +    -- The segment at 0 compares the two files first; a later segment gets "-" and only replays.

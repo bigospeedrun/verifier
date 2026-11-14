@@ -18,7 +18,7 @@
   "comparator_patches": [
     {
       "file": "patches/comparator-segmented-check.patch",
-      "sha256": "71661076d6b0e4b029db1bd07d4a728317f65a0944a54987041304cf31d344f2"
+      "sha256": "3644c810266d93d42553451f25ce35d2494fe93b220dffe3c3ab0f52e5871913"
     }
   ]
 }

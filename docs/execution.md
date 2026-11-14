@@ -380,14 +380,19 @@ submission file is built or loaded, so no tool comes from a job where submission
   that were in progress at its deadline. A job starts the next one only when its build
   reached the deadline (or the deadline cut the out-of-memory back-off), it made a new
   pack, and the caps allow it.
-- **Export job.** It gates again (as a split run's check job), restores the pack of the
-  build job that says `done` (`chain.py pick`: the build jobs that ran are `build1`..`buildK`
-  in order, and only the last one is done), and runs Comparator `--bos-export` in the
-  sandbox: the same challenge build and export, then the solution build (Lake finds it up to
-  date) and export, written to two files. No comparison and no kernel runs in that unit.
-  Then the axiom audit runs as usual. The controller moves both files out of the sandbox
-  `/tmp`, compresses them (`zstd -3`) and uploads them; the sha256 of each compressed file
-  is a job output.
+- **Export job.** It gates again (as a split run's check job). Before any submission build
+  file is on the machine (the build folder is the empty one from `prepare`), it runs
+  Comparator `--bos-export-challenge` in its own unit: the challenge build (it imports only
+  Mathlib) and export, written to a file in the sandbox `/tmp`. The controller moves that
+  file to `control/export` (read-only in every later unit) and empties the build folder and
+  `/tmp` (Lead, 2026-11-14: a submission must not be able to change the challenge export).
+  Then it restores the pack of the build job that says `done` (`chain.py pick`: the build
+  jobs that ran are `build1`..`buildK` in order, and only the last one is done) and runs
+  `--bos-export-solution`: the solution build (Lake finds it up to date) and export. No
+  comparison and no kernel runs in these units. The axiom audit runs as usual. The
+  controller moves the solution file out of `/tmp` too, compresses both files (`zstd -3`) and
+  uploads them; the sha256 of each compressed file is a job output. The tools in every unit
+  are read-only (`--ro-bind`); the sandbox can write only the build folder and `/tmp`.
 - **Segments.** The export job and each check job run one segment of the kernel check:
   Comparator `--bos-check` (patches/comparator-segmented-check.patch, in
   `profiles/tools-chain.json`) in a new unit with a new empty `/tmp`. No Lake, no build and
@@ -413,7 +418,7 @@ submission file is built or loaded, so no tool comes from a job where submission
   value, a constructor with a wrong field count), at the same declaration. It also tests a
   deadline stop after one declaration and its continuation.
 - **Final job.** It reads each chain job's receipt by the `leg_sha256` that the job wrote
-  as an output, and accepts the kernel check only when the segments, in job order, all
+  as an output (only receipts of this run and this verifier commit count), and accepts the kernel check only when the segments, in job order, all
   replay the export with the export job's sha256, each starts where the one before it
   stopped and with its hash, the first one ran the statement checks, and the last one ended
   the walk with the postponed and quotient checks. Any gap, overlap or mismatch gives

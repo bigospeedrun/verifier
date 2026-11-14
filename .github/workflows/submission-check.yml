@@ -537,6 +537,10 @@ jobs:
       - timeout-minutes: 45
         if: steps.gate.outputs.proceed == 'true'
         run: python3 scripts/verifier.py setup
+      # The challenge export, in its own unit before unpack: no submission build file is on the machine yet.
+      - id: challenge
+        if: steps.gate.outputs.proceed == 'true'
+        run: python3 scripts/chain.py challenge
       - id: pick
         if: steps.gate.outputs.proceed == 'true'
         env:

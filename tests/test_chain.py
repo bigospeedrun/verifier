@@ -250,13 +250,15 @@ class FinalTests(unittest.TestCase):
         self.art = self.tmp / 'artifacts'
         for target, value in [('ART', self.art), ('ROOT', self.tmp)]:
             p = patch.object(v, target, value); p.start(); self.addCleanup(p.stop)
-        env = patch.dict(os.environ, {'GITHUB_RUN_ID': '7', 'GITHUB_RUN_ATTEMPT': '1', 'ISSUE_NUMBER': '42'}); env.start()
+        env = patch.dict(os.environ, {'GITHUB_RUN_ID': '7', 'GITHUB_RUN_ATTEMPT': '1', 'ISSUE_NUMBER': '42',
+                                      'GITHUB_REPOSITORY': 'bigospeedrun/verifier', 'GITHUB_SHA': 'e' * 40}); env.start()
         self.addCleanup(env.stop)
         self.needs = {}
 
-    def put(self, name, receipt, result='success', pin=True, gate=None):
+    def put(self, name, receipt, result='success', pin=True, gate=None, run='7', commit='e' * 40):
         folder = self.tmp / 'chain-legs' / f'chain-leg-7-1-42-{name}'
         folder.mkdir(parents=True)
+        receipt = {'run_url': f'https://github.com/bigospeedrun/verifier/actions/runs/{run}', 'verifier_commit': commit, **receipt}
         (folder / 'receipt.json').write_text(json.dumps(receipt))
         if gate:
             (folder / 'gate.json').write_text(json.dumps(gate))
@@ -314,6 +316,31 @@ class FinalTests(unittest.TestCase):
         self.put('export', self.base(chain_segment=seg(0, 100, 'passed')))
         self.assertEqual(self.final()['kernels']['lean']['reason'], 'chain_coverage')
 
+    def test_only_receipts_of_this_run_and_commit_count(self):
+        for kwargs in [{'run': '8'}, {'commit': 'f' * 40}]:
+            with self.subTest(**kwargs):
+                self.setUp()
+                self.put('build1', {'status': 'prepared', 'chain_leg': {'build': 'done'}})
+                self.put('export', self.base(chain_segment=seg(0, 100)))
+                self.put('check1', {'chain_segment': seg(100, 200, 'passed')}, **kwargs)
+                data = self.final()
+                self.assertEqual(data['kernels']['lean']['reason'], 'chain_coverage')
+                self.assertEqual(data['status'], 'not_verified')
+
+    def test_a_capped_chain_is_incomplete_not_a_rejection(self):
+        self.put('build1', {'status': 'prepared', 'chain_leg': {'build': 'done'}})
+        self.put('export', self.base(chain_segment=seg(0, 100)))
+        self.put('check1', {'chain_segment': seg(100, 200), 'chain_leg': {'outcome': {'status': 'incomplete', 'reason': 'check_chain_cap'}}})
+        data = self.final()
+        self.assertEqual({k: data['kernels']['lean'][k] for k in ['status', 'reason']}, {'status': 'incomplete', 'reason': 'check_chain_cap'})
+        # finalize: the verdict is not_verified with a fixed reason line, no kernel says rejected (the issue stays open,
+        # submissions.report closes only on a pass or a rejection), and the run ends, which releases the queue lease.
+        data['theorems'] = {'Race.bound': {'lean_kernel': 'incomplete', 'nanoda_kernel': 'incomplete', 'reported_axioms': ['propext']}}
+        self.assertEqual(verdicts.admission(data, ['Race.bound']), ('not_verified', 'lean_not_passed'))
+        self.assertNotIn('rejected', [k.get('status') for k in data['kernels'].values()])
+        self.assertEqual(verdicts.reason_line(data, 'lean_not_passed'),
+                         'Reason: the kernel check did not finish within the job and hour limits of the check chain.')
+
     def test_build_and_export_failures(self):
         self.put('build1', {'status': 'prepared', 'request': {}, 'chain_leg': {'build': 'stop', 'outcome': {
             'status': 'rejected', 'reason': 'lean_compile_error', 'diagnostic': 'x'}}})
@@ -356,7 +383,8 @@ class ExportAndSegmentTests(unittest.TestCase):
         for target, value in [('WORK', self.work), ('ART', self.art)]:
             p = patch.object(v, target, value); p.start(); self.addCleanup(p.stop)
         p = patch.object(chain, 'EXPORT_ARTIFACT', self.tmp / 'export-artifact'); p.start(); self.addCleanup(p.stop)
-        (self.work / 'control').mkdir(parents=True); (self.work / 'scratch').mkdir(); self.art.mkdir()
+        (self.work / 'control/export').mkdir(parents=True); (self.work / 'scratch').mkdir(); self.art.mkdir()
+        (self.work / 'stage/.lake/build').mkdir(parents=True)
         v.save({'started_unix': time.time(), 'steps': [], 'kernels': {'lean': {'status': 'not_started'}},
                 'axiom_audit': {'status': 'passed'}})
         self.launched = []
@@ -371,15 +399,47 @@ class ExportAndSegmentTests(unittest.TestCase):
             return code, result, None, time.monotonic(), {'sampled_peak_cgroup_bytes': 1}
         return patch.object(v, 'launch_github', side_effect=launch_github)
 
-    def fake_verify(self, status='passed'):
+    def fake_verify(self, status='passed', kernel='export'):
         def verify(kernels):
-            self.assertEqual(kernels, ['export', 'audit'])
-            (self.work / 'scratch/challenge.export').write_bytes(b'challenge' * 100)
-            (self.work / 'scratch/solution.export').write_bytes(b'solution' * 1000)
-            data = v.receipt(); data['kernels']['export'] = {'status': status}; v.save(data)
+            self.assertEqual(kernels, ['export', 'audit'] if kernel == 'export' else ['challenge'])
+            name = 'solution' if kernel == 'export' else 'challenge'
+            (self.work / f'scratch/{name}.export').write_bytes(name.encode() * 100)
+            data = v.receipt(); data['kernels'][kernel] = {'status': status}; v.save(data)
         return patch.object(v, 'verify', side_effect=verify)
 
+    def test_the_challenge_export_runs_before_unpack_and_moves_out_of_tmp(self):
+        build = self.work / 'stage/.lake/build'
+        def verify(kernels):
+            self.assertEqual(kernels, ['challenge'])
+            (build / 'lib/lean').mkdir(parents=True); (build / 'lib/lean/VerifierChallenge.olean').write_bytes(b'o')
+            (self.work / 'scratch/challenge.export').write_bytes(b'challenge')
+            (self.work / 'scratch/leftover').write_bytes(b'x')
+            data = v.receipt(); data['kernels']['challenge'] = {'status': 'passed'}; v.save(data)
+        with patch.object(v, 'verify', side_effect=verify):
+            chain.challenge()
+        self.assertEqual((self.work / 'control/export/challenge.export').read_bytes(), b'challenge')
+        # The build folder is the empty folder again (unpack refuses another), and /tmp is empty.
+        self.assertEqual(os.listdir(build), [])
+        self.assertEqual(os.listdir(self.work / 'scratch'), [])
+        self.assertEqual(v.receipt()['chain_challenge'], {'status': 'passed'})
+        # Refused after a restore (a build file exists) and after a failed challenge export.
+        (build / 'x').write_bytes(b'x')
+        with patch.object(v, 'verify') as called, self.assertRaises(RuntimeError):
+            chain.challenge()
+        called.assert_not_called()
+        (build / 'x').unlink()
+        with self.fake_verify('pending_review', 'challenge'), self.assertRaises(RuntimeError):
+            chain.challenge()
+        # A symlink in /tmp is not taken.
+        self.setUp()
+        def symlinked(kernels):
+            os.symlink(self.tmp / 'elsewhere', self.work / 'scratch/challenge.export')
+            data = v.receipt(); data['kernels']['challenge'] = {'status': 'passed'}; v.save(data)
+        with patch.object(v, 'verify', side_effect=symlinked), self.assertRaises(ValueError):
+            chain.challenge()
+
     def test_export_writes_pinned_files_and_runs_the_segment_at_0(self):
+        (self.work / 'control/export/challenge.export').write_bytes(b'challenge' * 100)
         receipt = {'schema': 'bos-segment-v1', 'status': 'stopped', 'from': 0, 'to': 50, 'hash_from': H0, 'hash_to': 'f' * 16,
                    'compare': 'passed'}
         with self.fake_verify(), self.launch(receipt), patch.object(v, 'sandbox_args', side_effect=lambda scratch=None: ['--bind', str(scratch), '/tmp']):
@@ -389,7 +449,7 @@ class ExportAndSegmentTests(unittest.TestCase):
         for name, file in chain.EXPORT_FILES.items():
             self.assertEqual(files[name]['sha256'], v.digest(chain.EXPORT_ARTIFACT / file))
             self.assertFalse((self.work / 'scratch' / f'{name}.export').exists())  # Moved to control/export.
-        self.assertEqual((self.work / 'control/export/solution.export').read_bytes(), b'solution' * 1000)
+        self.assertEqual((self.work / 'control/export/solution.export').read_bytes(), b'solution' * 100)
         self.assertNotIn('export', data['kernels'])
         kernel, args, check_args = self.launched[0]
         self.assertEqual(kernel, 'check')
@@ -402,11 +462,15 @@ class ExportAndSegmentTests(unittest.TestCase):
         self.assertEqual(data['chain_segment']['export_sha256'], files['solution']['sha256'])
 
     def test_no_segment_after_a_failed_export_or_audit(self):
+        with self.assertRaises(RuntimeError):
+            chain.export()  # No challenge export in this job.
+        (self.work / 'control/export/challenge.export').write_bytes(b'c')
         with self.fake_verify('rejected'), self.launch(None):
             chain.export()
         self.assertEqual(self.launched, [])
         self.assertEqual(v.receipt()['chain_export'], {'status': 'rejected'})
         self.setUp()
+        (self.work / 'control/export/challenge.export').write_bytes(b'c')
         data = v.receipt(); data['axiom_audit'] = {'status': 'invalid_output'}; v.save(data)
         with self.fake_verify(), self.launch(None):
             chain.export()
@@ -441,7 +505,6 @@ class ExportAndSegmentTests(unittest.TestCase):
 
     def test_a_segment_that_does_not_link_or_has_no_time(self):
         receipt = {'schema': 'bos-segment-v1', 'status': 'stopped', 'from': 100, 'to': 150, 'hash_from': 'd' * 16, 'hash_to': 'f' * 16}
-        (self.work / 'control/export').mkdir()
         with self.launch(receipt), patch.object(v, 'sandbox_args', side_effect=lambda scratch=None: ['--bind', str(scratch), '/tmp']):
             chain.segment(SHA, 100, 'e' * 16)
         self.assertEqual(v.receipt()['chain_segment']['status'], 'unlinked')
@@ -459,9 +522,12 @@ class AdmissionTests(unittest.TestCase):
             self.assertIn(reason, verdicts.KERNEL_REASONS)
 
     def test_the_export_kernel_outcome(self):
-        self.assertEqual(verdicts.kernel_outcome('export', 0, 'BOS export: wrote 5 and 9 bytes\n'),
+        self.assertEqual(verdicts.kernel_outcome('export', 0, 'BOS export: wrote solution 9 bytes\n'),
                          {'status': 'passed', 'reason': 'comparator_acceptance'})
-        self.assertEqual(verdicts.kernel_outcome('export', 1, 'BOS export: wrote 5 and 9 bytes\n')['status'], 'pending_review')
+        self.assertEqual(verdicts.kernel_outcome('challenge', 0, 'BOS export: wrote challenge 9 bytes\n')['status'], 'passed')
+        # Each unit needs its own line: a solution line does not pass the challenge unit.
+        self.assertEqual(verdicts.kernel_outcome('challenge', 0, 'BOS export: wrote solution 9 bytes\n')['status'], 'pending_review')
+        self.assertEqual(verdicts.kernel_outcome('export', 1, 'BOS export: wrote solution 9 bytes\n')['status'], 'pending_review')
         bad = "error: Submission/A.lean:3:4: unknown identifier 'x'\nerror: build failed\n"
         self.assertEqual(verdicts.kernel_outcome('export', 1, bad)['reason'], 'lean_compile_error')
         self.assertEqual(verdicts.kernel_outcome('export', 0, '', 'oom-kill')['reason'], 'out_of_memory')
@@ -527,7 +593,8 @@ class WorkflowTests(unittest.TestCase):
             self.assertEqual(self.runs('chain_' + leg), head + setup + ['actions/download-artifact', 'python3 scripts/verifier.py unpack',
                              'python3 scripts/verifier.py build', 'python3 scripts/verifier.py pack', 'actions/upload-artifact'] + tail)
         self.assertEqual(self.runs('chain_export'), head + ['python3 scripts/submissions.py preflight'] + setup +
-                         ['python3 scripts/chain.py pick', 'actions/download-artifact', 'python3 scripts/verifier.py unpack',
+                         ['python3 scripts/chain.py challenge', 'python3 scripts/chain.py pick', 'actions/download-artifact',
+                          'python3 scripts/verifier.py unpack',
                           'python3 scripts/chain.py export', 'actions/upload-artifact'] + tail)
         for leg in chain.CHECK_LEGS:
             self.assertEqual(self.runs('chain_' + leg), head + setup + ['actions/download-artifact', 'python3 scripts/chain.py check'] + tail)

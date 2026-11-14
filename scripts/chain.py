@@ -104,9 +104,53 @@ def build_state(data):
     return 'stop', kernel_outcome('lean', last.get('exit_code', 1), text, last.get('systemd_result', ''))
 
 
+def take_export(name):
+    """Move one export file out of the sandbox /tmp into control/export (read-only in every later unit)."""
+    source = v.WORK / 'scratch' / f'{name}.export'
+    st = os.lstat(source)
+    if not v.stat.S_ISREG(st.st_mode) or st.st_nlink != 1:
+        raise ValueError('the export is not a regular file')
+    target = v.WORK / 'control/export' / f'{name}.export'
+    target.parent.mkdir(exist_ok=True)
+    os.rename(source, target)
+    return target
+
+
+def empty_folder(folder):
+    """Remove everything in a folder (trusted; the sandbox's writable folders between two units)."""
+    for child in folder.iterdir():
+        if child.is_dir() and not child.is_symlink():
+            shutil.rmtree(child)
+        else:
+            child.unlink()
+
+
+def challenge():
+    """The export job, before unpack: the challenge build and export in its own unit. No submission build file is on the
+    machine yet (the build folder is the empty one from prepare), and the submission sources are not built: the
+    challenge imports only Mathlib. The file then moves out of the sandbox /tmp, and the build folder and /tmp are
+    emptied for unpack, so no later unit can change it (Lead, 2026-11-14)."""
+    build = v.WORK / 'stage/.lake/build'
+    if any(build.iterdir()):
+        raise RuntimeError('the build folder is not the empty folder from prepare')
+    v.verify(['challenge'])
+    data = v.receipt()
+    record = data['kernels'].pop('challenge', None)
+    data['chain_challenge'] = record
+    data['status'] = 'chain_export'
+    v.save(data)
+    if not record or record.get('status') != 'passed':
+        raise RuntimeError('the challenge export failed')
+    take_export('challenge')
+    empty_folder(build)
+    empty_folder(v.WORK / 'scratch')
+
+
 def export():
-    """The export job, after unpack: Comparator --bos-export (Lake finds the build up to date) and the axiom audit, both
+    """The export job, after unpack: the solution build (Lake finds it up to date) and export, and the axiom audit, both
     as in a normal check; then the two export files, compressed, for the check jobs. No kernel runs here."""
+    if not (v.WORK / 'control/export/challenge.export').is_file():
+        raise RuntimeError('the challenge export of this job is missing')
     v.verify(['export', 'audit'])
     data = v.receipt()
     record = data['kernels'].pop('export', None)
@@ -115,16 +159,11 @@ def export():
     v.save(data)
     if not record or record.get('status') != 'passed':
         return
+    take_export('solution')
     EXPORT_ARTIFACT.mkdir(exist_ok=True)
     pins = {}
     for name, file in EXPORT_FILES.items():
-        source = v.WORK / 'scratch' / f'{name}.export'
-        st = os.lstat(source)
-        if not v.stat.S_ISREG(st.st_mode) or st.st_nlink != 1:
-            raise ValueError('the export is not a regular file')
         target = v.WORK / 'control/export' / f'{name}.export'
-        target.parent.mkdir(exist_ok=True)
-        os.rename(source, target)
         with target.open('rb') as src, (EXPORT_ARTIFACT / file).open('xb') as out:
             subprocess.run(v.ZSTD_PACK, stdin=src, stdout=out, check=True)
         if (EXPORT_ARTIFACT / file).stat().st_size > EXPORT_MAX_BYTES:
@@ -262,6 +301,7 @@ def leg():
     data = v.receipt()
     data['chain_leg'] = state
     data['verifier_commit'] = data.get('verifier_commit') or os.environ.get('GITHUB_SHA')
+    data.setdefault('run_url', run_url())
     v.save(data)
     out['leg_sha256'] = v.digest(v.ART / 'receipt.json')
     outputs(**out)
@@ -317,6 +357,10 @@ def compare_outcome(error):
     return {'status': 'pending_review', 'reason': 'ambiguous_failure'}
 
 
+def run_url():
+    return f"https://github.com/{os.environ.get('GITHUB_REPOSITORY', '')}/actions/runs/{os.environ.get('GITHUB_RUN_ID', '')}"
+
+
 def artifact_prefix():
     """The artifact names of this run's chain for this issue: chain-leg-<run>-<attempt>-<issue>-<leg>."""
     run, attempt, issue = os.environ['GITHUB_RUN_ID'], os.environ['GITHUB_RUN_ATTEMPT'], os.environ['ISSUE_NUMBER']
@@ -361,7 +405,13 @@ def read_legs(needs, folder):
         if not SHA256.fullmatch(expected) or path.is_symlink() or not path.is_file() or v.digest(path) != expected:
             legs[name] = None  # Ran, but its receipt is missing or does not match its pin.
             continue
-        legs[name] = json.loads(path.read_text())
+        receipt = json.loads(path.read_text())
+        # Only receipts of this run and this verifier commit (the artifact names hold the run id and attempt too).
+        if not isinstance(receipt, dict) or receipt.get('run_url') != run_url() \
+                or receipt.get('verifier_commit') != os.environ.get('GITHUB_SHA'):
+            legs[name] = None
+            continue
+        legs[name] = receipt
     return legs
 
 
@@ -429,8 +479,8 @@ def final():
 
 def main():
     phase = sys.argv[1] if len(sys.argv) == 2 else ''
-    if phase not in ['pick', 'export', 'check', 'leg', 'final']:
-        raise SystemExit('usage: chain.py pick|export|check|leg|final')
+    if phase not in ['challenge', 'pick', 'export', 'check', 'leg', 'final']:
+        raise SystemExit('usage: chain.py challenge|pick|export|check|leg|final')
     try:
         globals()[phase]()
     except Exception as exc:

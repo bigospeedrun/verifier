@@ -22,14 +22,15 @@ if phase.endswith('-exec'):
     # `lake env` prepends its toolchain bin to PATH. Restore the reviewed
     # adapter only after Lake has supplied LEAN_PATH and other package paths.
     kernel = phase.removesuffix('-exec')
-    if kernel not in ['lean', 'nanoda', 'export']:
+    if kernel not in ['lean', 'nanoda', 'challenge', 'export']:
         raise ValueError('invalid kernel phase')
     env = dict(os.environ, LEAN_NUM_THREADS='4')
     env['PATH'] = str(work / 'control/bin') + ':' + env['PATH']
-    if kernel == 'export':
-        # A chain's export (chain.py): the builds and exports of a normal check, written to two files in /tmp.
-        os.execve(str(comparator), [str(comparator), '--bos-export', str(work / 'control/lean.json'),
-                                    '/tmp/challenge.export', '/tmp/solution.export'], env)
+    if kernel in ['challenge', 'export']:
+        # A chain's export job (chain.py): the challenge build and export, in its own unit before any submission
+        # build file is restored; then the solution build and export. Each writes one file in /tmp.
+        mode, name = ('--bos-export-challenge', 'challenge') if kernel == 'challenge' else ('--bos-export-solution', 'solution')
+        os.execve(str(comparator), [str(comparator), mode, str(work / 'control/lean.json'), f'/tmp/{name}.export'], env)
     os.execve(str(comparator), [str(comparator), str(work / f'control/{kernel}.json')], env)
 # Every phase but the build runs Lean with 4 threads. Set it before the branches, so that the
 # audit has it too (verifier#188: 195060b2 set it only in the else branch, and the audit's
