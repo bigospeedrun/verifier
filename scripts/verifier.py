@@ -24,8 +24,10 @@ WORK = Path(os.environ.get('RUNNER_TEMP', str(ROOT / '.work'))) / 'bos-verifier'
 NAME = re.compile(r'[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)*\Z')
 SHA = re.compile(r'[0-9a-f]{40}\Z')
 AXIOMS = ['propext', 'Quot.sound', 'Classical.choice']
-# Total check deadline from prepare, in each job.
-DEADLINE_SECONDS = 320 * 60
+# Total check deadline from prepare, in each job. Every job has timeout-minutes 350; after the deadline, finalize and the
+# uploads took about 10 s on #187 (run 43148643813: finalize 0-1 s, receipt uploads 2 s each) and the build pack and its
+# upload about 2 min. Was 320 min; darkhipo proposed about 348 min on verifier#187 (task b1457f08, Lead: about 335).
+DEADLINE_SECONDS = 335 * 60
 
 
 def write_json(path, value):
@@ -299,6 +301,9 @@ def prepare():
     event = json.loads(Path(request_path or os.environ['GITHUB_EVENT_PATH']).read_text())
     request = event['inputs']
     profile, names = validate_request(request)
+    if 'lake_workers_start' in profile and (type(profile['lake_workers_start']) is not int
+                                            or profile['lake_workers_start'] not in LAKE_WORKERS):
+        raise ValueError('lake_workers_start must be one of the Lake worker counts')
     WORK.mkdir(parents=True, exist_ok=False)
     (WORK / 'control').mkdir(); (WORK / 'tools').mkdir()
     write_json(WORK / 'control/request.json', {'request': request, 'profile': profile, 'names': names})
@@ -534,12 +539,17 @@ LAKE_WORKERS = (4, 3, 2, 1)
 
 def first_lake_workers(data):
     """The count that the last build attempt of this run used: the earlier stage of this job (lake_workers),
-    else split job 1 (build.attempts, restored by unpack). Any other value starts at 4."""
+    else the build job before this one (build.attempts, restored by unpack). Else the profile's lake_workers_start
+    (task b1457f08: darkhipo measured on verifier#187 that the 4, 3 and 2 worker attempts of Catalan 295 cost 85 min
+    before 1 worker passed). Any other value starts at 4."""
     jobs = data.get('lake_workers')
     if jobs is None:
         build = data.get('build')
         attempts = build.get('attempts') if isinstance(build, dict) else None
         jobs = attempts[-1].get('lake_jobs') if isinstance(attempts, list) and attempts and isinstance(attempts[-1], dict) else None
+    if jobs is None:
+        profile = data.get('profile')
+        jobs = profile.get('lake_workers_start') if isinstance(profile, dict) else None
     return jobs if type(jobs) is int and jobs in LAKE_WORKERS else LAKE_WORKERS[0]
 
 
@@ -785,7 +795,7 @@ def build():
     sandbox_preflight()
     deadline = receipt()['started_unix'] + DEADLINE_SECONDS - BUILD_PACK_SECONDS
     attempts = []
-    for jobs in LAKE_WORKERS:
+    for jobs in LAKE_WORKERS[LAKE_WORKERS.index(first_lake_workers(receipt())):]:
         if attempts:
             if time.time() >= deadline:
                 break

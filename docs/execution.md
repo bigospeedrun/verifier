@@ -103,7 +103,7 @@ It is an operation-count theorem, not a bit-complexity claim.
   when it has room, else on the work disk, outside the submission mounts; receipts record sampled swap
   use separately. This uses the standard free public runner.
   There is no soft memory limit that would force prolonged reclaim.
-- The job timeout is **350 minutes**. Verification stops at a 320-minute total
+- The job timeout is **350 minutes**. Verification stops at a 335-minute total
   deadline, leaving time to save artifacts. Tool setup has a 45-minute limit.
   The controller also stops a check if free disk falls below 1 GiB.
 - Setup removes only known preinstalled SDK folders on the disposable runner
@@ -117,7 +117,7 @@ workflow run. Today `catalan` and `3sum` have it. Catalan opened on 2026-10-27, 
 the maintainer smoke below passed (run 40497685416, issue #68). 3SUM issues run split
 since 2026-11-02: issue #99 compiled one module at a time for 5 h 16 min in one job
 and ran out of time (run 41393097953). Each job has the 350-minute job timeout and its
-own 320-minute deadline from its own `prepare`. Both issue jobs set `BOS_SPLIT`
+own 335-minute deadline from its own `prepare`. Both issue jobs set `BOS_SPLIT`
 from the matrix entry; their unit-test steps clear it, and the suite also passes with
 `BOS_SPLIT=true` (rerun 41494392206 of #99 failed there). The PR route has no
 build job and never splits: a 3SUM PR runs as one job, as before, and keeps the chain build. A Catalan PR starts no job
@@ -130,7 +130,8 @@ build job and never splits: a 3SUM PR runs as one job, as before, and keeps the 
    has the same caps as the checks and no swap. It stops 15 minutes before the
    deadline. A failed or partial build does not stop the job. The receipt
    records the exit code, the unit result and the sampled peak memory.
-   Lake builds 4 modules at once (`LEAN_NUM_THREADS=4` for Lake). After an
+   Lake builds 4 modules at once (`LEAN_NUM_THREADS=4` for Lake), or the profile's
+   `lake_workers_start` (Catalan: 1; on verifier#187 the 4, 3 and 2 attempts cost 85 min, darkhipo). After an
    `oom-kill`, the build continues in a new unit with 3, then 2, then 1
    modules at once, until it stops for another reason or the deadline comes.
    Lake keeps each finished module. The receipt records each attempt

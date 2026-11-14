@@ -97,7 +97,7 @@ class VerifyPinTests(Base):
                                     '--uid=' + uid, '--gid=' + gid,
                                     '--property=RestrictAddressFamilies=~AF_UNIX', '--property=Nice=10',
                                     '--property=CPUQuota=400%', '--property=MemoryMax=14G', '--property=MemorySwapMax=' + swap_limit,
-                                    '--property=RuntimeMaxSec=19200', '--property=TasksMax=4096',
+                                    '--property=RuntimeMaxSec=20100', '--property=TasksMax=4096',
                                     *self.sandbox(), '/usr/bin/python3', f'{W}/control/inside.py', W, kernel])
         self.assertEqual(runs, [['sudo', 'systemctl', 'show', 'bos-verifier-' + k, '--property=Result', '--value']
                                 for k in ['lean', 'audit', 'nanoda']])
@@ -241,9 +241,20 @@ class VerifyPinTests(Base):
             self.assertEqual(v.first_lake_workers({'build': build}), 4)
         self.assertEqual(v.first_lake_workers({'lake_workers': 3, 'build': {'attempts': [{'lake_jobs': 1}]}}), 3)
 
-    def test_the_deadline_is_320_minutes_on_github(self):
-        self.assertEqual(v.DEADLINE_SECONDS, 320 * 60)
-        with patch.object(v, 'command'), patch.object(v.time, 'time', return_value=1000.0 + 320 * 60):
+    def test_the_profile_gives_the_first_count_when_no_attempt_did(self):
+        catalan = json.loads((ROOT / 'profiles/direct.json').read_text())['catalan']
+        self.assertEqual(catalan['lake_workers_start'], 1)
+        self.assertEqual(v.first_lake_workers({'profile': catalan}), 1)
+        self.assertEqual(v.first_lake_workers({'profile': {'lake_workers_start': 2}}), 2)
+        # An attempt of this run comes first; a bad profile value starts at 4.
+        self.assertEqual(v.first_lake_workers({'profile': catalan, 'build': {'attempts': [{'lake_jobs': 3}]}}), 3)
+        self.assertEqual(v.first_lake_workers({'profile': catalan, 'lake_workers': 2}), 2)
+        for value in [0, 5, '2', True, None]:
+            self.assertEqual(v.first_lake_workers({'profile': {'lake_workers_start': value}}), 4)
+
+    def test_the_deadline_is_335_minutes_on_github(self):
+        self.assertEqual(v.DEADLINE_SECONDS, 335 * 60)
+        with patch.object(v, 'command'), patch.object(v.time, 'time', return_value=1000.0 + 335 * 60):
             v.verify(['lean', 'audit', 'nanoda'])
         self.assertEqual(v.receipt()['status'], 'timeout')
         self.assertEqual(v.receipt()['kernels']['lean'], {'status': 'not_started'})
@@ -333,7 +344,7 @@ class BuildPinTests(Base):
                                      '--uid=' + str(os.getuid()), '--gid=' + str(os.getgid()),
                                      '--property=RestrictAddressFamilies=~AF_UNIX', '--property=Nice=10',
                                      '--property=CPUQuota=400%', '--property=MemoryMax=14G', '--property=MemorySwapMax=0',
-                                     '--property=RuntimeMaxSec=18300', '--property=TasksMax=4096',
+                                     '--property=RuntimeMaxSec=19200', '--property=TasksMax=4096',
                                      *self.sandbox(), '/usr/bin/python3', f'{W}/control/inside.py', W, 'build', '4']])
         # Only an oom-kill starts a second attempt.
         self.assertEqual(runs, [['sudo', 'systemctl', 'show', 'bos-verifier-build', '--property=Result', '--value']])
@@ -382,6 +393,15 @@ class BuildPinTests(Base):
         self.assertEqual(record['wall_seconds'], round(sum(a['wall_seconds'] for a in record['attempts']), 3))
         self.assertNotIn('lake_jobs', record)
 
+    def test_the_build_starts_at_the_profile_count_or_the_last_count_of_the_job_before(self):
+        data = v.receipt(); data['profile'] = {'lake_workers_start': 2}; v.save(data)
+        launched, _ = self.run_build(['oom-kill', 'success'])
+        self.assertEqual([a[-1] for a in launched], ['2', '1'])
+        # A later build job of a chain: unpack restored the record of the job before (its last count was 1).
+        data = v.receipt(); data['build'] = {'attempts': [{'lake_jobs': 3}, {'lake_jobs': 1}]}; v.save(data)
+        launched, _ = self.run_build(['timeout'])
+        self.assertEqual([a[-1] for a in launched], ['1'])
+
     def test_the_retries_stop_at_one_worker(self):
         launched, runs = self.run_build(['oom-kill'] * 4)
         self.assertEqual([a[-1] for a in launched], ['4', '3', '2', '1'])
@@ -395,8 +415,8 @@ class BuildPinTests(Base):
         launched, _ = self.run_build(['oom-kill'], guard=lambda: 512 * 1024**2)
         self.assertEqual(len(launched), 1)
         self.assertEqual(v.receipt()['build']['guard_stop'], 'disk space below 1 GiB')
-        # started_unix is 1000 in Base; the build deadline is 320 - 15 minutes later.
-        launched, runs = self.run_build(['oom-kill'], clock=lambda launched: 1000.0 + 305 * 60 if launched else 1000.0)
+        # started_unix is 1000 in Base; the build deadline is 335 - 15 minutes later.
+        launched, runs = self.run_build(['oom-kill'], clock=lambda launched: 1000.0 + 320 * 60 if launched else 1000.0)
         self.assertEqual(len(launched), 1)
         self.assertNotIn('reset-failed', [a[2] for a in runs])
 

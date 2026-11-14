@@ -84,7 +84,8 @@
     "bound_kind": "exponent",
     "maximum": "100000000",
     "upstream_commit": "50672b810873d8371b2b6bdd0057bb6cb2e3da24",
-    "runner": "github-split"
+    "runner": "github-split",
+    "lake_workers_start": 1
   },
   "subset-sum": {
     "challenge_file": "challenges/subset-sum/Statement.lean",
