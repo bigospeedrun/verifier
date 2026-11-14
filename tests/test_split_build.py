@@ -201,12 +201,14 @@ class Base(unittest.TestCase):
     def tar_bytes(self):
         return subprocess.run(['zstd', '-d', '-q', '-c', '--', str(self.packed_file())], capture_output=True, check=True).stdout
 
-    def unpack(self, sha=None, result='success'):
+    def unpack(self, sha=None, result='success', record=None):
         sha = sha if sha is not None else hashlib.sha256(self.packed_file().read_bytes()).hexdigest()
+        record = record if record is not None else hashlib.sha256((self.out / 'build.json').read_bytes()).hexdigest()
         def command(args, label, *a, **k):
             self.assertEqual(os.listdir(self.build), [])  # Before any restored file exists.
             (self.art / (label + '.log')).write_text('/w/.lake/packages/mathlib/.lake/build/lib/lean:/w/stage/.lake/build/lib/lean\n')
-        with patch.dict(os.environ, BOS_BUILD_RESULT=result, BOS_BUILD_SHA256=sha), patch.object(v, 'command', side_effect=command) as c:
+        with patch.dict(os.environ, BOS_BUILD_RESULT=result, BOS_BUILD_SHA256=sha, BOS_BUILD_RECORD_SHA256=record), \
+                patch.object(v, 'command', side_effect=command) as c:
             v.unpack()
         return c
 
@@ -255,7 +257,8 @@ class PackTests(Base):
         self.assertFalse((self.out / 'build.tar').exists())
         sha = hashlib.sha256(self.packed_file().read_bytes()).hexdigest()
         self.assertEqual(record['sha256'], sha)
-        self.assertEqual(self.output.read_text(), 'build_sha256=' + sha + '\n')
+        self.assertEqual(self.output.read_text(), 'build_sha256=' + sha + '\nbuild_record_sha256='
+                         + hashlib.sha256((self.out / 'build.json').read_bytes()).hexdigest() + '\n')
         self.assertEqual(json.loads((self.out / 'build.json').read_text()), {'build': {'exit_code': 0}, 'pack': record})
 
     def test_pack_is_deterministic(self):
@@ -328,16 +331,41 @@ class UnpackTests(Base):
             with self.subTest(**kwargs), self.assertRaises((RuntimeError, ValueError)):
                 self.unpack(**{'sha': sha, **kwargs})
             self.assertEqual(os.listdir(self.build), [])
-        # The record and the log of job 1 still reach the receipt; a log over 32 MB does not.
+        # The record and the log of job 1 still reach the receipt, by their pins; a log over 32 MB does not.
         self.assertEqual(v.receipt()['build'], {'exit_code': 0})
         self.assertEqual((self.art / 'build.log').read_text(), 'log')
+        self.assertEqual(json.loads((self.out / 'build.json').read_text())['log_sha256'], v.digest(self.out / 'build.log'))
         (self.art / 'build.log').unlink(); (self.out / 'build.log').write_bytes(b'x' * (32 * 1024**2 + 1))
+        job1 = json.loads((self.out / 'build.json').read_text())
+        v.write_json(self.out / 'build.json', dict(job1, log_sha256=v.digest(self.out / 'build.log')))
         with self.assertRaises(RuntimeError):
             self.unpack(sha=sha, result='failure')
         self.assertFalse((self.art / 'build.log').exists())
+        v.write_json(self.out / 'build.json', job1)
         self.packed_file().unlink()
         with self.assertRaises(ValueError):
             self.unpack(sha=sha)
+        self.assertEqual(os.listdir(self.build), [])
+
+    def test_the_record_and_the_log_are_read_only_by_their_pins(self):
+        self.packed()
+        record = v.digest(self.out / 'build.json')
+        data = v.receipt(); data.pop('build'); v.save(data)
+        (self.art / 'build.log').unlink()
+        for bad in ['', record.upper(), '0' * 64]:
+            with self.subTest(record=bad), self.assertRaises(ValueError):
+                self.unpack(record=bad)
+        # A changed log, a missing record.
+        log = (self.out / 'build.log').read_bytes()
+        (self.out / 'build.log').write_bytes(b'changed')
+        with self.assertRaises(ValueError):
+            self.unpack(record=record)
+        (self.out / 'build.log').write_bytes(log)
+        (self.out / 'build.json').rename(self.out / 'moved.json')
+        with self.assertRaises(ValueError):
+            self.unpack(record=record)
+        self.assertNotIn('build', v.receipt())
+        self.assertFalse((self.art / 'build.log').exists())
         self.assertEqual(os.listdir(self.build), [])
 
     def test_a_root_with_a_toolchain_module_name_is_refused(self):
@@ -370,6 +398,7 @@ class UnpackTests(Base):
             for info, data in members:
                 tar.addfile(info, io.BytesIO(data) if data is not None else None)
         self.packed_file().write_bytes(subprocess.run(v.ZSTD_PACK, input=raw.getvalue(), capture_output=True, check=True).stdout)
+        v.write_json(self.out / 'build.json', {})
 
     def info(self, name, kind=tarfile.REGTYPE, data=b'x', **pax):
         info = tarfile.TarInfo(name); info.type = kind; info.mtime = 1
@@ -424,7 +453,7 @@ class UnpackTests(Base):
     def test_a_decompression_bomb_stops_at_the_raw_cap(self):
         # 64 MiB of zeros compress to a few KiB; the stream stops long before the disk fills.
         bomb = subprocess.run(v.ZSTD_PACK, input=bytes(64 * 1024**2), capture_output=True, check=True).stdout
-        self.out.mkdir(exist_ok=True); self.packed_file().write_bytes(bomb)
+        self.out.mkdir(exist_ok=True); self.packed_file().write_bytes(bomb); v.write_json(self.out / 'build.json', {})
         with patch.object(v, 'BUILD_MAX_RAW_BYTES', 1024**2), patch.object(v, 'BUILD_MAX_MEMBERS', 10), \
                 self.assertRaises(ValueError):
             self.unpack()
@@ -523,7 +552,8 @@ class WorkflowTests(unittest.TestCase):
         self.assertEqual(build['permissions'], {'contents': 'read', 'issues': 'read'})
         self.assertEqual(build['timeout-minutes'], 350)
         self.assertEqual(build['outputs'], {'proceed': '${{ steps.gate.outputs.proceed }}',
-                                            'build_sha256': '${{ steps.pack.outputs.build_sha256 }}'})
+                                            'build_sha256': '${{ steps.pack.outputs.build_sha256 }}',
+                                            'build_record_sha256': '${{ steps.pack.outputs.build_record_sha256 }}'})
         runs = [step.get('run') or step['uses'].split('@')[0] for step in build['steps']]
         self.assertEqual(runs, ['actions/checkout', 'actions/download-artifact', 'python3 scripts/submissions.py materialize',
                                 'python3 scripts/submissions.py preflight', 'python3 -m unittest discover -s tests -v',
@@ -554,7 +584,8 @@ class WorkflowTests(unittest.TestCase):
         self.assertEqual(download['with'], {'name': 'verifier-build-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.issue_number }}',
                                             'path': 'build-artifact'})
         self.assertEqual(unpack['env'], {'BOS_BUILD_RESULT': '${{ needs.build.result }}',
-                                         'BOS_BUILD_SHA256': '${{ needs.build.outputs.build_sha256 }}'})
+                                         'BOS_BUILD_SHA256': '${{ needs.build.outputs.build_sha256 }}',
+                                         'BOS_BUILD_RECORD_SHA256': '${{ needs.build.outputs.build_record_sha256 }}'})
         for step in [download, unpack]:
             self.assertEqual(step['if'], "inputs.split && steps.gate.outputs.proceed == 'true'")
         gate = next(step for step in steps if step.get('id') == 'gate')

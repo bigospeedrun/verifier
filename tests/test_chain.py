@@ -163,6 +163,11 @@ class BuildLegTests(LegBase):
         self.assertEqual((out['next'], out['done'], state['outcome']['reason']), ('false', 'false', 'build_not_run'))
         out, _ = self.leg('build2', self.data('timeout', 1, pack='', unpack='u' * 64))
         self.assertEqual(out['next'], 'false')
+        # A build that ends after max_hours starts no export job (Integrations N1).
+        out, state = self.leg('build2', self.data('success', 0, unpack='u' * 64), started=time.time() - 30 * 3600 - 1)
+        self.assertEqual((out['done'], out['next'], state['outcome']), ('false', 'false', {'status': 'incomplete', 'reason': 'build_chain_cap'}))
+        out, _ = self.leg('build2', self.data('success', 0, unpack='u' * 64), started=time.time() - 29 * 3600)
+        self.assertEqual(out['done'], 'true')
 
     def test_bad_inputs_stop_the_chain(self):
         for started in ['', 'x', '1e9', '-1']:
@@ -215,6 +220,16 @@ class CheckLegTests(LegBase):
         out, _ = self.leg('export', self.data(seg(0, 100)), started=time.time() - 30 * 3600 - 1)
         self.assertEqual(out['next'], 'false')
 
+    def test_a_bad_stop_point_is_not_written_as_an_output(self):
+        for bad in [{'to': '100'}, {'to': -1}, {'to': True}, {'hash_to': 'x\nnext=true'}, {'hash_to': 'F' * 16}]:
+            with self.subTest(bad=bad):
+                record = seg(0, 100)
+                record['segment'].update(bad)
+                out, state = self.leg('export', self.data(record))
+                self.assertEqual(out['next'], 'false')
+                self.assertNotIn('check_from', out)
+                self.assertIn('error', state)
+
 
 class PickTests(unittest.TestCase):
     def pick(self, needs):
@@ -223,14 +238,16 @@ class PickTests(unittest.TestCase):
             chain.pick()
         return dict(line.split('=', 1) for line in Path(tmp.name).read_text().splitlines())
 
-    def job(self, done, result='success', sha=SHA):
-        return {'result': result, 'outputs': {'done': 'true' if done else 'false', 'build_sha256': sha}}
+    def job(self, done, result='success', sha=SHA, record='d' * 64):
+        return {'result': result, 'outputs': {'done': 'true' if done else 'false', 'build_sha256': sha,
+                                              'build_record_sha256': record}}
 
     def test_the_last_build_job_is_picked(self):
         skipped = {'result': 'skipped', 'outputs': {}}
         needs = {'chain_build1': self.job(False), 'chain_build2': self.job(True, sha='b' * 64),
                  'chain_build3': skipped, 'chain_build4': skipped}
-        self.assertEqual(self.pick(needs), {'leg': 'build2', 'build_sha256': 'b' * 64, 'result': 'success'})
+        self.assertEqual(self.pick(needs), {'leg': 'build2', 'build_sha256': 'b' * 64, 'build_record_sha256': 'd' * 64,
+                                            'result': 'success'})
         self.assertEqual(self.pick({'chain_build1': self.job(True)})['leg'], 'build1')
 
     def test_refusals(self):
@@ -238,6 +255,7 @@ class PickTests(unittest.TestCase):
         for needs in [{}, {'chain_build1': skipped, 'chain_build2': self.job(True)},
                       {'chain_build1': self.job(True), 'chain_build2': self.job(True)},
                       {'chain_build1': self.job(False)}, {'chain_build1': self.job(True, sha='x')},
+                      {'chain_build1': self.job(True, record='')},
                       {'chain_build1': self.job(False), 'chain_build2': skipped, 'chain_build3': self.job(True)}]:
             with self.subTest(needs=needs), self.assertRaises(ValueError):
                 self.pick(needs)
@@ -259,9 +277,10 @@ class FinalTests(unittest.TestCase):
         folder = self.tmp / 'chain-legs' / f'chain-leg-7-1-42-{name}'
         folder.mkdir(parents=True)
         receipt = {'run_url': f'https://github.com/bigospeedrun/verifier/actions/runs/{run}', 'verifier_commit': commit, **receipt}
-        (folder / 'receipt.json').write_text(json.dumps(receipt))
         if gate:
             (folder / 'gate.json').write_text(json.dumps(gate))
+            receipt['chain_leg'] = {**receipt.get('chain_leg', {}), 'gate_sha256': v.digest(folder / 'gate.json')}
+        (folder / 'receipt.json').write_text(json.dumps(receipt))
         sha = hashlib.sha256((folder / 'receipt.json').read_bytes()).hexdigest() if pin else '0' * 64
         self.needs['chain_' + name] = {'result': result, 'outputs': {'leg_sha256': sha}}
 
@@ -361,6 +380,15 @@ class FinalTests(unittest.TestCase):
         self.put('build1', {'status': 'prepared', 'chain_leg': {'build': 'done'}})
         self.put('export', self.base(axiom_audit={'status': 'invalid_output'}))
         self.assertEqual(self.final()['kernels']['lean']['status'], 'not_started')
+        # Export and audit passed, but no segment record (segment() raised): a verifier problem (Integrations N2).
+        self.setUp()
+        self.put('build1', {'status': 'prepared', 'chain_leg': {'build': 'done'}})
+        self.put('export', self.base())
+        data = self.final()
+        self.assertEqual({k: data['kernels']['lean'][k] for k in ['status', 'reason']}, {'status': 'incomplete', 'reason': 'no_segment_record'})
+        self.assertEqual(data['status'], 'not_verified')
+        self.assertEqual(verdicts.reason_line(data, 'lean_not_passed'),
+                         'Reason: the kernel check of the check chain did not start. This is a verifier problem; a maintainer looks at it.')
 
     def test_the_gate_stop_keeps_setup_failed(self):
         self.put('build1', {'schema_version': 1, 'status': 'setup_failed', 'steps': [], 'kernels': {}},
@@ -372,6 +400,13 @@ class FinalTests(unittest.TestCase):
         # Nothing ran at all: no receipt; finalize writes setup_failed.
         self.setUp()
         self.assertIsNone(self.final())
+
+    def test_a_gate_file_that_does_not_match_its_pin_is_not_copied(self):
+        self.put('build1', {'schema_version': 1, 'status': 'setup_failed', 'steps': [], 'kernels': {}},
+                 gate={'status': 'proceed'})
+        (self.tmp / 'chain-legs/chain-leg-7-1-42-build1/gate.json').write_text(json.dumps({'status': 'claimed_only'}))
+        self.final()
+        self.assertFalse((self.art / 'gate.json').exists())
 
 
 class ExportAndSegmentTests(unittest.TestCase):
@@ -400,8 +435,17 @@ class ExportAndSegmentTests(unittest.TestCase):
         return patch.object(v, 'launch_github', side_effect=launch_github)
 
     def fake_verify(self, status='passed', kernel='export'):
+        self.verify_calls = []
         def verify(kernels):
-            self.assertEqual(kernels, ['export', 'audit'] if kernel == 'export' else ['challenge'])
+            self.verify_calls.append(kernels)
+            if kernels == ['audit']:
+                # Integrations F1: the audit unit imports the submission modules (submission code runs). Its /tmp is
+                # empty, the solution export is already in control/export, and what it writes in /tmp reaches nothing.
+                self.assertEqual(os.listdir(self.work / 'scratch'), [])
+                self.assertTrue((self.work / 'control/export/solution.export').is_file())
+                (self.work / 'scratch/solution.export').write_bytes(b'planted')
+                return
+            self.assertEqual(kernels, ['export'] if kernel == 'export' else ['challenge'])
             name = 'solution' if kernel == 'export' else 'challenge'
             (self.work / f'scratch/{name}.export').write_bytes(name.encode() * 100)
             data = v.receipt(); data['kernels'][kernel] = {'status': status}; v.save(data)
@@ -446,10 +490,14 @@ class ExportAndSegmentTests(unittest.TestCase):
             chain.export()
         data = v.receipt()
         files = data['chain_export']['files']
+        self.assertEqual(self.verify_calls, [['export'], ['audit']])
         for name, file in chain.EXPORT_FILES.items():
             self.assertEqual(files[name]['sha256'], v.digest(chain.EXPORT_ARTIFACT / file))
-            self.assertFalse((self.work / 'scratch' / f'{name}.export').exists())  # Moved to control/export.
+            raw = __import__('subprocess').run(['zstd', '-d', '-q', '-c', str(chain.EXPORT_ARTIFACT / file)], capture_output=True, check=True).stdout
+            self.assertEqual(raw, (self.work / 'control/export' / f'{name}.export').read_bytes())
+        # The audit's planted file stayed in its /tmp; the pinned file and the segment's file are the export unit's.
         self.assertEqual((self.work / 'control/export/solution.export').read_bytes(), b'solution' * 100)
+        self.assertEqual((self.work / 'scratch/solution.export').read_bytes(), b'planted')
         self.assertNotIn('export', data['kernels'])
         kernel, args, check_args = self.launched[0]
         self.assertEqual(kernel, 'check')
@@ -468,6 +516,7 @@ class ExportAndSegmentTests(unittest.TestCase):
         with self.fake_verify('rejected'), self.launch(None):
             chain.export()
         self.assertEqual(self.launched, [])
+        self.assertEqual(self.verify_calls, [['export']])  # No audit after a failed export.
         self.assertEqual(v.receipt()['chain_export'], {'status': 'rejected'})
         self.setUp()
         (self.work / 'control/export/challenge.export').write_bytes(b'c')
@@ -626,14 +675,44 @@ class WorkflowTests(unittest.TestCase):
             prev = 'chain_' + chain.BUILD_LEGS[k - 1]
             unpack = next(step for step in self.jobs['chain_' + chain.BUILD_LEGS[k]]['steps'] if step.get('id') == 'unpack')
             self.assertEqual(unpack['env'], {'BOS_BUILD_RESULT': f'${{{{ needs.{prev}.result }}}}',
-                                             'BOS_BUILD_SHA256': f'${{{{ needs.{prev}.outputs.build_sha256 }}}}'})
+                                             'BOS_BUILD_SHA256': f'${{{{ needs.{prev}.outputs.build_sha256 }}}}',
+                                             'BOS_BUILD_RECORD_SHA256': f'${{{{ needs.{prev}.outputs.build_record_sha256 }}}}'})
         unpack = next(step for step in self.jobs['chain_export']['steps'] if step.get('run') == 'python3 scripts/verifier.py unpack')
         self.assertEqual(unpack['env'], {'BOS_BUILD_RESULT': '${{ steps.pick.outputs.result }}',
-                                         'BOS_BUILD_SHA256': '${{ steps.pick.outputs.build_sha256 }}'})
+                                         'BOS_BUILD_SHA256': '${{ steps.pick.outputs.build_sha256 }}',
+                                         'BOS_BUILD_RECORD_SHA256': '${{ steps.pick.outputs.build_record_sha256 }}'})
         pick = next(step for step in self.jobs['chain_export']['steps'] if step.get('id') == 'pick')
         self.assertEqual(pick['env'], {'BOS_CHAIN_NEEDS': '${{ toJSON(needs) }}'})
         for name in ['chain_' + n for n in chain.BUILD_LEGS]:
             self.assertEqual(self.jobs[name]['outputs']['build_sha256'], '${{ steps.pack.outputs.build_sha256 }}')
+            self.assertEqual(self.jobs[name]['outputs']['build_record_sha256'], '${{ steps.pack.outputs.build_record_sha256 }}')
+
+
+
+class ChainProfileTests(unittest.TestCase):
+    """prepare (verifier.check_chain_profile): the segmented check is a copy of Replay.lean of one Lean release."""
+    def test_only_the_chain_toolchain_with_the_comparator_patches(self):
+        good = {'runner': 'github-chain', 'lean_toolchain': v.CHAIN_TOOLCHAIN, 'tools_file': 'profiles/tools-chain.json',
+                'chain': {'max_build_jobs': 4, 'max_check_jobs': 4, 'max_hours': 30}}
+        request = {'lean_toolchain': v.CHAIN_TOOLCHAIN}
+        v.check_chain_profile(good, request)
+        for bad, req in [({'lean_toolchain': 'leanprover/lean4:v4.33.1'}, request),
+                         ({}, {'lean_toolchain': 'leanprover/lean4:v4.35.0'}),
+                         ({'tools_file': 'profiles/tools.json'}, request), ({'tools_file': None}, request),
+                         ({'chain': {'max_hours': 31}}, request), ({'chain': {'max_check_jobs': 5}}, request)]:
+            profile = {k: x for k, x in {**good, **bad}.items() if x is not None}
+            with self.subTest(bad=bad, request=req), self.assertRaises(ValueError):
+                v.check_chain_profile(profile, req)
+        # Other runners are not checked here.
+        v.check_chain_profile({'runner': 'github-split', 'lean_toolchain': 'leanprover/lean4:v4.33.1'}, {})
+
+    def test_every_chain_profile_in_the_repo_passes(self):
+        profiles = list(json.loads((ROOT / 'profiles/direct.json').read_text()).values())
+        profiles += [json.loads(p.read_text()) for p in sorted((ROOT / 'profiles').glob('*.json'))
+                     if p.name not in ['direct.json'] and isinstance(json.loads(p.read_text()), dict)]
+        for profile in profiles:
+            if isinstance(profile, dict) and profile.get('runner') == 'github-chain':
+                v.check_chain_profile(profile, {'lean_toolchain': profile['lean_toolchain']})
 
 
 if __name__ == '__main__':

@@ -34,6 +34,7 @@ jobs:
     outputs:
       proceed: ${{ steps.gate.outputs.proceed }}
       build_sha256: ${{ steps.pack.outputs.build_sha256 }}
+      build_record_sha256: ${{ steps.pack.outputs.build_record_sha256 }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -122,6 +123,7 @@ jobs:
         env:
           BOS_BUILD_RESULT: ${{ needs.build.result }}
           BOS_BUILD_SHA256: ${{ needs.build.outputs.build_sha256 }}
+          BOS_BUILD_RECORD_SHA256: ${{ needs.build.outputs.build_record_sha256 }}
         run: python3 scripts/verifier.py unpack
       - if: steps.gate.outputs.proceed == 'true'
         run: python3 scripts/verifier.py verify_lean
@@ -230,6 +232,7 @@ jobs:
     outputs:
       proceed: ${{ steps.gate.outputs.proceed }}
       build_sha256: ${{ steps.pack.outputs.build_sha256 }}
+      build_record_sha256: ${{ steps.pack.outputs.build_record_sha256 }}
       done: ${{ steps.leg.outputs.done }}
       next: ${{ steps.leg.outputs.next }}
       chain_started: ${{ steps.leg.outputs.chain_started }}
@@ -298,6 +301,7 @@ jobs:
       BOS_CHAIN_STARTED: ${{ needs.chain_build1.outputs.chain_started }}
     outputs:
       build_sha256: ${{ steps.pack.outputs.build_sha256 }}
+      build_record_sha256: ${{ steps.pack.outputs.build_record_sha256 }}
       done: ${{ steps.leg.outputs.done }}
       next: ${{ steps.leg.outputs.next }}
       chain_started: ${{ steps.leg.outputs.chain_started }}
@@ -328,6 +332,7 @@ jobs:
         env:
           BOS_BUILD_RESULT: ${{ needs.chain_build1.result }}
           BOS_BUILD_SHA256: ${{ needs.chain_build1.outputs.build_sha256 }}
+          BOS_BUILD_RECORD_SHA256: ${{ needs.chain_build1.outputs.build_record_sha256 }}
         run: python3 scripts/verifier.py unpack
       - run: python3 scripts/verifier.py build
       # Also after a failed build step: pack keeps what exists. Never upload the raw folder.
@@ -367,6 +372,7 @@ jobs:
       BOS_CHAIN_STARTED: ${{ needs.chain_build2.outputs.chain_started }}
     outputs:
       build_sha256: ${{ steps.pack.outputs.build_sha256 }}
+      build_record_sha256: ${{ steps.pack.outputs.build_record_sha256 }}
       done: ${{ steps.leg.outputs.done }}
       next: ${{ steps.leg.outputs.next }}
       chain_started: ${{ steps.leg.outputs.chain_started }}
@@ -397,6 +403,7 @@ jobs:
         env:
           BOS_BUILD_RESULT: ${{ needs.chain_build2.result }}
           BOS_BUILD_SHA256: ${{ needs.chain_build2.outputs.build_sha256 }}
+          BOS_BUILD_RECORD_SHA256: ${{ needs.chain_build2.outputs.build_record_sha256 }}
         run: python3 scripts/verifier.py unpack
       - run: python3 scripts/verifier.py build
       # Also after a failed build step: pack keeps what exists. Never upload the raw folder.
@@ -436,6 +443,7 @@ jobs:
       BOS_CHAIN_STARTED: ${{ needs.chain_build3.outputs.chain_started }}
     outputs:
       build_sha256: ${{ steps.pack.outputs.build_sha256 }}
+      build_record_sha256: ${{ steps.pack.outputs.build_record_sha256 }}
       done: ${{ steps.leg.outputs.done }}
       next: ${{ steps.leg.outputs.next }}
       chain_started: ${{ steps.leg.outputs.chain_started }}
@@ -466,6 +474,7 @@ jobs:
         env:
           BOS_BUILD_RESULT: ${{ needs.chain_build3.result }}
           BOS_BUILD_SHA256: ${{ needs.chain_build3.outputs.build_sha256 }}
+          BOS_BUILD_RECORD_SHA256: ${{ needs.chain_build3.outputs.build_record_sha256 }}
         run: python3 scripts/verifier.py unpack
       - run: python3 scripts/verifier.py build
       # Also after a failed build step: pack keeps what exists. Never upload the raw folder.
@@ -554,6 +563,7 @@ jobs:
       - env:
           BOS_BUILD_RESULT: ${{ steps.pick.outputs.result }}
           BOS_BUILD_SHA256: ${{ steps.pick.outputs.build_sha256 }}
+          BOS_BUILD_RECORD_SHA256: ${{ steps.pick.outputs.build_record_sha256 }}
         if: steps.gate.outputs.proceed == 'true'
         run: python3 scripts/verifier.py unpack
       - id: export

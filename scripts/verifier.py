@@ -304,6 +304,7 @@ def prepare():
     if 'lake_workers_start' in profile and (type(profile['lake_workers_start']) is not int
                                             or profile['lake_workers_start'] not in LAKE_WORKERS):
         raise ValueError('lake_workers_start must be one of the Lake worker counts')
+    check_chain_profile(profile, request)
     WORK.mkdir(parents=True, exist_ok=False)
     (WORK / 'control').mkdir(); (WORK / 'tools').mkdir()
     write_json(WORK / 'control/request.json', {'request': request, 'profile': profile, 'names': names})
@@ -790,6 +791,22 @@ def verify(kernels=None):
     save(data)
 
 
+# The only toolchain of a github-chain profile: Comparator/Segment.lean copies Replay.lean of this release.
+CHAIN_TOOLCHAIN = 'leanprover/lean4:v4.34.1'
+
+def check_chain_profile(profile, request):
+    """prepare: a github-chain profile runs only on CHAIN_TOOLCHAIN, with a tools file that has the Comparator patches
+    (the segmented check, a copy of Replay.lean of that release), and with chain caps in range (chain.caps)."""
+    if profile.get('runner') != 'github-chain':
+        return
+    pins = json.loads((ROOT / profile.get('tools_file', 'profiles/tools.json')).read_text())
+    if profile.get('lean_toolchain') != CHAIN_TOOLCHAIN or request.get('lean_toolchain') != CHAIN_TOOLCHAIN \
+            or not pins.get('comparator_patches'):
+        raise ValueError('a github-chain profile needs the chain toolchain and a tools file with comparator_patches')
+    import chain  # chain.py imports this module; import it only here.
+    chain.caps(profile)
+
+
 # Split build (docs/execution.md). Job 1 stops its build in time to pack and upload.
 BUILD_PACK_SECONDS = 15 * 60
 BUILD_ARTIFACT = ROOT / 'build-artifact'
@@ -932,10 +949,16 @@ def pack():
                     'bytes': total, 'compressed_bytes': target.stat().st_size,
                     'skipped_count': len(skipped), 'skipped_first': sorted(skipped)[:20]}
     save(data)
-    write_json(BUILD_ARTIFACT / 'build.json', {'build': data.get('build'), 'pack': data['pack']})
+    # The record and the log are pinned too (Lead, 2026-11-14): build.json holds the log's sha256, and its own sha256
+    # goes to the job output build_record_sha256. unpack checks both before it reads them.
+    record = {'build': data.get('build'), 'pack': data['pack']}
+    if (BUILD_ARTIFACT / 'build.log').is_file():
+        record['log_sha256'] = digest(BUILD_ARTIFACT / 'build.log')
+    write_json(BUILD_ARTIFACT / 'build.json', record)
     if os.environ.get('GITHUB_OUTPUT'):
         with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
             out.write('build_sha256=' + sha + '\n')
+            out.write('build_record_sha256=' + digest(BUILD_ARTIFACT / 'build.json') + '\n')
     print(f"pack: {len(members)} members, {total} bytes, {target.stat().st_size} compressed, {len(skipped)} skipped, sha256 {sha}", flush=True)
 
 
@@ -989,14 +1012,25 @@ def unpack():
     """Split job 2, rule S1: check job 1's tar against BOS_BUILD_SHA256, then restore only the allowed
     members into the empty build folder. Any other member refuses the whole archive."""
     data = receipt()
+    # Job 1's record and log, by the sha256 that job 1 wrote as an output (BOS_BUILD_RECORD_SHA256), before anything
+    # reads them; also when job 1 failed, so that this receipt shows how its build ended.
+    expected_record = os.environ.get('BOS_BUILD_RECORD_SHA256', '')
+    if not re.fullmatch('[0-9a-f]{64}', expected_record):
+        raise ValueError('BOS_BUILD_RECORD_SHA256 must be 64 lowercase hex digits')
     record = BUILD_ARTIFACT / 'build.json'
-    if record.is_file() and not record.is_symlink() and record.stat().st_size <= 64 * 1024:
-        job1 = json.loads(record.read_text())
-        data.update({k: job1[k] for k in ['build', 'pack'] if isinstance(job1, dict) and k in job1})
-    # The site accepts at most 128 MB of receipt files; a larger log stays in job 1's artifact only.
+    if record.is_symlink() or not record.is_file() or record.stat().st_size > 64 * 1024 or digest(record) != expected_record:
+        raise ValueError('build record is missing or its sha256 does not match')
+    job1 = json.loads(record.read_text())
+    if not isinstance(job1, dict):
+        raise ValueError('build record is not an object')
+    data.update({k: job1[k] for k in ['build', 'pack'] if k in job1})
     log = BUILD_ARTIFACT / 'build.log'
-    if log.is_file() and not log.is_symlink() and log.stat().st_size <= 32 * 1024**2:
-        shutil.copyfile(log, ART / 'build.log')
+    if job1.get('log_sha256') is not None:
+        if log.is_symlink() or not log.is_file() or digest(log) != job1['log_sha256']:
+            raise ValueError('build log is missing or its sha256 does not match')
+        # The site accepts at most 128 MB of receipt files; a larger log stays in job 1's artifact only.
+        if log.stat().st_size <= 32 * 1024**2:
+            shutil.copyfile(log, ART / 'build.log')
     save(data)
     if os.environ.get('BOS_BUILD_RESULT') != 'success':
         raise RuntimeError('build job did not succeed')

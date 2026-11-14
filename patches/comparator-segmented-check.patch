@@ -1,9 +1,9 @@
 diff --git a/Comparator/Segment.lean b/Comparator/Segment.lean
 new file mode 100644
-index 0000000..5cd38be
+index 0000000..805ed8f
 --- /dev/null
 +++ b/Comparator/Segment.lean
-@@ -0,0 +1,202 @@
+@@ -0,0 +1,205 @@
 +/-
 +Big O Speedrun patch (bigospeedrun/verifier, task b1457f08): a segmented kernel replay.
 +
@@ -182,6 +182,9 @@ index 0000000..5cd38be
 +        pure Outcome.complete
 +      catch ex =>
 +        if (← get).stopped then pure Outcome.stopped else pure (Outcome.rejected ex.toString)
++  -- A walk that ends before `checkFrom` checked nothing: no segment of a chain starts there (Integrations, 2026-11-14).
++  if s.index < checkFrom then
++    throw <| IO.userError s!"checkFrom {checkFrom} is past the end of the walk ({s.index} declarations)"
 +  -- A walk that adds nothing at or after `checkFrom` never set `hashFrom` in `addDecl`.
 +  let hashFrom := if s.index == checkFrom then s.hash else s.hashFrom
 +  return { outcome, index := s.index, hashFrom, hashTo := s.hash, todo, env := s.env }
@@ -208,10 +211,10 @@ index 0000000..5cd38be
 +end Comparator.Segment
 diff --git a/Comparator/SegmentCheck.lean b/Comparator/SegmentCheck.lean
 new file mode 100644
-index 0000000..ffb9299
+index 0000000..7aab5bf
 --- /dev/null
 +++ b/Comparator/SegmentCheck.lean
-@@ -0,0 +1,169 @@
+@@ -0,0 +1,179 @@
 +/-
 +Big O Speedrun patch (bigospeedrun/verifier, task b1457f08): the `--bos-check` and `--bos-selftest`
 +modes of Comparator. See Comparator/Segment.lean.
@@ -355,6 +358,16 @@ index 0000000..ffb9299
 +    ("constructor fields", match ctor with
 +      | .ctorInfo c => base.insert c.name (.ctorInfo { c with numFields := c.numFields + 1 })
 +      | _ => base, false)]
++  -- A segment that starts past the end of the walk is refused (it would check nothing).
++  let whole ← run base (← emptyKernelEnv) 0 (base.size + 1) 0
++  let mut pastRefused := false
++  try
++    let _ ← run base (← emptyKernelEnv) (whole.index + 1) (whole.index + 2) 0
++  catch _ =>
++    pastRefused := true
++  unless pastRefused do
++    throw <| .userError "selftest: a segment past the end of the walk was not refused"
++  IO.println s!"BOS selftest: a segment from {whole.index + 1} is refused"
 +  for (label, m, accept) in cases do
 +    if (← upstreamAccepts m) != accept then
 +      throw <| .userError s!"selftest {label}: the upstream replay gives the wrong outcome"

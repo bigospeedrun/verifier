@@ -117,6 +117,7 @@ KERNEL_REASONS = {
     'build_chain_cap': 'the Lean build did not finish within the job and hour limits of the check chain',
     'check_chain_cap': 'the kernel check did not finish within the job and hour limits of the check chain',
     'chain_coverage': 'the segments of the kernel check do not cover the proof once, in order',
+    'no_segment_record': 'the kernel check of the check chain did not start. This is a verifier problem; a maintainer looks at it',
 }
 
 VERDICT_REASONS = {

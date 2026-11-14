@@ -154,8 +154,10 @@ build job and never splits: a 3SUM PR runs as one job, as before, and keeps the 
    compresses about 36 times). It refuses a compressed file over 8 GiB (`BUILD_MAX_BYTES`).
    The job uploads that file, never the raw folder, as `verifier-build-<run>-<attempt>-<issue>` (1 day). Its
    sha256 is the job output `build_sha256`. That hash covers only `build.tar.zst`.
-   `build.json` and `build.log` are data from a trusted step of the same run
-   (only that run's jobs can upload to it), and they go to the receipt as data only.
+   `build.json` and `build.log` are data from a trusted step of the same run, and they go
+   to the receipt as data only. They are pinned too (Lead, 2026-11-14): `build.json` holds
+   the sha256 of `build.log`, and the sha256 of `build.json` is the job output
+   `build_record_sha256`. `unpack` refuses a mismatch of either file before it reads them.
 3. Job `verify` has `needs: build`. Its gate also stops (claimed only) when
    job 1's gate said `false`. Its `if:` uses `!cancelled()`, because
    GitHub skips a job whose needed job was skipped unless a status function is
@@ -389,8 +391,11 @@ submission file is built or loaded, so no tool comes from a job where submission
   Then it restores the pack of the build job that says `done` (`chain.py pick`: the build
   jobs that ran are `build1`..`buildK` in order, and only the last one is done) and runs
   `--bos-export-solution`: the solution build (Lake finds it up to date) and export. No
-  comparison and no kernel runs in these units. The axiom audit runs as usual. The
-  controller moves the solution file out of `/tmp` too, compresses both files (`zstd -3`) and
+  comparison and no kernel runs in these units. The controller moves the solution file to
+  `control/export` and empties `/tmp` before the axiom audit unit starts: the audit imports
+  the submission modules, so submission code (an `initialize` block) runs in it, and it must
+  not be able to change the export (Integrations F1, 2026-11-14). Then the audit runs as usual.
+  The controller compresses both files (`zstd -3`) and
   uploads them; the sha256 of each compressed file is a job output. The tools in every unit
   are read-only (`--ro-bind`); the sandbox can write only the build folder and `/tmp`.
 - **Segments.** The export job and each check job run one segment of the kernel check:
@@ -402,7 +407,8 @@ submission file is built or loaded, so no tool comes from a job where submission
   v4.34.1's `Kernel.Environment.replay` (src/Lean/Replay.lean) with an index for each
   `addDecl` call in the fixed walk order. A segment adds the declarations before its start
   with `addDeclWithoutChecking`, sends each later one to `addDeclCore` (the full kernel
-  check), and stops between two declarations at its deadline, after at least one check. The
+  check), and stops between two declarations at its deadline, after at least one check. A
+  segment whose start is past the end of the walk fails with no receipt. The
   kernel adds an inductive type or the quotient in full in both cases (src/kernel/environment.cpp,
   `environment::add`). The segment that ends the walk runs the postponed constructor and
   recursor checks and Comparator's quotient post-check. A running hash of the added names
@@ -411,12 +417,15 @@ submission file is built or loaded, so no tool comes from a job where submission
   against the environment of declarations 0..*i*−1. A chain checks declaration *i* in exactly
   one segment, against declarations 0..*i*−1 added from the same export bytes (one sha256)
   in the same order, and each of those was checked in an earlier segment of the same chain.
+  `prepare` refuses a `github-chain` profile on another toolchain than Lean v4.34.1
+  (`verifier.CHAIN_TOOLCHAIN`) or with a tools file without `comparator_patches`.
   `setup` tests this before any submission code (`--bos-selftest`): on an export of about 630
   constants of Lean's `Init`, Lean's own `replay` and the segmented replay with one segment
   and with segments of 7, 23 and 97 declarations accept the export as it is and reject three
   tampered copies (a theorem with another theorem's proof, a definition with an ill-typed
   value, a constructor with a wrong field count), at the same declaration. It also tests a
-  deadline stop after one declaration and its continuation.
+  deadline stop after one declaration and its continuation, and that a segment from past the
+  end of the walk is refused.
 - **Final job.** It reads each chain job's receipt by the `leg_sha256` that the job wrote
   as an output (only receipts of this run and this verifier commit count), and accepts the kernel check only when the segments, in job order, all
   replay the export with the export job's sha256, each starts where the one before it
@@ -424,16 +433,23 @@ submission file is built or loaded, so no tool comes from a job where submission
   the walk with the postponed and quotient checks. Any gap, overlap or mismatch gives
   `incomplete` (`chain_coverage`), never `passed`. It writes one receipt with the provenance
   of the chain (`chain.legs`; darkhipo's merged-receipt idea from PR #191) and uploads it
-  under the normal receipt name, so the report job does not change.
+  under the normal receipt name, so the report job does not change. It copies `gate.json`
+  of the export job (else of `build1`) only by the sha256 that the job's receipt holds
+  (`chain_leg.gate_sha256`). An export job whose export and audit passed but that wrote no
+  segment record gives `incomplete` (`no_segment_record`), not "Not verified".
 - **Caps.** The profile's `chain` object: `max_build_jobs` and `max_check_jobs` (1 to 4,
-  default 1) and `max_hours` (at most 30, from the start of `build1`). The queue lease has no
-  time expiry, so a chain holds the queue for all its time. A chain that reaches a cap ends
-  `incomplete` (`build_chain_cap`, `check_chain_cap`), never rejected.
-- **nanoda.** A chain runs no nanoda pass. On #187 it needed more than 26 GB. The receipt
-  says `nanoda: incomplete (not_run_chain)`, which the verdict rule treats like its other
-  incomplete reasons (advisory).
-- **Re-runs.** The queue lease belongs to one run attempt (`queue_lease.assert_owner`), so a
-  failed chain is run again as a whole, never as one job.
+  default 1) and `max_hours` (at most 30, from the start of `build1`). No job starts when
+  the job before it ends after `max_hours`; this includes the export job. The queue lease has
+  no time expiry, so a chain holds the queue for all its time: at most `max_hours` plus one
+  job (350 minutes), plus the queue wait of each job and the final and report jobs. A chain
+  that reaches a cap ends `incomplete` (`build_chain_cap`, `check_chain_cap`), never rejected.
+- **nanoda (a policy change, chain profiles only).** A chain runs no nanoda pass. On #187 it
+  needed more than 26 GB. The receipt says `nanoda: incomplete (not_run_chain)`, and the
+  verdict rule treats it like its other incomplete reasons (advisory), so a chain admits on
+  the Lean kernel check and the axiom audit alone. Every other profile runs nanoda as before.
+- **Re-runs.** The queue lease belongs to one run attempt (`queue_lease.assert_owner`), and the
+  artifact names hold the run attempt. So "Re-run failed jobs" never continues a chain: the
+  re-run ends `incomplete`, by design (fail-closed). A failed chain runs again as a whole.
 
 ## Trust and credit
 

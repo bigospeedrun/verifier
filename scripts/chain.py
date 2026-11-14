@@ -147,11 +147,13 @@ def challenge():
 
 
 def export():
-    """The export job, after unpack: the solution build (Lake finds it up to date) and export, and the axiom audit, both
-    as in a normal check; then the two export files, compressed, for the check jobs. No kernel runs here."""
+    """The export job, after unpack: the solution build (Lake finds it up to date) and export, as in a normal check. The
+    file moves out of the sandbox /tmp and /tmp is emptied before the axiom audit, which imports the submission modules
+    (an `initialize` block runs on import), so the audit unit cannot change it (Integrations F1, 2026-11-14). Then the
+    two export files, compressed, for the check jobs, and segment 0."""
     if not (v.WORK / 'control/export/challenge.export').is_file():
         raise RuntimeError('the challenge export of this job is missing')
-    v.verify(['export', 'audit'])
+    v.verify(['export'])
     data = v.receipt()
     record = data['kernels'].pop('export', None)
     data['chain_export'] = record
@@ -160,6 +162,8 @@ def export():
     if not record or record.get('status') != 'passed':
         return
     take_export('solution')
+    empty_folder(v.WORK / 'scratch')
+    v.verify(['audit'])
     EXPORT_ARTIFACT.mkdir(exist_ok=True)
     pins = {}
     for name, file in EXPORT_FILES.items():
@@ -170,7 +174,7 @@ def export():
             raise ValueError('a compressed export exceeds EXPORT_MAX_BYTES')
         pins[name] = {'sha256': v.digest(EXPORT_ARTIFACT / file), 'bytes': target.stat().st_size,
                       'compressed_bytes': (EXPORT_ARTIFACT / file).stat().st_size}
-    data = v.receipt(); data['chain_export']['files'] = pins; v.save(data)
+    data = v.receipt(); data['chain_export']['files'] = pins; data['status'] = 'chain_export'; v.save(data)
     if data.get('axiom_audit', {}).get('status') != 'passed':
         return  # No admission without the audit (verdicts.admission): the chain stops here.
     segment(pins['solution']['sha256'], 0, HASH_START)
@@ -271,6 +275,11 @@ def leg():
                 pack, result, outcome = '', 'stop', {'status': 'incomplete', 'reason': 'build_not_run'}
             state.update(build=result, outcome=outcome)
             out['done'] = 'true' if result == 'done' and pack else 'false'
+            # No job starts after max_hours, the export job too (Integrations N1): a chain holds the queue lease
+            # for at most max_hours plus one job.
+            if out['done'] == 'true' and not within_hours(started, profile):
+                out['done'] = 'false'
+                state['outcome'] = {'status': 'incomplete', 'reason': 'build_chain_cap'}
             index = BUILD_LEGS.index(name) + 1
             if result == 'continue':
                 if index >= cap['max_build_jobs'] or not within_hours(started, profile):
@@ -288,9 +297,12 @@ def leg():
                     if index >= cap['max_check_jobs'] or not within_hours(started, profile):
                         state['outcome'] = {'status': 'incomplete', 'reason': 'check_chain_cap'}
                     else:
-                        out['next'] = 'true'
-                        out['check_from'] = str(seg['to']) if stopped else str(record['from'])
-                        out['hash_from'] = seg['hash_to'] if stopped else record['expected_hash_from']
+                        check_from = seg.get('to') if stopped else record.get('from')
+                        hash_from = seg.get('hash_to') if stopped else record.get('expected_hash_from')
+                        if type(check_from) is not int or not 0 <= check_from < 10**12 \
+                                or not isinstance(hash_from, str) or not HASH.fullmatch(hash_from):
+                            raise ValueError('the next segment start is not an index and a hash')
+                        out.update(next='true', check_from=str(check_from), hash_from=hash_from)
             files = data.get('chain_export', {}).get('files', {}) if isinstance(data.get('chain_export'), dict) else {}
             if name == 'export' and files:
                 out['export_sha256'] = files['solution']['sha256']
@@ -298,6 +310,9 @@ def leg():
     except Exception as exc:  # The outputs say stop; the receipt keeps the reason.
         out = {'next': 'false'}
         state['error'] = str(exc)[:500]
+    gate = v.ART / 'gate.json'
+    if gate.is_file() and not gate.is_symlink():
+        state['gate_sha256'] = v.digest(gate)  # The final job copies gate.json only by this pin.
     data = v.receipt()
     data['chain_leg'] = state
     data['verifier_commit'] = data.get('verifier_commit') or os.environ.get('GITHUB_SHA')
@@ -387,9 +402,10 @@ def pick():
         raise ValueError('only the last build job may say done')
     last = job(needs, ran[-1])
     sha = (last.get('outputs') or {}).get('build_sha256', '')
-    if not SHA256.fullmatch(sha):
-        raise ValueError('the last build job has no pack sha256')
-    outputs(leg=ran[-1], build_sha256=sha, result=last.get('result', ''))
+    record = (last.get('outputs') or {}).get('build_record_sha256', '')
+    if not SHA256.fullmatch(sha) or not SHA256.fullmatch(record):
+        raise ValueError('the last build job has no pack sha256 or no record sha256')
+    outputs(leg=ran[-1], build_sha256=sha, build_record_sha256=record, result=last.get('result', ''))
 
 
 def read_legs(needs, folder):
@@ -425,7 +441,8 @@ def final():
     # The gate record (claimed only) of the export job, else of build1.
     for name in ['export', 'build1']:
         gate = folder / (artifact_prefix() + name) / 'gate.json'
-        if name in legs and gate.is_file() and not gate.is_symlink():
+        pin = ((legs.get(name) or {}).get('chain_leg') or {}).get('gate_sha256')
+        if pin and gate.is_file() and not gate.is_symlink() and v.digest(gate) == pin:
             shutil.copyfile(gate, v.ART / 'gate.json')
             break
     base_name = next((n for n in ['export'] + BUILD_LEGS[::-1] if legs.get(n)), None)
@@ -456,7 +473,10 @@ def final():
             if any(n in legs and legs[n] is None for n in CHECK_LEGS):
                 lean = {'status': 'incomplete', 'reason': 'chain_coverage'}
             elif not any(isinstance(s, dict) for s in segments):
-                lean = {'status': 'not_started'}
+                # Without the audit no segment runs (export). After a passed audit, a missing segment record is a
+                # verifier problem (Integrations N2).
+                lean = ({'status': 'incomplete', 'reason': 'no_segment_record'}
+                        if export.get('axiom_audit', {}).get('status') == 'passed' else {'status': 'not_started'})
             else:
                 sha = (record.get('files') or {}).get('solution', {}).get('sha256')
                 lean = coverage([s for s in segments if isinstance(s, dict)], sha)
