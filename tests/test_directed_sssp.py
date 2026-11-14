@@ -73,7 +73,7 @@ class StatementTests(unittest.TestCase):
     def test_the_problem_is_open(self):
         self.assertNotIn('directed-sssp', s.CLOSED)
         form = (ROOT / '.github/ISSUE_TEMPLATE/lean-submission.yml').read_text()
-        self.assertIn('snaky, heilbronn-triangle, directed-sssp, prime-gaps]', form)
+        self.assertIn('snaky, heilbronn-triangle, directed-sssp, prime-gaps, 3sat]', form)
         self.assertIn('(directed-sssp: D ; T, such as n log^3/4 ; n log^11/12)', form)
         self.assertEqual((s.MODEL_IDS['directed-sssp'], s.board_line('directed-sssp')),
                          ('directed-sssp/comparison-addition-sparse',

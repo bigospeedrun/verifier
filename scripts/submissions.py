@@ -199,14 +199,15 @@ MODEL_IDS = {'dft': 'exact-dft/uniform-exact-arithmetic', '3sum': '3sum/word-ram
              'average-sensitivity': 'other/average-sensitivity', 'catalan': 'other/catalan',
              'subset-sum': 'subset-sum/randomized-word-ram', 'snaky': 'other/snaky',
              'heilbronn-triangle': 'other/heilbronn-triangle',
-             'directed-sssp': 'directed-sssp/comparison-addition-sparse', 'prime-gaps': 'other/prime-gaps'}
+             'directed-sssp': 'directed-sssp/comparison-addition-sparse', 'prime-gaps': 'other/prime-gaps',
+             '3sat': '3sat/randomized-bit-model'}
 # Other bounds rows with a trusted statement: the record gate reads the row, not a board file.
 OTHER = {'average-sensitivity', 'catalan', 'snaky', 'heilbronn-triangle', 'prime-gaps'}
 # Problems whose bound is a whole number (the form refuses a fraction), and what it counts.
 WHOLE = {'snaky': 'Maker moves', 'prime-gaps': 'the gap between consecutive primes'}
 # Problems where a larger bound is better (a saving): the gate takes the largest Lean Verified bound, and the weakest
 # bound of the range is 0. On the other problems a smaller bound is better.
-HIGHER = {'dft', 'heilbronn-triangle'}
+HIGHER = {'dft', 'heilbronn-triangle', '3sat'}
 # A profile whose proof route is not open yet: selection skips it, and only the maintainer smoke runs
 # it (smoke.py). Opening is a reviewed change that removes the problem from this set. Average
 # sensitivity opened on 2026-10-23 after its smoke (run 39943626205, issue #48) passed. Catalan opened on
@@ -223,7 +224,9 @@ HIGHER = {'dft', 'heilbronn-triangle'}
 # Prime gaps opened on 2026-11-07 (verifier #148) after its smoke (run 42305726764, issue #172, darkhipo's Bound 246
 # proof at 2d44726) passed and its control and five statement mutations were refused (runs 42292994745, 42295113989,
 # 42296539519, 42297912639, 42299387647, 42300560394).
-CLOSED = set()
+# 3-SAT (task 07840cc3, verifier #192) stays closed until its maintainer smoke on the check chain passes and its
+# control and statement mutations are refused.
+CLOSED = {'3sat'}
 
 
 def form_error(body):
@@ -369,6 +372,8 @@ theorem Race.bound : ∃ order solve W, DFTProgram order solve W ∧
         target = f'theorem Race.bound : BigOSpeedrun.{namespace}.Bound {n} := by\n  sorry\n'
     elif submission['problem'] == 'heilbronn-triangle':
         target = f'theorem Race.bound : BigOSpeedrun.HeilbronnTriangle.Bound (({n} : ℚ) / {d}) := by\n  sorry\n'
+    elif submission['problem'] == '3sat':
+        target = f'theorem Race.bound : BigOSpeedrun.ThreeSat.SolvedInTime (({n} : ℚ) / {d}) := by\n  sorry\n'
     else:
         problem = 'ThreeSum' if submission['problem'] == '3sum' else 'APSP'
         target = f'theorem Race.bound : EndStatement.{problem}.SolvedInTime (({n} : Rat) / {d}) := by\n  sorry\n'
@@ -700,7 +705,8 @@ BOARDS = {'dft': ('Exact discrete Fourier transform', 'exact-dft'), '3sum': ('3S
           'apsp': ('All-pairs shortest paths', 'apsp'), 'average-sensitivity': ('Average sensitivity', 'other/average-sensitivity'),
           'catalan': ("Catalan's constant", 'other/catalan'), 'subset-sum': ('Subset Sum', 'subset-sum'),
           'snaky': ('Snaky', 'other/snaky'), 'heilbronn-triangle': ('Heilbronn triangle', 'other/heilbronn-triangle'),
-          'directed-sssp': ('Directed shortest paths', 'directed-sssp'), 'prime-gaps': ('Bounded prime gaps', 'other/prime-gaps')}
+          'directed-sssp': ('Directed shortest paths', 'directed-sssp'), 'prime-gaps': ('Bounded prime gaps', 'other/prime-gaps'),
+          '3sat': ('3-SAT', '3sat')}
 
 
 def board_line(problem):

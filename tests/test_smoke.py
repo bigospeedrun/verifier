@@ -433,6 +433,48 @@ class PrimeGapsSmokeTests(SubsetSumSmokeTests):
         self.assertFalse(Path('requests').exists())
 
 
+class ThreeSatSmokeTests(SubsetSumSmokeTests):
+    """The 3-SAT runs before that problem opens (task 07840cc3, verifier #192): our own fixture repository, one branch per
+    case, on a maintainer test issue only, test_only, silent, no record gate. They run on the check chain."""
+    TAGS = {smoke.SAT_TAG: smoke.SAT_FIXTURE, **smoke.SAT_MUTATIONS}
+
+    def issue(self,labels=('test',),tag=None,**fields):
+        from test_submissions import issue
+        problem,bound,repo,commit=self.TAGS[tag or smoke.SAT_TAG]
+        item=issue(95,**{'problem':problem,'bound':bound,'commit':commit,**fields})
+        item['body']=item['body'].replace('https://github.com/example/proof',repo)
+        return dict(item,labels=[{'name':name} for name in labels])
+
+    def test_fixture(self):
+        repo='https://github.com/bigospeedrun/verifier-smoke-3sat'
+        self.assertEqual({tag:(b,c[:7]) for tag,(p,b,r,c) in self.TAGS.items() if (p,r)==('3sat',repo)},
+                         {'3sat-f76c997-v1':('1/2','f76c997'),'3sat-control-a11e206-v1':('1/2','a11e206'),
+                          '3sat-m1-bound3-5-a11e206-v1':('3/5','a11e206'),'3sat-m2-width-e92f108-v1':('1/2','e92f108'),
+                          '3sat-m3-verdict-2639f4c-v1':('1/2','2639f4c'),'3sat-m4-uniform-1872c8e-v1':('1/2','1872c8e'),
+                          '3sat-m5-clause-667994f-v1':('1/2','667994f')})
+        self.assertTrue(set(self.TAGS.items())<=set(smoke.SILENT.items()))
+        self.assertIn('3sat',s.CLOSED)
+
+    def test_dispatch_selects_one_silent_issue_entry(self):
+        for tag,pinned in self.TAGS.items():
+            with self.subTest(tag=tag):
+                selected=self.dispatch(self.issue(tag=tag))
+                self.assertEqual(smoke.fixture(selected['submission']),pinned)
+                self.assertEqual((selected['test_only'],selected['live_smoke'],selected['lease_kind']),(True,tag,'smoke'))
+                self.assertTrue(selected['record_gate']['test_only'])
+                self.assertTrue(smoke.active(selected));self.assertTrue(smoke.silent(selected))
+                self.assertEqual(selected['inputs']['challenge_file'],'challenges/3sat/VerifierStatement.lean')
+
+    def test_only_a_maintainer_test_issue_with_the_fixture_form(self):
+        for item in [self.issue(labels=()),self.issue(bound='2/5'),self.issue(commit='b'*40),
+                     self.issue(tag='3sat-control-a11e206-v1',bound='1/3')]:
+            with self.subTest(body=item['body'],labels=item['labels']),self.assertRaises(ValueError):
+                self.dispatch(item)
+        with self.assertRaises(ValueError):
+            self.dispatch(self.issue(),actor='someone-else')
+        self.assertFalse(Path('requests').exists())
+
+
 class HeilbronnSmokeTests(SubsetSumSmokeTests):
     """The Heilbronn runs before that problem opens (Lead, 2026-11-03, verifier #105): our own repository, on a
     maintainer test issue only, test_only, silent, no record gate. The smoke has the bound 0, which the public form refuses."""

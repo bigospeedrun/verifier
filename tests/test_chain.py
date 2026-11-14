@@ -40,7 +40,8 @@ class CapTests(unittest.TestCase):
                          {'max_build_jobs': 4, 'max_check_jobs': 4, 'max_hours': 30, 'segment_parts': 5})
         for bad in [{'max_build_jobs': 5}, {'max_check_jobs': 0}, {'max_hours': 31}, {'max_hours': 2.5},
                     {'max_build_jobs': '2'}, {'max_build_jobs': True}, {'other': 1}, [],
-                    {'segment_parts': 6}, {'segment_parts': -1}, {'segment_parts': True}, {'segment_parts': '3'}]:
+                    {'segment_parts': 6}, {'segment_parts': -1}, {'segment_parts': True}, {'segment_parts': '3'},
+                    {'segment_parts': 3}, {'max_check_jobs': 2, 'segment_parts': 4}]:
             with self.subTest(chain=bad), self.assertRaises(ValueError):
                 chain.caps({'chain': bad})
 
@@ -529,7 +530,7 @@ class ExportAndSegmentTests(unittest.TestCase):
         self.assertNotIn('chain_segment', v.receipt())
 
     def test_the_profile_segment_parts_reach_comparator(self):
-        data = v.receipt(); data['profile'] = {'runner': 'github-chain', 'chain': {'segment_parts': 5}}; v.save(data)
+        data = v.receipt(); data['profile'] = {'runner': 'github-chain', 'chain': {'max_check_jobs': 4, 'segment_parts': 5}}; v.save(data)
         receipt = {'schema': 'bos-segment-v1', 'status': 'stopped', 'from': 100, 'to': 150, 'hash_from': 'e' * 16,
                    'hash_to': 'f' * 16, 'compare': 'not_run'}
         with self.launch(receipt), patch.object(v, 'sandbox_args', side_effect=lambda scratch=None: ['--bind', str(scratch), '/tmp']):

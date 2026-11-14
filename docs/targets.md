@@ -249,6 +249,36 @@ PrimeGapsLib or the Bombieri-Vinogradov theorem) under `Submission/`, with impor
 `Submission/` is staged as data (at most 1 MB each; Axiom Math's certificate is one); no other
 file type is staged.
 
+## 3-SAT
+
+Not open yet: the maintainer smoke on the check chain runs first (task 07840cc3, verifier #192).
+Issue route only. It runs on the check chain (`runner` `github-chain`: up to four build jobs,
+then the kernel check in up to five segments). Use Lean `leanprover/lean4:v4.34.1` and the
+Mathlib pin in `profiles/lake-manifest.json`. The trusted statement is
+`challenges/3sat/Statement.lean`, namespace `BigOSpeedrun.ThreeSat`. Its definitions of the
+formula, the encoding and the machine are OpenAI's (openai/math at `7ef5c0cc`,
+`lean/ComparatorChallenges/SubexponentialSAT.lean`, lines 1 to 128). Copy the statement into
+your sources (for example `Submission/ThreeSatStatement.lean`), and for a reduced rational
+`p/q`, export:
+
+```lean
+import Submission.ThreeSatStatement
+
+theorem Race.bound : BigOSpeedrun.ThreeSat.SolvedInTime ((p : ℚ) / q) := by
+  -- Supply the proof.
+```
+
+`SolvedInTime α` says that one deterministic machine decides 3-SAT within
+`K · (bits + 1)^d · 2^(n / (log₂(n + 2))^(α − ε))` steps for every `ε > 0`. A larger `α` is
+better (0 to 100). See [the statement README](../challenges/3sat/README.md).
+
+The sources have two roots, `OAI` and `Submission`. Put OpenAI's modules under `OAI/`, unchanged
+(their module names start with `OAI.`), and your own modules under `Submission/`. Your copy of
+the statement then imports the OpenAI modules that define these names
+(`OAI.Algorithms.SubexponentialSAT.BinaryArithmetic`, `.SAT`, `.Encoding` and `.Computation`)
+instead of `SubexponentialSATDefinitions`, since two modules cannot define the same name. The
+check compares every definition that the statement uses with the challenge.
+
 ## Integer factoring
 
 Closed to issues and PRs. A maintainer can rerun Isaac Rudich and Louis-Martin

@@ -25,7 +25,7 @@ def profiles():
 class ToolPinTests(unittest.TestCase):
     def test_every_profile_uses_a_tool_file_with_the_one_nanoda_pin(self):
         files = {p.get('tools_file', 'profiles/tools.json') for p in profiles()}
-        self.assertEqual(files, {'profiles/tools.json', 'profiles/anthropic-tools.json', 'profiles/tools-v4.35.0.json',
+        self.assertEqual(files, {'profiles/tools.json', 'profiles/anthropic-tools.json', 'profiles/tools-v4.35.0.json', 'profiles/tools-chain.json',
                                  'profiles/tools-v4.33.0-rc2.json'})
         for name in files:
             pins = json.loads((v.ROOT / name).read_text())

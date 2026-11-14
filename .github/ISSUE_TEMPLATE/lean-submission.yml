@@ -9,7 +9,7 @@ body:
     id: problem
     attributes:
       label: Problem
-      options: [dft, 3sum, apsp, average-sensitivity, catalan, subset-sum, snaky, heilbronn-triangle, directed-sssp, prime-gaps]
+      options: [dft, 3sum, apsp, average-sensitivity, catalan, subset-sum, snaky, heilbronn-triangle, directed-sssp, prime-gaps, 3sat]
     validations:
       required: true
   - type: input

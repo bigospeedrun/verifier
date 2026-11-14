@@ -62,7 +62,7 @@ class ProfileTests(unittest.TestCase):
         # Opened on 2026-11-07 after its smoke (run 42305726764, issue #172) and the refused control and mutations.
         self.assertNotIn('prime-gaps', s.CLOSED)
         form = (ROOT / '.github/ISSUE_TEMPLATE/lean-submission.yml').read_text()
-        self.assertIn('heilbronn-triangle, directed-sssp, prime-gaps]', form)
+        self.assertIn('heilbronn-triangle, directed-sssp, prime-gaps, 3sat]', form)
         self.assertEqual(s.board_line('prime-gaps'), 'Bounded prime gaps board: https://bigospeedrun.com/other/prime-gaps')
         self.assertIn('prime-gaps', s.OTHER)
 

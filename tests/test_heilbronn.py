@@ -156,7 +156,7 @@ class GateTests(unittest.TestCase):
             self.gate(claimed, direction='lower')
 
     def test_the_lower_is_better_rows_are_unchanged(self):
-        self.assertEqual(s.HIGHER, {'dft', 'heilbronn-triangle'})
+        self.assertEqual(s.HIGHER, {'dft', 'heilbronn-triangle', '3sat'})
         for problem in ['3sum', 'apsp', 'subset-sum', 'average-sensitivity', 'catalan', 'snaky']:
             self.assertEqual(s.open_rank(problem), 1)
             self.assertTrue(s.qualifies_for_run({'problem': problem, 'bound': '1/3'}, {'score': '1/2', 'score_relation': 'attained'}))
@@ -175,7 +175,7 @@ class OpenTests(unittest.TestCase):
                                    'commit': 'a' * 40, 'authors': []})
         self.assertIn('heilbronn-triangle', str(error.exception))
         form = (ROOT / '.github/ISSUE_TEMPLATE/lean-submission.yml').read_text()
-        self.assertIn('options: [dft, 3sum, apsp, average-sensitivity, catalan, subset-sum, snaky, heilbronn-triangle, directed-sssp, prime-gaps]', form)
+        self.assertIn('options: [dft, 3sum, apsp, average-sensitivity, catalan, subset-sum, snaky, heilbronn-triangle, directed-sssp, prime-gaps, 3sat]', form)
         sub = {'schema_version': 1, 'problem': 'heilbronn-triangle', 'bound': '2/100866719', 'repo_url': 'https://github.com/a/b',
                'commit': 'a' * 40, 'authors': []}
         self.assertEqual(s.validate_submission(sub)['bound'], '2/100866719')

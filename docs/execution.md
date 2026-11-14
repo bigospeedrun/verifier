@@ -346,6 +346,30 @@ renamed), one test issue per entry, as for Snaky:
 
 They post nothing. Read the receipts.
 
+### 3-SAT runs (maintainers only)
+
+3-SAT stays closed (`submissions.CLOSED`) until these runs pass, all on our own
+repository `https://github.com/bigospeedrun/verifier-smoke-3sat` (OpenAI's
+`exact_count_and_sat` at openai/math `7ef5c0cc`: 3091 byte copies under `OAI/`,
+with our bridge under `Submission/`), one test issue per entry, as for Snaky.
+The profile runs on the check chain (`runner` `github-chain`):
+
+- the smoke (`smoke.SAT_FIXTURE`, commit `f76c997`, bound `1/2`) must pass. Its
+  run is also the memory measurement of the chain on free runners. On Nil's
+  desktop (2026-11-14) one Lean process took up to 9.5 GiB (resident) to
+  build the largest OpenAI module (`SqrtLogSpace.HighQuerySetup`); six modules
+  took more than 7.5 GiB each. A build with `LEAN_NUM_THREADS=8` was killed at
+  its 15 GB memory limit; with 3 it finished;
+- the control (`a11e206`, bound `1/2`, the statement over a copy of OpenAI's
+  definitions and `sorry`) must fail on the axiom check (`sorryAx`);
+- each mutation (`smoke.SAT_MUTATIONS`) must end with the Lean reason
+  `statement_mismatch`: the bound `3/5` for the theorem about `1/2`
+  (`a11e206`), width 2 for 3 (`e92f108`), `→` for `↔` in the verdict
+  (`2639f4c`), one machine per `ε` (`1872c8e`), and `∀` for `∃` in OpenAI's
+  `Clause.eval` (`667994f`).
+
+They post nothing. Read the receipts.
+
 ### Known limits
 
 - The Lean checkpoint watcher (`live_publish.watch`, 330 minutes) cannot see the

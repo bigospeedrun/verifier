@@ -59,6 +59,10 @@ def caps(profile):
                           ('max_hours', 1, MAX_HOURS), ('segment_parts', 0, len(CHECK_LEGS) + 1)]:
         if type(result[key]) is not int or not low <= result[key] <= top:
             raise ValueError(f'chain {key} must be an integer from {low} to {top}')
+    # The walk needs `segment_parts` segments, and the chain runs at most max_check_jobs + 1 of them (Integrations'
+    # read of 417ddf8, 2026-11-14): more parts end in check_chain_cap on every run.
+    if result['segment_parts'] > result['max_check_jobs'] + 1:
+        raise ValueError('chain segment_parts must be at most max_check_jobs + 1')
     return result
 
 

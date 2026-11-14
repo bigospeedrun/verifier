@@ -74,7 +74,7 @@ class OpenTests(unittest.TestCase):
         self.assertNotIn('subset-sum', s.CLOSED)
         self.assertEqual(s.board_line('subset-sum'), 'Subset Sum board: https://bigospeedrun.com/subset-sum')
         form = (ROOT / '.github/ISSUE_TEMPLATE/lean-submission.yml').read_text()
-        self.assertIn('options: [dft, 3sum, apsp, average-sensitivity, catalan, subset-sum, snaky, heilbronn-triangle, directed-sssp, prime-gaps]', form)
+        self.assertIn('options: [dft, 3sum, apsp, average-sensitivity, catalan, subset-sum, snaky, heilbronn-triangle, directed-sssp, prime-gaps, 3sat]', form)
         # Issue route only: a PR folder names only dft, 3sum or apsp.
         sub = s.parse_body(body())
         with self.assertRaises(ValueError):

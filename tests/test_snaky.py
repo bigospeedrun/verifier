@@ -122,7 +122,7 @@ class OpenTests(unittest.TestCase):
                                    'commit': 'a' * 40, 'authors': []})
         self.assertIn('snaky', str(error.exception))
         form = (ROOT / '.github/ISSUE_TEMPLATE/lean-submission.yml').read_text()
-        self.assertIn('options: [dft, 3sum, apsp, average-sensitivity, catalan, subset-sum, snaky, heilbronn-triangle, directed-sssp, prime-gaps]', form)
+        self.assertIn('options: [dft, 3sum, apsp, average-sensitivity, catalan, subset-sum, snaky, heilbronn-triangle, directed-sssp, prime-gaps, 3sat]', form)
         sub = {'schema_version': 1, 'problem': 'snaky', 'bound': '20', 'repo_url': 'https://github.com/a/b', 'commit': 'a' * 40, 'authors': []}
         self.assertEqual(s.validate_submission(sub)['bound'], '20')
         for bound in ['19/2', '101']:
