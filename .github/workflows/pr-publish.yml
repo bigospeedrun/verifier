@@ -10,7 +10,7 @@ permissions:
   actions: read
 jobs:
   publish:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 350
     steps:
       - name: Check out only the trusted default branch

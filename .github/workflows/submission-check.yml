@@ -21,7 +21,7 @@ jobs:
   build:
     # Split profile, job 1: one parallel build, then a trusted tar of the allowed files (docs/execution.md).
     if: inputs.split && inputs.route == 'issue'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 350
     permissions:
       contents: read
@@ -78,7 +78,7 @@ jobs:
     # build is skipped when not split. A status function lets this job run then; unpack refuses a failed build.
     # A chain profile runs the chain jobs below instead.
     if: ${{ !cancelled() && inputs.route == 'issue' && !inputs.chain }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 350
     permissions:
       contents: read
@@ -158,7 +158,7 @@ jobs:
       contents: read
       pull-requests: read
       issues: read
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 350
     env:
       BOS_REQUEST_PATH: pr-request.json
@@ -219,7 +219,7 @@ jobs:
   # that the report job reads.
   chain_build1:
     if: inputs.chain && inputs.route == 'issue'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 350
     permissions:
       contents: read
@@ -288,7 +288,7 @@ jobs:
   chain_build2:
     needs: chain_build1
     if: ${{ !cancelled() && needs.chain_build1.outputs.next == 'true' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 350
     permissions:
       contents: read
@@ -359,7 +359,7 @@ jobs:
   chain_build3:
     needs: chain_build2
     if: ${{ !cancelled() && needs.chain_build2.outputs.next == 'true' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 350
     permissions:
       contents: read
@@ -430,7 +430,7 @@ jobs:
   chain_build4:
     needs: chain_build3
     if: ${{ !cancelled() && needs.chain_build3.outputs.next == 'true' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 350
     permissions:
       contents: read
@@ -501,7 +501,7 @@ jobs:
   chain_export:
     needs: [chain_build1, chain_build2, chain_build3, chain_build4]
     if: ${{ !cancelled() && inputs.chain && inputs.route == 'issue' && (needs.chain_build1.outputs.done == 'true' || needs.chain_build2.outputs.done == 'true' || needs.chain_build3.outputs.done == 'true' || needs.chain_build4.outputs.done == 'true') }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 350
     permissions:
       contents: read
@@ -589,7 +589,7 @@ jobs:
   chain_check1:
     needs: chain_export
     if: ${{ !cancelled() && needs.chain_export.outputs.next == 'true' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 350
     permissions:
       contents: read
@@ -646,7 +646,7 @@ jobs:
   chain_check2:
     needs: [chain_export, chain_check1]
     if: ${{ !cancelled() && needs.chain_check1.outputs.next == 'true' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 350
     permissions:
       contents: read
@@ -703,7 +703,7 @@ jobs:
   chain_check3:
     needs: [chain_export, chain_check2]
     if: ${{ !cancelled() && needs.chain_check2.outputs.next == 'true' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 350
     permissions:
       contents: read
@@ -760,7 +760,7 @@ jobs:
   chain_check4:
     needs: [chain_export, chain_check3]
     if: ${{ !cancelled() && needs.chain_check3.outputs.next == 'true' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 350
     permissions:
       contents: read
@@ -817,7 +817,7 @@ jobs:
   chain_final:
     needs: [chain_build1, chain_build2, chain_build3, chain_build4, chain_export, chain_check1, chain_check2, chain_check3, chain_check4]
     if: ${{ always() && inputs.chain && inputs.route == 'issue' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     permissions:
       contents: read

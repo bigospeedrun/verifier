@@ -312,7 +312,12 @@ class SetupPinTests(Base):
 
         lean = self.work / 'tools/elan/toolchains' / TC / 'bin'
         lean.mkdir(parents=True); (lean / 'lean').write_text('')
+        def image_check(name):
+            return lambda: steps.append((name,))
+
         with patch.object(v, 'command', side_effect=command), patch.object(v, 'clone', side_effect=clone), \
+             patch.object(v, 'require_runner_image', side_effect=image_check('require-runner-image')), \
+             patch.object(v, 'require_bwrap_profile', side_effect=image_check('require-bwrap-profile')), \
              patch.object(v, 'digest', side_effect=lambda p: pins['elan_tar_sha256'] if p.name == 'elan.tar.gz' else
                           {ROOT / x['file']: x['sha256'] for x in pins['lean4export_patches']}.get(p, 'h')):
             v.setup()
@@ -322,8 +327,10 @@ class SetupPinTests(Base):
         manifest = json.loads((ROOT / 'profiles/lake-manifest.json').read_text())['packages']
         url = f"https://github.com/leanprover/elan/releases/download/{pins['elan_version']}/elan-x86_64-unknown-linux-gnu.tar.gz"
         expected = [
+            ('require-runner-image',),
             ('apt-update', ['sudo', 'apt-get', 'update'], None, {}),
             ('apt-tools', ['sudo', 'apt-get', 'install', '-y', 'bubblewrap', 'build-essential', 'pkg-config', 'libssl-dev', 'apparmor', 'apparmor-profiles'], None, {}),
+            ('require-bwrap-profile',),
             ('bwrap-apparmor-policy', ['sudo', 'apparmor_parser', '-r', '/usr/share/apparmor/extra-profiles/bwrap-userns-restrict'], None, {}),
             ('runner-sdk-space', ['sudo', 'rm', '-rf', '--', '/usr/share/dotnet', '/usr/local/lib/android', '/opt/ghc', '/usr/local/.ghcup'], None, {}),
             ('elan-download', ['curl', '--fail', '--location', '--output', f'{T}/elan.tar.gz', url], None, {}),
@@ -477,6 +484,38 @@ class LakeShimTests(unittest.TestCase):
         for value in ['', '0\n', '5\n', '2 \n', '12\n', '2\n\n', 'x']:
             (control / 'lake-workers.txt').write_text(value)
             self.assertEqual(threads(), (1, []))
+
+
+
+class RunnerImageTests(unittest.TestCase):
+    """Every job runs on the reviewed image ubuntu-24.04 (verifier #195, 2026-11-14: ubuntu-latest became 26.04, where
+    the bwrap AppArmor profile is not at its 24.04 path). Setup refuses another image with a clear reason."""
+    def test_every_job_pins_ubuntu_24_04(self):
+        import re
+        lines = [(p.name, line.strip()) for p in sorted((ROOT / '.github/workflows').glob('*.yml'))
+                 for line in p.read_text().splitlines() if re.match(r'\s*runs-on:', line)]
+        self.assertGreater(len(lines), 15)
+        self.assertEqual({line for _, line in lines}, {'runs-on: ubuntu-24.04'})
+        for p in (ROOT / '.github/workflows').glob('*.yml'):
+            self.assertNotIn('ubuntu-latest', p.read_text(), p.name)
+
+    def test_setup_refuses_another_image(self):
+        with tempfile.TemporaryDirectory() as d:
+            release = Path(d) / 'os-release'
+            with patch.object(v, 'OS_RELEASE', release):
+                release.write_text('NAME="Ubuntu"\nID=ubuntu\nVERSION_ID="24.04"\n')
+                v.require_runner_image()
+                for text in ['ID=ubuntu\nVERSION_ID="26.04"\n', 'ID=debian\nVERSION_ID="24.04"\n', 'ID=ubuntu\n', '']:
+                    release.write_text(text)
+                    with self.subTest(text=text), self.assertRaisesRegex(RuntimeError, '^unsupported runner image: .*Ubuntu 24.04 only'):
+                        v.require_runner_image()
+            profile = Path(d) / 'bwrap-userns-restrict'
+            with patch.object(v, 'BWRAP_PROFILE', profile):
+                with self.assertRaisesRegex(RuntimeError, '^unsupported runner image: .*bwrap-userns-restrict is missing'):
+                    v.require_bwrap_profile()
+                profile.write_text('profile bwrap {}\n')
+                v.require_bwrap_profile()
+        self.assertEqual(str(v.BWRAP_PROFILE), '/usr/share/apparmor/extra-profiles/bwrap-userns-restrict')
 
 
 if __name__ == '__main__':

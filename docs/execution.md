@@ -383,9 +383,18 @@ They post nothing. Read the receipts.
   minutes of the deadline were left.
 
 GitHub's [runner reference](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)
-lists public `ubuntu-latest` as **4 vCPU, 16 GB RAM and 14 GB SSD**, checked
+lists the public standard Linux runner as **4 vCPU, 16 GB RAM and 14 GB SSD**, checked
 2026-10-10. These are the documented standard-runner specifications; receipts
 record the run's measured usage. A proof can exceed those resources.
+
+Every job pins `runs-on: ubuntu-24.04`, never `ubuntu-latest` (2026-11-14, verifier #195:
+`ubuntu-latest` became Ubuntu 26.04 with AppArmor 5, where
+`/usr/share/apparmor/extra-profiles/bwrap-userns-restrict` is missing, and setup failed).
+`verifier.py setup` checks the image first (`/etc/os-release` must say Ubuntu 24.04) and
+the bwrap profile file before it loads it. On another image, setup stops with the reason
+"unsupported runner image" before any submission file is built: the run fails closed, and
+the issue stays open as a setup failure that a maintainer looks at. A port to 26.04 is a
+separate reviewed change.
 
 ## Check chain for proofs that need more than one job
 
@@ -394,7 +403,7 @@ run (task b1457f08): `build1`..`build4`, `export`, `check1`..`check4` and `final
 (`.github/workflows/submission-check.yml`, `scripts/chain.py`). No profile uses it yet.
 It is for proofs whose build, or whose kernel check, does not fit one 350-minute job
 (verifier#182: about 14 h of single-stream build left; the OpenAI 3-SAT proof: 3,091
-modules, 23 GB of build output). Every job is a standard free `ubuntu-latest` runner with
+modules, 23 GB of build output). Every job is a standard free `ubuntu-24.04` runner with
 read-only permissions, the 14 GiB unit cap and its own 335-minute deadline from its own
 `prepare`. Each job runs its own `prepare` and `setup` (about 5 minutes) before any
 submission file is built or loaded, so no tool comes from a job where submission code ran.

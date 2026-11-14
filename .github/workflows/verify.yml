@@ -33,7 +33,7 @@ permissions:
 jobs:
   admission:
     if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
       actions: read
@@ -51,7 +51,7 @@ jobs:
   verify:
     needs: admission
     if: needs.admission.outputs.admitted == 'true'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 350
     steps:
       - name: Check out trusted verifier

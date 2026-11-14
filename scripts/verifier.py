@@ -462,17 +462,38 @@ def exporter_self_test(exporter, folder, lean, env):
     command([folder / '.lake/build/bin/nattest'], 'nattest', folder, env)
 
 
+# The reviewed runner image (task 07840cc3, 2026-11-14): every job pins runs-on ubuntu-24.04. On ubuntu-26.04
+# (AppArmor 5) the bwrap profile below is not at this path, and setup failed with exit 2 (verifier #195, run
+# 43622382618). Another image stops setup with a clear reason, before any build: fail closed.
+RUNNER_UBUNTU = '24.04'
+OS_RELEASE = Path('/etc/os-release')
+BWRAP_PROFILE = Path('/usr/share/apparmor/extra-profiles/bwrap-userns-restrict')
+
+
+def require_runner_image():
+    fields = dict(line.split('=', 1) for line in OS_RELEASE.read_text().splitlines() if '=' in line)
+    found = (fields.get('ID', '').strip('"'), fields.get('VERSION_ID', '').strip('"'))
+    if found != ('ubuntu', RUNNER_UBUNTU):
+        raise RuntimeError(f'unsupported runner image: {found[0][:20]} {found[1][:20]} (the verifier runs on Ubuntu {RUNNER_UBUNTU} only)')
+
+
+def require_bwrap_profile():
+    if not BWRAP_PROFILE.is_file():
+        raise RuntimeError(f'unsupported runner image: {BWRAP_PROFILE} is missing (the verifier runs on Ubuntu {RUNNER_UBUNTU} only)')
+
+
 def setup():
     profile = json.loads((WORK / 'control/request.json').read_text())['profile']
     pins = json.loads((ROOT / profile.get('tools_file', 'profiles/tools.json')).read_text())
     request = json.loads((WORK / 'control/request.json').read_text())['request']
     tools = WORK / 'tools'
+    require_runner_image()
     command(['sudo', 'apt-get', 'update'], 'apt-update')
     command(['sudo', 'apt-get', 'install', '-y', 'bubblewrap', 'build-essential', 'pkg-config', 'libssl-dev', 'apparmor', 'apparmor-profiles'], 'apt-tools')
     # Ubuntu ships the bwrap policy in the optional profiles package.
     # Load its exact packaged file; keep global userns restrictions enabled.
-    command(['sudo', 'apparmor_parser', '-r',
-             '/usr/share/apparmor/extra-profiles/bwrap-userns-restrict'], 'bwrap-apparmor-policy')
+    require_bwrap_profile()
+    command(['sudo', 'apparmor_parser', '-r', str(BWRAP_PROFILE)], 'bwrap-apparmor-policy')
     # Only preinstalled SDKs on this disposable GitHub VM; never user/source paths.
     command(['sudo', 'rm', '-rf', '--', '/usr/share/dotnet', '/usr/local/lib/android', '/opt/ghc',
              '/usr/local/.ghcup'], 'runner-sdk-space')

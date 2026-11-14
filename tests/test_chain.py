@@ -641,7 +641,7 @@ class WorkflowTests(unittest.TestCase):
     def test_every_job_is_a_free_hosted_runner_with_read_permissions(self):
         for name, job in self.jobs.items():
             if name.startswith('chain_'):
-                self.assertEqual(job['runs-on'], 'ubuntu-latest', name)
+                self.assertEqual(job['runs-on'], 'ubuntu-24.04', name)
                 self.assertEqual(set(job['permissions'].values()), {'read'}, name)
                 self.assertLessEqual(job['timeout-minutes'], 350, name)
 
