@@ -35,11 +35,12 @@ def seg(start, to, status='stopped', hash_from=None, hash_to=None, **extra):
 
 class CapTests(unittest.TestCase):
     def test_defaults_and_limits(self):
-        self.assertEqual(chain.caps({}), {'max_build_jobs': 1, 'max_check_jobs': 1, 'max_hours': 30})
-        self.assertEqual(chain.caps({'chain': {'max_build_jobs': 4, 'max_check_jobs': 4, 'max_hours': 30}}),
-                         {'max_build_jobs': 4, 'max_check_jobs': 4, 'max_hours': 30})
+        self.assertEqual(chain.caps({}), {'max_build_jobs': 1, 'max_check_jobs': 1, 'max_hours': 30, 'segment_parts': 0})
+        self.assertEqual(chain.caps({'chain': {'max_build_jobs': 4, 'max_check_jobs': 4, 'max_hours': 30, 'segment_parts': 5}}),
+                         {'max_build_jobs': 4, 'max_check_jobs': 4, 'max_hours': 30, 'segment_parts': 5})
         for bad in [{'max_build_jobs': 5}, {'max_check_jobs': 0}, {'max_hours': 31}, {'max_hours': 2.5},
-                    {'max_build_jobs': '2'}, {'max_build_jobs': True}, {'other': 1}, []]:
+                    {'max_build_jobs': '2'}, {'max_build_jobs': True}, {'other': 1}, [],
+                    {'segment_parts': 6}, {'segment_parts': -1}, {'segment_parts': True}, {'segment_parts': '3'}]:
             with self.subTest(chain=bad), self.assertRaises(ValueError):
                 chain.caps({'chain': bad})
 
@@ -206,6 +207,7 @@ class CheckLegTests(LegBase):
         # max_check_jobs 2: check2 is the last one.
         out, state = self.leg('check2', self.data(seg(200, 300)))
         self.assertEqual((out['next'], state['outcome']), ('false', {'status': 'incomplete', 'reason': 'check_chain_cap'}))
+        self.assertIn('/', state['disk_free_bytes'])  # The runner disk at the end of each job.
         # No time for a segment: the next job starts at the same place.
         not_run = {'export_sha256': SHA, 'from': 0, 'status': 'not_run', 'expected_hash_from': H0}
         out, _ = self.leg('export', self.data(not_run))
@@ -504,7 +506,7 @@ class ExportAndSegmentTests(unittest.TestCase):
         self.assertEqual(check_args[:5], ['--bos-check', str(self.work / 'control/lean.json'),
                                           str(self.work / 'control/export/solution.export'),
                                           str(self.work / 'control/export/challenge.export'), '/tmp/segment.json'])
-        self.assertEqual(check_args[5], '0')
+        self.assertEqual(check_args[5:], ['0', check_args[6], '0', '0'])  # No segment_parts in this receipt.
         self.assertEqual(data['chain_segment']['status'], 'linked')
         self.assertEqual(data['chain_segment']['segment'], receipt)
         self.assertEqual(data['chain_segment']['export_sha256'], files['solution']['sha256'])
@@ -526,6 +528,15 @@ class ExportAndSegmentTests(unittest.TestCase):
         self.assertEqual(self.launched, [])
         self.assertNotIn('chain_segment', v.receipt())
 
+    def test_the_profile_segment_parts_reach_comparator(self):
+        data = v.receipt(); data['profile'] = {'runner': 'github-chain', 'chain': {'segment_parts': 5}}; v.save(data)
+        receipt = {'schema': 'bos-segment-v1', 'status': 'stopped', 'from': 100, 'to': 150, 'hash_from': 'e' * 16,
+                   'hash_to': 'f' * 16, 'compare': 'not_run'}
+        with self.launch(receipt), patch.object(v, 'sandbox_args', side_effect=lambda scratch=None: ['--bind', str(scratch), '/tmp']):
+            chain.segment(SHA, 100, 'e' * 16)
+        self.assertEqual(self.launched[0][2][5:], ['100', self.launched[0][2][6], '0', '5'])
+        self.assertEqual(v.receipt()['chain_segment']['status'], 'linked')
+
     def test_check_restores_by_pin_and_records_a_killed_unit(self):
         folder = chain.EXPORT_ARTIFACT; folder.mkdir()
         pins = {}
@@ -540,6 +551,7 @@ class ExportAndSegmentTests(unittest.TestCase):
         record = v.receipt()['chain_segment']
         self.assertEqual((record['status'], record['reason'], record['from']), ('incomplete', 'out_of_memory', 120))
         self.assertEqual(self.launched[0][2][3:6], ['-', '/tmp/segment.json', '120'])
+        self.assertEqual(self.launched[0][2][-1], '0')
         self.assertEqual((self.work / 'control/export/solution.export').read_bytes(), b'solution' * 50)
         self.assertFalse((folder / 'solution.export.zst').exists())
         # A wrong pin or bad inputs: nothing runs.

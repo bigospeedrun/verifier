@@ -432,16 +432,23 @@ def segment_self_test(tools, lean, env):
                                          'permitted_axioms': AXIOMS, 'enable_nanoda': False})
     # A budget of 1 ms: the parse takes longer, so the segment checks one declaration and stops.
     first, rest = folder / 'first.json', folder / 'rest.json'
-    command([comparator, '--bos-check', folder / 'config.json', export, export, first, '0', '1', '0'],
+    command([comparator, '--bos-check', folder / 'config.json', export, export, first, '0', '1', '0', '0'],
             'segment-selftest-deadline', tools / 'comparator', env)
-    command([comparator, '--bos-check', folder / 'config.json', export, '-', rest, '1', '0', '0'],
+    command([comparator, '--bos-check', folder / 'config.json', export, '-', rest, '1', '0', '0', '0'],
             'segment-selftest-continue', tools / 'comparator', env)
-    a, b = json.loads(first.read_text()), json.loads(rest.read_text())
+    # segment_parts: 3 parts stop after at most a third of the constants, at a linked point.
+    part = folder / 'part.json'
+    command([comparator, '--bos-check', folder / 'config.json', export, '-', part, '1', '0', '0', '3'],
+            'segment-selftest-parts', tools / 'comparator', env)
+    a, b, c = json.loads(first.read_text()), json.loads(rest.read_text()), json.loads(part.read_text())
     if not (a['status'] == 'stopped' and a['compare'] == 'passed' and (a['from'], a['to']) == (0, 1)
             and b['status'] == 'passed' and b['complete'] is True and b['from'] == 1 and b['hash_from'] == a['hash_to']
             and b['quot_post_check'] == 'passed' and b['to'] > 100):
         raise ValueError('segmented check self-test: the deadline stop or the continuation is wrong')
-    write_json(ART / 'segment-selftest.json', {'first': a, 'rest': b})
+    if not (c['status'] == 'stopped' and c['from'] == 1 and c['hash_from'] == a['hash_to'] and 1 < c['to'] == c['stop_at']
+            and c['stop_at'] == 1 + -(-c['constants'] // 3) and c['to'] < b['to']):
+        raise ValueError('segmented check self-test: the segment_parts stop is wrong')
+    write_json(ART / 'segment-selftest.json', {'first': a, 'rest': b, 'parts': c})
 
 
 def exporter_self_test(exporter, folder, lean, env):
@@ -609,6 +616,11 @@ def build_unfinished(text):
 
 SWAP_BYTES = 16 * 1024**3
 SWAP_DIR = Path('/mnt')  # The runner's spare disk; tests point it elsewhere.
+# A chain's export and check units (chain.py): the swap file takes the free disk of SWAP_DIR less
+# CHAIN_SWAP_DISK_RESERVE, from SWAP_BYTES up to CHAIN_SWAP_MAX_BYTES, in whole GiB (Lead, 2026-11-14: the 3-SAT
+# export is larger than #187's, whose one-job check peaked at 13.5 GB RAM + 3.1 GB swap). Other units keep SWAP_BYTES.
+CHAIN_SWAP_MAX_BYTES = 64 * 1024**3
+CHAIN_SWAP_DISK_RESERVE = 10 * 1024**3
 
 
 def kernel_swap_limit(kernel):
@@ -620,8 +632,21 @@ def kernel_swap_limit(kernel):
         return SWAP_BYTES
     # A chain (chain.py): the export unit holds the whole export in memory, and a check unit replays it.
     if kernel in ['export', 'check']:
-        return SWAP_BYTES
+        return chain_swap_bytes()
     return 0
+
+
+def chain_swap_bytes():
+    """The swap size of a chain unit: SWAP_DIR's free disk less CHAIN_SWAP_DISK_RESERVE, in whole GiB, from
+    SWAP_BYTES to CHAIN_SWAP_MAX_BYTES. A swap file that this job made already counts as free."""
+    if not SWAP_DIR.is_dir():
+        return SWAP_BYTES
+    free = shutil.disk_usage(SWAP_DIR).free
+    made = SWAP_DIR / 'bos-kernel.swap'
+    if made.is_file() and not made.is_symlink():
+        free += made.stat().st_size
+    size = (free - CHAIN_SWAP_DISK_RESERVE) // 1024**3 * 1024**3
+    return max(SWAP_BYTES, min(CHAIN_SWAP_MAX_BYTES, size))
 
 
 class NoSwapDisk(RuntimeError):
@@ -634,25 +659,32 @@ def active_swaps():
     return {line.strip() for line in out.stdout.splitlines() if line.strip()}
 
 
-def prepare_kernel_swap():
-    # Swap lets idle pages leave RAM on the standard hosted runner. The file is outside every submission mount and
-    # exists only on the VM: /mnt when it has room, else the work disk.
+def prepare_kernel_swap(size=SWAP_BYTES):
+    """Swap lets idle pages leave RAM on the standard hosted runner. The file is outside every submission mount and
+    exists only on the VM: /mnt when it has room, else the work disk. Returns the size of the active file: one file per
+    job, so a later unit of the same job uses the file of the first one."""
     active = active_swaps()
     for folder in [SWAP_DIR, WORK]:
         swap = folder / 'bos-kernel.swap'
         if str(swap) in active:
-            return  # An earlier attempt or stage of this job made it.
+            return swap.stat().st_size  # An earlier attempt or stage of this job made it.
         if swap.exists():
             # An earlier attempt stopped between fallocate and swapon: make the file again.
             command(['sudo', 'rm', '-f', '--', swap], 'kernel-swap-remove')
-    folder = SWAP_DIR if SWAP_DIR.is_dir() and shutil.disk_usage(SWAP_DIR).free >= 20 * 1024**3 else WORK
+    if size % 1024**3 or size < SWAP_BYTES:
+        raise ValueError('the swap size must be whole GiB and at least SWAP_BYTES')
+    need = size + 4 * 1024**3
+    folder = SWAP_DIR if SWAP_DIR.is_dir() and shutil.disk_usage(SWAP_DIR).free >= need else WORK
     swap = folder / 'bos-kernel.swap'
-    if shutil.disk_usage(folder).free < 20 * 1024**3:
+    if shutil.disk_usage(folder).free < need:
+        if size > SWAP_BYTES:
+            return prepare_kernel_swap(SWAP_BYTES)
         raise NoSwapDisk('kernel swap needs at least 20 GiB free disk')
-    command(['sudo', 'fallocate', '-l', '16G', swap], 'kernel-swap-allocate')
+    command(['sudo', 'fallocate', '-l', f'{size // 1024**3}G', swap], 'kernel-swap-allocate')
     command(['sudo', 'chmod', '600', swap], 'kernel-swap-permissions')
     command(['sudo', 'mkswap', swap], 'kernel-swap-format')
     command(['sudo', 'swapon', swap], 'kernel-swap-enable')
+    return size
 
 
 def sandbox_preflight():
@@ -684,7 +716,8 @@ def launch_github(kernel, command_args, deadline, log_mode='w'):
     swap_limit = kernel_swap_limit(kernel)
     if swap_limit:
         try:
-            prepare_kernel_swap()
+            # The unit may use the whole file that is active (a later unit of a job keeps the first one's file).
+            swap_limit = prepare_kernel_swap(swap_limit)
         except NoSwapDisk:
             if kernel not in ['lean', 'export', 'check']:
                 raise

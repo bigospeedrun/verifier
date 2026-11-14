@@ -211,10 +211,10 @@ index 0000000..805ed8f
 +end Comparator.Segment
 diff --git a/Comparator/SegmentCheck.lean b/Comparator/SegmentCheck.lean
 new file mode 100644
-index 0000000..7aab5bf
+index 0000000..e35107b
 --- /dev/null
 +++ b/Comparator/SegmentCheck.lean
-@@ -0,0 +1,179 @@
+@@ -0,0 +1,185 @@
 +/-
 +Big O Speedrun patch (bigospeedrun/verifier, task b1457f08): the `--bos-check` and `--bos-selftest`
 +modes of Comparator. See Comparator/Segment.lean.
@@ -246,10 +246,12 @@ index 0000000..7aab5bf
 +`rejected`, or `mismatch` when the statement or axiom check fails). `compare?` (the segment at 0 only)
 +parses the challenge and solution files, runs Comparator's statement and axiom checks and returns the
 +parsed solution. `budgetMs` counts from the start of this call, parse included; 0 means no deadline.
-+`stopAt` 0 means no test bound.
++`stopAt` 0 means no test bound. `parts` > 0 also stops the segment after at most ⌈constants / parts⌉
++checked declarations (a chain profile's segment_parts: the memory that a segment keeps grows with the
++declarations it checks).
 +-/
 +def checkSegment (exportPath : System.FilePath) (compare? : Option (IO Export.ExportedEnv))
-+    (receiptPath : System.FilePath) (checkFrom budgetMs stopAt : Nat) : IO Unit := do
++    (receiptPath : System.FilePath) (checkFrom budgetMs stopAt : Nat) (parts : Nat := 0) : IO Unit := do
 +  let t0 ← IO.monoMsNow
 +  let deadlineMs := if budgetMs == 0 then 0 else t0 + budgetMs
 +  if checkFrom == 0 && compare?.isNone then
@@ -273,6 +275,8 @@ index 0000000..7aab5bf
 +  let origConstMap := solution.constMap
 +  -- stopAt 0: no test bound (a walk adds at most one declaration per constant).
 +  let stopAt := if stopAt == 0 then origConstMap.size + 1 else stopAt
++  let stopAt := if parts == 0 then stopAt
++    else min stopAt (checkFrom + max 1 ((origConstMap.size + parts - 1) / parts))
 +  let r ← run (kernelConstMap origConstMap) (← emptyKernelEnv) checkFrom stopAt deadlineMs
 +  let t2 ← IO.monoMsNow
 +  let (status, error?, quot) := match r.outcome with
@@ -289,6 +293,8 @@ index 0000000..7aab5bf
 +    ("complete", toJson complete),
 +    ("from", toJson checkFrom),
 +    ("to", toJson r.index),
++    ("stop_at", toJson stopAt),
++    ("constants", toJson origConstMap.size),
 +    ("todo_constants", toJson r.todo),
 +    ("hash_from", toJson (hashHex r.hashFrom)),
 +    ("hash_to", toJson (hashHex r.hashTo)),
@@ -395,7 +401,7 @@ index 0000000..7aab5bf
 +
 +end Comparator.SegmentCheck
 diff --git a/Main.lean b/Main.lean
-index 8560511..4943de5 100644
+index 8560511..f773a81 100644
 --- a/Main.lean
 +++ b/Main.lean
 @@ -5,6 +5,7 @@ Authors: Henrik Böving
@@ -466,13 +472,13 @@ index 8560511..4943de5 100644
 +    Comparator.M.run (Comparator.exportChallenge out) (← readConfig configPath)
 +  | ["--bos-export-solution", configPath, out] =>
 +    Comparator.M.run (Comparator.exportSolution out) (← readConfig configPath)
-+  | ["--bos-check", configPath, solutionPath, challengePath, receiptPath, checkFrom, budgetMs, stopAt] =>
++  | ["--bos-check", configPath, solutionPath, challengePath, receiptPath, checkFrom, budgetMs, stopAt, parts] =>
 +    let config ← readConfig configPath
 +    -- The segment at 0 compares the two files first; a later segment gets "-" and only replays.
 +    let compare? := if challengePath == "-" then none
 +      else some (Comparator.M.run (Comparator.compareFiles challengePath solutionPath) config)
 +    Comparator.SegmentCheck.checkSegment solutionPath compare? receiptPath (← natArg checkFrom)
-+      (← natArg budgetMs) (← natArg stopAt)
++      (← natArg budgetMs) (← natArg stopAt) (← natArg parts)
 +  | "--bos-selftest" :: exportPath :: sizes =>
 +    Comparator.SegmentCheck.selfTest exportPath (← sizes.mapM natArg)
 +  | _ =>

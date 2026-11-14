@@ -443,6 +443,16 @@ submission file is built or loaded, so no tool comes from a job where submission
   no time expiry, so a chain holds the queue for all its time: at most `max_hours` plus one
   job (350 minutes), plus the queue wait of each job and the final and report jobs. A chain
   that reaches a cap ends `incomplete` (`build_chain_cap`, `check_chain_cap`), never rejected.
+- **Memory.** On #187 (run 43564338682, 2026-11-14) the memory of a segment was a base (the parsed
+  export and the environment, about 8.7 GB for a 1.46 GB export) plus a part that grows with the
+  declarations the segment checks: segment 0 checked 93,664 declarations at a peak of 14.0 GB RAM and
+  0.2 GB swap; the last segment checked 17,514 after an unchecked prefix of 93,664 at 8.7 GB. The
+  profile's `chain.segment_parts` (0 to 5, default 0 = none) bounds the growing part: each segment
+  checks at most ⌈constants / segment_parts⌉ declarations (Comparator `--bos-check` last argument),
+  so with 5 parts the export job and four check jobs can cover the walk. The units of the export and
+  check jobs get a swap file sized from the free disk of `/mnt`, less 10 GiB, from 16 to 64 GiB
+  (`verifier.chain_swap_bytes`), and each job records the free disk of `/` and `/mnt` at its end
+  (`chain_leg.disk_free_bytes`). Other units keep the 16 GiB file.
 - **nanoda (a policy change, chain profiles only).** A chain runs no nanoda pass. On #187 it
   needed more than 26 GB. The receipt says `nanoda: incomplete (not_run_chain)`, and the
   verdict rule treats it like its other incomplete reasons (advisory), so a chain admits on

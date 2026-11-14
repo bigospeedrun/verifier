@@ -140,6 +140,43 @@ class VerifyPinTests(Base):
         self.assertFalse((self.work / 'bos-kernel.swap').exists())
         self.assertTrue((v.SWAP_DIR / 'bos-kernel.swap').exists())
 
+    def test_a_chain_unit_sizes_its_swap_from_the_free_disk(self):
+        GiB = 1024**3
+        v.SWAP_DIR.mkdir()
+        for free, size in [(100 * GiB, 64 * GiB), (40 * GiB + 5, 30 * GiB), (20 * GiB, 16 * GiB), (5 * GiB, 16 * GiB)]:
+            with self.subTest(free=free), patch.object(v.shutil, 'disk_usage', return_value=Mock(free=free)):
+                self.assertEqual(v.chain_swap_bytes(), size)
+                self.assertEqual([v.kernel_swap_limit(k) for k in ['export', 'check']], [size, size])
+        # This job's own file counts as free disk, so a later unit asks for the same size.
+        (v.SWAP_DIR / 'bos-kernel.swap').write_bytes(b'x' * 1024)
+        with patch.object(v.shutil, 'disk_usage', return_value=Mock(free=30 * GiB - 1024)):
+            self.assertEqual(v.chain_swap_bytes(), 20 * GiB)
+        # Other units keep SWAP_BYTES.
+        with patch.object(v.shutil, 'disk_usage', return_value=Mock(free=100 * GiB)):
+            self.assertEqual(v.kernel_swap_limit('nanoda'), 16 * GiB)
+
+    def test_a_large_swap_falls_back_to_swap_bytes_and_reuses_the_active_file(self):
+        GiB = 1024**3
+        allocated = []
+        def command(args, label, *a, **k):
+            if label == 'kernel-swap-allocate':
+                allocated.append(args[3]); Path(args[4]).write_bytes(b'')
+        v.SWAP_DIR.mkdir()
+        with patch.object(v, 'command', side_effect=command), patch.object(v, 'active_swaps', return_value=set()):
+            with patch.object(v.shutil, 'disk_usage', return_value=Mock(free=60 * GiB)):
+                self.assertEqual(v.prepare_kernel_swap(40 * GiB), 40 * GiB)
+            (v.SWAP_DIR / 'bos-kernel.swap').unlink()
+            with patch.object(v.shutil, 'disk_usage', return_value=Mock(free=25 * GiB)):
+                self.assertEqual(v.prepare_kernel_swap(40 * GiB), 16 * GiB)
+            for bad in [16 * GiB + 1, 8 * GiB]:
+                with self.assertRaises(ValueError):
+                    v.prepare_kernel_swap(bad)
+        self.assertEqual(allocated, ['40G', '16G'])
+        with patch.object(v, 'active_swaps', return_value={str(v.SWAP_DIR / 'bos-kernel.swap')}), patch.object(v, 'command') as c:
+            (v.SWAP_DIR / 'bos-kernel.swap').write_bytes(b'x' * 4096)
+            self.assertEqual(v.prepare_kernel_swap(64 * GiB), 4096)
+            c.assert_not_called()
+
     def test_without_swap_disk_the_split_lean_check_runs_without_swap_and_nanoda_stops(self):
         os.environ['BOS_SPLIT'] = 'true'
         with patch.object(v.shutil, 'disk_usage', return_value=Mock(free=5 * 1024**3)), \

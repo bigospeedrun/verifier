@@ -46,15 +46,19 @@ HASH = re.compile(r'[0-9a-f]{16}\Z')
 
 
 def caps(profile):
-    """The profile's chain caps, refused when out of range (a profile is trusted, but a typo must not widen a cap)."""
+    """The profile's chain caps, refused when out of range (a profile is trusted, but a typo must not widen a cap).
+    segment_parts (optional, 0 = none): each segment checks at most ⌈constants / segment_parts⌉ declarations, in a
+    new process. The memory that a segment keeps grows with the declarations it checks (#187, run 43564338682:
+    93,664 checked, peak 14.2 GB; 17,514 checked after an unchecked prefix of 93,664, peak 8.7 GB)."""
     chain = profile.get('chain', {})
-    if not isinstance(chain, dict) or set(chain) - {'max_build_jobs', 'max_check_jobs', 'max_hours'}:
-        raise ValueError('chain must be an object with max_build_jobs, max_check_jobs and max_hours')
+    if not isinstance(chain, dict) or set(chain) - {'max_build_jobs', 'max_check_jobs', 'max_hours', 'segment_parts'}:
+        raise ValueError('chain must be an object with max_build_jobs, max_check_jobs, max_hours and segment_parts')
     result = {'max_build_jobs': chain.get('max_build_jobs', 1), 'max_check_jobs': chain.get('max_check_jobs', 1),
-              'max_hours': chain.get('max_hours', MAX_HOURS)}
-    for key, top in [('max_build_jobs', len(BUILD_LEGS)), ('max_check_jobs', len(CHECK_LEGS)), ('max_hours', MAX_HOURS)]:
-        if type(result[key]) is not int or not 1 <= result[key] <= top:
-            raise ValueError(f'chain {key} must be an integer from 1 to {top}')
+              'max_hours': chain.get('max_hours', MAX_HOURS), 'segment_parts': chain.get('segment_parts', 0)}
+    for key, low, top in [('max_build_jobs', 1, len(BUILD_LEGS)), ('max_check_jobs', 1, len(CHECK_LEGS)),
+                          ('max_hours', 1, MAX_HOURS), ('segment_parts', 0, len(CHECK_LEGS) + 1)]:
+        if type(result[key]) is not int or not low <= result[key] <= top:
+            raise ValueError(f'chain {key} must be an integer from {low} to {top}')
     return result
 
 
@@ -222,9 +226,10 @@ def segment(export_sha256, start, hash_from):
     scratch.mkdir()
     control = v.WORK / 'control'
     budget_ms = int((remaining - SEGMENT_MARGIN_SECONDS) * 1000)
+    parts = caps(data.get('profile') or {})['segment_parts']
     args = ['--bos-check', str(control / 'lean.json'), str(control / 'export/solution.export'),
             str(control / 'export/challenge.export') if start == 0 else '-', '/tmp/segment.json', str(start),
-            str(budget_ms), '0']
+            str(budget_ms), '0', str(parts)]
     v.write_json(control / 'check-args.json', args)
     command_args = v.sandbox_args(scratch=scratch) + ['/usr/bin/python3', str(control / 'inside.py'), str(v.WORK), 'check']
     code, systemd_result, guard_stop, unit_start, usage = v.launch_github('check', command_args, deadline)
@@ -310,6 +315,8 @@ def leg():
     except Exception as exc:  # The outputs say stop; the receipt keeps the reason.
         out = {'next': 'false'}
         state['error'] = str(exc)[:500]
+    # The free disk at the end of the job (the runner disk is not documented; 3-SAT needs it measured).
+    state['disk_free_bytes'] = {p: shutil.disk_usage(p).free for p in ['/', str(v.SWAP_DIR)] if os.path.isdir(p)}
     gate = v.ART / 'gate.json'
     if gate.is_file() and not gate.is_symlink():
         state['gate_sha256'] = v.digest(gate)  # The final job copies gate.json only by this pin.
