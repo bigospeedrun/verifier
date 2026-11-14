@@ -1,0 +1,465 @@
+diff --git a/Comparator/Segment.lean b/Comparator/Segment.lean
+new file mode 100644
+index 0000000..5cd38be
+--- /dev/null
++++ b/Comparator/Segment.lean
+@@ -0,0 +1,202 @@
++/-
++Big O Speedrun patch (bigospeedrun/verifier, task b1457f08): a segmented kernel replay.
++
++A copy of `Lean.Kernel.Environment.replay` from Lean v4.34.1 (src/Lean/Replay.lean, by Kim Morrison,
++Apache 2.0). The walk and every check are the same. In addition:
++- Each `addDecl` call has an index in the fixed walk order (the walk depends only on the constant map).
++- A segment adds the declarations before `checkFrom` with `addDeclWithoutChecking`: each one was checked
++  in an earlier segment of the same chain, against the same declarations in the same order. The kernel
++  adds an inductive type or the quotient fully in both cases (src/kernel/environment.cpp, `add`).
++- From `checkFrom` on, each declaration goes to `addDeclCore` (the full kernel check), as in `replay`.
++- A segment can stop between two declarations (a deadline or a test bound), after at least one check.
++- A running hash of the added names links the segments: a segment's `hashFrom` must equal the
++  `hashTo` of the segment before it.
++-/
++import Lean
++import Comparator.Compare
++
++namespace Comparator.Segment
++open Lean
++
++structure Context where
++  newConstants : Std.HashMap Name ConstantInfo
++  checkFrom : Nat
++  /-- Stop before the declaration with this index (a test bound). -/
++  stopAt : Nat
++  /-- Stop before the next declaration once `IO.monoMsNow` is at or past this value. 0: no deadline. -/
++  deadlineMs : Nat
++
++def hashStart : UInt64 := 1723
++
++structure State where
++  env : Kernel.Environment
++  remaining : NameSet := {}
++  pending : NameSet := {}
++  postponedConstructors : NameSet := {}
++  postponedRecursors : NameSet := {}
++  /-- The number of declarations added so far: the index of the next one. -/
++  index : Nat := 0
++  /-- The hash of the names of the declarations `0 .. index - 1`. -/
++  hash : UInt64 := hashStart
++  hashFrom : UInt64 := hashStart
++  stopped : Bool := false
++
++abbrev M := ReaderT Context <| StateRefT State IO
++
++def isTodo (name : Name) : M Bool := do
++  let r := (← get).remaining
++  if r.contains name then
++    modify fun s => { s with remaining := s.remaining.erase name, pending := s.pending.insert name }
++    return true
++  else
++    return false
++
++def throwKernelException (ex : Kernel.Exception) : M Unit := do
++  throw <| .userError <| (← ex.toMessageData {} |>.toString)
++
++def addDecl (name : Name) (d : Declaration) : M Unit := do
++  let ctx ← read
++  let s ← get
++  if s.index == ctx.checkFrom then
++    modify fun s => { s with hashFrom := s.hash }
++  if s.index > ctx.checkFrom then
++    let late ← if ctx.deadlineMs == 0 then pure false else do pure ((← IO.monoMsNow) ≥ ctx.deadlineMs)
++    if s.index ≥ ctx.stopAt || late then
++      modify fun s => { s with stopped := true }
++      throw <| .userError "segment stopped"
++  let result := if s.index < ctx.checkFrom then s.env.addDeclWithoutChecking d
++    else s.env.addDeclCore 0 0 d (cancelTk? := none)
++  match result with
++  | .ok env => modify fun s => { s with env, index := s.index + 1, hash := mixHash s.hash (hash name) }
++  | .error ex => throwKernelException ex
++
++mutual
++partial def replayConstant (name : Name) : M Unit := do
++  if ← isTodo name then
++    let some ci := (← read).newConstants[name]? | unreachable!
++    replayConstants ci.getUsedConstantsAsSet
++    if (← get).pending.contains name then
++      try
++        match ci with
++        | .defnInfo   info =>
++          addDecl name (Declaration.defnDecl   info)
++        | .thmInfo    info =>
++          if let some (.thmInfo info') := (← get).env.find? ci.name then
++            if info.name == info'.name &&
++              info.type == info'.type &&
++              info.levelParams == info'.levelParams &&
++              info.all == info'.all
++            then
++              return
++          addDecl name (Declaration.thmDecl    info)
++        | .axiomInfo  info =>
++          addDecl name (Declaration.axiomDecl  info)
++        | .opaqueInfo info =>
++          addDecl name (Declaration.opaqueDecl info)
++        | .inductInfo info =>
++          let lparams := info.levelParams
++          let nparams := info.numParams
++          let all ← info.all.mapM fun n => do pure <| ((← read).newConstants[n]!)
++          for o in all do
++            modify fun s =>
++              { s with remaining := s.remaining.erase o.name, pending := s.pending.erase o.name }
++          let ctorInfo ← all.mapM fun ci => do
++            pure (ci, ← ci.inductiveVal!.ctors.mapM fun n => do
++              pure ((← read).newConstants[n]!))
++          for (_, ctors) in ctorInfo do
++            for ctor in ctors do
++              replayConstants ctor.getUsedConstantsAsSet
++          let types : List InductiveType := ctorInfo.map fun ⟨ci, ctors⟩ =>
++            { name := ci.name
++              type := ci.type
++              ctors := ctors.map fun ci => { name := ci.name, type := ci.type } }
++          addDecl name (Declaration.inductDecl lparams nparams types false)
++        | .ctorInfo info =>
++          modify fun s => { s with postponedConstructors := s.postponedConstructors.insert info.name }
++        | .recInfo info =>
++          modify fun s => { s with postponedRecursors := s.postponedRecursors.insert info.name }
++        | .quotInfo _ =>
++          replayConstant `Eq
++          addDecl name (Declaration.quotDecl)
++        modify fun s => { s with pending := s.pending.erase name }
++      catch ex =>
++        if (← get).stopped then throw ex
++        throw <| .userError s!"while replaying declaration '{name}':\n{ex}"
++
++partial def replayConstants (names : NameSet) : M Unit := do
++  for n in names do replayConstant n
++end
++
++def checkPostponedConstructors : M Unit := do
++  for ctor in (← get).postponedConstructors do
++    match (← get).env.find? ctor, (← read).newConstants[ctor]? with
++    | some (.ctorInfo info), some (.ctorInfo info') =>
++      if ! (info == info') then throw <| IO.userError s!"Invalid constructor {ctor}"
++    | _, _ => throw <| IO.userError s!"No such constructor {ctor}"
++
++def checkPostponedRecursors : M Unit := do
++  for ctor in (← get).postponedRecursors do
++    match (← get).env.find? ctor, (← read).newConstants[ctor]? with
++    | some (.recInfo info), some (.recInfo info') =>
++      if ! (info == info') then throw <| IO.userError s!"Invalid recursor {ctor}"
++    | _, _ => throw <| IO.userError s!"No such recursor {ctor}"
++
++inductive Outcome where
++  /-- The walk ended and the postponed constructor and recursor checks passed. -/
++  | complete
++  /-- The segment stopped between two declarations; `Result.index` is where the next segment starts. -/
++  | stopped
++  | rejected (message : String)
++
++structure Result where
++  outcome : Outcome
++  /-- The index after the last added declaration (`to`). -/
++  index : Nat
++  hashFrom : UInt64
++  hashTo : UInt64
++  /-- The constants of the walk (the map without unsafe and partial constants). -/
++  todo : Nat
++  env : Kernel.Environment
++
++def run (newConstants : Std.HashMap Name ConstantInfo) (env : Kernel.Environment)
++    (checkFrom stopAt deadlineMs : Nat) : IO Result := do
++  let mut remaining : NameSet := ∅
++  let mut todo := 0
++  for (n, ci) in newConstants.toList do
++    if !ci.isUnsafe && !ci.isPartial then
++      remaining := remaining.insert n
++      todo := todo + 1
++  let (outcome, s) ← StateRefT'.run (s := { env, remaining }) do
++    ReaderT.run (r := { newConstants, checkFrom, stopAt, deadlineMs }) do
++      try
++        for n in remaining do
++          replayConstant n
++        checkPostponedConstructors
++        checkPostponedRecursors
++        pure Outcome.complete
++      catch ex =>
++        if (← get).stopped then pure Outcome.stopped else pure (Outcome.rejected ex.toString)
++  -- A walk that adds nothing at or after `checkFrom` never set `hashFrom` in `addDecl`.
++  let hashFrom := if s.index == checkFrom then s.hash else s.hashFrom
++  return { outcome, index := s.index, hashFrom, hashTo := s.hash, todo, env := s.env }
++
++/-- Comparator's quotient post-check (Main.lean `runBuiltinKernel`), on the environment of a complete walk. -/
++def quotPostCheck (origConstMap : Std.HashMap Name ConstantInfo) (env : Kernel.Environment) :
++    Except String Unit := do
++  let quotTargets := [`Quot, `Quot.mk, `Quot.lift, `Quot.ind]
++  for quotTarget in quotTargets do
++    if let some info := origConstMap[quotTarget]? then
++      let some info' := env.find? quotTarget |
++        throw s!"Could not find quotient constant in final kernel env: {quotTarget}"
++      if info != info' then
++        throw s!"Quotient constant mismatch on: {quotTarget}"
++
++/-- The map that the replay walks: Comparator erases these three, as the kernel adds them with `Quot`. -/
++def kernelConstMap (origConstMap : Std.HashMap Name ConstantInfo) : Std.HashMap Name ConstantInfo :=
++  [`Quot.mk, `Quot.lift, `Quot.ind].foldl (init := origConstMap) (·.erase ·)
++
++def hashHex (h : UInt64) : String :=
++  let s := String.ofList (Nat.toDigits 16 h.toNat)
++  "".pushn '0' (16 - s.length) ++ s
++
++end Comparator.Segment
+diff --git a/Comparator/SegmentCheck.lean b/Comparator/SegmentCheck.lean
+new file mode 100644
+index 0000000..ffb9299
+--- /dev/null
++++ b/Comparator/SegmentCheck.lean
+@@ -0,0 +1,169 @@
++/-
++Big O Speedrun patch (bigospeedrun/verifier, task b1457f08): the `--bos-check` and `--bos-selftest`
++modes of Comparator. See Comparator/Segment.lean.
++-/
++import Lean
++import Export.Parse
++import Comparator.Segment
++
++namespace Comparator.SegmentCheck
++open Lean Comparator.Segment
++
++def parseExportFile (path : System.FilePath) : IO Export.ExportedEnv := do
++  let handle ← IO.FS.Handle.mk path .read
++  Export.parseStream (IO.FS.Stream.ofHandle handle)
++
++def emptyKernelEnv : IO Kernel.Environment := do
++  return (← mkEmptyEnvironment).toKernelEnv
++
++/-- At most `n` characters: a kernel message can quote submission terms. -/
++def clip (s : String) (n : Nat := 2000) : String :=
++  if s.length ≤ n then s else (s.take n).toString ++ " [cut]"
++
++def writeReceipt (receiptPath : System.FilePath) (fields : List (String × Json)) : IO Unit :=
++  IO.FS.writeFile receiptPath ((Json.mkObj (("schema", toJson "bos-segment-v1") :: fields)).compress ++ "\n")
++
++/--
++One segment of the kernel check of an exported solution. It writes one JSON receipt to `receiptPath` and
++returns normally whenever it wrote one: the receipt's `status` is the outcome (`passed`, `stopped`,
++`rejected`, or `mismatch` when the statement or axiom check fails). `compare?` (the segment at 0 only)
++parses the challenge and solution files, runs Comparator's statement and axiom checks and returns the
++parsed solution. `budgetMs` counts from the start of this call, parse included; 0 means no deadline.
++`stopAt` 0 means no test bound.
++-/
++def checkSegment (exportPath : System.FilePath) (compare? : Option (IO Export.ExportedEnv))
++    (receiptPath : System.FilePath) (checkFrom budgetMs stopAt : Nat) : IO Unit := do
++  let t0 ← IO.monoMsNow
++  let deadlineMs := if budgetMs == 0 then 0 else t0 + budgetMs
++  if checkFrom == 0 && compare?.isNone then
++    throw <| .userError "the segment at 0 must run the statement and axiom checks"
++  let solution ← match compare? with
++    | none =>
++      IO.println s!"BOS segment: parsing the export"
++      parseExportFile exportPath
++    | some compare =>
++      IO.println s!"BOS segment: parsing both exports, statement and axiom checks"
++      try
++        compare
++      catch e =>
++        writeReceipt receiptPath [("status", toJson "mismatch"), ("compare", toJson "failed"),
++          ("from", toJson checkFrom), ("to", toJson checkFrom), ("complete", toJson false),
++          ("error", toJson (clip e.toString))]
++        IO.println "BOS segment: mismatch"
++        return
++  let t1 ← IO.monoMsNow
++  IO.println s!"BOS segment: parsed {solution.constMap.size} constants in {t1 - t0} ms; checking from {checkFrom}"
++  let origConstMap := solution.constMap
++  -- stopAt 0: no test bound (a walk adds at most one declaration per constant).
++  let stopAt := if stopAt == 0 then origConstMap.size + 1 else stopAt
++  let r ← run (kernelConstMap origConstMap) (← emptyKernelEnv) checkFrom stopAt deadlineMs
++  let t2 ← IO.monoMsNow
++  let (status, error?, quot) := match r.outcome with
++    | .complete =>
++      match quotPostCheck origConstMap r.env with
++      | .ok () => ("passed", none, "passed")
++      | .error e => ("rejected", some e, "rejected")
++    | .stopped => ("stopped", none, "not_run")
++    | .rejected e => ("rejected", some e, "not_run")
++  let complete := match r.outcome with | .complete => true | _ => false
++  let fields : List (String × Json) := [
++    ("status", toJson status),
++    ("compare", toJson (if compare?.isSome then "passed" else "not_run")),
++    ("complete", toJson complete),
++    ("from", toJson checkFrom),
++    ("to", toJson r.index),
++    ("todo_constants", toJson r.todo),
++    ("hash_from", toJson (hashHex r.hashFrom)),
++    ("hash_to", toJson (hashHex r.hashTo)),
++    ("quot_post_check", toJson quot),
++    ("parse_ms", toJson (t1 - t0)),
++    ("replay_ms", toJson (t2 - t1))
++  ] ++ (match error? with | some e => [("error", toJson (clip e))] | none => [])
++  writeReceipt receiptPath fields
++  IO.println s!"BOS segment: {status} from {checkFrom} to {r.index}"
++
++/-- Run segments of at most `size` declarations until the walk ends: (outcome of the last, its index,
++its hashTo, number of segments). Fails when two segments do not link. -/
++def chain (m : Std.HashMap Name ConstantInfo) (size : Nat) : IO (Outcome × Nat × UInt64 × Nat) := do
++  let mut checkFrom := 0
++  let mut prevHash := hashStart
++  let mut segments := 0
++  repeat
++    let r ← run m (← emptyKernelEnv) checkFrom (checkFrom + size) 0
++    segments := segments + 1
++    if r.hashFrom != prevHash then
++      throw <| .userError s!"selftest: segment {segments} does not link (hash at {checkFrom})"
++    match r.outcome with
++    | .stopped =>
++      if r.index != checkFrom + size then
++        throw <| .userError s!"selftest: segment stopped at {r.index}, expected {checkFrom + size}"
++      checkFrom := r.index
++      prevHash := r.hashTo
++    | o => return (o, r.index, r.hashTo, segments)
++  throw <| .userError "selftest: unreachable"
++
++def isRejected : Outcome → Bool
++  | .rejected _ => true
++  | _ => false
++
++/-- The upstream replay (the one that Comparator uses) on a map: true when it accepts. -/
++def upstreamAccepts (m : Std.HashMap Name ConstantInfo) : IO Bool := do
++  try
++    let _ ← (← emptyKernelEnv).replay m
++    return true
++  catch _ =>
++    return false
++
++/--
++The segmented replay accepts and rejects the same maps as the upstream replay, for one segment and for
++several segment sizes, and a rejection is at the same declaration in each. Cases: the export as it is,
++a theorem whose proof is another theorem's proof, a definition with an ill-typed value, and a constructor
++whose field count differs from the one the kernel derives (the postponed check at the end of the walk).
++-/
++def selfTest (exportPath : System.FilePath) (sizes : List Nat) : IO Unit := do
++  let solution ← parseExportFile exportPath
++  let base := kernelConstMap solution.constMap
++  let get (n : Name) : IO ConstantInfo := do
++    let some ci := base[n]? | throw <| .userError s!"selftest: {n} is not in the export"
++    return ci
++  let thmA ← get `Nat.add_comm
++  let thmB ← get `Nat.lt_irrefl
++  let defn ← get `List.length
++  let ctor ← get `Nat.succ
++  let cases : List (String × Std.HashMap Name ConstantInfo × Bool) := [
++    ("export", base, true),
++    ("theorem proof swap", match thmA, thmB with
++      | .thmInfo a, .thmInfo b => base.insert a.name (.thmInfo { a with value := b.value })
++      | _, _ => base, false),
++    ("definition value", match defn with
++      | .defnInfo d => base.insert d.name (.defnInfo { d with value := .const ``Nat.zero [] })
++      | _ => base, false),
++    ("constructor fields", match ctor with
++      | .ctorInfo c => base.insert c.name (.ctorInfo { c with numFields := c.numFields + 1 })
++      | _ => base, false)]
++  for (label, m, accept) in cases do
++    if (← upstreamAccepts m) != accept then
++      throw <| .userError s!"selftest {label}: the upstream replay gives the wrong outcome"
++    let single ← run m (← emptyKernelEnv) 0 (m.size + 1) 0
++    let singleOk := match single.outcome with | .complete => true | _ => false
++    if singleOk != accept || (!accept && !isRejected single.outcome) then
++      throw <| .userError s!"selftest {label}: one segment gives the wrong outcome"
++    if accept then
++      if let .error e := quotPostCheck solution.constMap single.env then
++        throw <| .userError s!"selftest {label}: quotient post-check: {e}"
++    for size in sizes do
++      let (o, index, hashTo, segments) ← chain m size
++      let ok := match o with | .complete => true | _ => false
++      if ok != accept || (!accept && !isRejected o) then
++        throw <| .userError s!"selftest {label}: segments of {size} give the wrong outcome"
++      if index != single.index then
++        throw <| .userError s!"selftest {label}: segments of {size} end at {index}, one segment at {single.index}"
++      if accept && hashTo != single.hashTo then
++        throw <| .userError s!"selftest {label}: segments of {size} give another hash"
++      if size < single.index && segments < 2 then
++        throw <| .userError s!"selftest {label}: segments of {size} made one segment"
++      IO.println s!"BOS selftest {label}: segments of {size}: {segments} segments, end at {index}"
++    IO.println s!"BOS selftest {label}: ok ({if accept then "accepted" else "rejected"} at {single.index} of {single.todo})"
++  IO.println "BOS selftest: passed"
++
++end Comparator.SegmentCheck
+diff --git a/Main.lean b/Main.lean
+index 8560511..76f152b 100644
+--- a/Main.lean
++++ b/Main.lean
+@@ -5,6 +5,7 @@ Authors: Henrik Böving
+ -/
+ import Lean
+ import Comparator
++import Comparator.SegmentCheck
+ import Export.Parse
+ 
+ namespace Comparator
+@@ -317,6 +318,36 @@ def compareIt : M Unit := do
+ 
+   IO.println "Your solution is okay!"
+ 
++/-- Big O Speedrun patch (task b1457f08): the first step of a segmented check. The same builds and
++exports as `compareIt`, written to two files; no comparison and no kernel here. `--bos-check` then
++compares the two files and replays the solution file, so the bytes that it compares are the bytes
++that it checks. -/
++def exportIt (challengeOut solutionOut : System.FilePath) : M Unit := do
++  let exportTargets := (← builtinTargets) ++ (← getTheoremNames) ++ (← getLegalAxioms)
++    ++ (← primitiveTargets) ++ (← getDefinitionNames)
++
++  let challengeModule ← getChallengeModule
++  safeLakeBuild challengeModule
++  let challengeExport ← safeExport challengeModule exportTargets
++  IO.FS.writeFile challengeOut challengeExport
++
++  let solutionModule ← getSolutionModule
++  safeLakeBuild solutionModule
++  let solutionExport ← safeExport solutionModule exportTargets
++  IO.FS.writeFile solutionOut solutionExport
++  IO.println s!"BOS export: wrote {challengeExport.utf8ByteSize} and {solutionExport.utf8ByteSize} bytes"
++
++/-- The statement and axiom checks of `verifyMatch`, on export files. Returns the parsed solution. -/
++def compareFiles (challengePath solutionPath : System.FilePath) : M Export.ExportedEnv := do
++  let challenge ← Comparator.SegmentCheck.parseExportFile challengePath
++  let solution ← Comparator.SegmentCheck.parseExportFile solutionPath
++  let theoremNames ← getTheoremNames
++  let definitionNames ← getDefinitionNames
++  let targets := (← getTheoremNames) ++ (← getLegalAxioms)
++  IO.ofExcept <| Comparator.compareAt challenge solution targets definitionNames (← primitiveTargets)
++  IO.ofExcept <| Comparator.checkAxioms solution theoremNames definitionNames (← getLegalAxioms)
++  return solution
++
+ structure Config where
+   challenge_module : String
+   solution_module : String
+@@ -366,9 +397,29 @@ def M.run (x : M α) (cfg : Config) : IO α := do
+ 
+ end Comparator
+ 
++def readConfig (configPath : String) : IO Comparator.Config := do
++  let content ← IO.FS.readFile configPath
++  IO.ofExcept <| Lean.FromJson.fromJson? <| ← IO.ofExcept <| Lean.Json.parse content
++
++def natArg (s : String) : IO Nat := do
++  let some n := s.toNat? | throw <| .userError s!"Expected a natural number argument: {s}"
++  return n
++
+ def main (args : List String) : IO Unit := do
++  -- Big O Speedrun patch (task b1457f08): the modes of a segmented check (Comparator/SegmentCheck.lean).
++  match args with
++  | ["--bos-export", configPath, challengeOut, solutionOut] =>
++    Comparator.M.run (Comparator.exportIt challengeOut solutionOut) (← readConfig configPath)
++  | ["--bos-check", configPath, solutionPath, challengePath, receiptPath, checkFrom, budgetMs, stopAt] =>
++    let config ← readConfig configPath
++    -- The segment at 0 compares the two files first; a later segment gets "-" and only replays.
++    let compare? := if challengePath == "-" then none
++      else some (Comparator.M.run (Comparator.compareFiles challengePath solutionPath) config)
++    Comparator.SegmentCheck.checkSegment solutionPath compare? receiptPath (← natArg checkFrom)
++      (← natArg budgetMs) (← natArg stopAt)
++  | "--bos-selftest" :: exportPath :: sizes =>
++    Comparator.SegmentCheck.selfTest exportPath (← sizes.mapM natArg)
++  | _ =>
+   let some (configPath : String) := args[0]?
+     | throw <| .userError "Expected config file path as first argument."
+-  let content ← IO.FS.readFile configPath
+-  let config ← IO.ofExcept <| Lean.FromJson.fromJson? <| ← IO.ofExcept <| Lean.Json.parse content
+-  Comparator.M.run Comparator.compareIt config
++  Comparator.M.run Comparator.compareIt (← readConfig configPath)

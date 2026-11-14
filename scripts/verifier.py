@@ -390,15 +390,57 @@ def prepare():
     data = receipt(); data['status'] = 'prepared'; data['source_file_count'] = len(hashes); save(data)
 
 
-def apply_exporter_patches(pins, exporter):
+def apply_exporter_patches(pins, exporter, key='lean4export_patches', label='tool-exporter'):
     """The reviewed lean4export patches of this tool file, in order (docs/execution.md, Patched lean4export). Each
-    patch file must match its pinned sha256; `git apply --check` first, so a patch that does not fit stops setup."""
-    for item in pins.get('lean4export_patches', []):
+    patch file must match its pinned sha256; `git apply --check` first, so a patch that does not fit stops setup.
+    The same for the Comparator patches (key comparator_patches: the segmented check, docs/execution.md)."""
+    for item in pins.get(key, []):
         patch = ROOT / item['file']
         if patch.parent != ROOT / 'patches' or digest(patch) != item['sha256']:
-            raise ValueError(f'lean4export patch checksum mismatch: {item["file"]}')
-        command(['git', '-C', exporter, 'apply', '--check', patch], 'tool-exporter-patch-check-' + patch.stem)
-        command(['git', '-C', exporter, 'apply', patch], 'tool-exporter-patch-' + patch.stem)
+            raise ValueError(f'{key} checksum mismatch: {item["file"]}')
+        command(['git', '-C', exporter, 'apply', '--check', patch], f'{label}-patch-check-' + patch.stem)
+        command(['git', '-C', exporter, 'apply', patch], f'{label}-patch-' + patch.stem)
+
+
+# The self-test export of the segmented check: these constants of Lean's own Init and their closure (about 630
+# constants, theorems, definitions, inductive types, the quotient and the three axioms), and the primitive targets that
+# Comparator's statement check needs in a challenge export (Main.lean primitiveTargets).
+SELFTEST_TARGETS = ['Nat.add_comm', 'Nat.lt_irrefl', 'List.length', 'List.length_append', 'funext', 'Classical.em',
+                    'List.map_append', 'Nat.mod_lt', 'Nat.add', 'Nat.sub', 'Nat.mul', 'Nat.pow', 'Nat.gcd', 'Nat.div',
+                    'Nat.mod', 'Nat.beq', 'Nat.ble', 'Nat.land', 'Nat.lor', 'Nat.xor', 'Nat.shiftLeft', 'Nat.shiftRight',
+                    'String.ofList', 'Char.ofNat', 'List', 'eagerReduce', 'Nat', 'String', 'String.mk', 'Char', 'optParam',
+                    'autoParam', 'semiOutParam', 'outParam', 'Quot', 'Quot.mk', 'Quot.lift', 'Quot.ind', 'propext',
+                    'Quot.sound', 'Classical.choice']
+
+
+def segment_self_test(tools, lean, env):
+    """Trusted, before any submission code: the segmented check gives the same result as Lean's own replay
+    (`--bos-selftest`: one segment and segments of 7, 23 and 97 declarations, on the export as it is and on three
+    tampered copies), and the CLI mode stops at its deadline and continues (docs/execution.md, Segmented check)."""
+    folder = WORK / 'control/selftest'; folder.mkdir()
+    exporter = tools / 'comparator/.lake/packages/lean4export/.lake/build/bin/lean4export'
+    comparator = tools / 'comparator/.lake/build/bin/comparator'
+    export = folder / 'init.export'
+    print('segment-selftest-export: started', flush=True)
+    with export.open('wb') as out:
+        subprocess.run([str(lean / 'lake'), 'env', str(exporter), 'Init', '--', *SELFTEST_TARGETS],
+                       cwd=tools / 'comparator', env=env, stdout=out, check=True)
+    command([comparator, '--bos-selftest', export, '7', '23', '97'], 'segment-selftest', tools / 'comparator', env)
+    write_json(folder / 'config.json', {'challenge_module': 'Init', 'solution_module': 'Init',
+                                         'theorem_names': ['Nat.add_comm', 'List.length_append'], 'definition_names': [],
+                                         'permitted_axioms': AXIOMS, 'enable_nanoda': False})
+    # A budget of 1 ms: the parse takes longer, so the segment checks one declaration and stops.
+    first, rest = folder / 'first.json', folder / 'rest.json'
+    command([comparator, '--bos-check', folder / 'config.json', export, export, first, '0', '1', '0'],
+            'segment-selftest-deadline', tools / 'comparator', env)
+    command([comparator, '--bos-check', folder / 'config.json', export, '-', rest, '1', '0', '0'],
+            'segment-selftest-continue', tools / 'comparator', env)
+    a, b = json.loads(first.read_text()), json.loads(rest.read_text())
+    if not (a['status'] == 'stopped' and a['compare'] == 'passed' and (a['from'], a['to']) == (0, 1)
+            and b['status'] == 'passed' and b['complete'] is True and b['from'] == 1 and b['hash_from'] == a['hash_to']
+            and b['quot_post_check'] == 'passed' and b['to'] > 100):
+        raise ValueError('segmented check self-test: the deadline stop or the continuation is wrong')
+    write_json(ART / 'segment-selftest.json', {'first': a, 'rest': b})
 
 
 def exporter_self_test(exporter, folder, lean, env):
@@ -443,11 +485,14 @@ def setup():
     exporter.parent.mkdir(parents=True)
     clone('https://github.com/leanprover/lean4export.git', pins['lean4export'], exporter, 'tool-exporter')
     apply_exporter_patches(pins, exporter)
+    apply_exporter_patches(pins, tools / 'comparator', 'comparator_patches', 'tool-comparator')
     for folder in [tools / 'comparator', exporter]:
         (folder / 'lean-toolchain').write_text(request['lean_toolchain'] + '\n')
     command([lean / 'lake', 'build', 'lean4export', 'comparator'], 'build-comparator', tools / 'comparator', env)
     if pins.get('lean4export_patches'):
         exporter_self_test(exporter, tools / 'nattest', lean, env)
+    if pins.get('comparator_patches'):
+        segment_self_test(tools, lean, env)
     clone('https://github.com/ammkrn/nanoda_lib.git', pins['nanoda'], tools / 'nanoda', 'tool-nanoda')
     command(['cargo', 'build', '--release', '--locked', '-j', '2'], 'build-nanoda', tools / 'nanoda', env)
     clone('https://github.com/Zouuup/landrun.git', pins['landrun'], tools / 'landrun', 'tool-landrun')

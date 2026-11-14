@@ -46,6 +46,18 @@ class ToolPinTests(unittest.TestCase):
             self.assertNotIn('lean4export_patches', json.loads((v.ROOT / name).read_text()), name)
         self.assertTrue((v.ROOT / 'tests/lean/NatTest.lean').is_file())
 
+    def test_the_chain_tool_file_is_tools_json_plus_the_comparator_patch(self):
+        """profiles/tools-chain.json (runner github-chain, docs/execution.md, Segmented check): the same pins as
+        profiles/tools.json, and the reviewed Comparator patch. No other tool file patches Comparator."""
+        chain = json.loads((v.ROOT / 'profiles/tools-chain.json').read_text())
+        patches = chain.pop('comparator_patches')
+        self.assertEqual(chain, json.loads((v.ROOT / 'profiles/tools.json').read_text()))
+        self.assertEqual([x['file'] for x in patches], ['patches/comparator-segmented-check.patch'])
+        for item in patches:
+            self.assertEqual(v.digest(v.ROOT / item['file']), item['sha256'], item['file'])
+        for name in ['profiles/tools.json', 'profiles/anthropic-tools.json', 'profiles/tools-v4.35.0.json', 'profiles/tools-v4.33.0-rc2.json']:
+            self.assertNotIn('comparator_patches', json.loads((v.ROOT / name).read_text()), name)
+
 
 if __name__ == '__main__':
     unittest.main()
