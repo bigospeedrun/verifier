@@ -288,6 +288,14 @@ def dependency_root_options(dependencies, source_roots):
     return options
 
 
+def source_files(location, patched):
+    """NUL-separated '<mode> ... <TAB><path>' entries of a checkout: HEAD's tree, or the index of a dependency that a
+    reviewed patch changed with `git apply --index` (the index is HEAD plus the patch, so added files are listed too)."""
+    if patched:
+        return subprocess.check_output(['git', '-C', location, 'ls-files', '--stage', '-z'])
+    return subprocess.check_output(['git', '-C', location, 'ls-tree', '-rz', 'HEAD'])
+
+
 def prepare():
     ART.mkdir(exist_ok=True)
     selected_path = os.environ.get('BOS_REQUEST_PATH')
@@ -317,7 +325,7 @@ def prepare():
     clone_options = {'sparse_paths': profile['sparse_paths']} if profile.get('sparse_paths') else {}
     clone(request['repo_url'], request['commit'], WORK / 'clone', 'submission', **clone_options)
     sources = [(WORK / 'clone', request.get('source_subdir', profile.get('source_subdir', '')),
-                profile['source_roots'], profile.get('source_prefixes', []), data_suffixes(profile))]
+                profile['source_roots'], profile.get('source_prefixes', []), data_suffixes(profile), False)]
     dependencies = profile.get('solution_dependencies', [])
     for index, dep in enumerate(dependencies):
         location = WORK / f'solution-dependency-{index}'
@@ -327,13 +335,15 @@ def prepare():
             if digest(patch_file) != dep['patch_sha256']:
                 raise ValueError('solution compatibility patch digest mismatch')
             command(['git', '-C', location, 'apply', '--check', patch_file], f'solution-dependency-{index}-patch-check')
-            command(['git', '-C', location, 'apply', patch_file], f'solution-dependency-{index}-patch')
-        sources.append((location, dep.get('source_subdir', ''), dep['source_roots'], [], set()))
+            # --index: a file that the patch adds (OpenAI's Erdos970 folders in PrimeNumberTheoremAnd and StrongPNT) is in
+            # the index, so source_files lists it; HEAD's tree does not have it.
+            command(['git', '-C', location, 'apply', '--index', patch_file], f'solution-dependency-{index}-patch')
+        sources.append((location, dep.get('source_subdir', ''), dep['source_roots'], [], set(), bool(dep.get('patch_file'))))
     data = receipt(); data['solution_dependencies'] = dependencies; save(data)
     stage = WORK / 'stage'; stage.mkdir()
     hashes, total = {}, 0
-    for location, subdir, roots, prefixes, allowed in sources:
-        tracked = subprocess.check_output(['git', '-C', location, 'ls-tree', '-rz', 'HEAD'])
+    for location, subdir, roots, prefixes, allowed, patched in sources:
+        tracked = source_files(location, patched)
         for entry in tracked.split(b'\0'):
             if not entry:
                 continue

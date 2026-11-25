@@ -48,9 +48,47 @@ class SolutionDependencyTests(unittest.TestCase):
                 dep=receipt['solution_dependencies'][0]
                 self.assertEqual(v.digest(v.ROOT / dep['patch_file']),dep['patch_sha256'])
                 self.assertIn('--check',commands.call_args_list[0].args[0])
+                self.assertIn('--index',commands.call_args_list[1].args[0])
                 self.assertTrue(calls[0][2]['sparse_paths'])
                 control = json.loads((root / 'work/control/lean.json').read_text())
                 self.assertEqual(set(control['permitted_axioms']), {'propext', 'Classical.choice', 'Quot.sound'})
+
+    def test_a_file_that_a_reviewed_patch_adds_is_listed(self):
+        # OpenAI's PrimeNumberTheoremAnd and StrongPNT patches add whole folders (Erdos970). HEAD's tree does not list them;
+        # after `git apply --index` the index does (integer multiplication rebuild, 2026-11-25).
+        import subprocess
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp) / 'dep'; repo.mkdir()
+            git = lambda *a: subprocess.run(['git', '-C', str(repo), '-c', 'user.name=t', '-c', 'user.email=t@t', *a], check=True, capture_output=True)
+            git('init', '-q'); (repo / 'Pkg').mkdir(); (repo / 'Pkg/Old.lean').write_text('import Mathlib\n')
+            git('add', '-A'); git('commit', '-q', '-m', 'base')
+            (repo / 'Pkg/New').mkdir(); (repo / 'Pkg/New/Added.lean').write_text('import Pkg.Old\n')
+            git('add', '-A'); patch_text = subprocess.check_output(['git', '-C', str(repo), 'diff', '--cached'])
+            git('reset', '-q', '--hard')
+            patch_file = Path(tmp) / 'p.patch'; patch_file.write_bytes(patch_text)
+            git('apply', '--index', str(patch_file))
+            names = lambda raw: sorted(e.split(b'\t', 1)[1].decode() for e in raw.split(b'\0') if e)
+            self.assertEqual(names(v.source_files(repo, False)), ['Pkg/Old.lean'])
+            self.assertEqual(names(v.source_files(repo, True)), ['Pkg/New/Added.lean', 'Pkg/Old.lean'])
+            self.assertTrue(all(e.split()[0] == b'100644' for e in v.source_files(repo, True).split(b'\0') if e))
+
+    def test_integer_multiplication_rebuild_profile(self):
+        # OpenAI 92b516ef: three dependencies at OpenAI's pins with OpenAI's patches (byte copies, pinned sha256), and the
+        # Lean options of each upstream lakefile: PrimeNumberTheoremAnd autoImplicit false (our default), StrongPNT Lean's
+        # defaults, AbsorptionCutoff its [leanOptions] (its linter option is not a build option).
+        profile = json.loads((v.ROOT / 'profiles/integer-multiplication-tapes.json').read_text())
+        self.assertEqual(profile['theorem_names'], ['OAI.Computability.NearSquareRoot.uniformIntegerMultiplication'])
+        self.assertEqual(v.digest(v.ROOT / profile['challenge_file']), profile['challenge_sha256'])
+        self.assertEqual(profile['challenge_sha256'], '29701b0ccef385b102bc3193484d9e0a5ecde3ec0005233bd87806d570413607')
+        deps = {d['source_roots'][0]: d for d in profile['solution_dependencies']}
+        self.assertEqual(sorted(deps), ['AbsorptionCutoff', 'PrimeNumberTheoremAnd', 'StrongPNT'])
+        for name, dep in deps.items():
+            self.assertEqual(v.digest(v.ROOT / dep['patch_file']), dep['patch_sha256'], name)
+            self.assertEqual(dep['patch_upstream_commit'], '92b516ef8e2abf66c3db7aa31438d3010bc7956f')
+        self.assertNotIn('lean_options', deps['PrimeNumberTheoremAnd'])
+        self.assertEqual(deps['StrongPNT']['lean_options'], {'autoImplicit': True})
+        self.assertEqual(deps['AbsorptionCutoff']['lean_options'],
+                         {'autoImplicit': True, 'relaxedAutoImplicit': False, 'maxSynthPendingDepth': 3, 'pp.unicode.fun': True})
 
     def test_matrix_profile_enables_only_nine_fourths(self):
         profile = json.loads((v.ROOT / 'profiles/matrix-nine-fourths.json').read_text())

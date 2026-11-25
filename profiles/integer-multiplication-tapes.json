@@ -1,0 +1,89 @@
+{
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "challenge_file": "challenges/integer-multiplication/NearSquareRootMultiplication.lean",
+  "challenge_sha256": "29701b0ccef385b102bc3193484d9e0a5ecde3ec0005233bd87806d570413607",
+  "solution_module": "OAI.Computability.NearSquareRoot.Main",
+  "theorem_names": [
+    "OAI.Computability.NearSquareRoot.uniformIntegerMultiplication"
+  ],
+  "source_roots": [
+    "OAI"
+  ],
+  "source_subdir": "lean",
+  "source_prefixes": [
+    "OAI/Computability/NearSquareRoot",
+    "OAI/Computability/IntegerMultiplication",
+    "OAI/Computability/MinUncut",
+    "OAI/NumberTheory/Jacobsthal",
+    "OAI/LinearAlgebra/FiniteFourier"
+  ],
+  "sparse_paths": [
+    "/lean/OAI/Computability/NearSquareRoot/",
+    "/lean/OAI/Computability/IntegerMultiplication/",
+    "/lean/OAI/Computability/MinUncut/",
+    "/lean/OAI/NumberTheory/Jacobsthal/",
+    "/lean/OAI/LinearAlgebra/FiniteFourier/"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "bound": "1/2",
+  "score_relation": "strict-upper-bound",
+  "model": "integer-multiplication/multitape-tm",
+  "upstream_repo": "https://github.com/openai/math",
+  "upstream_commit": "92b516ef8e2abf66c3db7aa31438d3010bc7956f",
+  "upstream_challenge": "lean/ComparatorChallenges/NearSquareRootMultiplication.lean",
+  "runner": "github-split",
+  "solution_dependencies": [
+    {
+      "repo_url": "https://github.com/AlexKontorovich/PrimeNumberTheoremAnd",
+      "commit": "c39a751132c88b6e8080b74c74023fd95b3d8be0",
+      "source_roots": [
+        "PrimeNumberTheoremAnd"
+      ],
+      "license": "Apache-2.0",
+      "patch_file": "patches/openai-92b516e-PrimeNumberTheoremAnd-lean4341.patch",
+      "patch_sha256": "0890432340c0025973bcfe070b634355fa366cc831595f68526e4c73c8903d82",
+      "patch_upstream_repo": "https://github.com/openai/math",
+      "patch_upstream_commit": "92b516ef8e2abf66c3db7aa31438d3010bc7956f",
+      "patch_upstream_path": "lean/patches/PrimeNumberTheoremAnd-lean4341.patch"
+    },
+    {
+      "repo_url": "https://github.com/math-inc/strongpnt",
+      "commit": "2f5835c322314f55f1026ec2f139d704b7c45c69",
+      "source_roots": [
+        "StrongPNT"
+      ],
+      "license": "none stated in the repository",
+      "patch_file": "patches/openai-92b516e-StrongPNT-lean4341.patch",
+      "patch_sha256": "2cac5cbef22987314f9293bebcf243d0a3341caaf0227925d1f8d4c31be924d7",
+      "patch_upstream_repo": "https://github.com/openai/math",
+      "patch_upstream_commit": "92b516ef8e2abf66c3db7aa31438d3010bc7956f",
+      "patch_upstream_path": "lean/patches/StrongPNT-lean4341.patch",
+      "lean_options": {
+        "autoImplicit": true
+      }
+    },
+    {
+      "repo_url": "https://github.com/BennyAvelin/AbsorptionCutoff",
+      "commit": "41c45c6d72e979419e46224bb7b4be5cee31f2b5",
+      "source_roots": [
+        "AbsorptionCutoff"
+      ],
+      "license": "Apache-2.0",
+      "patch_file": "patches/openai-92b516e-AbsorptionCutoff-lean4341.patch",
+      "patch_sha256": "8b35104dc12f807f594f7a61f7a183d967edcd0e601c7172e0e851e4c3adb3ba",
+      "patch_upstream_repo": "https://github.com/openai/math",
+      "patch_upstream_commit": "92b516ef8e2abf66c3db7aa31438d3010bc7956f",
+      "patch_upstream_path": "lean/patches/AbsorptionCutoff-lean4341.patch",
+      "lean_options": {
+        "autoImplicit": true,
+        "relaxedAutoImplicit": false,
+        "maxSynthPendingDepth": 3,
+        "pp.unicode.fun": true
+      }
+    }
+  ]
+}

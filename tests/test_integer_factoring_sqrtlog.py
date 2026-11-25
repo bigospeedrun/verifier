@@ -153,8 +153,10 @@ class LeanOptionsTests(unittest.TestCase):
                 continue
             # directed-sssp gives its fork root Lean's default autoImplicit = true (test_directed_sssp checks it).
             # prime-gaps gives LeanArchitect the same default and its own root reviewed options (test_prime_gaps checks both).
+            # The integer multiplication rebuild gives StrongPNT and AbsorptionCutoff their upstream options (test_solution_dependencies).
             if p['challenge_file'] in ('challenges/directed-sssp/VerifierStatement.lean', 'challenges/directed-sssp/CHDRow.lean',
-                                       'challenges/prime-gaps/Statement.lean'):
+                                       'challenges/prime-gaps/Statement.lean',
+                                       'challenges/integer-multiplication/NearSquareRootMultiplication.lean'):
                 continue
             deps = p.get('solution_dependencies', [])
             self.assertFalse(any('lean_options' in d for d in deps), p['challenge_file'])
