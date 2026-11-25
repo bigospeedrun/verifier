@@ -1,0 +1,1108 @@
+{
+"candidates": 184040,
+"survivors": [],
+"touched_cases_run": 12713302,
+"seconds": 3455.6,
+"per_deleted_state": [
+{
+"y": 0,
+"tested": 856,
+"cases_run": 115011
+},
+{
+"y": 1,
+"tested": 856,
+"cases_run": 101351
+},
+{
+"y": 2,
+"tested": 856,
+"cases_run": 105407
+},
+{
+"y": 3,
+"tested": 856,
+"cases_run": 128304
+},
+{
+"y": 4,
+"tested": 856,
+"cases_run": 103878
+},
+{
+"y": 5,
+"tested": 856,
+"cases_run": 136660
+},
+{
+"y": 6,
+"tested": 856,
+"cases_run": 111177
+},
+{
+"y": 7,
+"tested": 856,
+"cases_run": 18347
+},
+{
+"y": 8,
+"tested": 856,
+"cases_run": 17526
+},
+{
+"y": 9,
+"tested": 856,
+"cases_run": 134563
+},
+{
+"y": 10,
+"tested": 856,
+"cases_run": 42234
+},
+{
+"y": 11,
+"tested": 856,
+"cases_run": 174406
+},
+{
+"y": 12,
+"tested": 856,
+"cases_run": 21088
+},
+{
+"y": 13,
+"tested": 856,
+"cases_run": 15246
+},
+{
+"y": 14,
+"tested": 856,
+"cases_run": 323393
+},
+{
+"y": 15,
+"tested": 856,
+"cases_run": 138486
+},
+{
+"y": 16,
+"tested": 856,
+"cases_run": 97292
+},
+{
+"y": 17,
+"tested": 856,
+"cases_run": 111096
+},
+{
+"y": 18,
+"tested": 856,
+"cases_run": 37803
+},
+{
+"y": 19,
+"tested": 856,
+"cases_run": 38386
+},
+{
+"y": 20,
+"tested": 856,
+"cases_run": 18661
+},
+{
+"y": 21,
+"tested": 856,
+"cases_run": 144494
+},
+{
+"y": 22,
+"tested": 856,
+"cases_run": 158406
+},
+{
+"y": 23,
+"tested": 856,
+"cases_run": 140328
+},
+{
+"y": 24,
+"tested": 856,
+"cases_run": 102890
+},
+{
+"y": 25,
+"tested": 856,
+"cases_run": 109931
+},
+{
+"y": 26,
+"tested": 856,
+"cases_run": 91914
+},
+{
+"y": 27,
+"tested": 856,
+"cases_run": 91732
+},
+{
+"y": 28,
+"tested": 856,
+"cases_run": 33744
+},
+{
+"y": 29,
+"tested": 856,
+"cases_run": 31414
+},
+{
+"y": 30,
+"tested": 856,
+"cases_run": 58138
+},
+{
+"y": 31,
+"tested": 856,
+"cases_run": 20816
+},
+{
+"y": 32,
+"tested": 856,
+"cases_run": 129359
+},
+{
+"y": 33,
+"tested": 856,
+"cases_run": 130029
+},
+{
+"y": 34,
+"tested": 856,
+"cases_run": 245394
+},
+{
+"y": 35,
+"tested": 856,
+"cases_run": 109108
+},
+{
+"y": 36,
+"tested": 856,
+"cases_run": 110317
+},
+{
+"y": 37,
+"tested": 856,
+"cases_run": 182352
+},
+{
+"y": 38,
+"tested": 856,
+"cases_run": 11022
+},
+{
+"y": 39,
+"tested": 856,
+"cases_run": 121612
+},
+{
+"y": 40,
+"tested": 856,
+"cases_run": 105159
+},
+{
+"y": 41,
+"tested": 856,
+"cases_run": 100345
+},
+{
+"y": 42,
+"tested": 856,
+"cases_run": 107117
+},
+{
+"y": 43,
+"tested": 856,
+"cases_run": 31397
+},
+{
+"y": 44,
+"tested": 856,
+"cases_run": 31609
+},
+{
+"y": 45,
+"tested": 856,
+"cases_run": 160754
+},
+{
+"y": 46,
+"tested": 856,
+"cases_run": 55837
+},
+{
+"y": 47,
+"tested": 856,
+"cases_run": 21089
+},
+{
+"y": 48,
+"tested": 856,
+"cases_run": 114013
+},
+{
+"y": 49,
+"tested": 856,
+"cases_run": 132416
+},
+{
+"y": 50,
+"tested": 856,
+"cases_run": 239536
+},
+{
+"y": 51,
+"tested": 856,
+"cases_run": 115499
+},
+{
+"y": 52,
+"tested": 856,
+"cases_run": 22337
+},
+{
+"y": 53,
+"tested": 856,
+"cases_run": 2635
+},
+{
+"y": 54,
+"tested": 856,
+"cases_run": 104014
+},
+{
+"y": 55,
+"tested": 856,
+"cases_run": 158406
+},
+{
+"y": 56,
+"tested": 856,
+"cases_run": 97393
+},
+{
+"y": 57,
+"tested": 856,
+"cases_run": 72709
+},
+{
+"y": 58,
+"tested": 856,
+"cases_run": 35132
+},
+{
+"y": 59,
+"tested": 856,
+"cases_run": 41668
+},
+{
+"y": 60,
+"tested": 856,
+"cases_run": 158345
+},
+{
+"y": 61,
+"tested": 856,
+"cases_run": 131516
+},
+{
+"y": 62,
+"tested": 856,
+"cases_run": 56156
+},
+{
+"y": 63,
+"tested": 856,
+"cases_run": 29886
+},
+{
+"y": 64,
+"tested": 856,
+"cases_run": 145081
+},
+{
+"y": 65,
+"tested": 856,
+"cases_run": 30684
+},
+{
+"y": 66,
+"tested": 856,
+"cases_run": 103815
+},
+{
+"y": 67,
+"tested": 856,
+"cases_run": 26986
+},
+{
+"y": 68,
+"tested": 856,
+"cases_run": 1890
+},
+{
+"y": 69,
+"tested": 856,
+"cases_run": 3497
+},
+{
+"y": 70,
+"tested": 856,
+"cases_run": 34562
+},
+{
+"y": 71,
+"tested": 856,
+"cases_run": 47054
+},
+{
+"y": 72,
+"tested": 856,
+"cases_run": 65414
+},
+{
+"y": 73,
+"tested": 856,
+"cases_run": 88422
+},
+{
+"y": 74,
+"tested": 856,
+"cases_run": 139985
+},
+{
+"y": 75,
+"tested": 856,
+"cases_run": 96844
+},
+{
+"y": 76,
+"tested": 856,
+"cases_run": 12568
+},
+{
+"y": 77,
+"tested": 856,
+"cases_run": 3230
+},
+{
+"y": 78,
+"tested": 856,
+"cases_run": 81942
+},
+{
+"y": 79,
+"tested": 856,
+"cases_run": 20682
+},
+{
+"y": 80,
+"tested": 856,
+"cases_run": 47766
+},
+{
+"y": 81,
+"tested": 856,
+"cases_run": 118470
+},
+{
+"y": 82,
+"tested": 856,
+"cases_run": 37738
+},
+{
+"y": 83,
+"tested": 856,
+"cases_run": 96203
+},
+{
+"y": 84,
+"tested": 856,
+"cases_run": 18391
+},
+{
+"y": 85,
+"tested": 856,
+"cases_run": 51855
+},
+{
+"y": 86,
+"tested": 856,
+"cases_run": 16903
+},
+{
+"y": 87,
+"tested": 856,
+"cases_run": 2507
+},
+{
+"y": 88,
+"tested": 856,
+"cases_run": 12865
+},
+{
+"y": 89,
+"tested": 856,
+"cases_run": 41362
+},
+{
+"y": 90,
+"tested": 856,
+"cases_run": 36938
+},
+{
+"y": 91,
+"tested": 856,
+"cases_run": 5043
+},
+{
+"y": 92,
+"tested": 856,
+"cases_run": 12854
+},
+{
+"y": 93,
+"tested": 856,
+"cases_run": 105623
+},
+{
+"y": 94,
+"tested": 856,
+"cases_run": 10710
+},
+{
+"y": 95,
+"tested": 856,
+"cases_run": 13475
+},
+{
+"y": 96,
+"tested": 856,
+"cases_run": 102050
+},
+{
+"y": 97,
+"tested": 856,
+"cases_run": 22726
+},
+{
+"y": 98,
+"tested": 856,
+"cases_run": 134575
+},
+{
+"y": 99,
+"tested": 856,
+"cases_run": 7893
+},
+{
+"y": 100,
+"tested": 856,
+"cases_run": 63028
+},
+{
+"y": 101,
+"tested": 856,
+"cases_run": 14613
+},
+{
+"y": 102,
+"tested": 856,
+"cases_run": 19848
+},
+{
+"y": 103,
+"tested": 856,
+"cases_run": 23305
+},
+{
+"y": 104,
+"tested": 856,
+"cases_run": 29798
+},
+{
+"y": 105,
+"tested": 856,
+"cases_run": 18473
+},
+{
+"y": 106,
+"tested": 856,
+"cases_run": 19538
+},
+{
+"y": 107,
+"tested": 856,
+"cases_run": 26226
+},
+{
+"y": 108,
+"tested": 856,
+"cases_run": 7620
+},
+{
+"y": 109,
+"tested": 856,
+"cases_run": 17101
+},
+{
+"y": 110,
+"tested": 856,
+"cases_run": 26242
+},
+{
+"y": 111,
+"tested": 856,
+"cases_run": 95401
+},
+{
+"y": 112,
+"tested": 856,
+"cases_run": 10211
+},
+{
+"y": 113,
+"tested": 856,
+"cases_run": 96658
+},
+{
+"y": 114,
+"tested": 856,
+"cases_run": 12385
+},
+{
+"y": 115,
+"tested": 856,
+"cases_run": 225230
+},
+{
+"y": 116,
+"tested": 856,
+"cases_run": 23877
+},
+{
+"y": 117,
+"tested": 856,
+"cases_run": 31824
+},
+{
+"y": 118,
+"tested": 856,
+"cases_run": 14100
+},
+{
+"y": 119,
+"tested": 856,
+"cases_run": 42046
+},
+{
+"y": 120,
+"tested": 856,
+"cases_run": 15330
+},
+{
+"y": 121,
+"tested": 856,
+"cases_run": 28442
+},
+{
+"y": 122,
+"tested": 856,
+"cases_run": 19740
+},
+{
+"y": 123,
+"tested": 856,
+"cases_run": 14787
+},
+{
+"y": 124,
+"tested": 856,
+"cases_run": 19212
+},
+{
+"y": 125,
+"tested": 856,
+"cases_run": 30080
+},
+{
+"y": 126,
+"tested": 856,
+"cases_run": 34911
+},
+{
+"y": 127,
+"tested": 856,
+"cases_run": 36954
+},
+{
+"y": 128,
+"tested": 856,
+"cases_run": 35507
+},
+{
+"y": 129,
+"tested": 856,
+"cases_run": 40517
+},
+{
+"y": 130,
+"tested": 856,
+"cases_run": 91650
+},
+{
+"y": 131,
+"tested": 856,
+"cases_run": 5529
+},
+{
+"y": 132,
+"tested": 856,
+"cases_run": 36526
+},
+{
+"y": 133,
+"tested": 856,
+"cases_run": 6631
+},
+{
+"y": 134,
+"tested": 856,
+"cases_run": 28551
+},
+{
+"y": 135,
+"tested": 856,
+"cases_run": 28040
+},
+{
+"y": 136,
+"tested": 856,
+"cases_run": 19001
+},
+{
+"y": 137,
+"tested": 856,
+"cases_run": 9375
+},
+{
+"y": 138,
+"tested": 856,
+"cases_run": 8535
+},
+{
+"y": 139,
+"tested": 856,
+"cases_run": 102555
+},
+{
+"y": 140,
+"tested": 856,
+"cases_run": 36675
+},
+{
+"y": 141,
+"tested": 856,
+"cases_run": 81509
+},
+{
+"y": 142,
+"tested": 856,
+"cases_run": 16960
+},
+{
+"y": 143,
+"tested": 856,
+"cases_run": 21988
+},
+{
+"y": 144,
+"tested": 856,
+"cases_run": 21697
+},
+{
+"y": 145,
+"tested": 856,
+"cases_run": 18988
+},
+{
+"y": 146,
+"tested": 856,
+"cases_run": 23102
+},
+{
+"y": 147,
+"tested": 856,
+"cases_run": 24892
+},
+{
+"y": 148,
+"tested": 856,
+"cases_run": 13400
+},
+{
+"y": 149,
+"tested": 856,
+"cases_run": 20748
+},
+{
+"y": 150,
+"tested": 856,
+"cases_run": 24823
+},
+{
+"y": 151,
+"tested": 856,
+"cases_run": 38772
+},
+{
+"y": 152,
+"tested": 856,
+"cases_run": 24271
+},
+{
+"y": 153,
+"tested": 856,
+"cases_run": 41370
+},
+{
+"y": 154,
+"tested": 856,
+"cases_run": 20965
+},
+{
+"y": 155,
+"tested": 856,
+"cases_run": 134505
+},
+{
+"y": 156,
+"tested": 856,
+"cases_run": 134928
+},
+{
+"y": 157,
+"tested": 856,
+"cases_run": 222007
+},
+{
+"y": 158,
+"tested": 856,
+"cases_run": 199362
+},
+{
+"y": 159,
+"tested": 856,
+"cases_run": 8333
+},
+{
+"y": 160,
+"tested": 856,
+"cases_run": 19213
+},
+{
+"y": 161,
+"tested": 856,
+"cases_run": 27436
+},
+{
+"y": 162,
+"tested": 856,
+"cases_run": 30452
+},
+{
+"y": 163,
+"tested": 856,
+"cases_run": 13162
+},
+{
+"y": 164,
+"tested": 856,
+"cases_run": 29979
+},
+{
+"y": 165,
+"tested": 856,
+"cases_run": 47794
+},
+{
+"y": 166,
+"tested": 856,
+"cases_run": 14691
+},
+{
+"y": 167,
+"tested": 856,
+"cases_run": 21036
+},
+{
+"y": 168,
+"tested": 856,
+"cases_run": 17909
+},
+{
+"y": 169,
+"tested": 856,
+"cases_run": 89723
+},
+{
+"y": 170,
+"tested": 856,
+"cases_run": 22093
+},
+{
+"y": 171,
+"tested": 856,
+"cases_run": 71980
+},
+{
+"y": 172,
+"tested": 856,
+"cases_run": 42689
+},
+{
+"y": 173,
+"tested": 856,
+"cases_run": 10943
+},
+{
+"y": 174,
+"tested": 856,
+"cases_run": 22266
+},
+{
+"y": 175,
+"tested": 856,
+"cases_run": 74309
+},
+{
+"y": 176,
+"tested": 856,
+"cases_run": 55556
+},
+{
+"y": 177,
+"tested": 856,
+"cases_run": 17610
+},
+{
+"y": 178,
+"tested": 856,
+"cases_run": 86957
+},
+{
+"y": 179,
+"tested": 856,
+"cases_run": 23137
+},
+{
+"y": 180,
+"tested": 856,
+"cases_run": 43314
+},
+{
+"y": 181,
+"tested": 856,
+"cases_run": 78026
+},
+{
+"y": 182,
+"tested": 856,
+"cases_run": 39846
+},
+{
+"y": 183,
+"tested": 856,
+"cases_run": 25376
+},
+{
+"y": 184,
+"tested": 856,
+"cases_run": 46819
+},
+{
+"y": 185,
+"tested": 856,
+"cases_run": 15684
+},
+{
+"y": 186,
+"tested": 856,
+"cases_run": 78183
+},
+{
+"y": 187,
+"tested": 856,
+"cases_run": 3152
+},
+{
+"y": 188,
+"tested": 856,
+"cases_run": 3375
+},
+{
+"y": 189,
+"tested": 856,
+"cases_run": 103480
+},
+{
+"y": 190,
+"tested": 856,
+"cases_run": 17140
+},
+{
+"y": 191,
+"tested": 856,
+"cases_run": 27164
+},
+{
+"y": 192,
+"tested": 856,
+"cases_run": 74830
+},
+{
+"y": 193,
+"tested": 856,
+"cases_run": 71597
+},
+{
+"y": 194,
+"tested": 856,
+"cases_run": 56647
+},
+{
+"y": 195,
+"tested": 856,
+"cases_run": 22212
+},
+{
+"y": 196,
+"tested": 856,
+"cases_run": 19260
+},
+{
+"y": 197,
+"tested": 856,
+"cases_run": 22000
+},
+{
+"y": 198,
+"tested": 856,
+"cases_run": 33139
+},
+{
+"y": 199,
+"tested": 856,
+"cases_run": 78106
+},
+{
+"y": 200,
+"tested": 856,
+"cases_run": 27926
+},
+{
+"y": 201,
+"tested": 856,
+"cases_run": 3963
+},
+{
+"y": 202,
+"tested": 856,
+"cases_run": 7320
+},
+{
+"y": 203,
+"tested": 856,
+"cases_run": 92518
+},
+{
+"y": 204,
+"tested": 856,
+"cases_run": 59016
+},
+{
+"y": 205,
+"tested": 856,
+"cases_run": 40049
+},
+{
+"y": 206,
+"tested": 856,
+"cases_run": 39243
+},
+{
+"y": 207,
+"tested": 856,
+"cases_run": 32206
+},
+{
+"y": 208,
+"tested": 856,
+"cases_run": 38712
+},
+{
+"y": 209,
+"tested": 856,
+"cases_run": 4636
+},
+{
+"y": 210,
+"tested": 856,
+"cases_run": 39914
+},
+{
+"y": 211,
+"tested": 856,
+"cases_run": 51735
+},
+{
+"y": 212,
+"tested": 856,
+"cases_run": 76706
+},
+{
+"y": 213,
+"tested": 856,
+"cases_run": 9501
+},
+{
+"y": 214,
+"tested": 856,
+"cases_run": 95994
+}
+],
+"positive_control": {
+"planted": "state 7 cloned as 300, two edges moved to the clone",
+"survivors": [
+[
+300,
+7,
+0
+],
+[
+300,
+7,
+1
+],
+[
+300,
+7,
+2
+],
+[
+300,
+7,
+3
+]
+]
+}
+}

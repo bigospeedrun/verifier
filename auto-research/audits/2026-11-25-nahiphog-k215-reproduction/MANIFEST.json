@@ -1,0 +1,20 @@
+{
+ "algorithm": "sha256",
+ "sha256": {
+  "code/bbzfc/__init__.py": "9113a11ff9ea3b0d2ce31aa33ec61ea09b37bb8611777cc353080d282a1ac887",
+  "code/bbzfc/alloc.py": "c708d9d72ce46e22df4fd0aa5deb748fd9476a7c665aae64e4f9fb36a5c4fbbd",
+  "code/bbzfc/decoder.py": "5273154e65909ff7c6e4c5b9a97834aefa85003251c555c465ec165e0a6f8135",
+  "code/bbzfc/foldsearch.py": "a988a4f50540648c604a6e34df41e61d702de248d323c43724eaa2c7a5739ed9",
+  "code/bbzfc/frames.py": "93cce40b8b1942319aa4aa73d9bff1d7a6863075b1150dc5ef7bf2a1a5291678",
+  "code/bbzfc/quotient.py": "39f3ba8b83b504024740f25f0a1ba042e3cb4bde4e897e6080cbf4bf2e63e6a9",
+  "code/bbzfc/sim.py": "f988727286fae41700aa48d8b29cf6a69652f8ce4150d8a22f74764224047f19",
+  "code/bbzfc/siterun.py": "ef16afb98b07b37769b75adf8142247a4467d444d1c615be8fd4c0ff78dba609",
+  "code/bbzfc/tmio.py": "f0d40de460860448b3c0a41ba62105fa1b644a3b7ca12749a1509329183f9049",
+  "data/foldsearch-summary.json": "dc2ed9140118f8f65409f44df4124ac2898a667f0f9f43a77b9a3904ecfd2a5e",
+  "evidence/run.json": "05d76b08cf00830027e63c711d76037c82316244e605541bc333c24f702ce22a",
+  "NOTICE.md": "64bd750bf0ba67f2a5840e201c5bbd78fb420dc6e4d7c1bb8163bd992c87b901",
+  "README.md": "5cf727e0c7154ddbbb093f4d53c60d752df40fd057281b68e3761fb34d4d1df6",
+  "RESULT.json": "44e0ce7a06f94b01682093ca14a9ce44d7562872203280341927e763b31476d6",
+  "verify.py": "897ed8c8dfb142b1bf6c8579ce4e4608e7b1040b0ac7172e14d750a388227328"
+ }
+}
