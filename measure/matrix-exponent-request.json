@@ -1,0 +1,1 @@
+{"inputs":{"challenge_file":"challenges/matrix-multiplication/MatrixExponent.lean","commit":"92b516ef8e2abf66c3db7aa31438d3010bc7956f","lean_toolchain":"leanprover/lean4:v4.34.1","repo_url":"https://github.com/openai/math","theorem_names":"OAI.LinearAlgebra.SpectralBooks.square_exponent"},"test_only":true}

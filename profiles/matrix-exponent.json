@@ -1,0 +1,37 @@
+{
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "challenge_file": "challenges/matrix-multiplication/MatrixExponent.lean",
+  "challenge_sha256": "a56cd2267e261903bb62e18eaa4f4663c81dfea83510f20eb19617a42e640534",
+  "solution_module": "OAI.LinearAlgebra.SpectralBooks.ExactExponent",
+  "theorem_names": [
+    "OAI.LinearAlgebra.SpectralBooks.square_exponent"
+  ],
+  "source_roots": [
+    "OAI"
+  ],
+  "source_subdir": "lean",
+  "source_prefixes": [
+    "OAI/LinearAlgebra/MatrixExponent",
+    "OAI/LinearAlgebra/SpectralBooks",
+    "OAI/LinearAlgebra/TensorSpectrum",
+    "OAI/LinearAlgebra/MatrixMultiplication"
+  ],
+  "sparse_paths": [
+    "/lean/OAI/LinearAlgebra/MatrixExponent/",
+    "/lean/OAI/LinearAlgebra/SpectralBooks/",
+    "/lean/OAI/LinearAlgebra/TensorSpectrum/",
+    "/lean/OAI/LinearAlgebra/MatrixMultiplication/"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "bound": "9/4",
+  "score_relation": "exact",
+  "model": "matrix-multiplication/arithmetic-circuit-complex",
+  "upstream_repo": "https://github.com/openai/math",
+  "upstream_commit": "92b516ef8e2abf66c3db7aa31438d3010bc7956f",
+  "upstream_challenge": "lean/ComparatorChallenges/MatrixExponent.lean",
+  "runner": "github-split"
+}
