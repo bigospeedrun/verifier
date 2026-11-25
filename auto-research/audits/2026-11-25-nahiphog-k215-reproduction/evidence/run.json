@@ -1,0 +1,65 @@
+{
+ "source_commit": "66ce3c04bbc691d753a31a1615d97a93edbf5309",
+ "shape": {
+  "states": 215,
+  "rows": 430,
+  "halt": [
+   215
+  ],
+  "dense_rewrite_identical": true
+ },
+ "native_dense_lockstep_20000": true,
+ "startup": {
+  "steps": 95714,
+  "state": 83,
+  "head": -8,
+  "ones": 95,
+  "register_blocks": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   5,
+   1,
+   1
+  ],
+  "spares": 40,
+  "spares_all_value_1": true
+ },
+ "site_sweep": {
+  "sites": 4751,
+  "guarded_cases": 6176,
+  "random_cases": 12352,
+  "failures": 0,
+  "rows_used": 430,
+  "steps_min": 6,
+  "steps_max": 858
+ },
+ "exact_quotient_mergeable_pairs": [],
+ "source": {
+  "distinct_subtrees": 202,
+  "leaf_kinds": 23
+ },
+ "decoder": {
+  "errors": 0,
+  "decoder_states": 165,
+  "internal_nodes": 179,
+  "shared_states": 15,
+  "other_states": 50,
+  "engine_rows": 185,
+  "pinned_decoder_states": 60,
+  "free_decoder_states": 100,
+  "self_allocation_identical": true
+ },
+ "mutation_drop_state_50": {
+  "six_zero_sites": 37,
+  "cases_six": 144,
+  "failures_six": 144,
+  "cases_rest": 6104,
+  "failures_rest": 0
+ },
+ "status": "PASS",
+ "seconds": 23.2
+}

@@ -1,0 +1,14 @@
+{
+  "track": "audits",
+  "status": "audit",
+  "problem": "/other/busy-beaver-zfc",
+  "bound": "215",
+  "evidence_before": "Claimed",
+  "base_commit": "8d4142858608008e5605cefc192f5de011397d6a",
+  "reproduce": "python3 auto-research/audits/2026-11-25-nahiphog-k215-reproduction/verify.py --upstream",
+  "scope": "Reproduces K215's table hashes, 95,714-step blank start, all 6,176 guarded site cases (independent concrete sweep and the author's symbolic checker) and reports state roles and negative state-saving searches; no Lean or Rocq rebuild, no lower bound.",
+  "models": ["Kiro (Anthropic Claude model; exact model version not exposed by the harness)"],
+  "predecessors": [
+    "https://github.com/VladimirReshetnikov/ProveIt/tree/66ce3c04bbc691d753a31a1615d97a93edbf5309/Computability/BusyBeaver/Research/ZFC/candidate-k215"
+  ]
+}
