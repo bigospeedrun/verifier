@@ -1,8 +1,8 @@
 diff --git a/Main.lean b/Main.lean
-index 8560511..d3f7ba1 100644
+index 8560511..fb9d77a 100644
 --- a/Main.lean
 +++ b/Main.lean
-@@ -156,12 +156,21 @@ def runExternalKernel (kernelName : String) (kernelCommand : Array String)
+@@ -156,12 +156,33 @@ def runExternalKernel (kernelName : String) (kernelCommand : Array String)
    IO.FS.withTempFile fun configHandle configPath => do
    IO.FS.withTempFile fun solutionHandle solutionPath => do
      let legalAxioms ← getLegalAxioms
@@ -15,6 +15,17 @@ index 8560511..d3f7ba1 100644
 +      | some "3" => 3
 +      | _ => 4
 +    IO.println s!"{kernelName} kernel num_threads: {nanodaThreads}"
++    -- Big O Speedrun patch (bigospeedrun/verifier, verifier#226): nanoda runs each checking worker with stack_size_bytes
++    -- (nanoda's default is 32 MiB). verifier#226 overflowed it in a deep term. The verifier sets COMPARATOR_NANODA_STACK_MIB
++    -- (256, 1024 or 4096) from a file that only the controller writes, and starts again with a larger stack after a stack
++    -- overflow. Unset, empty or any other value keeps nanoda's 32 MiB. The size is printed, so the receipt's log shows it.
++    let nanodaStackMiB : Nat := match (← IO.getEnv "COMPARATOR_NANODA_STACK_MIB") with
++      | some "256" => 256
++      | some "1024" => 1024
++      | some "4096" => 4096
++      | _ => 32
++    let nanodaStackBytes : Nat := nanodaStackMiB * 1024 * 1024
++    IO.println s!"{kernelName} kernel stack_size_bytes: {nanodaStackBytes}"
      configHandle.putStr <| Lean.Json.compress <| Lean.Json.mkObj [
        ("use_stdin", false),
        ("export_file_path", solutionPath.toString),
@@ -22,6 +33,7 @@ index 8560511..d3f7ba1 100644
        ("unpermitted_axiom_hard_error", true),
 -      ("num_threads", 4),
 +      ("num_threads", nanodaThreads),
++      ("stack_size_bytes", nanodaStackBytes),
        ("nat_extension", true),
        ("string_extension", true),
      ]

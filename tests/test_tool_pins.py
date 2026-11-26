@@ -74,6 +74,9 @@ class ToolPinTests(unittest.TestCase):
             self.assertNotIn('comparator_nanoda_patches', json.loads((v.ROOT / name).read_text()), name)
         text = (v.ROOT / 'patches/comparator-nanoda-threads.patch').read_text()
         self.assertEqual((text.count('+      | some "1" => 1'), text.count('-      ("num_threads", 4),')), (1, 1))
+        # verifier#226: the same patch passes nanoda's worker stack size, from COMPARATOR_NANODA_STACK_MIB (verifier.py NANODA_STACK_MIB).
+        self.assertEqual([text.count(f'+      | some "{n}" => {n}') for n in v.NANODA_STACK_MIB], [1, 1, 1])
+        self.assertEqual(text.count('+      ("stack_size_bytes", nanodaStackBytes),'), 1)
         # The two pinned Main.lean files are the same, so one patch fits both (checked on the clones, 2026-11-23).
         self.assertEqual(json.loads((v.ROOT / 'profiles/tools.json').read_text())['comparator'], 'd03acab154d269c06e60e4de7e4cc85deebff94b')
         self.assertEqual(json.loads((v.ROOT / 'profiles/tools-v4.35.0.json').read_text())['comparator'], 'e3dcf3083fc53d44b27a4431fabf7d43181583f5')

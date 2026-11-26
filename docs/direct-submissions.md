@@ -78,8 +78,10 @@ admits it again. It is refused, with nothing changed, unless all of these hold:
 - the receipt of the run that the record names ended without a verdict on the proof, by the one rule that the site importer uses for its
   decisions `timeout`, `chain` and `setup` (`verdicts.no_verdict`: a total or Lean time limit, a check chain cap or verifier fault, or a setup
   failure that is not the submission's own fault). A pass, a rejection, a forbidden axiom, an out-of-memory stop and an axiom audit that did not
-  complete are verdicts or other results and are never requeued; and that run used another verifier commit than this one (our code changed
-  since);
+  complete are verdicts or other results and are never requeued. One more case, for the requeue only (verifier#226): the Lean kernel and the
+  axiom audit passed and the advisory nanoda check ended in a stack overflow (`verdicts.nanoda_stack_candidate`, then Rust's overflow abort in
+  the last nanoda attempt of the run's `nanoda.log`) on a stack smaller than the largest; the rerun starts nanoda with a larger stack
+  (decision `nanoda_stack`). And that run used another verifier commit than this one (our code changed since);
 - the issue was not requeued before at this verifier commit: the lease tree keeps `requeued/<issue>-<commit>.json` with the issue, the old run
   and its decision, both verifier commits, the reason, the account and the run.
 

@@ -309,6 +309,46 @@ class RequeueTests(unittest.TestCase):
         self.refused(fake, 'not a number', number='4; echo')
         self.refused(fake, 'full sha', sha='abc')
 
+    OVERFLOW = ("Running nanoda kernel on solution\nnanoda kernel num_threads: 4\n\nthread 'thread_1' (3054) has overflowed its stack\n"
+                'fatal runtime error: stack overflow, aborting\nnanoda kernel rejected the solution\nuncaught exception: nanoda exited with 134\n')
+
+    def test_a_nanoda_stack_overflow_is_requeued_once_and_read_from_the_nanoda_log(self):
+        # verifier#226 (Lead, 2026-11-26): Lean kernel and axiom audit passed; nanoda overflowed its 32 MiB worker stack. The real
+        # receipt of run 45853495131 says only pending_review / ambiguous_failure, so the overflow comes from the last attempt's log.
+        import verdicts
+        real = receipt_fixture('226-nanoda-stack-45853495131')
+        self.assertTrue(verdicts.nanoda_stack_candidate(real))
+        self.assertEqual([p.stem for p in RECEIPTS.glob('*.json') if verdicts.nanoda_stack_candidate(receipt_fixture(p.stem))],
+                         ['226-nanoda-stack-45853495131'])
+        fake = FakeGitHub(self.issue(), old_head=self.OLD)
+        with patch.object(q, 'old_nanoda_log', return_value=self.OVERFLOW) as log:
+            entry, _ = self.run_requeue(fake, status=real, reason='nanoda stack 256 MiB')
+        log.assert_called_once_with('555', '1', 42)
+        self.assertEqual(entry['old_decision'], 'nanoda_stack')
+        # Refused: no overflow in the log (another nanoda failure), a run that already had the largest stack, a Lean or audit failure.
+        for log_text, change in [('uncaught exception: nanoda exited with 1\n', None),
+                                 (self.OVERFLOW, lambda r: r['kernels']['nanoda']['attempts'][-1].update(nanoda_stack_mib=4096)),
+                                 (self.OVERFLOW, lambda r: r['kernels']['lean'].update(status='rejected')),
+                                 (self.OVERFLOW, lambda r: r['axiom_audit'].update(status='incomplete')),
+                                 (self.OVERFLOW, lambda r: r.update(verification_stage='lean'))]:
+            receipt = receipt_fixture('226-nanoda-stack-45853495131')
+            if change:
+                change(receipt)
+            with self.subTest(log=log_text[:30], change=change is not None), patch.object(q, 'old_nanoda_log', return_value=log_text):
+                self.refused(FakeGitHub(self.issue(), old_head=self.OLD), 'is a verdict on the proof or a stop that is not', status=receipt)
+        # A run at 1024 MiB may still go to 4096.
+        receipt = receipt_fixture('226-nanoda-stack-45853495131'); receipt['kernels']['nanoda']['attempts'][-1]['nanoda_stack_mib'] = 1024
+        self.assertTrue(verdicts.nanoda_stack_candidate(receipt))
+
+    def test_the_old_nanoda_log_is_the_last_attempts_part(self):
+        log = 'build\nVERIFIER nanoda: oom-kill, the check starts again with 2 nanoda threads\nsecond\n'
+        with patch.object(q, 'old_files', return_value={'nanoda.log': log.encode()}):
+            self.assertEqual(q.old_nanoda_log('555', '1', 42), 'second\n')
+        with patch.object(q, 'old_files', return_value={'nanoda.log': b'only\n'}):
+            self.assertEqual(q.old_nanoda_log('555', '1', 42), 'only\n')
+        with patch.object(q, 'old_files', return_value={}), self.assertRaisesRegex(q.Refused, 'no nanoda log'):
+            q.old_nanoda_log('555', '1', 42)
+
     def test_a_held_lease_refuses_and_names_the_holder(self):
         fake = FakeGitHub(self.issue(), old_head=self.OLD, owner_status='in_progress')
         with patch.object(q, 'holder', return_value='444'):
@@ -346,7 +386,7 @@ class RequeueTests(unittest.TestCase):
                     '182-timeout-42525033842': 'timeout', '99-setup-41494392206': 'setup', '187-setup-42584814300': 'setup',
                     '208-passed-final-45048554930': None, '208-passed-lean-stage-45048554930': None, '187-chain-passed-44945639361': None,
                     '207-chain-smoke-passed-44984387435': None, '157-oom-41997136601': None, '173-audit-incomplete-42325142385': None,
-                    '61-not-verified-40120914934': None}
+                    '61-not-verified-40120914934': None, '226-nanoda-stack-45853495131': None}
         self.assertEqual(sorted(expected), sorted(p.stem for p in RECEIPTS.glob('*.json')))
         for name, decision in expected.items():
             with self.subTest(receipt=name):

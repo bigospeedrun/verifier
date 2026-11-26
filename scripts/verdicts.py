@@ -217,6 +217,41 @@ def setup_failed(receipt):
             and _dict(kernels.get('nanoda')).get('status', 'not_started') in ('not_started', 'pending'))
 
 
+# nanoda stack (verifier#226, Lead 2026-11-26): nanoda runs each checking worker with stack_size_bytes from its config (32 MiB
+# by default; nanoda_lib src/tc.rs check_all_declars), so RUST_MIN_STACK and ulimit -s do not change it. On #226 the Lean
+# kernel and the axiom audit passed, and nanoda aborted after "thread 'thread_1' has overflowed its stack" (exit 134). The
+# verifier starts every nanoda check at the first size and, after a stack overflow, again with the next one. A stack is
+# virtual memory: only the pages a deep term touches count against the unit's memory cap.
+NANODA_STACK_MIB = (256, 1024, 4096)
+
+
+def nanoda_stack_overflow(systemd_result, text):
+    """True when a nanoda attempt ended with Rust's stack-overflow abort. The text is the attempt's log, which also holds proof
+    output: a forged line only starts one more attempt with a larger stack (or allows one requeue), never a result
+    (kernel_outcome reads no such line)."""
+    return (systemd_result == 'exit-code' and re.search(r"^thread '[^'\n]*' \(\d+\) has overflowed its stack$", text, re.M) is not None
+            and re.search(r'^uncaught exception: nanoda exited with 134$', text, re.M) is not None)
+
+
+def nanoda_stack_candidate(receipt):
+    """True when a final receipt is held only by its advisory nanoda check, which failed with no rejection on a stack smaller than
+    the largest (a run before verifier#226 had nanoda's own 32 MiB): Lean kernel and axiom audit passed, nanoda pending_review
+    ambiguous_failure after a plain exit. queue_lease.requeue then reads the nanoda log for the overflow itself."""
+    if not isinstance(receipt, dict) or receipt.get('verification_stage') != 'final':
+        return False
+    kernels = receipt.get('kernels') if isinstance(receipt.get('kernels'), dict) else {}
+    lean, nanoda = kernels.get('lean'), kernels.get('nanoda')
+    audit = receipt.get('axiom_audit')
+    if not (isinstance(lean, dict) and isinstance(nanoda, dict) and isinstance(audit, dict)):
+        return False
+    attempts = nanoda.get('attempts')
+    last = attempts[-1] if isinstance(attempts, list) and attempts and isinstance(attempts[-1], dict) else {}
+    return (lean.get('status') == 'passed' and audit.get('status') == 'passed' and receipt.get('status') == 'pending_review'
+            and receipt.get('status_reason') == 'nanoda_ambiguous' and nanoda.get('status') == 'pending_review'
+            and nanoda.get('reason') == 'ambiguous_failure' and nanoda.get('systemd_result') == 'exit-code'
+            and last.get('nanoda_stack_mib', 32) in [32, *NANODA_STACK_MIB[:-1]])
+
+
 def no_verdict(receipt):
     """'setup', 'timeout' or 'chain' when the receipt ends without a verdict on the proof (the importer's decisions of the same names, in
     its order), else None. A passed, rejected or otherwise decided receipt is never one."""

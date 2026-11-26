@@ -117,6 +117,15 @@ It is an operation-count theorem, not a bit-complexity claim.
   dies of memory or time is still incomplete, which never stops Lean Verified. The pins of `anthropic-tools.json` and
   `tools-v4.33.0-rc2.json` (3SUM, prime gaps, APSP, average sensitivity) write no `num_threads`, so nanoda already runs
   one worker there. A chain runs no nanoda.
+- **nanoda stack** (verifier#226). nanoda runs each checking worker with `stack_size_bytes` from its config (32 MiB by
+  default), so `RUST_MIN_STACK` and `ulimit -s` do not change it. The same patch reads `COMPARATOR_NANODA_STACK_MIB`
+  (256, 1024 or 4096; anything else keeps 32 MiB), writes it into the nanoda config and prints
+  `nanoda kernel stack_size_bytes: N`. `inside.py` sets the variable only from `control/nanoda-stack.txt` (256, 1024 or
+  4096; any other content stops the check), which the controller writes. Every nanoda check starts at 256 MiB. After a
+  stack overflow (Rust's "has overflowed its stack" abort, then Comparator's `nanoda exited with 134`) the check starts
+  again with 1024, then 4096 MiB and the same thread count, under the same time rule as the thread retry; an oom-kill
+  after that keeps the larger stack and takes fewer threads. `nanoda.attempts` records `nanoda_stack_mib`; the receipt has
+  the last as `nanoda_stack_mib`. A forged overflow line in proof output only costs one more attempt: no result reads it.
 - The job timeout is **350 minutes**. Verification stops at a 335-minute total
   deadline, leaving time to save artifacts. Tool setup has a 45-minute limit.
   The controller also stops a check if free disk falls below 1 GiB.

@@ -35,6 +35,13 @@ if phase.endswith('-exec'):
             if threads not in ['1\n', '2\n', '3\n', '4\n']:
                 raise ValueError('invalid nanoda thread count')
             env['COMPARATOR_NANODA_THREADS'] = threads.strip()
+        # The nanoda worker stack of this attempt in MiB (verifier.py NANODA_STACK_MIB), from a file that only the controller writes.
+        stack_file = work / 'control/nanoda-stack.txt'
+        if stack_file.exists():
+            stack = stack_file.read_text()
+            if stack not in ['256\n', '1024\n', '4096\n']:
+                raise ValueError('invalid nanoda stack size')
+            env['COMPARATOR_NANODA_STACK_MIB'] = stack.strip()
     if kernel in ['challenge', 'export']:
         # A chain's export job (chain.py): the challenge build and export, in its own unit before any submission
         # build file is restored; then the solution build and export. Each writes one file in /tmp.

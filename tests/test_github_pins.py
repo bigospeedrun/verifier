@@ -196,6 +196,8 @@ class VerifyPinTests(Base):
         """v.verify() with one (log text, systemd result) per launch; returns (unit, Lake workers) per launch and the systemctl calls."""
         launched, runs, outputs = [], [], list(outputs)
         self.threads = []  # control/nanoda-threads.txt at each launch (None: no file)
+        self.stacks = []  # control/nanoda-stack.txt at each launch (None: no file)
+        (self.work / 'control/nanoda-stack.txt').unlink(missing_ok=True)
         (self.work / 'control/chain-targets.txt').write_text('Submission\n')
 
         def popen(args, stdout=None, stderr=None, **kwargs):
@@ -203,6 +205,8 @@ class VerifyPinTests(Base):
             launched.append((args[4].removeprefix('--unit='), (self.work / 'control/lake-workers.txt').read_text().strip()))
             threads_file = self.work / 'control/nanoda-threads.txt'
             self.threads.append(threads_file.read_text().strip() if threads_file.exists() else None)
+            stack_file = self.work / 'control/nanoda-stack.txt'
+            self.stacks.append(stack_file.read_text().strip() if stack_file.exists() else None)
             runs.append(result); stdout.write(text); stdout.flush()
             return Mock(poll=Mock(return_value=0), wait=Mock(return_value=0 if result == 'success' else 1))
 
@@ -300,6 +304,42 @@ class VerifyPinTests(Base):
         launched, _ = self.run_verify(['nanoda'], [(done + ACCEPT, 'success')])
         self.assertEqual((len(launched), self.threads), (1, ['4']))
 
+    def test_a_nanoda_stack_overflow_starts_the_check_again_with_a_larger_stack(self):
+        # verifier#226 (Lead, 2026-11-26): the Lean kernel and the axiom audit passed; nanoda aborted with a stack overflow
+        # in a worker (its own 32 MiB default). Every check starts at 256 MiB, then 1024 and 4096 MiB, with the same threads.
+        done = 'VERIFIER source chain 0: exit=0 seconds=9.000\n'
+        overflow = ("Running nanoda kernel on solution\nnanoda kernel num_threads: 4\n\nthread 'thread_1' (3054) has overflowed its stack\n"
+                    'fatal runtime error: stack overflow, aborting\nnanoda kernel rejected the solution\nRunning Lean default kernel on solution.\n'
+                    'Lean default kernel accepts the solution\nuncaught exception: nanoda exited with 134\n')
+        self.assertTrue(v.nanoda_stack_overflow('exit-code', done + overflow))
+        launched, calls = self.run_verify(['nanoda'], [(done + overflow, 'exit-code'), (done + ACCEPT, 'success')])
+        self.assertEqual((self.threads, self.stacks), (['4', '4'], ['256', '1024']))
+        nanoda = v.receipt()['kernels']['nanoda']
+        self.assertEqual((nanoda['status'], nanoda['reason']), ('passed', 'comparator_acceptance'))
+        self.assertEqual([(a['nanoda_threads'], a['nanoda_stack_mib'], a['systemd_result']) for a in nanoda['attempts']],
+                         [(4, 256, 'exit-code'), (4, 1024, 'success')])
+        self.assertEqual((v.receipt()['nanoda_threads'], v.receipt()['nanoda_stack_mib']), (4, 1024))
+        self.assertIn('VERIFIER nanoda: stack overflow, the check starts again with a 1024 MiB nanoda stack\n', (self.art / 'nanoda.log').read_text())
+        self.assertEqual([c for c in calls if c == ['sudo', 'systemctl', 'reset-failed', 'bos-verifier-nanoda']], [['sudo', 'systemctl', 'reset-failed', 'bos-verifier-nanoda']])
+        self.assertEqual([name for name, _ in v.resource_units(v.receipt()) if name.startswith('nanoda')],
+                         ['nanoda attempt 1 (4 nanoda threads)', 'nanoda attempt 2 (4 nanoda threads) (1024 MiB nanoda stack)'])
+        # Still overflowing at 4096 MiB: no fourth attempt, and the outcome stays for a maintainer (no new reason).
+        self.run_verify(['nanoda'], [(done + overflow, 'exit-code')] * 3)
+        self.assertEqual(self.stacks, ['256', '1024', '4096'])
+        self.assertEqual((v.receipt()['kernels']['nanoda']['status'], v.receipt()['kernels']['nanoda']['reason']), ('pending_review', 'ambiguous_failure'))
+        # An overflow, then an oom-kill at the larger stack: fewer threads, the larger stack is kept.
+        self.run_verify(['nanoda'], [(done + overflow, 'exit-code'), (done, 'oom-kill'), (done + ACCEPT, 'success')])
+        self.assertEqual((self.threads, self.stacks), (['4', '4', '2'], ['256', '1024', '1024']))
+        # Not a stack overflow: another nanoda failure, the overflow line without the abort exit, or too little time.
+        for text in [done + 'uncaught exception: nanoda exited with 134\n', done + overflow.replace('exited with 134', 'exited with 1')]:
+            self.run_verify(['nanoda'], [(text, 'exit-code')])
+            self.assertEqual(self.stacks, ['256'])
+        self.assertFalse(v.nanoda_stack_overflow('oom-kill', done + overflow))
+        clock = iter(range(0, 10**7, 30000))
+        with patch.object(v.time, 'monotonic', lambda: next(clock)):
+            self.run_verify(['nanoda'], [(done + overflow, 'exit-code'), (done + ACCEPT, 'success')])
+        self.assertEqual(self.stacks, ['256'], 'the first attempt took 30000 s, more than the deadline leaves')
+
     def test_the_profile_can_start_nanoda_at_fewer_threads_and_a_bad_value_starts_at_4(self):
         done = 'VERIFIER source chain 0: exit=0 seconds=9.000\n'
         for value in [None, 0, 3, 5, '1', True, 1.0]:
@@ -366,6 +406,33 @@ class VerifyPinTests(Base):
             self.assertEqual(run('nanoda-exec', None, {'COMPARATOR_NANODA_THREADS': '1'}), (0, 'threads=1'))
             # A bad file stops the check before Comparator starts.
             for bad in ['0\n', '5\n', '2', '2\n\n', ' 2\n', 'two\n', '']:
+                code, out = run('nanoda-exec', bad)
+                self.assertEqual((code != 0, out), (True, ''), repr(bad))
+
+    def test_inside_passes_the_nanoda_stack_size_only_from_the_controllers_file(self):
+        """verifier#226: scripts/inside.py, phase nanoda-exec, sets COMPARATOR_NANODA_STACK_MIB from control/nanoda-stack.txt only."""
+        with tempfile.TemporaryDirectory() as temp:
+            work = Path(temp)
+            (work / 'control').mkdir()
+            (work / 'control/request.json').write_text(json.dumps({'request': {'lean_toolchain': 'leanprover/lean4:v4.34.1'}}))
+            fake = work / 'tools/comparator/.lake/build/bin/comparator'
+            fake.parent.mkdir(parents=True)
+            fake.write_text('#!/bin/sh\necho "stack=${COMPARATOR_NANODA_STACK_MIB-unset}"\n'); fake.chmod(0o755)
+
+            def run(phase, text=None, env=None):
+                stack = work / 'control/nanoda-stack.txt'
+                stack.unlink(missing_ok=True)
+                if text is not None:
+                    stack.write_text(text)
+                result = subprocess.run([sys.executable, str(ROOT / 'scripts/inside.py'), str(work), phase], capture_output=True, text=True,
+                                        env=dict(os.environ, **(env or {})))
+                return result.returncode, result.stdout.strip()
+            for size in ['256', '1024', '4096']:
+                self.assertEqual(run('nanoda-exec', size + '\n'), (0, 'stack=' + size))
+            self.assertEqual(run('nanoda-exec'), (0, 'stack=unset'))
+            self.assertEqual(run('lean-exec', '1024\n'), (0, 'stack=unset'))
+            self.assertEqual(run('nanoda-exec', '1024\n', {'COMPARATOR_NANODA_STACK_MIB': '4096'}), (0, 'stack=1024'))
+            for bad in ['32\n', '512\n', '1024', '1024\n\n', ' 256\n', '']:
                 code, out = run('nanoda-exec', bad)
                 self.assertEqual((code != 0, out), (True, ''), repr(bad))
 

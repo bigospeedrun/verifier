@@ -8,7 +8,7 @@
   "comparator_nanoda_patches": [
     {
       "file": "patches/comparator-nanoda-threads.patch",
-      "sha256": "8408bfc82f8c0a24848a140522e88718952d741411e4cd079792d087e8055530"
+      "sha256": "e097d1cf550235b3154b76298b3e71b309d4635d13ecc5f91180673a99ff2de4"
     }
   ]
 }

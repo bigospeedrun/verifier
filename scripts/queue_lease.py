@@ -120,6 +120,7 @@ def acquire(ref=REF):
 # side, so that the next scan admits it again. Nothing here runs by itself: the scan never retries (reservations stay, see
 # Lease.reserve), and the requeue is a dispatched job (submissions.yml, requeue_issue). Which receipts qualify is ONE rule,
 # verdicts.no_verdict: the site importer's rule for a result without a verdict on the proof (decisions setup, timeout, chain).
+# One more case, for the requeue only: a nanoda stack overflow (verifier#226, verdicts.nanoda_stack_candidate).
 SITE_TRUST_URL = 'https://raw.githubusercontent.com/bigospeedrun/site/main/data/direct-trust.json'
 MAX_TRUST_BYTES = 16 * 1024 * 1024
 REASON = re.compile(r'[ -~]{1,200}')
@@ -169,6 +170,24 @@ def site_trusts(blobs, trust):
 def old_receipt(run_id, attempt, number):
     """The FINAL receipt of the run attempt that the admission record names. The Lean-stage receipt (-lean) is a checkpoint, not
     the outcome of the run, so it is never read here."""
+    receipt = json.loads(old_files(run_id, attempt, number)['receipt.json'])
+    if not isinstance(receipt, dict):
+        raise Refused('the old receipt is not an object')
+    return receipt
+
+
+def old_nanoda_log(run_id, attempt, number):
+    """The part of the old final artifact's nanoda.log that the last nanoda attempt wrote (after the last 'VERIFIER nanoda:' line)."""
+    raw = old_files(run_id, attempt, number).get('nanoda.log')
+    if raw is None:
+        raise Refused(f'the old run {run_id} has no nanoda log')
+    text = raw.decode(errors='replace')
+    marker = text.rfind('\nVERIFIER nanoda: ')
+    return text if marker < 0 else text[text.index('\n', marker + 1) + 1:]
+
+
+def old_files(run_id, attempt, number):
+    """The files of the FINAL receipt artifact of that run attempt."""
     import pr_submissions as pr
     base = f'verifier-receipt-and-logs-{run_id}-{attempt}-{number}'
     found = {}
@@ -182,11 +201,7 @@ def old_receipt(run_id, attempt, number):
     artifact = found.get(base)
     if artifact is None:
         raise Refused(f'the old run {run_id} has no final receipt artifact (expired, or the run ended before the final upload)')
-    files = pr.read_archive(pr.api(f"actions/artifacts/{artifact['id']}/zip", raw=True), artifact)
-    receipt = json.loads(files['receipt.json'])
-    if not isinstance(receipt, dict):
-        raise Refused('the old receipt is not an object')
-    return receipt
+    return pr.read_archive(pr.api(f"actions/artifacts/{artifact['id']}/zip", raw=True), artifact)
 
 
 def requeue(number, reason, sha, actor, ref=REF):
@@ -224,9 +239,15 @@ def requeue(number, reason, sha, actor, ref=REF):
         raise Refused('the admission record names no valid run')
     receipt = old_receipt(run_id, attempt, number)
     decision = verdicts.no_verdict(receipt)
+    # verifier#226 (Lead, 2026-11-26): a run whose advisory nanoda check overflowed its worker stack (Lean kernel and axiom audit
+    # passed) is held for review only by a limit of ours. It is requeued once per verifier commit, like a timeout: the rerun
+    # starts nanoda with a larger stack. The overflow is read from the last nanoda attempt's log (verdicts.nanoda_stack_overflow).
+    if decision is None and verdicts.nanoda_stack_candidate(receipt) and verdicts.nanoda_stack_overflow(
+            'exit-code', old_nanoda_log(run_id, attempt, number)):
+        decision = 'nanoda_stack'
     if decision is None:
         raise Refused(f"the receipt of the old run {run_id} (status {str(receipt.get('status'))[:30]!r}) is a verdict on the proof or a stop that is not "
-                      f"'no verdict': only a timeout, a check chain stop or a setup failure on our side is requeued")
+                      f"'no verdict': only a timeout, a check chain stop, a setup failure or a nanoda stack overflow on our side is requeued")
     old_commit = s.api(f'actions/runs/{run_id}')['head_sha']
     if old_commit == sha:
         raise Refused(f'the old run {run_id} already ran on this verifier commit: nothing changed on our side')

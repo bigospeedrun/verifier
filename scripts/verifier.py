@@ -17,7 +17,7 @@ import threading
 import time
 import urllib.parse
 from datetime import datetime, timezone
-from verdicts import admission, kernel_outcome
+from verdicts import admission, kernel_outcome, NANODA_STACK_MIB, nanoda_stack_overflow
 
 ROOT = Path(__file__).resolve().parents[1]
 ART = ROOT / 'artifacts'
@@ -630,6 +630,12 @@ LAKE_WORKERS = (4, 3, 2, 1)
 # smoke run, or for a board whose nanoda keeps being killed. Any other value starts at 4.
 NANODA_THREADS = (4, 2, 1)
 
+# nanoda stack (verifier#226, Lead 2026-11-26): NANODA_STACK_MIB and nanoda_stack_overflow are in verdicts.py, because the
+# requeue (queue_lease.py) reads the same rule. The patch (patches/comparator-nanoda-threads.patch) reads
+# COMPARATOR_NANODA_STACK_MIB, which inside.py sets only from control/nanoda-stack.txt (controller-written, like the thread
+# count). Every nanoda check starts at the first size; after a stack overflow it starts again with the next size and the same
+# thread count, under the same time rule as the thread retry.
+
 
 def first_nanoda_threads(data):
     profile = data.get('profile')
@@ -849,6 +855,7 @@ def verify(kernels=None):
             if kernel == 'nanoda':
                 first_threads = first_nanoda_threads(data)
                 (WORK / 'control/nanoda-threads.txt').write_text(f'{first_threads}\n')
+                (WORK / 'control/nanoda-stack.txt').write_text(f'{NANODA_STACK_MIB[0]}\n')
             for jobs in workers:
                 if attempts:
                     subprocess.run(['sudo', 'systemctl', 'reset-failed', 'bos-verifier-' + kernel], check=False,
@@ -863,29 +870,41 @@ def verify(kernels=None):
                     f.seek(offset); text = f.read().decode(errors='replace')
                 attempts.append({'lake_jobs': jobs, 'exit_code': code, 'systemd_result': systemd_result,
                                  'wall_seconds': round(time.monotonic() - start, 3), **usage, 'guard_stop': guard_stop,
-                                 **({'nanoda_threads': first_threads} if kernel == 'nanoda' else {})})
+                                 **({'nanoda_threads': first_threads, 'nanoda_stack_mib': NANODA_STACK_MIB[0]} if kernel == 'nanoda' else {})})
                 data = receipt(); data['lake_workers'] = jobs; save(data)
                 if (systemd_result != 'oom-kill' or guard_stop or not build_unfinished(text)
                         or jobs == workers[-1] or time.time() >= deadline):
                     break
             if kernel == 'nanoda':
-                for threads in NANODA_THREADS[NANODA_THREADS.index(first_threads) + 1:]:
-                    if (systemd_result != 'oom-kill' or guard_stop or build_unfinished(text)
-                            or deadline - time.time() < attempts[-1]['wall_seconds']):
+                # After the build: an oom-kill starts again with fewer threads (same stack), a stack overflow with a larger
+                # stack (same threads). Each list is walked once, so the attempts are bounded.
+                threads, stack = first_threads, NANODA_STACK_MIB[0]
+                while True:
+                    if systemd_result == 'oom-kill' and threads != NANODA_THREADS[-1]:
+                        threads = NANODA_THREADS[NANODA_THREADS.index(threads) + 1]
+                        why = f'oom-kill, the check starts again with {threads} nanoda threads'
+                    elif nanoda_stack_overflow(systemd_result, text) and stack != NANODA_STACK_MIB[-1]:
+                        stack = NANODA_STACK_MIB[NANODA_STACK_MIB.index(stack) + 1]
+                        why = f'stack overflow, the check starts again with a {stack} MiB nanoda stack'
+                    else:
+                        break
+                    if guard_stop or build_unfinished(text) or deadline - time.time() < attempts[-1]['wall_seconds']:
                         break
                     subprocess.run(['sudo', 'systemctl', 'reset-failed', 'bos-verifier-nanoda'], check=False,
                                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                     with log.open('a') as f:
-                        f.write(f'VERIFIER nanoda: oom-kill, the check starts again with {threads} nanoda threads\n')
+                        f.write(f'VERIFIER nanoda: {why}\n')
                     offset = log.stat().st_size
                     (WORK / 'control/nanoda-threads.txt').write_text(f'{threads}\n')
+                    (WORK / 'control/nanoda-stack.txt').write_text(f'{stack}\n')
                     code, systemd_result, guard_stop, start, usage = launch_github(kernel, command_args, deadline, 'a')
                     with log.open('rb') as f:
                         f.seek(offset); text = f.read().decode(errors='replace')
                     attempts.append({'lake_jobs': attempts[-1]['lake_jobs'], 'exit_code': code, 'systemd_result': systemd_result,
                                      'wall_seconds': round(time.monotonic() - start, 3), **usage, 'guard_stop': guard_stop,
-                                     'nanoda_threads': threads})
-                data = receipt(); data['nanoda_threads'] = attempts[-1]['nanoda_threads']; save(data)
+                                     'nanoda_threads': threads, 'nanoda_stack_mib': stack})
+                data = receipt(); data['nanoda_threads'] = attempts[-1]['nanoda_threads']
+                data['nanoda_stack_mib'] = attempts[-1]['nanoda_stack_mib']; save(data)
         record = {'systemd_result': systemd_result, 'status': 'passed' if code == 0 else 'not_completed_or_rejected',
                   'exit_code': code, 'wall_seconds': round(time.monotonic() - start, 3),
                   **usage, 'guard_stop': guard_stop, 'log': kernel + '.log'}
@@ -1257,7 +1276,7 @@ def number(value):
 
 def label(value):
     """Part of a unit name, from receipt values: a small integer or a short plain word, else '?'."""
-    if type(value) is int and 0 <= value < 1000 or isinstance(value, str) and re.fullmatch(r'[A-Za-z0-9_-]{1,32}', value):
+    if type(value) is int and 0 <= value < 10000 or isinstance(value, str) and re.fullmatch(r'[A-Za-z0-9_-]{1,32}', value):
         return str(value)
     return '?'
 
@@ -1271,7 +1290,9 @@ def resource_units(data):
         attempts = [a for a in value.get('attempts') or [] if isinstance(a, dict)] if isinstance(value, dict) else []
         if attempts:
             units.extend((f'{name} attempt {i + 1}' + (f' ({label(a["lake_jobs"])} Lake workers)' if name == 'build' and 'lake_jobs' in a else '')
-                          + (f' ({label(a["nanoda_threads"])} nanoda threads)' if name == 'nanoda' and 'nanoda_threads' in a else ''), a)
+                          + (f' ({label(a["nanoda_threads"])} nanoda threads)' if name == 'nanoda' and 'nanoda_threads' in a else '')
+                          # The first stack size is every run's own, so only a larger one is named.
+                          + (f' ({label(a["nanoda_stack_mib"])} MiB nanoda stack)' if name == 'nanoda' and a.get('nanoda_stack_mib', NANODA_STACK_MIB[0]) != NANODA_STACK_MIB[0] else ''), a)
                          for i, a in enumerate(attempts))
         elif isinstance(value, dict):
             units.append((name, value))
