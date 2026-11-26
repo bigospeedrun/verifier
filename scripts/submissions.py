@@ -1188,7 +1188,10 @@ def report():
         body += reason_line(receipt, result['reason']) + '\n'
     body += '\n'
     body += f"[Receipt and logs]({result['receipt_url']}) · [Workflow run]({run_url})\n\n"
-    body += compile_error_comment(receipt)
+    # The note ends with a blank line, as every part below does (verifier#225: the quote ran into "A pass checks").
+    note = compile_error_comment(receipt).strip('\n')
+    if note:
+        body += note + '\n\n'
     if stale:
         body += 'This result belongs to an older or closed submission. The current issue is not verified by this result.\n\n'
     if result['status'] in ['blocked', 'pending_review']:

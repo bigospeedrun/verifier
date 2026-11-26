@@ -1,6 +1,5 @@
 """Receipt admission policy, separate from process or workflow completion."""
 import re
-import html
 
 AXIOMS = {'propext', 'Classical.choice', 'Quot.sound'}
 
@@ -86,10 +85,15 @@ def compile_error_comment(receipt):
                 ' written, so write the bound in the theorem as the same reduced fraction as in this submission.')
     if lean.get('status') != 'rejected' or lean.get('reason') != 'lean_compile_error':
         return ''
-    # A diagnostic is untrusted text: one bounded quote, no mentions or markup.
+    # A diagnostic is untrusted text: one bounded line in a code span, so GitHub renders no mention, link or markup in it.
+    # The fence is longer than any backtick run in the text, so the text cannot close it (verifier#225: entities such as
+    # &#96; read badly in the raw comment text).
     text = ' '.join(str(lean.get('diagnostic', 'Lean compilation failed')).split())[:500]
-    text = html.escape(text).replace('@', '&#64;').replace('`', '&#96;').replace('[', '&#91;').replace(']', '&#93;')
-    return '\n\nCompile error:\n\n> ' + text
+    # Defense in depth (Lead, 2026-11-26): the bot never pings anyone, even if the span fails. An entity shows as
+    # written inside a code span, so @ becomes the full-width sign.
+    text = text.replace('@', '\uff20')
+    fence = '`' * (max((len(run) for run in re.findall(r'`+', text)), default=0) + 1)
+    return f'\n\nCompile error:\n\n> {fence} {text} {fence}'
 
 
 # Prepare errors that come from the submission itself (scripts/verifier.py): the same source fails the same way

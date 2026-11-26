@@ -612,7 +612,7 @@ def publish_pr(artifact_override=None, stage="final"):
         line = s.board_line((request.get('submission') or {}).get('problem'))
         if line:
             comment += '\n\n' + line
-    # Only the bounded, escaped compile diagnostic can be posted from proof output.
+    # Only the bounded compile diagnostic, quoted in a code span with @ replaced, can be posted from proof output.
     if recovering_merge:
         if disposition not in ['merge', 'blocked', 'keep_open'] or not pr.get('merge_commit_sha'):
             raise ValueError('Merged PR cannot be reconstructed as an accepted result')

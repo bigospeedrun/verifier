@@ -158,9 +158,14 @@ class SubmissionTests(unittest.TestCase):
         self.assertEqual(kernel_outcome('lean',0,log)['status'],'pending_review')
         outcome['diagnostic']='error @nmamano <b> `[link]`\nnext'
         comment=compile_error_comment({'kernels':{'lean':outcome}})
-        self.assertNotIn('@nmamano',comment)
-        self.assertNotIn('<b>',comment)
-        self.assertIn('Compile error:',comment)
+        # One line in a code span whose fence is longer than any backtick run: GitHub renders no mention, tag or link in it.
+        self.assertEqual(comment,'\n\nCompile error:\n\n> `` error \uff20nmamano <b> `[link]` next ``')
+        self.assertNotIn('@',comment)
+        # verifier#225: the quote of a backtick error reads as written, with no HTML entities.
+        outcome['diagnostic']='Submission/Fast/HL/Sort.lean:137:27: Unknown identifier `N`'
+        self.assertEqual(compile_error_comment({'kernels':{'lean':outcome}}),'\n\nCompile error:\n\n> `` Submission/Fast/HL/Sort.lean:137:27: Unknown identifier `N` ``')
+        outcome['diagnostic']='a ``` b ` c'
+        self.assertTrue(compile_error_comment({'kernels':{'lean':outcome}}).endswith('> ```` a ``` b ` c ````'))
 
     def test_statement_mismatch_is_named_in_the_result_comment(self):
         # Issue #61 (2026-10-24): the commit proved Bound (37615398 / 10000000 : ℚ), the challenge states the reduced
@@ -439,6 +444,13 @@ class SubmissionTests(unittest.TestCase):
         with patch.object(s,'comment_once',side_effect=lambda n,b,*a,**k:posted.append(b)),patch.object(s,'api'):
             s.close_claimed(42,'d'*64,'issue','dft')
         self.assertTrue(posted[0].endswith('\n\nExact discrete Fourier transform board: '+dft))
+
+    def test_a_compile_error_quote_ends_with_a_blank_line(self):
+        # verifier#225 (2026-11-26): the quote ran into the next sentence ("Unknown identifier `N`A pass checks ...").
+        receipt=self.receipt();receipt['kernels']['lean']={'status':'rejected','reason':'lean_compile_error','diagnostic':'Sort.lean:137:27: Unknown identifier `N`'}
+        comment,_=self.status_report(receipt)
+        self.assertIn('\n\nCompile error:\n\n> `` Sort.lean:137:27: Unknown identifier `N` ``\n\nA pass checks the stated bound',comment['body'])
+        self.assertNotIn('\n\n\n',comment['body'])
 
     def test_genuine_rejection_closes_the_issue_as_not_planned(self):
         receipt=self.receipt();receipt['kernels']['lean']['status']='rejected';receipt['axiom_audit']={'status':'incomplete'}
