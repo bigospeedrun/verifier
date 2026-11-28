@@ -1,0 +1,1 @@
+{"inputs":{"challenge_file":"challenges/dft/RouteBFrontier228.lean","commit":"8364a084dd6c6362882852b6d12f428f6f723176","lean_toolchain":"leanprover/lean4:v4.34.1","repo_url":"https://github.com/HalitZiyaKARTAL/bigO-dft-verifier","theorem_names":"OAI.PowerSaving.RouteB.routeB_all"},"test_only":true}

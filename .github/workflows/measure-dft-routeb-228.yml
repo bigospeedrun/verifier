@@ -1,0 +1,102 @@
+name: Rebuild the strict 1/2 DFT frontier of verifier#228 (branch only)
+# Lead 2026-11-28: our own rebuild of OAI.PowerSaving.RouteB.routeB_all (HalitZiyaKARTAL/bigO-dft-verifier 8364a084,
+# submissions/dft/halitziyakartal-halitziyav8-half) against a strict frontier target over the challenge DFTProgram:
+# challenges/dft/RouteBFrontier228.lean (UniformFourier233.lean byte for byte plus the target; sha256 in
+# profiles/dft-routeb-228.json). The request is fixed (measure/dft-routeb-228-request.json, test_only) and runs the split
+# jobs of submission-check.yml: a build job, then the Lean check job (Comparator, Lean kernel replay, axiom audit, nanoda).
+# It posts nothing, reads no secret, and never runs on main.
+on:
+  push:
+    branches: [measure/dft-routeb-228]
+permissions: {}
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    permissions:
+      contents: read
+    env:
+      BOS_REQUEST_PATH: measure/dft-routeb-228-request.json
+      BOS_SPLIT: 'true'
+    outputs:
+      build_sha256: ${{ steps.pack.outputs.build_sha256 }}
+      build_record_sha256: ${{ steps.pack.outputs.build_record_sha256 }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - id: prepare
+        run: python3 scripts/verifier.py prepare
+      - timeout-minutes: 45
+        run: python3 scripts/verifier.py setup
+      - run: python3 scripts/verifier.py build
+      - id: pack
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        run: python3 scripts/verifier.py pack
+      - if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: verifier-build-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build-artifact/
+          if-no-files-found: error
+          retention-days: 1
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dft-routeb-228-build-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 90
+  verify:
+    needs: build
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    permissions:
+      contents: read
+    env:
+      BOS_REQUEST_PATH: measure/dft-routeb-228-request.json
+      BOS_SPLIT: 'true'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - run: python3 scripts/verifier.py prepare
+      - timeout-minutes: 45
+        run: python3 scripts/verifier.py setup
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: verifier-build-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build-artifact
+      - env:
+          BOS_BUILD_RESULT: ${{ needs.build.result }}
+          BOS_BUILD_SHA256: ${{ needs.build.outputs.build_sha256 }}
+          BOS_BUILD_RECORD_SHA256: ${{ needs.build.outputs.build_record_sha256 }}
+        run: python3 scripts/verifier.py unpack
+      - run: python3 scripts/verifier.py verify_lean
+      - if: always()
+        env:
+          BOS_RECEIPT_STAGE: lean
+        run: python3 scripts/verifier.py finalize
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dft-routeb-228-verify-${{ github.run_id }}-${{ github.run_attempt }}-lean
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 90
+      - continue-on-error: true
+        run: python3 scripts/verifier.py verify_nanoda
+      - if: always()
+        env:
+          BOS_RECEIPT_STAGE: final
+        run: python3 scripts/verifier.py finalize
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dft-routeb-228-verify-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 90

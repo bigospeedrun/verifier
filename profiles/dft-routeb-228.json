@@ -1,0 +1,25 @@
+{
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "challenge_file": "challenges/dft/RouteBFrontier228.lean",
+  "challenge_sha256": "38af281fad737322eacc759d06df0fca16676ec1feb183ab3487d5d8436d7a67",
+  "manifest_file": "profiles/lake-manifest.json",
+  "tools_file": "profiles/tools.json",
+  "solution_module": "Submission",
+  "source_roots": [
+    "Submission"
+  ],
+  "source_subdir": "submissions/dft/halitziyakartal-halitziyav8-half",
+  "theorem_names": [
+    "OAI.PowerSaving.RouteB.routeB_all"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "bound": "1/2",
+  "score_relation": "strict-upper-bound",
+  "model": "exact-dft/uniform-exact-arithmetic (OpenAI DFTProgram, all positive lengths)",
+  "upstream_commit": "fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb",
+  "runner": "github-split"
+}
